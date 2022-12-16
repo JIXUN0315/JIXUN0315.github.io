@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            line-height: 1;
+            font-family: '微軟正黑體';
+        }
+        a{
+            line-height: 2.5;
+        }
+        input{
+            display: none;
+        }
+        .main-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            background-color: rgb(126, 56, 61);
+            position: relative;
+            height: 100%;
+        }
+        .logo{
+            width: 100px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+        .logo img{
+            vertical-align: middle;
+            width: 100%;
+        }
+        .main-nav a{
+            padding: 0px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            color: rgb(244, 239, 231);
+            height: 100%;
+        }
+        .HB{
+            width: 50px;
+            height: 50px;
+            background-color: rgb(217, 191, 131);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .HB span{
+            width: 80%;
+            height: 2px;
+            background-color: #000;
+        }
+        .first-floor{
+            font-size: 22px;
+        }
+        .second-floor{
+            background-color: rgb(224, 170, 143);
+            font-size: 18px;
+        }
+        .third-floor{
+            background-color: rgb(173, 182, 165);
+            font-size: 18px;
+        }
+        .main-nav .single:nth-child(n+2){
+            border-top: 1px solid rgb(126, 113, 130);
+        }
+        @media screen and (width < 768px) {
+            .main-nav{
+                position: absolute;
+                width: 100%;
+                top: 100%;
+                left: -100%;
+                opacity: 0;
+                transition: 1s;
+                background-color: rgb(240, 215, 164);
+            }
+            .main-nav .single{
+                display: flex;
+            }
+            .main-nav .single a{
+                width: 100%;
+                padding: 0 40px;
+                color: rgb(109, 109, 107);
+            }
+            .main-nav .between{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .main-nav .between a{
+                padding: 0 40px;
+                width: 50%;
+                color: rgb(109, 109, 107);
+            }
+            .main-nav .between label{
+                flex-grow: 1;
+                text-align: center;
+                display: flex;
+            }
+            .main-nav .between label span{
+                width: 100%;
+                line-height: 2.5;
+                font-weight: 900;
+            }
+            .main-header .HB span{
+                transition: 1s;
+            }
+            #menu:checked + .main-header .main-nav{
+                left: 0;
+                opacity: 1;
+            }
+            #menu:checked + .main-header .HB :nth-child(2){
+                opacity: 0;
+            } 
+            #menu:checked + .main-header .HB :nth-child(1){
+                transform: translateY(13px) rotate(45deg);
+            } 
+            #menu:checked + .main-header .HB :nth-child(3){
+                transform: translateY(-13px) rotate(-45deg);
+            } 
+            .first-floor{
+                position: relative;
+                overflow: hidden;
+                font-size: 24px;
+            }
+            .second-floor{
+                background-color: rgb(224, 170, 143);
+                position: absolute;
+                left: -100%;
+                /* transition: 1s; */
+                font-size: 22px;
+            }
+            #floor1:checked + li .second-floor{
+                position: relative;
+                left: 0;
+            }
+            #floor1:checked + li .between .F1{
+                transform: rotate(90deg);
+            }
+            #floor2:checked + li .second-floor{
+                position: relative;
+                left: 0;
+            }
+            #floor2:checked + li .between span{
+                transform: rotate(90deg);
+            }
+            #floor3:checked + li .second-floor{
+                position: relative;
+                left: 0;
+            }
+            #floor3:checked + li .between span{
+                transform: rotate(90deg);
+            }
+            #floor4:checked + li .second-floor{
+                position: relative;
+                left: 0;
+            }
+            #floor4:checked + li .between span{
+                transform: rotate(90deg);
+            }
+            #floor5:checked + li .second-floor{
+                position: relative;
+                left: 0;
+            }
+            #floor5:checked + li .between span{
+                transform: rotate(90deg);
+            }
+            #floor6:checked + li .second-floor{
+                position: relative;
+                left: 0;
+            }
+            #floor6:checked + li .between span{
+                transform: rotate(90deg);
+            }
+            .third-floor{
+                background-color: rgb(173, 182, 165);
+                position: absolute;
+                left: -100%;
+                /* transition: 1s; */
+                font-size: 18px;
+            }
+            #floor11:checked + li .third-floor{
+                position: relative;
+                left: 0;
+            }
+            #floor11:checked + li span{
+                transform: rotate(90deg);
+            }
+        }
+        @media screen and (min-width:768px){
+            .HB{
+                display: none;
+            }
+            span{
+                display: none;
+            }
+            .main-nav{
+                width: 70%;
+                margin-right: 35px;
+                height: 70px;
+            }
+            .main-nav > ul{
+                display: flex;
+                justify-content: space-between;
+            }
+            .first-floor{
+                height: 100%;
+            }
+            .second-floor{
+                position: absolute;
+                top: 100%;
+                display: none;
+            }
+            .between{
+                height: 100%;
+            }
+            .main-nav .first-floor li {
+                height: 100%;
+                width: 100%;
+                text-align: center;
+                display: flex;
+            }
+            .main-nav .first-floor li a{
+                flex-grow: 1;
+            }
+            a:hover{
+                background-color: #fa0;
+                color: blue;
+            }
+            .between:hover + .second-floor,
+            .between + .second-floor:hover{
+                display: flex;
+                flex-direction: column;
+            }
+            .F2{
+                display: flex;
+                width: 50px;
+                justify-content: center;
+            }
+            .between{
+                display: flex;
+                align-items: center;
+            }
+            .third-floor{
+                position: absolute;
+                right: -92%;
+                top: 0;
+                display: none;
+            }
+            .between:hover + .third-floor,
+            .third-floor:hover{
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" name="" id="menu">
+    <header class="main-header">
+        <div class="logo">
+            <a href="#"><img src="z-score_featured_image.jpg"></a>
+        </div>
+        <label for="menu" class="HB">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <nav class="main-nav">
+            <ul class="first-floor">
+                <input type="checkbox" name="" id="floor1">
+                <li>
+                    <div class="between">
+                        <a href="#">極限</a>
+                        <label for="floor1"><span class="F1">></span></label>
+                    </div>
+                    <ul class="second-floor">
+                        <input type="checkbox" name="" id="floor11">
+                        <li>
+                            <div class="between">
+                                <a href="#">極限的直觀</a>
+                                <label for="floor11"><span class="F2">></span></label>
+                            </div>
+                            <ul class="third-floor">
+                                <li class="single"><a href="#">極限的性質</a></li>
+                                <li class="single"><a href="#">極限之綜合例題</a></li>
+                            </ul>
+                        </li>
+                        <li class="single"><a href="#">極限的定義</a></li>
+                        <li class="single"><a href="#">中間值定理</a></li>
+                    </ul>
+                </li>
+                <input type="checkbox" name="" id="floor2">
+                <li>
+                    <div class="between">
+                        <a href="#">微分</a>
+                        <label for="floor2"><span>></span></label>
+                    </div>
+                    <ul class="second-floor">
+                        <li class="single"><a href="#">切線</a></li>
+                        <li class="single"><a href="#">微分公式</a></li>
+                        <li class="single"><a href="#">連鎖律</a></li>
+                    </ul>
+                </li>
+                <input type="checkbox" name="" id="floor3">
+                <li>
+                    <div class="between">
+                        <a href="#">級數</a>
+                        <label for="floor3"><span>></span></label>
+                    </div>
+                    <ul class="second-floor">
+                        <li class="single"><a href="#">數列</a></li>
+                        <li class="single"><a href="#">無窮級數</a></li>
+                        <li class="single"><a href="#">絕對收斂與條件收斂</a></li>
+                    </ul>
+                </li>
+                <input type="checkbox" name="" id="floor4">
+                <li>
+                    <div class="between">
+                        <a href="#">積分</a>
+                        <label for="floor4"><span>></span></label>
+                    </div>
+                    <ul class="second-floor">
+                        <li class="single"><a href="#">面積的估計</a></li>
+                        <li class="single"><a href="#">定積分</a></li>
+                        <li class="single"><a href="#">不定積分</a></li>
+                    </ul>
+                </li>
+                <input type="checkbox" name="" id="floor5">
+                <li>
+                    <div class="between">
+                        <a href="#">函數</a>
+                        <label for="floor5"><span>></span></label>
+                    </div>
+                    <ul class="second-floor">
+                        <li class="single"><a href="#">函數極值</a></li>
+                        <li class="single"><a href="#">平均值定理</a></li>
+                        <li class="single"><a href="#">反導函數</a></li>
+                    </ul>
+                </li>
+                <input type="checkbox" name="" id="floor6">
+                <li>
+                    <div class="between">
+                        <a href="#">向量</a>
+                        <label for="floor6"><span>></span></label>
+                    </div>
+                    <ul class="second-floor">
+                        <li class="single"><a href="#">向量值函數</a></li>
+                        <li class="single"><a href="#">弧長</a></li>
+                        <li class="single"><a href="#">曲率</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- <script>
+        var ch1 = document.querySelector('#floor1')
+        var ro1 = document.querySelector('.first-floor span');
+        ch1.addEventListener('checked', function () {
+            ro1.style.transform = "rotate(45deg)";
+        })
+    </script> -->
+</body>
+</html>
