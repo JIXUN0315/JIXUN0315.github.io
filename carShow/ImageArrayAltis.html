@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-image: linear-gradient(115deg, rgb(254, 236, 216) 80%, rgb(207, 185, 171) 10%);
+        }
+        h1 {
+            text-align: center;
+            margin: 40px;
+            padding: 20px;
+        }
+
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            font-size: 30px;
+        }
+
+        .box button:hover {
+            color: red;
+            background-color: rgb(195, 183, 183);
+        }
+
+        #container {
+            width: 70%;
+        }
+        #container:hover{
+            cursor: -webkit-grab;
+            cursor: grab;
+        }
+        #container:active{
+            cursor: -webkit-grabbing;
+            cursor: grabbing;
+        }
+        #container img {
+            width: 100%;
+        }
+
+        #color {
+            display: flex;
+            justify-content: center;
+            margin: 40px;
+        }
+
+        #color button {
+            margin: 10px;
+            border: 5px solid rgb(169, 156, 59);
+        }
+        #color button:hover{
+            border: 7px solid rgb(244, 87, 70);
+        }
+
+        #color .gary {
+            background-color: rgb(110, 128, 152);
+        }
+
+        #color .black {
+            background-color: #000;
+        }
+
+        #color .gery {
+            background-color: rgb(133, 138, 142);
+        }
+
+        #color .red {
+            background-color: rgb(184, 44, 44);
+        }
+
+        #color .white {
+            background-color: rgb(235, 239, 242);
+        }
+
+        #color .gary {
+            background-color: rgb(193, 199, 209);
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Altis 3D 360度賞車</h1>
+    <div class="box">
+        <button id="left" onmousedown="holdDown()"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+        <div id="container"><img src=""></div>
+        <button id="right"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+    </div>
+    <div id="color">
+        <button class="gary"></button>
+        <button class="black"></button>
+        <button class="gery"></button>
+        <button class="red"></button>
+        <button class="white"></button>
+        <button class="silver"></button>
+    </div>
+
+
+
+    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
+    <script>
+        let gary = document.querySelector('#color .gary');
+        let black = document.querySelector('#color .black');
+        let gery = document.querySelector('#color .gery');
+        let red = document.querySelector('#color .red');
+        let white = document.querySelector('#color .white');
+        let silver = document.querySelector('#color .silver');
+        let carSrc;
+        let carArray = [];
+        for (let i = 1; i < 61; i++) {
+            carSrc = "360EXT_1_18_" + i + ".png"
+            carArray.push(carSrc);
+        }
+
+        let container;
+        let left;
+        let rught;
+        let index = 0;
+        let time;
+        let X;
+        let img = document.querySelector("#container img");
+        img.draggable = false;
+        window.onload = function () {
+            container = document.getElementById("container");
+            left = document.getElementById("left");
+            right = document.getElementById("right");
+            let startX = 0;
+            img.src = carArray[index];
+
+
+
+            left.addEventListener('click', function () {
+                if (index === 59) {
+                    index = 0;
+                }
+                else {
+                    index++;
+                }
+                img.src = carArray[index];
+            })
+            right.addEventListener('click', function () {
+                if (index === 0) {
+                    index = 59;
+                }
+                else {
+                    index--;
+                }
+                img.src = carArray[index];
+            })
+
+
+            left.onmousedown = function () {
+                time = setInterval(function () {
+                    if (index === 59) {
+                        index = 0;
+                    }
+                    else {
+                        index++;
+                    }
+                    img.src = carArray[index];
+                }, 50);
+            };
+            left.onmouseup = function () {
+                clearInterval(time);
+            }
+            left.onmouseout = function () {
+                clearInterval(time);
+            }
+            right.onmousedown = function () {
+                time = setInterval(function () {
+                    if (index === 0) {
+                        index = 59;
+                    }
+                    else {
+                        index--;
+                    }
+                    img.src = carArray[index];
+                }, 50);
+            };
+            right.onmouseup = function () {
+                clearInterval(time);
+            }
+            right.onmouseout = function () {
+                clearInterval(time);
+            }
+
+
+
+            container.addEventListener('mousedown', clickMove)  //新增一個按下時的事件
+
+            container.addEventListener('mouseup', function () {
+                document.removeEventListener('mousemove', move); //放開時把事件刪除
+            })
+            function clickMove(e) {
+                startX = e.pageX;   //紀錄按下時位置
+                document.addEventListener('mousemove', move) //在按下時新增一個移動事件
+            }
+
+            function move(e) {
+                if (e.pageX - startX > 0) {
+                    if (index === 0) {
+                        index = 59;
+                    }
+                    else {
+                        index--;
+                    }
+                    img.src = carArray[index];
+                }
+                else if (e.pageX - startX < 0) {
+                    if (index === 59) {
+                        index = 0;
+                    }
+                    else {
+                        index++;
+                    }
+                    img.src = carArray[index];
+                }
+            }
+        }
+
+
+        gary.addEventListener('click', function () {
+            carArray = [];
+            for (let i = 1; i < 61; i++) {
+                carSrc = "360EXT_1_18_" + i + ".png"
+                carArray.push(carSrc);
+                img.src = carArray[index];
+            }
+        });
+        black.addEventListener('click', function () {
+            carArray = [];
+            for (let i = 1; i < 61; i++) {
+                carSrc = "360EXT_1_19_" + i + ".png"
+                carArray.push(carSrc);
+                img.src = carArray[index];
+            }
+        });
+        gery.addEventListener('click', function () {
+            carArray = [];
+            for (let i = 1; i < 61; i++) {
+                carSrc = "360EXT_1_20_" + i + ".png"
+                carArray.push(carSrc);
+                img.src = carArray[index];
+            }
+        });
+        red.addEventListener('click', function () {
+            carArray = [];
+            for (let i = 1; i < 61; i++) {
+                carSrc = "360EXT_1_22_" + i + ".png"
+                carArray.push(carSrc);
+                img.src = carArray[index];
+            }
+        });
+        white.addEventListener('click', function () {
+            carArray = [];
+            for (let i = 1; i < 61; i++) {
+                carSrc = "360EXT_1_23_" + i + ".png"
+                carArray.push(carSrc);
+                img.src = carArray[index];
+            }
+        });
+        silver.addEventListener('click', function () {
+            carArray = [];
+            for (let i = 1; i < 61; i++) {
+                carSrc = "360EXT_1_21_" + i + ".png"
+                carArray.push(carSrc);
+                img.src = carArray[index];
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
