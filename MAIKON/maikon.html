@@ -678,6 +678,9 @@
             margin-left: 60px;
         }
         @media screen and (width<768px) {
+            body{
+                position: relative;
+            }
             .HB{
                 width: 40px;
                 height: 40px;
@@ -694,16 +697,13 @@
                 background-color: white;
                 border-radius: 5px;
             }
-            .navbar{
-                position: relative;
-            }
             nav{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
             }
             nav .header-text{
-                position: absolute;
+                position: fixed;
                 right: 0;
                 top: 0;
                 background-color: var(--white);
@@ -782,7 +782,7 @@
                 font-size: 30px;
             }
             .if-you h3{
-                width: 100%;
+                width: 90%;
                 font-size: 32px;
                 margin-left: 20px;
             }
