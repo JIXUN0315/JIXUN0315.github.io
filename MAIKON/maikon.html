@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="grid.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-family: Roboto,sans-serif;
+        }
+        :root{
+            --white:white;
+            --green:rgb(31, 222, 130);
+            --gray: rgb(111, 111, 111);
+        }
+        a{
+            text-decoration: none;
+        }
+        header{
+            width: 100%;
+            background-color: white;
+            box-shadow: 0px 0px  25px rgb(188, 188, 231);
+            position: fixed;
+            z-index: 10;
+        }
+        nav h1{
+            width: 155px;
+            padding: 10px;
+        }
+        nav h1 img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .main-full{
+            width: 100%;
+            padding: 50px 0;
+        }
+        .main-full .row{
+            max-width: 1200px;
+            margin: auto;
+            align-items: center;
+        }
+        .main-full .row .text{
+            width: 75%;
+        }
+        .main-full .row .text h2{
+            font-size: 60px;
+            font-weight: 300;
+            padding: 25px 0;
+        }
+        .main-full .row .text p{
+            font-size: 13px;
+            color: grey;
+            margin-bottom: 30px;
+            line-height: 1.8
+        }
+        .main-full .row .text .link{
+            display: flex;
+            align-items: center;
+        }
+        .main-full .row .text .link button{
+            width: 140px;
+            height: 40px;
+            margin-right: 8%;
+            background-color: rgb(31, 222, 130);
+            color: white;
+            font-weight: 700;
+            border-radius: 5px;
+            border: 0px;
+            box-shadow: 0px 0px  25px rgb(188, 188, 231);
+            transition: .5s;
+        }
+        .main-full .row .text .link button:hover{
+            background-color:var(--gray);
+            box-shadow: 0px 0px  25px transparent;
+        }
+        .main-full .row .text .link a{
+            width: 35%;
+            transition: .5s;
+        }
+        .main-full:nth-child(2n) .row .text .link a:hover{
+            background-color: var(--green);
+            color: var(--white);
+        }
+        .main-full .row .text .link a img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .main-full .row .pic-box{
+            width: 95%;
+        }
+        .main-full .row .pic-box img{
+            vertical-align: middle;
+            width: 100%;    
+        }
+        .main-full:nth-child(2n) .row{
+            flex-direction: row-reverse;
+        }
+        .main-full:nth-child(2n) .row .text{
+            margin-left: 50px;
+        }
+        .main-full:nth-child(2n) .row .text h2{
+            font-size: 42px;
+            line-height: 1.5;
+        }
+        .main-full:nth-child(2n) .row .text .link button{
+            width: 100px;
+        }
+        .main-full:nth-child(2n) .row .text .link a{
+            color: rgb(106, 106, 106);
+            border-radius: 5px;
+            border: 1px solid rgb(187, 207, 220);
+            text-align: center;
+            width: 130px;
+            font-size: 15px;
+            line-height: 2.5;
+        }
+        .main-icon{
+            width: 100%;
+            padding: 20px 0;
+        }
+        .icon-box{
+            max-width: 1200px;
+            margin: auto;
+        }
+        .icon-box h2{
+            font-weight: 300;
+            font-size: 42px;
+            color: rgb(66, 66, 66);
+            width: 40%;
+            margin: 40px 0;
+        }
+        .icon-box .row{
+            padding-top: 10px;
+        }
+        .icon-box .row .col-12{
+            padding: 15px;
+        }
+        .icon-box .row .col-12 .card{
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px 5px rgb(236, 236, 251);
+            padding: 40px;
+        }
+        .icon-box .row .col-12 .card .icon-img{
+            width: 30%;
+            box-shadow: 0px 0px  25px rgb(188, 188, 231);
+            border-radius: 50%;
+            margin: 10px 0;
+        }
+        .icon-box .row .col-12 .card .icon-img img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .icon-box .row .col-12 .card h3{
+            font-weight: 400;
+            font-size: 22px;
+            margin: 40px 0 20px 0;
+        }
+        .icon-box .row .col-12 .card p{
+            color: gray;
+            font-weight: 300;
+            font-size: 14px;
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+        .icon-box .row .col-12 .card a{
+            color: rgb(100, 100, 100);
+            font-weight: 500;
+            font-size: 14px;
+            transition: .5s;
+        }
+        .icon-box .row .col-12 .card a:hover{
+            color: var(--green);
+        }
+        .main-if-you{
+            width: 100%;
+        }
+        .if-you{
+            max-width: 1200px;
+            margin: auto;
+            align-items: center;
+        }
+        .if-you h3{
+            width: 80%;
+            font-size: 42px;
+            line-height: 1.4;
+            font-weight: 300;
+            color: rgb(57, 57, 57);
+            padding: 20px 0;
+        }
+        .if-you p{
+            color: rgb(92, 91, 91);
+            font-weight: 300;
+            line-height: 1.8;
+            font-size: 14px;
+            width: 80%;
+        }
+        .if-you .link{
+            margin: 40px 0;
+        }
+        .if-you .link button{
+            width: 130px;
+            height: 40px;
+            margin-right: 4%;
+            font-weight: 700;
+            border-radius: 5px;
+            border: 1px solid var(--gray);
+            color: rgb(92, 92, 92);
+            background-color: white;
+            transition: .5s;
+        }
+        .if-you .link button:first-child{
+            box-shadow: 0px 0px  25px rgb(188, 188, 231);
+            background-color: rgb(31, 222, 130);
+            color: white;
+            border: 0;
+        }
+        .if-you .link button:first-child:hover{
+            background-color: var(--gray);
+            box-shadow:  0px 0px  25px transparent;
+        }
+        .if-you .link button:hover{
+            background-color: var(--green);
+            color: var(--white);
+            border: 0;
+        }
+        .if-you .col-md-7{
+            display: flex;
+            justify-content: center;
+        }
+        .if-you .col-md-7 .pic{
+            width: 60%;
+        }
+        .if-you .col-md-7 .pic img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .main-blue{
+            width: 100%;
+            background-color: rgb(37, 112, 255);
+        }
+        .main-blue .blue{
+            max-width: 1200px;
+            margin: auto;
+            color: white;
+            padding: 65px 0;
+        }
+        .main-blue .blue .row .box{
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .main-blue .blue .row .box .card{
+            border-radius: 10px;
+            background-color: rgb(63, 129, 255);
+            height: 100%;
+            box-sizing: border-box;
+            padding: 30px;
+        }
+        .main-blue .blue .row .box .card h5{
+            font-size: 30px;
+            font-weight: 500;
+            line-height: 1;
+            text-align: center;
+        }
+        .main-blue .blue .row .box .card p{
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .main-blue .blue .why{
+            box-sizing: border-box;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .main-blue .blue .why .card h3{
+            font-size: 32px;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        .main-blue .blue .why .card p{
+            margin: 25px 0;
+            font-weight: 300;
+            font-size: 14px;
+            line-height: 1.8;
+            width: 70%;
+        }
+        .main-blue .blue .why button{
+            width: 130px;
+            height: 40px;
+            margin-right: 4%;
+            font-weight: 700;
+            border-radius: 5px;
+            border: 1px solid white;
+            color: white;
+            background-color: transparent;
+            transition: .5s;
+        }
+        .main-blue .blue .why button:hover{
+            background-color: var(--green);
+            border: 0;
+        }
+        .main-steps{
+            width: 100%;
+        }
+        .steps{
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px 0;
+        }
+        .steps h2{
+            margin: 60px 0;
+            font-size: 42px;
+            font-weight: 300;
+        }
+        .steps .row{
+            margin: 40px 0;
+        }
+        .steps .row .col-md-4{
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 30px;
+        }
+        .steps .row .col-md-4 .pic{
+            width: 90%;
+            display: flex;
+            align-items: center;
+        }
+        .steps .row .col-md-4 .pic img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .steps .row .col-md-8{
+            display: flex;
+            align-items: center;
+            padding-left: 50px;
+        }
+        .steps .row .col-md-8 .pic{
+            width: 85px;
+            border-radius: 50%;
+            border: 0;
+            box-shadow: 0px 0px  25px rgb(188, 188, 231);
+        }
+        .steps .row .col-md-8 img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .steps .row .col-md-8 .text{
+            width: 45%;
+            padding: 50px;
+        }
+        .steps .row .col-md-8 .text h5{
+            font-size: 22px;
+            font-weight: 400;
+            margin: 20px 0;
+        }
+        .steps .row .col-md-8 .text p{
+            font-size: 14px;
+            color: grey;
+            line-height: 2;
+            width: 100%;
+        }
+        .steps .row:nth-child(2n+1){
+            flex-direction: row-reverse;
+        }
+        .steps .row:nth-child(2n+1) .col-md-8{
+            justify-content: center;
+        }
+        .main-team{
+            width: 100%;
+            background-color: rgb(249, 251, 255);
+        }
+        .main-team .team{
+            max-width: 1200px;
+            margin: auto;
+            padding: 50px 0;
+        }
+        .main-team .team .team-top .title h3{
+            font-size: 43px;
+            font-weight: 300;
+            margin: 30px 0;
+            width: 80%;
+        }
+        .main-team .team .team-top .btn{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .main-team .team .team-top .btn button{
+            width: 140px;
+            height: 40px;
+            background-color: rgb(31, 222, 130);
+            color: white;
+            font-weight: 700;
+            border-radius: 5px;
+            border: 0px;
+            box-shadow: 0px 0px  25px rgb(188, 188, 231);
+            transition: .5s;
+        }
+        .main-team .team .team-top .btn button:hover{
+            background-color: var(--gray);
+            box-shadow:  0px 0px  25px transparent;
+        }
+        .main-team .team .team-bottom{
+            margin: 30px 0;
+        }
+        .main-team .team .team-bottom .col-md-4{
+            box-sizing: border-box;
+            padding: 15px;
+        }
+        .main-team .team .team-bottom .col-md-4 .card{
+            border-radius: 10px;
+            position: relative;
+        }
+        .main-team .team .team-bottom .col-md-4 .card .pic{
+            border-radius: 10px;
+            margin: 0;
+        }
+        .main-team .team .team-bottom .col-md-4 .card .pic img{
+            border-radius: 10px;
+            width: 100%;
+        }
+        .main-team .team .team-bottom .col-md-4 .card .text{
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            background-color: rgb(31, 222, 130);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            opacity: 0;
+            transition: .5s;
+        }
+        .main-team .team .team-bottom .col-md-4 .card .text p{
+                margin: 60px 20px;
+                font-size: 38px;
+                line-height: 1.5;
+        }
+        .main-team .team .team-bottom .col-md-4 .card .text a{
+            margin: 60px 20px;
+            font-size: 14px;
+            color: white;
+            transition: .5s;
+        }
+        .main-team .team .team-bottom .col-md-4 .card .text a:hover{
+            color: var(--gray);
+        }
+        .main-team .team .team-bottom .col-md-4 .card:hover .text{
+            opacity: 1;
+        }
+        .main-form{
+            width: 100%;
+            margin: 80px 0;
+        }
+        .form{
+            max-width: 1200px;
+            margin: auto;
+        }
+        .form .col-12{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form .pic-box{
+            width: 85%;
+        }
+        .form .pic-box img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .form .form-box form{
+            width: 80%;
+            height: 90%;
+            box-shadow: 0px 0px  25px rgb(188, 188, 231);
+            border-radius: 15px;
+            margin-left: 50px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form .form-box form h3{
+            font-size: 42px;
+            font-weight: 300;
+            margin: 40px;
+        }
+        .form .form-box form input{
+            margin: 8px 60px;
+            line-height: 2.5;
+            padding-left: 10px;
+            border-radius: 10px;
+            border: 1px solid rgb(203, 209, 253);
+        }
+        .form .form-box form textarea{
+            padding-left: 10px;
+            margin: 8px 60px;
+            resize: vertical;
+            padding-left: 10px;
+            border-radius: 10px;
+            border: 1px solid rgb(203, 209, 253);
+        }
+        .form .form-box form button{
+            width: 80px;
+            height: 40px;
+            background-color: rgb(31, 222, 130);
+            color: white;
+            font-weight: 700;
+            border-radius: 5px;
+            font-size: 14px;
+            border: 0px;
+            box-shadow: 0px 0px  25px rgb(188, 188, 231);
+            margin: 20px 0 60px 60px;
+            transition: .5s;
+        }
+        .form .form-box form button:hover{
+            background-color: var(--gray);
+            box-shadow:  0px 0px  25px transparent;
+        }
+        .main-sub{
+            width: 100%;
+            margin: 150px 0;
+        }
+        .main-sub .subscribe{
+            width: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
+        .subscribe h3{
+            width: 420px;
+            font-size: 42px;
+            font-weight: 300;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .subscribe .for{
+            margin: 30px 0;
+            width: 100%;
+            display: flex;
+            border-radius: 5px;
+            box-shadow: 0px 0px  25px rgb(215, 215, 240);
+        }
+        .subscribe .for input{
+            flex-grow: 1;
+            height: 45px;
+            padding-left: 10px;
+            border: 0;
+            border-radius: 5px;
+        }
+        .subscribe .for button{
+            width: 110px;
+            height: 45px;
+            background-color: rgb(31, 222, 130);
+            color: white;
+            font-weight: 700;
+            border-radius: 5px;
+            font-size: 14px;
+            border: 0px;
+            box-shadow: 0px 0px  25px rgb(165, 165, 220);
+            transition: .5s;
+        }
+        .subscribe .for button:hover{
+            background-color: var(--gray);
+            box-shadow:  0px 0px  25px transparent;
+        }
+        footer{
+            width: 100%;
+            margin: 10px 0;
+        }
+        .footer-text{
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+        .footer-text .logo-box{
+            box-sizing: border-box;
+            padding: 15px;
+        }
+        .footer-text .logo-box h2{
+            width: 160px;
+        }
+        .footer-text .logo-box h2 img{
+            width: 100%;
+            vertical-align: middle;
+            margin-bottom: 20px;
+        }
+        .footer-text .logo-box a{
+            display: flex;
+            font-size: 14px;
+            margin: 15px 0;
+            color: rgb(31, 222, 130);
+            font-weight: 500;
+        }
+        .footer-text .logo-box a p{
+            color: gray;
+            margin-left: 10px;
+        }
+        .footer-text .box{
+            box-sizing: border-box;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .footer-text .box h5{
+            font-size: 22px;
+            font-weight: 400;
+            margin: 15px 0;
+        }
+        .footer-text .box a{
+            color: gray;
+            font-weight: 300;
+            font-size: 14px;
+            margin: 8px 0;
+            transition: .2s;
+        }
+        .footer-text .box a:hover{
+            color: var(--green);
+        }
+        .footer-text .box p{
+            color: gray;
+            font-weight: 300;
+            font-size: 14px;
+            margin: 8px 0;
+            line-height: 2;
+        }
+        .footer-text .box .icon{
+            display: flex;
+            justify-content: flex-start;
+            padding-right: 90px;
+        }
+        .footer-text .box .icon .icon-box{
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 1px solid rgb(178, 202, 223);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-text .box .icon .icon-box:hover{
+            background-color: var(--green);
+        }
+        .footer-text .box .icon .icon-box:hover a{
+            color: var(--white);
+        }
+        .footer-text .box .icon .icon-box a{
+            font-size: 16px;
+            color: rgb(178, 202, 223);
+        }
+        .copy{
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: gray;
+        }
+        .copy .copy1{
+            display: flex;
+        }
+        .copy .copy1 a{
+            color: rgb(31, 222, 130);
+            margin-left: 5px;
+        }
+        .copy .copy2{
+            display: flex;
+        }
+        .copy .copy2 a{
+            color: gray;
+            margin-left: 60px;
+        }
+        @media screen and (width<768px) {
+            .HB{
+                width: 40px;
+                height: 40px;
+                background-color: var(--green);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+                margin-right: 10px;
+            }
+            .HB span{
+                width: 60%;
+                height: 4px;
+                background-color: white;
+                border-radius: 5px;
+            }
+            nav{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            nav .header-text{
+                position: absolute;
+                right: 0;
+                top: 0;
+                background-color: var(--white);
+                width: 75%;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0px 0px  25px rgb(165, 165, 220);
+            }
+            nav .header-text .xx{
+                width: 30px;
+                height: 30px;
+                margin: 5px 5px 5px auto;
+                font-size: 26px;
+                font-weight: 700;
+                border: 0;
+                background-color: transparent;
+                color: var(--gray);
+                cursor: pointer;
+            }
+            nav .header-text ul li a{
+                color: var(--gray);
+                margin: 10px;
+            }
+            nav .header-text ul li{
+                line-height: 2;
+                transition: .2s;
+            }
+            nav .header-text ul li:first-child{
+                border-bottom: 1px solid var(--gray);
+            }
+            nav .header-text ul li:hover{
+                border-bottom: 1px solid var(--gray);
+            }
+            nav .sub{
+                display: none;
+            }
+            .main-full .row .text{
+                margin-left: 20px;
+            }
+            .main-full .row .text h2{
+                font-size: 30px;
+                margin: 40px 20px 10px 0;
+            }
+            .main-full .row .pic-box{
+                width: 80%;
+                padding: 20px;
+            }
+            .main-full:nth-child(2n) .row{
+                flex-direction: column-reverse;
+            }
+            #no{
+                display: none;
+            }
+            .main-full:nth-child(2n) .row .text{
+                margin-left: 20px;
+            }
+            .main-full:nth-child(2n) .row  .text h2{
+                font-size: 30px;
+                margin: 40px 20px 10px 0;
+            }
+            .icon-box h2{
+                font-size: 32px;
+                margin-left: 20px;
+                width: 100%;
+            }
+            .icon-box .row .col-12 .card{
+                padding: 10px 20px;
+            }
+            .icon-box .row .col-12 .card .icon-img{
+                width: 75px;
+                margin-bottom: 0;
+            }
+            .icon-box .row .col-12 .card h3{
+                margin-top: 30px;
+                font-size: 30px;
+            }
+            .if-you h3{
+                width: 100%;
+                font-size: 32px;
+                margin-left: 20px;
+            }
+            .if-you p{
+                width: 90%;
+                margin-left: 20px;
+            }
+            .if-you .link{
+                margin-left: 20px;
+            }
+            .if-you .col-md-7 .pic{
+                margin: 20px 20px 40px auto;
+            }
+            .main-blue .blue{
+                padding: 30px 0;
+            }
+            .main-blue .blue .row .box .card p{
+                text-align: center;
+                padding-top: 15px;
+            }
+            .main-blue .blue .why{
+                padding: 30px 15px;
+            }
+            .main-blue .blue .why .card p{
+                width: 100%;
+            }
+            .steps h2{
+                margin:  30px 15px;
+                font-size: 30px;
+            }
+            .main-steps .steps .row{
+                flex-direction: column-reverse;
+            }
+            .steps .row .col-md-4{
+                padding-left: 20px;
+            }
+            .steps .row .col-md-4 .pic{
+                width: 50%;
+                margin-right: auto;
+            }
+            .steps .row .col-md-8{
+                padding-left: 20px;
+                flex-direction: column;
+            }
+            .steps .row .col-md-8 .pic{
+                width: 70px;
+                margin-right: auto;
+            }
+            .steps .row .col-md-8 .text{
+                width: 100%;
+                padding: 0;
+                margin-bottom: 40px;
+            }
+            .steps .row .col-md-8 .text h5{
+                font-size: 20px;
+            }
+            .steps .row .col-md-8 .text p{
+                font-size: 13px;
+                line-height: 1.5;
+            }
+            .main-team .team{
+                padding: 10px 0;
+            }
+            .main-team .team .team-top .title h3{
+                font-size: 30px;
+                padding-left: 15px;
+            }
+            .main-team .team .team-top .btn button{
+                margin-right: auto;
+                margin-left: 15px;
+            }
+            .main-team .team .team-bottom .col-md-4 .card{
+                height: 300px;
+                overflow: hidden;
+            }
+            .main-team .team .team-bottom .col-md-4 .card .pic{
+                margin-top: -240px;
+            }
+            .main-team .team .team-bottom .col-md-4 .card .text p{
+                font-size: 20px;
+            }
+            .main-form{
+                margin: 40px 0;
+            }
+            .form .pic-box{
+                margin-right: auto;
+                width: 70%;
+            }
+            .form .form-box form{
+                width: 95%;
+                margin: auto;
+            }
+            .form .form-box form h3{
+                font-size: 32px;
+                margin: 25px;
+            }
+            .form .form-box form input{
+                margin: 8px 25px;
+            }
+            .form .form-box form textarea{
+                margin: 8px 25px;
+                padding-top: 10px;
+            }
+            .form .form-box form button{
+                margin-left: 25px;
+                margin-bottom: 40px;
+            }
+            .subscribe h3{
+                font-size: 30px;
+                width: 100%;
+            }
+            .main-sub{
+                margin-bottom: 60px;
+            }
+            .footer-text .logo-box h2{
+                width: 160px;
+            }
+            .footer-text .logo-box h2 img{
+                margin-bottom: 15px;
+            }
+            .footer-text .box h5{
+                font-size: 32px;
+                margin-top: 0px;
+            }
+            .footer-text .box p{
+                margin-top: -10px;
+                margin-bottom: 30px;
+            }
+            .footer-text .box .icon{
+                padding-right: 75%;
+            }
+            .copy{
+                flex-direction: column;
+                align-items: center;
+            }
+            .copy .copy2{
+                margin: 15px;
+            }
+        }
+        @media screen and (min-width:768px) {
+            #no{
+                display: flex;
+            }
+            .space{
+                width: 100%;
+                height: 150px;
+            }
+            nav{
+                margin: auto;
+                max-width: 1200px;
+                display: flex;
+                padding: 18px 0;
+                justify-content: space-between;
+                align-items: center;
+                flex-direction: row;
+            }
+            nav h1{
+                width: 150px;
+            }
+            nav .header-text{
+                display: flex;
+                align-items: center;
+            }
+            nav .header-text .xx{
+                display: none;
+            }
+            nav .header-text ul{
+                display: flex;
+                margin-right: 20px;
+            }
+            nav .header-text ul li{
+                margin: 5px;
+                font-size: 16px;
+                line-height: 1.5;
+            }
+            nav .header-text ul li a{
+                color: rgb(111, 111, 111);
+            }
+            nav .header-text ul li:hover{
+                border-bottom: 1px solid rgb(150, 150, 150);
+            }
+            nav .header-text button{
+                height: 40px;
+                width: 115px;
+                margin: 0 20px;
+                border-radius: 5px;
+                border: 1px solid rgb(194, 184, 255);
+                background-color: transparent;
+                font-weight: 700;
+                color: rgb(114, 114, 114);
+                transition: .5s;
+            }
+            nav .header-text button:hover{
+                background-color: rgb(31, 222, 130);
+                color: white;
+            }
+            nav .header-text ul li:first-child{
+                border-bottom: 1px solid rgb(150, 150, 150);
+            }
+            .main-full .row .text h2{
+                width: 100%;
+                font-size: 42px;
+                font-weight: 300;
+                padding: 25px 15px;
+            }
+            .main-full .row .text p{
+                padding-left: 15px;
+            }
+            .main-full .row .text .link{
+                padding-left: 15px;
+            }
+            .main-full .row .text .link a{
+                width: 150px;
+            }
+            .main-full:nth-child(2n) .row .text h2{
+                font-size: 30px;
+            }
+            .icon-box h2{
+                font-size: 30px;
+                width: 50%;
+                margin-left: 15px;
+            }
+            .icon-box .row .col-12{
+                margin-top: 15px;
+            }
+            .icon-box .row .col-12 .card{
+                padding: 15px;
+                padding-bottom: 0;
+                height: 100%;
+            }
+            .icon-box .row .col-12 .card .icon-img{
+                width: 75px;
+                margin: 0;
+            }
+            .main-blue .blue .row .box{
+                height: 200px;
+            }
+            .main-blue .blue .row .box .card{
+                padding: 15px;
+                text-align: center;
+            }
+            .main-blue .blue .row .box .card h5{
+                font-size: 34px;
+                line-height: 1.8;
+                text-align: center;
+            }
+            .main-blue .blue .why{
+                padding: 30px;
+            }
+            .main-blue .blue .why .card h3{
+                font-size: 30px;
+                font-weight: 300;
+                width: 70%;
+                line-height: 1.4;
+            }
+            .main-blue .blue .why .card p{
+                width: 90%;
+            }
+            .if-you{
+                margin-top: 30px;
+                margin-bottom: 40px;
+            }
+            .if-you h3{
+                font-size: 30px;
+                padding-left: 15px;
+                width: 100%;
+            }
+            .if-you p{
+                padding-left: 15px;
+            }
+            .if-you .link{
+                padding-left: 15px;
+            }
+            .if-you .col-md-7 .pic{
+                width: 85%;
+            }
+            .steps h2{
+                padding-left: 15px;
+                font-size: 30px;
+            }
+            .steps .row .col-md-4{
+                padding: 0 10px;
+            }
+            .steps .row .col-md-4 .pic{
+                width: 100%;
+            }
+            .steps .row .col-md-8{
+                padding-left: 15px;
+            }
+            .steps .row .col-md-8 .pic{
+                width: 90px;
+            }
+            .steps .row .col-md-8 .text{
+                width: 90%;
+                padding: 20px;
+            }
+            .main-team .team .team-top .title h3{
+                font-size: 30px;
+                margin-left: 15px;
+            }
+            .main-team .team .team-top .btn button{
+                margin-right: 15px;
+            }
+            .main-team .team .team-bottom .col-md-4 .card .text p{
+                margin: 30px 15px;
+                font-size: 20px;
+            }
+            .form .form-box form{
+                width: 90%;
+                margin-left: 0px;
+            }
+            .form .form-box form h3{
+                font-size: 28px;
+                margin: 30px;
+                margin-bottom: 20px;
+            }
+            .form .form-box form input{
+                margin: 8px 30px;
+                border-radius: 5px;
+            }
+            .form .form-box form textarea{
+                margin: 8px 30px;
+                border-radius: 5px;
+            }
+            .form .form-box form button{
+                margin: 20px 0 60px 30px;
+            }
+            .subscribe h3{
+                width: 600px;
+                font-size: 30px;
+            }
+            .footer-text .logo-box h2{
+                width: 160px;
+            }
+            .footer-text .box .icon{
+                padding-right: 180px;
+            }
+            .copy{
+                flex-direction: column;
+                align-items: center;
+            }
+            .copy .copy2{
+                display: flex;
+                margin: 10px;
+            }
+        }
+        @media screen and (min-width:1024px) {
+            nav .header-text ul li{
+                margin: 17px;
+                font-size: 18px;
+            }
+            .main-blue .blue .row .box{
+                height: 260px;
+            }
+            .main-blue .blue .row .box .card h5{
+                font-size: 60px;
+                font-weight: 500;
+                line-height: 1.8;
+                text-align: left;
+            }
+            .main-blue .blue .why .card h3{
+                font-size: 42px;
+                font-weight: 300;
+                width: 70%;
+                line-height: 1.4;
+            }
+            .main-full .row .text h2{
+                font-size: 60px;
+                font-weight: 300;
+                padding: 25px 15px;
+            }
+            .main-full .row .text p{
+                width: 90%;
+            }
+            .main-full:nth-child(2n) .row .text h2{
+                font-size: 44px;
+            }
+            .icon-box h2{
+                font-size: 42px;
+                width: 40%;
+                margin-left: 40px;
+            }
+            .icon-box .row .col-12{
+                padding-top: 30px;
+                padding-bottom: 30px;
+            }
+            .icon-box .row .col-12 .card{
+                padding: 40px;
+                padding-bottom: 0;
+            }
+            .icon-box .row .col-12 .card .icon-img{
+                width: 30%;
+                margin: 10px 0;
+            }
+            .if-you{
+                margin-top: 100px;
+                margin-bottom: 100px;
+            }
+            .if-you h3{
+                font-size: 40px;
+                width: 80%;
+            }
+            .if-you .col-md-7 .pic{
+                width: 60%;
+            }
+            .main-blue .blue .row .box{
+                height: 260px;
+            }
+            .main-blue .blue .row .box .card{
+                padding: 30px;
+                text-align: left;
+            }
+            .main-blue .blue .row .box .card h5{
+                font-size: 60px;
+                text-align: left;
+            }
+            .main-blue .blue .why{
+                padding: 60px;
+            }
+            .main-blue .blue .why .card h3{
+                font-size: 42px;
+            }
+            .main-blue .blue .why .card p{
+                width: 70%;
+            }
+            .steps h2{
+                font-size: 42px;
+            }
+            .steps .row .col-md-4{
+                padding: 0 30px;
+            }
+            .steps .row .col-md-4 .pic{
+                width: 90%;
+            }
+            .steps .row .col-md-8{
+                padding-left: 50;
+            }
+            .steps .row .col-md-8 .pic{
+                width: 85px;
+            }
+            .steps .row .col-md-8 .text{
+                width: 45%;
+                padding: 50px;
+            }
+            .main-team .team .team-top .title h3{
+                font-size: 43px;
+            }
+            .main-team .team .team-bottom .col-md-4 .card .text p{
+                margin: 60px 20px;
+                font-size: 38px;
+            }
+            .form .form-box form{
+                width: 80%;
+                margin-left: 50px;
+            }
+            .form .form-box form h3{
+                font-size: 42px;
+                margin: 40px;
+            }
+            .form .form-box form input{
+                margin: 8px 60px;
+            }
+            .form .form-box form textarea{
+                margin: 8px 60px;
+            }
+            .form .form-box form button{
+                margin: 20px 0 60px 60px;
+            }
+            .subscribe h3{
+                width: 420px;
+                font-size: 42px;
+            }
+            .footer-text .logo-box h2{
+                width: 160px;
+            }
+            .footer-text .box .icon{
+                padding-right: 90px;
+            }
+            .copy{
+                flex-direction: row;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <nav>
+            <h1>
+                <img src="logo.png">
+            </h1>
+            <label for="menu" class="HB">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <div id="no" class="header-text">
+                <button class="xx"><i class="fa-solid fa-xmark"></i></button>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Case studio</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+                <button class="sub">SUBSCRIBE</button>
+            </div>
+        </nav>
+    </header>
+    <div class="space"></div>
+        <article class="main-full">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="text">
+                        <h2>Our creativity is your success</h2>
+                        <p>We break all boundaries if they happen on our way of project’s development!</p>
+                        <div class="link">
+                            <button>LEARN MORE</button>
+                            <a href="#"><img src="play-button.svg"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="pic-box">
+                        <img src="home-image-1.svg">
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="main-full">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="text">
+                        <h2>Creative challenges are our passion</h2>
+                        <p>Our team of designers and developers work closely together to build a creative and positive working environment. Functionality is as important to us as aesthetics.</p>
+                        <div class="link">
+                            <button>ABOUT US</button>
+                            <a href="#">CONTACT US</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 turn">
+                    <div class="pic-box">
+                        <img src="home-image-2.png">
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="main-icon">
+            <div class="icon-box">
+                <h2>We provide a wide range of creative services</h2>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="icon-img">
+                                <img src="icon-1.svg">
+                            </div>
+                            <h3>Web Design & Brending</h3>
+                            <p>A great brand combines design and conveys company’s value messaging to evoke emotion and drive strategy.</p>
+                            <a href="#">READ MORE</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="icon-img">
+                                <img src="icon-2.svg">
+                            </div>
+                            <h3>Graphic Design</h3>
+                            <p>Rich experience plus unlimited imagination create our successful service discovered by clients.</p>
+                            <a href="#">READ MORE</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="icon-img">
+                                <img src="icon-3.svg">
+                            </div>
+                            <h3>Video Production</h3>
+                            <p>Creating and handling professional video is our strong point. It plays major role in your digital business strategy.</p>
+                            <a href="#">READ MORE</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="icon-img">
+                                <img src="icon-4.svg">
+                            </div>
+                            <h3>SEO</h3>
+                            <p>We provide everything your site needs to perform at it’s highest capabilities on the major search engines.</p>
+                            <a href="#">READ MORE</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="icon-img">
+                                <img src="icon-5.svg">
+                            </div>
+                            <h3>Digital Marketing</h3>
+                            <p>We do collateral design, interactive design, hoarding, signage, presentation centres, and more.</p>
+                            <a href="#">READ MORE</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="icon-img">
+                                <img src="icon-6.svg">
+                            </div>
+                            <h3>Infographics</h3>
+                            <p>Turn your data into captivating artwork that will keep your audience engaged. Our team can help you with it.</p>
+                            <a href="#">READ MORE</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="main-if-you">
+            <div class="row if-you">
+                <div class="col-12 col-md-5">
+                    <h3>If you have any questions, please contact us</h3>
+                    <p>Our professional support team try to do their best to provide you with high-quality consultations concerning any question about our services.</p>
+                    <div class="link">
+                        <button>CONTACT US</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="pic">
+                        <img src="home-image-3.svg">
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <section class="main-blue">
+            <div class="row blue">
+                <div class="row col-12 col-md-6">
+                    <div class="box col-12 col-md-6">
+                        <div class="card">
+                            <h5>1880+</h5>
+                            <p>Completed projects to the end by our specialists.</p>
+                        </div>
+                    </div>
+                    <div class="box col-12 col-md-6">
+                        <div class="card">
+                            <h5>56</h5>
+                            <p>A large team of the best specialists.</p>
+                        </div>
+                    </div>
+                    <div class="box col-12 col-md-6">
+                        <div class="card">
+                            <h5>2000+</h5>
+                            <p>Customers who were satisfied with our work.</p>
+                        </div>
+                    </div>
+                    <div class="box col-12 col-md-6">
+                        <div class="card">
+                            <h5>100%</h5>
+                            <p>Our values are good organization and result orientation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 why">
+                    <div class="card">
+                        <h3>Why choose our studio for your projects?</h3>
+                        <p>We are a command of professional and enthusiastic people, who like what they do and are always in the process of growing and improving their skills.</p>
+                    </div>
+                    <button>ORDER SERVICE</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="main-steps">
+            <div class="steps">
+                <h2>Steps of our work</h2>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="pic">
+                            <img src="home-image-4.svg">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="pic"><img src="number-01.svg"></div>
+                        <div class="text">
+                            <h5>Meeting With The Customer</h5>
+                            <p>The first meeting is very import to form contact and discuss the main ideas of the project.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="pic">
+                            <img src="home-image-5.svg">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="pic"><img src="number-02.svg"></div>
+                        <div class="text">
+                            <h5>We Consider And Analyze The Work Plan</h5>
+                            <p>When we understand the main eideas, we proceed to discussing the work plan and analyzing it.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="pic">
+                            <img src="home-image-6.svg">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="pic"><img src="number-03.svg"></div>
+                        <div class="text">
+                            <h5>Work Hard On The Project</h5>
+                            <p>Our professional team start to handle with your project and embody the conception of the project.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="pic">
+                            <img src="home-image-7.svg">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="pic"><img src="number-04.svg"></div>
+                        <div class="text">
+                            <h5>Once Again We Analyze And Check Everything</h5>
+                            <p>We meet, analyze and check the done work and make needed corrections.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="pic">
+                            <img src="home-image-8.svg">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="pic"><img src="number-05.svg"></div>
+                        <div class="text">
+                            <h5>We Finish The Work And Give It To The Customer</h5>
+                            <p>The project is ready and we give it to the customer. Also we ask for the feedback from the customer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="main-team">
+            <div class="team">
+                <div class="row team-top">
+                    <div class="col-12 col-md-6 title">
+                        <h3>Our team's work with Projects</h3>
+                    </div>
+                    <div class="col-12 col-md-6 btn">
+                        <button>ALL PROJECTS</button>
+                    </div>
+                </div>
+                <div class="row team-bottom">
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="pic">
+                                <img src="project-1.jpg">
+                            </div>
+                            <div class="text">
+                                <p>Minimal Creative "Impuls"</p>
+                                <a href="#">VIEW SITE</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="pic">
+                                <img src="project-2.jpg">
+                            </div>
+                            <div class="text">
+                                <p>Travel Company "Tour Up"</p>
+                                <a href="#">VIEW SITE</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="pic">
+                                <img src="project-3.jpg">
+                            </div>
+                            <div class="text">
+                                <p>Restaurant Pizza "Little Italy"</p>
+                                <a href="#">VIEW SITE</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-form">
+            <div class="row form">
+                <div class="pic col-12 col-md-6">
+                    <div class="pic-box">
+                        <img src="home-image-9.svg">
+                    </div>
+                </div>
+                <div class="form-box col-12 col-md-6">
+                    <form action="">
+                        <h3>Sign up for our consultation</h3>
+                        <input type="text" placeholder="Name">
+                        <input type="text" placeholder="Email">
+                        <textarea name="" id="" cols="10" rows="10" placeholder="Message" resize="vertical"></textarea>
+                        <button>SEND</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <section class="main-sub">
+            <div class="row subscribe">
+                <h3>Subscribe to our news and learn more</h3>
+                <div class="for">
+                    <input type="text" placeholder="Your email">
+                    <button>SUBSCRIBE</button>
+                </div>
+            </div>
+        </section>
+
+    <footer>
+        <div class="footer-text row">
+            <div class="logo-box col-12 col-md-6 col-xl-3">
+                <h2>
+                    <img src="logo.png">
+                </h2>
+                <a href="#">
+                    <span>Phone:</span><p>  + 1 (045) - 224 - 12 - 67</p>
+                </a>
+                <a href="#">
+                    <span>Mail:</span><p>info@demolink.org</p>
+                </a>
+            </div>
+            <div class="box col-12 col-md-6 col-xl-3">
+                <h5>Services</h5>
+                <a href="#">Web design & brending</a>
+                <a href="#">Web development</a>
+                <a href="#">Full Optimization</a>
+                <a href="#">Research & Strategy</a>
+                <a href="#">Management & Marketing</a>
+                <a href="#">Free support</a>
+            </div>
+            <div class="box col-12 col-md-6 col-xl-3">
+                <h5>About Company</h5>
+                <a href="#">About us</a>
+                <a href="#">Team</a>
+                <a href="#">Case studio</a>
+                <a href="#">Contactsg</a>
+            </div>
+            <div class="box col-12 col-md-6 col-xl-3">
+                <h5>Our Social Networks</h5>
+                <p>Join us in the social networks and keep up on the latest news.</p>
+                <div class="icon">
+                    <div class="icon-box"><a href="#"><i class="fa-brands fa-youtube"></i></a></div>
+                    <div class="icon-box"><a href="#"><i class="fa-brands fa-square-facebook"></i></a></div>
+                    <div class="icon-box"><a href="#"><i class="fa-brands fa-instagram"></i></a></div>
+                    <div class="icon-box"><a href="#"><i class="fa-brands fa-twitter"></i></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="copy">
+            <div class="copy1">
+            <p>Copyright © 2018 Wordpress Maikon. All Rights Reserved. | Theme design by</p>
+            <a href="#">Zemez</a>
+        </div>
+        <div class="copy2">
+            <a href="#">Privacy & Policy</a>
+            <a href="#">FAQ</a>
+        </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
+    <script>
+        let xx = document.querySelector('.xx');
+        let hb = document.querySelector('.HB');
+        let ht = document.querySelector('.header-text');
+        xx.addEventListener('click', function(){
+            ht.setAttribute("id","no");
+        })
+        hb.addEventListener('click', function(){
+            ht.removeAttribute("id");
+        })
+    </script>
+</body>
+</html>
