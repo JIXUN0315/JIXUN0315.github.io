@@ -1,0 +1,1162 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        :root {
+            --green: rgb(0, 195, 0);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        .HB {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .HB span {
+            width: 60%;
+            height: 4px;
+            background-color: var(--green);
+            border-radius: 5px;
+        }
+        nav ul li a:hover{
+            color: var(--green)!important;
+        }
+        .nav-hidden li a:hover{
+            color: var(--green)!important;
+        }
+        .rounded-pill:hover{
+            background-color: rgb(79, 255, 79)!important;
+        }
+        .nav-hidden{
+            height: 100vh;
+            width: 100%;
+            background-color: rgb(245, 246, 249);
+            text-align: center;
+            position: fixed;
+            z-index: 1000;
+        }
+        .bg-success {
+            background-color: var(--green) !important;
+        }
+
+        .text-success {
+            color: var(--green) !important;
+        }
+
+        .free-download {
+            border-bottom: solid 2px var(--green);
+        }
+
+
+        .main-nav {
+            width: 100%;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        input {
+            display: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #2c323f;
+            padding: 25px;
+        }
+
+        .sub .sub-text {
+            color: white;
+        }
+
+        .sub .sub-text .square {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sub .sub-text .square h4 {
+            padding-top: 8px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .sub .sub-text .square a {
+            margin-bottom: 8px;
+            color: rgb(149, 149, 149);
+            font-weight: 700;
+        }
+
+        .sub .sub-text .square a:hover {
+            color: white;
+        }
+
+        .close {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sub .sub-pic .sub-us h5 {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 10px 0;
+        }
+
+        .sub .sub-pic .sub-us a {
+            margin-right: 30px;
+        }
+
+        .sub .sub-pic .sub-us a i {
+            color: rgb(179, 179, 179);
+            font-size: 28px;
+        }
+
+        .sub .sub-pic .sub-us a i:hover {
+            color: white;
+        }
+
+        .power {
+            margin: 10px 0;
+        }
+
+        .power a {
+            color: white;
+        }
+
+        .power a p {
+            font-size: 10px;
+            font-weight: 100;
+        }
+
+        .power a h5 {
+            font-size: 23px;
+            font-weight: 600;
+            margin: 10px 0;
+            margin-bottom: 30px;
+        }
+
+        .leng {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .leng .leng-pic select {
+            width: 100%;
+            padding: 7px 10px;
+            border: 0;
+            background-color: #2c323f;
+            font-size: 16px;
+            color: white;
+            font-weight: 700;
+            border-top: 1px solid white;
+        }
+
+        .leng .foot {
+            margin-top: 10px;
+            font-size: 14px;
+            display: flex;
+            color: gray;
+            font-weight: 900;
+            flex-wrap: wrap;
+        }
+
+        .leng .foot a {
+            color: gray;
+            margin-right: 20px;
+        }
+
+        .leng .foot p {
+            width: 95%;
+        }
+
+        .leng .foot a:hover {
+            color: white;
+        }
+
+        .space {
+            height: 75px;
+        }
+
+        .main {
+            height: 540px;
+            background-image: url("premium_hero_mobile-400.png.webp");
+            background-size: cover;
+            background-position: center center;
+            display: flex;
+        }
+
+        .left {
+            width: 140px;
+            background-image: url("hero-deco-left-38f79dc73360dd332b0833129ad5893a.svg");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top left;
+        }
+
+        .right {
+            width: 140px;
+            background-image: url("hero-deco-right-320d18f9859768da586a4cf2651816c2.svg");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: bottom right;
+        }
+
+        .main-text {
+            width: 350px;
+        }
+        .trans1{
+            transform: translateX(100%);
+        }
+        .trans2{
+            transform: translateX(200%);
+        }
+        .main span {
+            background-image: linear-gradient(0deg, rgb(255, 192, 0) 50%, transparent 50%);
+        }
+
+        .very-small {
+            font-size: 13px;
+        }
+
+        .rounded-pill {
+            width: 180px;
+        }
+
+        .pika {
+            width: 130px;
+            border: 2px solid var(--green);
+            color: var(--green);
+        }
+
+        .androidOrIphone:checked+div label {
+            background-color: var(--green);
+            color: white;
+        }
+
+        .big {
+            font-size: 32px;
+            color: var(--green);
+        }
+
+        .z-in {
+            z-index: 10000;
+        }
+
+        .blue-text {
+            background-image: linear-gradient(0deg, rgb(203, 250, 203) 50%, transparent 50%);
+        }
+
+        .circle {
+            height: 10px;
+            width: 10px;
+        }
+
+        .select {
+            width: 250px;
+        }
+        .card-box img{
+            transform:rotateY(180deg);
+        }
+        .gray-text{
+            color: gray;
+        }
+        .bg-gray{
+            background-color: rgb(245, 246, 249);
+        }
+        .under{
+            margin-left: 35px;
+            font-size: 10px;
+        }
+        .top{
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .HA{
+            line-height: 3;
+            color: black;
+            font-weight: 700;
+            font-size: 26px;
+        }
+        .bb{
+            padding-bottom: 32px;
+        }
+        .download{
+            background-image: url(index-download-bg-5bd89e0a1a23f9a40199d29577cd911b.svg);
+            background-size: cover;
+            background-position: center center;
+        }
+        .vh-75{
+            height: 90vh;
+        }
+        .max-width{
+            max-width: 960px;
+        }
+        .move{
+            transform: translateX(133%);
+        }
+        @media screen and (width<1024px) {
+            .close {
+                display: none;
+            }
+
+            .square input:checked+.close {
+                display: flex;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+        }
+
+        @media screen and (min-width:768px) {
+            .know {
+                background-color: white !important;
+                color: var(--green) !important;
+            }
+        }
+
+        @media screen and (min-width:1024px) {
+            .sub {
+                margin: auto;
+                max-width: 1200px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .sub .sub-pic {
+                width: 220px;
+                padding: 18px;
+            }
+
+            .sub .sub-pic .sub-us .allbox {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .sub .sub-pic .sub-us h5 {
+                padding: 18px 0;
+            }
+
+            .sub .sub-text {
+                width: 420px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .sub .sub-text a {
+                color: white;
+            }
+
+            .sub .sub-text .square {
+                margin: 25px 40px 25px 0;
+            }
+
+            .sub .sub-text .square h4 {
+                margin: 10px 0;
+                font-weight: 900;
+                font-size: 18px;
+            }
+
+            .sub .sub-text .square a {
+                margin: 5px 0;
+                color: rgb(179, 179, 179);
+                font-weight: 600;
+            }
+
+            .leng {
+                flex-direction: row;
+                max-width: 1200px;
+                height: 60px;
+                margin: auto;
+                justify-content: space-between;
+                border-top: solid 1px white;
+                padding: 15px 0;
+            }
+
+            .leng .leng-pic {
+                margin-right: 10px;
+            }
+
+            .leng .leng-pic select {
+                border: 0;
+            }
+
+            .leng .foot {
+                flex-grow: 1;
+            }
+
+            .leng .foot p {
+                width: 33%;
+            }
+
+            .main {
+                background-image: url("premium_hero-3000.png.webp");
+            }
+
+            .left {
+                width: 200px;
+            }
+
+            .right {
+                width: 280px;
+            }
+
+            .seventy-five {
+                width: 75%;
+            }
+
+            .select {
+                width: 25%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid position-fixed bg-white z-in">
+        <div class="container">
+            <nav class="w-100  py-3  d-flex justify-content-between align-items-center p-1 py-3">
+                <div class="logo col-lg-1 col-2 me-4">
+                    <img class="img-fluid w-100" src="logo-1ac05e55a23c9d1d8319e8ec752b8f98.svg">
+                </div>
+                <ul class="ps-0 d-lg-flex col-9 d-none mb-0">
+                    <li class="mx-2 ms-0 "><a class="fw-bolder text-black" href="#"> Whoscall進階版</a></li>
+                    <li class="mx-2"><a class="fw-bolder text-black" href="#">Whoscall認證號碼</a></li>
+                    <li class="mx-2"><a class="fw-bolder text-black" href="#">認識Whoscall</a></li>
+                    <li class="mx-2"><a class="fw-bolder text-black" href="#">Whoscall專欄</a></li>
+                    <li class="mx-2"><a class="fw-bolder text-black" href="#">常見問題</a></li>
+                </ul>
+                <div class="d-none d-lg-block free bg-success rounded-pill px-4 py-2 fs-6 text-center">
+                    <a href="#" class="text-white">免費下載</a>
+                </div>
+                <div class=" d-lg-none d-flex align-items-center col-3 justify-content-end">
+                    <a href="#" class="free-download text-success fw-bolder">免費下載</a>
+                    <span class="xx text-success fs-3 d-none"><i class="fa-solid fa-x"></i></span>
+                    <label for="menu" class="HB">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="space w-100"></div>
+    <div class="nav-hidden d-none">
+        <div class="vh-75 d-flex flex-column justify-content-between">
+            <ul>
+                <li class="py-4"><a class="fw-bolder text-black" href="#"> Whoscall進階版</a></li>
+                <li class="py-3"><a class="fw-bolder text-black" href="#">Whoscall認證號碼</a></li>
+                <li class="py-3"><a class="fw-bolder text-black" href="#">認識Whoscall</a></li>
+                <li class="py-3"><a class="fw-bolder text-black" href="#">Whoscall專欄</a></li>
+                <li class="py-3"><a class="fw-bolder text-black" href="#">常見問題</a></li>
+            </ul>
+            <div class=" free bg-success rounded-pill py-2 fs-6 text-center mx-auto">
+                <a href="#" class="text-white fw-bolder">瞭解方案</a>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="left"></div>
+        <div
+            class="main-text mx-auto mx-lg-0 text-center text-lg-start ms-lg-5 mt-5 mt-lg-0 flex-grow-1 d-lg-flex flex-column justify-content-center">
+            <h2 class="fs-1 fw-bolder">Whoscall 進階版</h2>
+            <p class="fw-bolder mb-0">4 大防護功能，360 度守護你的通訊生活</p>
+            <p class="fw-bolder very-small">每月 <span>NT$ 50</span> 起，銅板價格享受全方位安全防護。</p>
+            <div class="d-inline-block free bg-success rounded-pill px-4 py-2 fs-6 text-center">
+                <a href="#" class="text-white fw-bolder">瞭解方案</a>
+            </div>
+        </div>
+        <div class="right"></div>
+    </div>
+
+    <div class="container py-3">
+        <h3 class="text-center my-5 fs-5 fw-bolder">強化通訊防護力，進階功能一次享有</h3>
+        <div class="form-check input-group mb-3 justify-content-center">
+            <input type="radio" id="huey" name="drone" checked class="androidOrIphone">
+            <div>
+                <label class="pika btn fw-bolder" for="huey">iOS</label>
+            </div>
+            <input type="radio" id="dewey" name="drone" class="androidOrIphone">
+            <div>
+                <label class="pika btn fw-bolder" for="dewey">Android</label>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 text-end my-4">
+                <img class="change-pic img-fluid seventy-five"
+                    src="https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/067/w900_webp_26097102-23c5-42ac-b186-51deb004a10a.png"
+                    alt="">
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="border-bottom seventy-five">
+                    <h3 class="big fw-bolder text-center text-md-start">自動封鎖騷擾號碼</h3>
+                    <p class="fw-bolder text-center text-md-start fs-5">掛不斷的騷擾電話交給 Whoscall 幫你阻擋，<span
+                            class="blue-text">把時間留給重要的人</span></p>
+                </div>
+                <div class="col-12 seventy-five">
+                    <div
+                        class="d-flex justify-content-between pt-3 align-items-center flex-md-column align-items-md-start">
+                        <div class="col-6">
+                            <div class="d-flex">
+                                <div class="pic me-2"><img src="icon-circle-231f6057885a15db7eae56cb6a73a121.svg"
+                                        alt=""></div>
+                                <p class="fw-bolder">免費版：手動封鎖</p>
+                            </div>
+                            <div class="d-flex">
+                                <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg"
+                                        alt=""></div>
+                                <p class="fw-bolder">進階版：自動封鎖</p>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-4 text-end text-md-start py-md-4">
+                            <a class="btn bg-success text-white know" href="#">了解更多<i
+                                    class="fa-solid fa-right-long d-none d-md-inline"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center flex-md-row-reverse">
+            <div class="col-12 col-md-6 my-4">
+                <img class="change-pic img-fluid seventy-five" src="w450_webp_5b86b4c0-65be-4113-8b71-2b8a31acb306.png" alt="">
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="border-bottom seventy-five ms-md-auto">
+                    <h3 class="big fw-bolder text-center text-md-start">自動更新號碼資料庫</h3>
+                    <p class="fw-bolder text-center text-md-start fs-5">詐騙電話隨時在變，定期更新掌握資訊，常保<span
+                            class="blue-text">高效辨識率</span></p>
+                </div>
+                <div class="col-12 seventy-five  ms-md-auto">
+                    <div
+                        class="d-flex justify-content-between pt-3 align-items-center flex-md-column align-items-md-start">
+                        <div class="col-6">
+                            <div class="d-flex">
+                                <div class="pic me-2"><img src="icon-circle-231f6057885a15db7eae56cb6a73a121.svg"
+                                        alt=""></div>
+                                <p class="fw-bolder">免費版：手動封鎖</p>
+                            </div>
+                            <div class="d-flex">
+                                <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg"
+                                        alt=""></div>
+                                <p class="fw-bolder">進階版：自動封鎖</p>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-4 text-end text-md-start py-md-4">
+                            <a class="btn bg-success text-white know" href="#">了解更多<i
+                                    class="fa-solid fa-right-long d-none d-md-inline"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 text-end my-4">
+                <img class="change-pic img-fluid seventy-five" src="w450_webp_59e24bb1-762f-418c-95ff-36d3709409df.png" alt="">
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="border-bottom seventy-five">
+                    <h3 class="big fw-bolder text-center text-md-start">智慧簡訊管家</h3>
+                    <p class="fw-bolder text-center text-md-start fs-5">再也不用問「這個簡訊可以點嗎？」，<span
+                            class="blue-text">釣魚簡訊釣不到你</span></p>
+                </div>
+                <div class="col-12 seventy-five">
+                    <div
+                        class="d-flex justify-content-between pt-3 align-items-center flex-md-column align-items-md-start">
+                        <div class="col-6">
+                            <div class="d-flex">
+                                <div class="pic me-2"><img src="icon-circle-231f6057885a15db7eae56cb6a73a121.svg"
+                                        alt=""></div>
+                                <p class="fw-bolder">免費版：手動封鎖</p>
+                            </div>
+                            <div class="d-flex">
+                                <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg"
+                                        alt=""></div>
+                                <p class="fw-bolder">進階版：自動封鎖</p>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-4 text-end text-md-start py-md-4">
+                            <a class="btn bg-success text-white know" href="#">了解更多<i
+                                    class="fa-solid fa-right-long d-none d-md-inline"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center flex-md-row-reverse">
+            <div class="col-12 col-md-6 my-4">
+                <img class="change-pic img-fluid seventy-five" src="w450_webp_c971977c-c78c-4806-80ee-fb6f37c818fd.png" alt="">
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="border-bottom seventy-five ms-md-auto">
+                    <h3 class="big fw-bolder text-center text-md-start">移除廣告</h3>
+                    <p class="fw-bolder text-center text-md-start fs-5">和廣告說掰掰，清爽介面，<span class="blue-text">使用更順暢</span>
+                    </p>
+                </div>
+                <div class="col-12 seventy-five  ms-md-auto">
+                    <div
+                        class="d-flex justify-content-between pt-3 align-items-center flex-md-column align-items-md-start">
+                        <div class="col-6">
+                            <div class="d-flex">
+                                <div class="pic me-2"><img src="icon-circle-231f6057885a15db7eae56cb6a73a121.svg"
+                                        alt=""></div>
+                                <p class="fw-bolder">免費版：手動封鎖</p>
+                            </div>
+                            <div class="d-flex">
+                                <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg"
+                                        alt=""></div>
+                                <p class="fw-bolder">進階版：自動封鎖</p>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-4 text-end text-md-start py-md-4">
+                            <a class="btn bg-success text-white know" href="#">了解更多<i class="fa-solid fa-right-long d-none d-md-inline"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="carsouel">
+            <div class="title fs-2  fw-bolder text-center my-3">用戶好評回饋</div>
+            <div class="card-box w-75 mx-auto d-none">
+                <img src="https://assets.whoscall.com/assets/media/images/ic-quote-right-b3c33582abf798c038fff02bc7d71b20.svg"
+                    alt="">
+                <p class="mt-3 mb-5 fs-4 fw-bolder"><span class="blue-text">自動更新滿方便的</span>我滿常忘記點進去更新，進階版功能對我來說超好用！每個禮拜Whoscall都會自己更新，辨識效果好像也變比較好</p>
+                <p class="gray-text text-end pt-3 pb-5">——— by poppln***</p>
+            </div>
+            <div class="card-box w-75 mx-auto d-none">
+                <img src="https://assets.whoscall.com/assets/media/images/ic-quote-right-b3c33582abf798c038fff02bc7d71b20.svg"
+                    alt="">
+                <p class="mt-3 mb-5 fs-4 fw-bolder">使用將近一年，<span class="blue-text">拒接了很多投資跟貸款的電話</span>，反查也很方便，更新速度也快，每次更新大概都只需要花30秒而已！</p>
+                <p class="gray-text text-end pt-3 pb-5">——— by Eva_***</p>
+            </div>
+            <div class="card-box w-75 mx-auto">
+                <img src="https://assets.whoscall.com/assets/media/images/ic-quote-right-b3c33582abf798c038fff02bc7d71b20.svg"
+                    alt="">
+                <p class="mt-3 mb-5 fs-4 fw-bolder"><span class="blue-text">Whoscall 不用把號碼加入通訊錄就可以封鎖</span>，好方便</p>
+                <p class="gray-text text-end pt-3 pb-5">——— by 林先生</p>
+            </div>
+            <div class="card-box w-75 mx-auto d-none">
+                <img src="https://assets.whoscall.com/assets/media/images/ic-quote-right-b3c33582abf798c038fff02bc7d71b20.svg"
+                    alt="">
+                <p class="mt-3 mb-5 fs-4 fw-bolder">感謝開發團隊持續更新，讓我能有<span class="blue-text">更安全的手機使用體驗</span></p>
+                <p class="gray-text text-end pt-3 pb-5">——— by 男大學生</p>
+            </div>
+            <div class="card-box w-75 mx-auto d-none">
+                <img src="https://assets.whoscall.com/assets/media/images/ic-quote-right-b3c33582abf798c038fff02bc7d71b20.svg"
+                    alt="">
+                <p class="mt-3 mb-5 fs-4 fw-bolder"><span class="blue-text">升級自動更新有感</span>，升級進階版之後可以每週自動更新，真的變得很方便！介面也蠻好看的，謝謝開發團隊👍</p>
+                <p class="gray-text text-end pt-3 pb-5">——— by a1s2dfv***</p>
+            </div>
+            <div class="comment select d-flex mx-auto justify-content-around align-items-center my-4">
+                <i class="fa-solid fa-circle-chevron-left fs-1 text-success" id="left"></i>
+                <div class="rounded-circle circle bg-secondary"></div>
+                <div class="rounded-circle circle bg-secondary"></div>
+                <div class="rounded-circle circle bg-success"></div>
+                <div class="rounded-circle circle bg-secondary"></div>
+                <div class="rounded-circle circle bg-secondary"></div>
+                <i class="fa-solid fa-circle-chevron-right fs-1 text-success" id="right"></i>
+            </div>
+        </section>
+    </div>
+    <section class="carsouel my-3 bg-gray py-5">
+        <p class="fs-1 text-center fw-bolder">進階版方案比較</p>
+        <div class="card-area row max-width mx-auto my-5 d-flex flex-nowrap overflow-hidden">
+            <div class="teach col-12 col-md-4 px-1 none2 px-5 px-md-0">
+                <div class="top"></div>
+                <div class="cards bg-white p-4 fw-bolder h-100">
+                    <p class="mb-0">免費版</p>
+                    <p class="fs-4">FREE</p>
+                    <p class="fs-4 pb-5 border-bottom border-dark">NT$ 0 <span class="text-secondary fs-6">/月</span></p>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>反查號碼</span>
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>陌生來電辨識</span>
+                    </div>
+                    <div class="line d-flex my-4 mb-0">
+                        <div class="pic me-2"><img src="icon-cross-circle-281309f230156380989be3cc2aac5a32.svg" alt=""></div>
+                        <span>自動封鎖騷擾號碼</span>
+                    </div>
+                    <span class="under">手動封鎖</span>
+                    <div class="line d-flex my-4 mb-0">
+                        <div class="pic me-2"><img src="icon-cross-circle-281309f230156380989be3cc2aac5a32.svg" alt=""></div>
+                        <span>自動更新號碼資料庫</span>
+                    </div>
+                    <span class="under">手動更新</span>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-cross-circle-281309f230156380989be3cc2aac5a32.svg" alt=""></div>
+                        <span>智慧簡訊管家</span>
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-cross-circle-281309f230156380989be3cc2aac5a32.svg" alt=""></div>
+                        <span>移除廣告</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 px-1 teach  px-5 px-md-0">
+                <div class="top"></div>
+                <div class="cards bg-white p-4 fw-bolder h-100">
+                    <p class="mb-0">進階版 - 月方案</p>
+                    <p class="fs-4 text-success">Premium</p>
+                    <p class="fs-4 pb-5 border-bottom border-dark">NT$ 60 <span class="text-secondary fs-6">/月</span></p>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>反查號碼</span>
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>陌生來電辨識</span>
+                    </div>
+                    <div class="line d-flex my-4 mb-0">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>自動封鎖騷擾號碼</span>
+                    </div>
+                    <span class="under">手動封鎖</span>
+                    <div class="line d-flex my-4 mb-0">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>自動更新號碼資料庫</span>
+                    </div>
+                    <span class="under">手動更新</span>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>智慧簡訊管家</span>
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>移除廣告</span>
+                    </div>
+                    <div class="btn bg-success text-white fw-bolder mx-auto w-100 rounded-pill">立即免費試用</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 px-1 teach  px-5 px-md-0">
+                <div class="top bg-success text-white">最熱門方案</div>
+                <div class="cards bg-white p-4 fw-bolder h-100">
+                    <p class="mb-0">進階版 - 年方案</p>
+                    <p class="fs-4 text-success">Premium</p>
+                    <p class="fs-4">NT$ 600 <span class="text-secondary fs-6">/年</span></p>
+                    <div class="top bb border-bottom border-dark d-flex justify-content-start">
+                        <img src="162905.png" alt="">
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>反查號碼</span>
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>陌生來電辨識</span>
+                    </div>
+                    <div class="line d-flex my-4 mb-0">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>自動封鎖騷擾號碼</span>
+                    </div>
+                    <span class="under">手動封鎖</span>
+                    <div class="line d-flex my-4 mb-0">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>自動更新號碼資料庫</span>
+                    </div>
+                    <span class="under">手動更新</span>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>智慧簡訊管家</span>
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>移除廣告</span>
+                    </div>
+                    <div class="btn bg-success text-white fw-bolder mx-auto w-100 rounded-pill">立即免費試用</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 px-1 teach  px-5 px-md-0">
+                <div class="top"></div>
+                <div class="cards bg-white p-4 fw-bolder h-100">
+                    <p class="mb-0">團購組合 (4入)</p>
+                    <p class="fs-4 text-success">Premium Combo</p>
+                    <p class="fs-4 pb-5 border-bottom border-dark">NT$1499 <span class="text-secondary fs-6">/年</span></p>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>反查號碼</span>
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>陌生來電辨識</span>
+                    </div>
+                    <div class="line d-flex my-4 mb-0">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>自動封鎖騷擾號碼</span>
+                    </div>
+                    <span class="under">手動封鎖</span>
+                    <div class="line d-flex my-4 mb-0">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>自動更新號碼資料庫</span>
+                    </div>
+                    <span class="under">手動更新</span>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>智慧簡訊管家</span>
+                    </div>
+                    <div class="line d-flex my-4">
+                        <div class="pic me-2"><img src="icon-check-circle-d90dd7899946d502a56ffe2be299abfb.svg" alt=""></div>
+                        <span>移除廣告</span>
+                    </div>
+                    <div class="btn bg-success text-white fw-bolder mx-auto w-100 rounded-pill">前往購買</div>
+                </div>
+            </div>
+        </div>
+        <div class="comment select d-flex mx-auto justify-content-around align-items-center my-4">
+            <i class="fa-solid fa-circle-chevron-left fs-1 text-success d-none d-md-block btn2-left" id="left2"></i>
+            <i class="fa-solid fa-circle-chevron-left fs-1 text-success d-md-none btn4-left" id="left1"></i>
+            <div class="four-circle two-circle rounded-circle circle bg-success"></div>
+            <div class="four-circle two-circle rounded-circle circle bg-secondary"></div>
+            <div class="four-circle rounded-circle circle bg-secondary d-md-none d-block"></div>
+            <div class="four-circle rounded-circle circle bg-secondary d-md-none d-block"></div>
+            <i class="fa-solid fa-circle-chevron-right fs-1 text-success d-md-none btn4-right" id="right1"></i>
+            <i class="fa-solid fa-circle-chevron-right fs-1 text-success d-none d-md-block btn2-right" id="right2"></i>
+        </div>
+    </section>
+    <div class="container mb-5">
+        <p class="fs-1 fw-bolder text-center my-5">常見問題</p>
+        <div class="hand w-75 mx-auto">
+            <div class="border-bottom border-top border-dark d-flex justify-content-between align-items-center">
+                <a class="py-3 fs-6 text-dark fw-bolder" data-bs-toggle="collapse" href="#aa" role="button" aria-expanded="false" aria-controls="aa">
+                    Q. 進階版是否有試用期？是否會自動續訂？
+                </a>
+                <a class="fs-2 text-success"   data-bs-toggle="collapse" href="#aa" role="button" aria-expanded="false" aria-controls="aa"><i class="fa-solid fa-plus"></i></a>
+            </div>
+            <div class="collapse" id="aa">
+                <div class="card-body py-4 fw-bolder">
+                    購買進階版都將享有 7 天的試用期，並於試用期結束後自動續訂。若想暫停自動續訂，須自行至商店設定取消訂閱。
+                </div>
+            </div>
+        </div>
+        <div class="hand w-75 mx-auto">
+            <div class="border-bottom border-dark d-flex justify-content-between align-items-center">
+                <a class="py-3 fs-6 text-dark fw-bolder" data-bs-toggle="collapse" href="#bb" role="button" aria-expanded="false" aria-controls="bb">
+                    Q. 我只想要試用，為什麼被收費了？
+                </a>
+                <a class="fs-2 text-success"   data-bs-toggle="collapse" href="#bb" role="button" aria-expanded="false" aria-controls="bb"><i class="fa-solid fa-plus"></i></a>
+            </div>
+            <div class="collapse" id="bb">
+                <div class="card-body py-4 fw-bolder">
+                    試用期間結束後將會自動續訂，若想暫停自動續訂，須自行至商店設定取消訂閱。若沒在試用期到期前取消，則會被視同同意續訂而進行扣款。
+                </div>
+            </div>
+        </div>
+        <div class="hand w-75 mx-auto">
+            <div class="border-bottom border-dark d-flex justify-content-between align-items-center">
+                <a class="py-3 fs-6 text-dark fw-bolder" data-bs-toggle="collapse" href="#cc" role="button" aria-expanded="false" aria-controls="cc">
+                    Q. 使用自動封鎖騷擾號碼功能後，就不會接到騷擾號碼了嗎？
+                </a>
+                <a class="fs-2 text-success"   data-bs-toggle="collapse" href="#cc" role="button" aria-expanded="false" aria-controls="cc"><i class="fa-solid fa-plus"></i></a>
+            </div>
+            <div class="collapse" id="cc">
+                <div class="card-body py-4 fw-bolder">
+                    <p>Whoscall 會定期統計並驗證最新、最高頻被回報的詐騙與騷擾號碼，例如：「假冒商家詐騙」、「保險推銷」、「一接就掛」等等，並整合內政部警政署 165 提供的詐騙電話，每週更新於特定清單中。只要開啟自動封鎖騷擾號碼，即可自動阻擋這些高頻騷擾電話。</p>
+                    <p>而不在自動封鎖號碼特定清單中的騷擾來電，仍會透過警示符號給予提醒，由用戶決定是否接聽與封鎖。</p>
+                </div>
+            </div>
+        </div>
+        <div class="hand w-75 mx-auto">
+            <div class="border-bottom border-dark d-flex justify-content-between align-items-center">
+                <a class="py-3 fs-6 text-dark fw-bolder" data-bs-toggle="collapse" href="#dd" role="button" aria-expanded="false" aria-controls="dd">
+                    Q. 請問進階版可以跨系統/裝置使用嗎？例如我原先使用 iPhone，想改使用 Android 系統。
+                </a>
+                <a class="fs-2 text-success"   data-bs-toggle="collapse" href="#dd" role="button" aria-expanded="false" aria-controls="dd"><i class="fa-solid fa-plus"></i></a>
+            </div>
+            <div class="collapse" id="dd">
+                <div class="card-body py-4 fw-bolder">
+                    由於 Whoscall 進階版訂購的平台分別為 Google Play 與 App Store 且服務功能不同，因此服務內容與方案無法進行轉移的。
+                </div>
+            </div>
+        </div>
+        <div class="hand w-75 mx-auto">
+            <div class="border-bottom border-dark d-flex justify-content-between align-items-center">
+                <a class="py-3 fs-6 text-dark fw-bolder" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Q. Whoscall 進階版團購組合的序號可於何處進行兌換？
+                </a>
+                <a class="fs-2 text-success"   data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa-solid fa-plus"></i></a>
+            </div>
+            <div class="collapse" id="collapseExample">
+                <div class="card-body py-4 fw-bolder">
+                    請前往 <span class="text-success">https://redeem.whoscall.com/zh-Hant/ </span>。登入 Whoscall 帳號成功後，輸入代碼即可完成兌換。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="download py-5">
+        <div class="container row mx-auto align-items-center justify-content-center">
+            <div class="col-12 col-md-3 whoscall d-flex justify-content-center">
+                <img src="https://assets.whoscall.com/assets/media/images/download-app-icon-74ea8cde13dea4ba553e8b99e7ecfe59.svg" alt="">
+            </div>
+            <div class="col-12 col-md-5">
+                <div class="Dtop text-center text-white">
+                    <p class="fs-1 fw-bolder">Download Now</p>
+                    <p class="fs-4 fw-bolder">你的陌生來電辨識 APP</p>
+                </div>
+                <div class="Dbot d-flex align-items-center justify-content-center flex-column flex-md-row">
+                    <img class="m-1" src="app-store-badge-f0b2da6ae624c644b0ad82d76dc94191.svg" width="180px">
+                    <img class="m-1" src="google-play-badge-6719dbfca6574b355c1bdf1bff049459.svg" width="180px">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="sub">
+            <div class="sub-text">
+                <div class="square">
+                    <label for="closeBtn1">
+                        <h4>Whoscall</h4>
+                    </label>
+                    <input type="checkbox" id="closeBtn1">
+                    <div class="close">
+                        <a href="#">認識Whoscall</a>
+                        <a href="#">Whoscall進階版</a>
+                        <a href="#">Whoscall專欄</a>
+                        <a href="#">Whoscall認證號碼</a>
+                    </div>
+                </div>
+                <div class="square">
+                    <label for="closeBtn2">
+                        <h4>公司</h4>
+                    </label>
+                    <input type="checkbox" id="closeBtn2">
+                    <div class="close">
+                        <a href="#">工作機會</a>
+                    </div>
+                    <label for="closeBtn3">
+                        <h4>媒體中心</h4>
+                    </label>
+                    <input type="checkbox" id="closeBtn3">
+                    <div class="close">
+                        <a href="#">最新消息</a>
+                        <a href="#">品牌識別</a>
+                    </div>
+                </div>
+                <div class="square">
+                    <label for="closeBtn4">
+                        <h4>客戶服務</h4>
+                    </label>
+                    <input type="checkbox" id="closeBtn4">
+                    <div class="close">
+                        <a href="#">安全性</a>
+                        <a href="#">常見問題</a>
+                        <a href="#">聯絡我們</a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-pic">
+                <div class="sub-us">
+                    <h5>追蹤我們</h5>
+                    <div class="allbox">
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-square-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="power">
+                    <a href="#">
+                        <p class="mb-0">Powered by</p>
+                        <h5>Gogolook</h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="leng">
+            <div class="foot">
+                <p>© 2022 Gogolook. All Rights Reserved.</p>
+                <a href="#">服務條款</a>
+                <a href="#">隱私權政策</a>
+            </div>
+            <div class="leng-pic">
+                <select>
+                    <option>中文</option>
+                    <option>English</option>
+                    <option>日本語</option>
+                </select>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script>
+        let xx = document.querySelector('.xx');
+        let HB = document.querySelector('.HB');
+        let hi = document.querySelector('.nav-hidden');
+        HB.addEventListener('click',function(){
+            xx.classList.remove('d-none');
+            hi.classList.remove('d-none');
+            HB.classList.add('d-none');
+        });
+        xx.addEventListener('click',function(){
+            HB.classList.remove('d-none');
+            xx.classList.add('d-none');
+            hi.classList.add('d-none');
+        });
+
+        let change = document.querySelectorAll('.change-pic');
+        let phone = document.querySelectorAll('.androidOrIphone');
+        let picbox =[[
+                        "https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/067/w900_webp_26097102-23c5-42ac-b186-51deb004a10a.png",
+                        "https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/069/w900_webp_5b86b4c0-65be-4113-8b71-2b8a31acb306.png",
+                        "https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/071/w900_webp_59e24bb1-762f-418c-95ff-36d3709409df.png",
+                        "https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/073/w900_webp_c971977c-c78c-4806-80ee-fb6f37c818fd.png"
+                    ],
+                    [
+                        "https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/068/w900_webp_58cf62e1-e6d0-4790-a9da-1b2867efef6a.png",
+                        "https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/070/w900_webp_54a62183-84d4-4b4c-85b4-538c6e6922c0.png",
+                        "https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/072/w900_webp_947a9dcc-7dab-4181-be6f-4b53b23b85bb.png",
+                        "https://assets.whoscall.com/uploads/tyr/attachment/file/000/002/074/w900_webp_ddde1b1b-6748-4697-a036-ad13bc178e5c.png"
+                    ]]
+        phone.forEach((element,ind) => {
+            element.addEventListener('click',function(){
+                change.forEach((pic,index) => {
+                    pic.src = picbox[ind][index];
+                });
+            })
+        });
+
+        let cardbox = document.querySelectorAll('.card-box');
+        let comm = document.querySelector('.comment');
+        let circles = comm.querySelectorAll('.circle');
+        let left = comm.querySelector('#left');
+        let right = comm.querySelector('#right');
+        let light = 2;
+        left.addEventListener('click',function(){
+            circles[light].classList.remove('bg-success');
+            circles[light].classList.add('bg-secondary');
+            cardbox[light].classList.add('d-none');
+            if(light === 0){
+                light = 4;
+            }
+            else{
+                light --;
+            }
+            circles[light].classList.remove('bg-secondary');
+            circles[light].classList.add('bg-success');
+            cardbox[light].classList.remove('d-none');
+        })
+        right.addEventListener('click',function(){
+            circles[light].classList.remove('bg-success');
+            circles[light].classList.add('bg-secondary');
+            cardbox[light].classList.add('d-none');
+            if(light === 4){
+                light = 0;
+            }
+            else{
+                light ++;
+            }
+            circles[light].classList.remove('bg-secondary');
+            circles[light].classList.add('bg-success');
+            cardbox[light].classList.remove('d-none');
+        })
+
+
+        let circle2 = document.querySelectorAll('.two-circle');
+        let circle4 = document.querySelectorAll('.four-circle');
+        let btn2_left = document.querySelector('.btn2-left');
+        let btn2_right = document.querySelector('.btn2-right');
+        let btn4_left = document.querySelector('.btn4-left');
+        let btn4_right = document.querySelector('.btn4-right');
+        let num = 0;
+        let num2 = 0;
+        let none2 = document.querySelector('.none2');
+        let teach = document.querySelectorAll('.teach');
+        btn2_left.addEventListener('click',function(){
+            circle2[num].classList.remove('bg-success');
+            circle2[num].classList.add('bg-secondary');
+            if(num === 0){
+                num = 1;
+            }
+            else{
+                num--;
+            }
+            circle2[num].classList.remove('bg-secondary');
+            circle2[num].classList.add('bg-success');
+        })
+        btn2_right.addEventListener('click',function(){
+            circle2[num].classList.remove('bg-success');
+            circle2[num].classList.add('bg-secondary');
+            if(num === 1){
+                num = 0;
+                none2.classList.remove('d-none');
+            }
+            else{
+                num++;
+                none2.classList.add('d-none');
+            }
+            circle2[num].classList.remove('bg-secondary');
+            circle2[num].classList.add('bg-success');
+        })
+        btn4_left.addEventListener('click',function(){
+            circle4[num2].classList.remove('bg-success');
+            circle4[num2].classList.add('bg-secondary');
+            if(num2 === 0){
+                num2 = 3;
+            }
+            else{
+                num2--;
+            }
+            circle4[num2].classList.remove('bg-secondary');
+            circle4[num2].classList.add('bg-success');
+            teach.forEach(element => {
+                element.classList.add('d-none');
+            });
+            teach[num2].classList.remove('d-none');
+        })
+        btn4_right.addEventListener('click',function(){
+            circle4[num2].classList.remove('bg-success');
+            circle4[num2].classList.add('bg-secondary');
+            if(num2 === 3){
+                num2 = 0;
+            }
+            else{
+                num2++;
+            }
+            circle4[num2].classList.remove('bg-secondary');
+            circle4[num2].classList.add('bg-success');
+            teach.forEach(element => {
+                element.classList.add('d-none');
+            });
+            teach[num2].classList.remove('d-none');
+        })
+    </script>
+</body>
+
+</html>
