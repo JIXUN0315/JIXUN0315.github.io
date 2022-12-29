@@ -1125,36 +1125,36 @@
             circle2[num].classList.add('bg-success');
         })
         btn4_left.addEventListener('click',function(){
-            circle4[num2].classList.remove('bg-success');
-            circle4[num2].classList.add('bg-secondary');
-            if(num2 === 0){
-                num2 = 3;
+            circle4[num].classList.remove('bg-success');
+            circle4[num].classList.add('bg-secondary');
+            if(num === 0){
+                num = 3;
             }
             else{
-                num2--;
+                num--;
             }
-            circle4[num2].classList.remove('bg-secondary');
-            circle4[num2].classList.add('bg-success');
+            circle4[num].classList.remove('bg-secondary');
+            circle4[num].classList.add('bg-success');
             teach.forEach(element => {
                 element.classList.add('d-none');
             });
-            teach[num2].classList.remove('d-none');
+            teach[num].classList.remove('d-none');
         })
         btn4_right.addEventListener('click',function(){
-            circle4[num2].classList.remove('bg-success');
-            circle4[num2].classList.add('bg-secondary');
-            if(num2 === 3){
-                num2 = 0;
+            circle4[num].classList.remove('bg-success');
+            circle4[num].classList.add('bg-secondary');
+            if(num === 3){
+                num = 0;
             }
             else{
-                num2++;
+                num++;
             }
-            circle4[num2].classList.remove('bg-secondary');
-            circle4[num2].classList.add('bg-success');
+            circle4[num].classList.remove('bg-secondary');
+            circle4[num].classList.add('bg-success');
             teach.forEach(element => {
                 element.classList.add('d-none');
             });
-            teach[num2].classList.remove('d-none');
+            teach[num].classList.remove('d-none');
         })
 
         let contro2 = document.querySelectorAll('.contro2');
