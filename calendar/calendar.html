@@ -70,7 +70,7 @@
             <table class="table table-sm table-bordered border-primary">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">Sum</th>
+                        <th scope="col">Sun</th>
                         <th scope="col">Mon</th>
                         <th scope="col">Tue</th>
                         <th scope="col">Wed</th>
@@ -142,14 +142,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Date</h5>
+                    <h5 class="modal-title Schdule-title">Date</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div>Schdule list</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    <button type="button" class="btn btn-primary addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal"
                         data-bs-whatever="@mdo">Add Schdule</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -161,7 +161,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Date</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Schdule</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -170,32 +170,32 @@
                                 class="schduleDay">31</span></p>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Title</label>
-                            <input type="text" class="form-control" id="recipient-name"
+                            <input type="text" class="form-control list-title" id="recipient-name"
                                 placeholder="Add title and time">
                         </div>
                         <div class="mb-3 d-flex justify-content-between">
                             <div>
                                 <label for="timeFrom">From</label>
-                                <input type="time" id="timeFrom" name="timeFrom">
+                                <input type="time" id="timeFrom" name="timeFrom" class="listFrom">
                             </div>
                             <div>
                                 <label for="timeEnd">End</label>
-                                <input type="time" id="timeEnd" name="timeEnd">
+                                <input type="time" id="timeEnd" name="timeEnd" class="listEnd">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="chooseColor">Mark Color</label>
-                            <input type="color" id="chooseColor" name="body" value="#f6b73c">
+                            <input type="color" id="chooseColor" name="body" value="#f6b73c" class="listColor">
                         </div>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Text</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <input type="text" class="form-control listText" id="recipient-name">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
+                    <button type="button" class="btn btn-primary Send" data-bs-dismiss="modal">Send message</button>
                 </div>
             </div>
         </div>
@@ -212,9 +212,7 @@
     <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
     <script>
         const myModal = new bootstrap.Modal(document.querySelector('.modal'));
-        let testShow = function () {
-            myModal.show();
-        }
+
         let year = document.querySelector(".year");
         let month = document.querySelector("h2");
         let dateArr = document.querySelectorAll("td");
@@ -227,6 +225,71 @@
         year.innerText = todayOfYear;
         let todayOfMonth = today.getMonth();        //跑出月份
         month.innerText = monthArr[todayOfMonth];
+        let selectDate;
+        ///這區是專門抓Schdule物件的資料
+        let schduleYear = document.querySelector(".schduleYear");
+        let schduleMonth = document.querySelector(".schduleMonth");
+        let schduleDate = document.querySelector(".schduleDay");
+        let schduleTitle = document.querySelector(".Schdule-title");
+        let listOfItem = document.createElement("div");     ///////////////////////////////////新增的行事曆清單項目
+        let Send;
+        let listDataArr = [];
+        let addbtn = document.querySelector(".addbtn");
+        ///存資料進物件內
+        let store = function () {
+            let existItem = listDataArr.find(x=> x['id'] == `${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
+
+            let listTitle = document.querySelector(".list-title");
+            let listFrom = document.querySelector(".listFrom")
+            let listEnd = document.querySelector(".listEnd");
+            let listColor = document.querySelector(".listColor");
+            let listText = document.querySelector(".listText");
+            let item
+            if (existItem==undefined || existItem ==null) {
+                item = {
+                    id: `${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`,
+                    thisYear: schduleYear.innerText,
+                    thisMonth: schduleMonth.innerText,
+                    thisDate: schduleDate.innerText,
+                    todoList: [
+                        {
+                            title: listTitle.value,
+                            timeFrom: listFrom.value,
+                            timeEnd: listEnd.value,
+                            mark: listColor.value,
+                            text: listText.value
+                        }
+                    ]
+                }
+                listDataArr.push(item);
+            }
+            else {
+                let newTodoList = {
+                    title: listTitle.value,
+                    timeFrom: listFrom.value,
+                    timeEnd: listEnd.value,
+                    mark: listColor.value,
+                    text: listText.value
+                }
+                
+                let target =  listDataArr.find(x => x['id'] == `${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
+                target["todoList"].push(newTodoList);
+            }
+            
+        }
+
+
+
+
+        let allSchdule = function (e) {            //添加行事曆按鈕
+            myModal.show();
+            selectDate = e.target.innerText;
+            schduleTitle.innerText = `${monthArr[todayOfMonth]} ${e.target.innerText}`
+            schduleYear.innerText = todayOfYear;
+            schduleMonth.innerText = todayOfMonth + 1;
+        }
+
+
         showCalender(todayOfYear, todayOfMonth);   //叫出這個月的日曆
 
         //月份按鈕
@@ -265,7 +328,7 @@
             for (let i = 1; i <= monthOfDays; i++) {
                 dateArr[firstDayOfWeek + i - 1].innerHTML = "";
                 let dayNum = document.createElement("h3");
-                dateArr[firstDayOfWeek + i - 1].addEventListener("click", testShow);
+                dateArr[firstDayOfWeek + i - 1].addEventListener("click", allSchdule);
 
                 dayNum.innerText = i;
                 dateArr[firstDayOfWeek + i - 1].append(dayNum);
@@ -286,7 +349,7 @@
             let preMonOfLastDay = preMonLastDay.getDate();
             for (let i = 1; i <= preMonthTotal; i++) {
                 dateArr[preMonthTotal - i].innerHTML = "";
-                dateArr[preMonthTotal - i].removeEventListener("click", testShow);
+                dateArr[preMonthTotal - i].removeEventListener("click", allSchdule);
                 let dayNum = document.createElement("h3");
                 dayNum.classList.add("text-primary");
                 dayNum.innerText = preMonOfLastDay - i + 1;
@@ -296,7 +359,7 @@
             let nextMonthTotal = 42 - preMonthTotal - monthOfDays; //跑出下個月的日期
             for (let i = 0; i < nextMonthTotal; i++) {
                 dateArr[preMonthTotal + monthOfDays + i].innerHTML = "";
-                dateArr[preMonthTotal + monthOfDays + i].removeEventListener("click", testShow);
+                dateArr[preMonthTotal + monthOfDays + i].removeEventListener("click", allSchdule);
                 let dayNum = document.createElement("h3");
                 dayNum.classList.add("text-primary");
                 dayNum.innerText = i + 1;
@@ -306,9 +369,13 @@
 
 
         ///------------行事曆按鈕---------------------
-        
-
-
+        addbtn.addEventListener("click", () => {
+            schduleYear.innerText = todayOfYear;
+            schduleMonth.innerText = todayOfMonth +1 ;
+            schduleDate.innerText = selectDate;
+        })
+        Send = document.querySelector(".Send");
+        Send.addEventListener("click", store);
 
 
 
