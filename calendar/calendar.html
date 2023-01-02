@@ -166,8 +166,8 @@
                     <h5 class="modal-title Schdule-title">Date</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body schd">
-                    <div class="border p-2 ">
+                <div class="modal-body listGrow">
+                    <!-- <div class="border p-2 ">
                         <p class="fw-bolder">title</p>
                         <p>時間 : 16:30 ~ 18:30</p>
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem archit</p>
@@ -175,7 +175,7 @@
                             <button type="button" class="btn btn-outline-success change">修改</button>
                             <button type="button" class="btn btn-outline-danger del ">刪除</button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary addbtn" data-bs-toggle="modal"
@@ -242,7 +242,7 @@
     <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
     <script>
         const myModal = new bootstrap.Modal(document.querySelector('.modal'));
-        let schd = document.querySelector(".schd");
+        let listGrow = document.querySelector(".listGrow");
 
         let year = document.querySelector(".year");
         let month = document.querySelector("h2");
@@ -314,13 +314,76 @@
 
         let allSchdule = function (e) {            //添加行事曆按鈕
             myModal.show();
-            selectDate = e.target.innerText;
-            schduleTitle.innerText = `${monthArr[todayOfMonth]} ${e.target.innerText}`
+            let AA = e.target.closest("td");
+            selectDate = AA.querySelector("h3").innerText;
+            schduleTitle.innerText = `${monthArr[todayOfMonth]} ${selectDate}`
             schduleYear.innerText = todayOfYear;
             schduleMonth.innerText = todayOfMonth + 1;
+            let local = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`);
+            let parse = JSON.parse(local);
+            if (parse == null || parse == undefined) {
+                listGrow.innerHTML = "";
+            }
+            else {
+                let localArr = parse.todoList;
+                listGrow.innerHTML = "";
+                localArr.forEach(x => {
+                    let outdiv = document.createElement("div");
+                    outdiv.classList.add("border", "p-2");
+                    let titleTexts = document.createElement("p");
+                    titleTexts.classList.add("fw-bolder");
+                    titleTexts.innerText = x.title;
+                    let timeText = document.createElement("p");
+                    timeText.innerText = `時間 : ${x.timeFrom} ~ ${x.timeEnd}`;
+                    let contentText = document.createElement("p");
+                    contentText.innerText = x.text;
+                    let btndiv = document.createElement("div");
+                    btndiv.classList.add("d-flex", "justify-content-end");
+                    let btn1 = document.createElement("button");
+                    btn1.classList.add("btn", "btn-outline-success", "change");
+                    btn1.innerText = "修改";
+                    let btn2 = document.createElement("button");
+                    btn2.classList.add("btn", "btn-outline-danger", "del");
+                    btn2.innerText = "刪除";
+                    outdiv.append(titleTexts);
+                    outdiv.append(timeText);
+                    outdiv.append(contentText);
+                    btndiv.append(btn1);
+                    btndiv.append(btn2);
+                    outdiv.append(btndiv);
+                    listGrow.append(outdiv);
+
+
+
+                })
+                let allList = document.querySelector(".listGrow");
+                let delArr = allList.querySelectorAll(".del");
+                delArr.forEach((x, index) => {
+                    x.addEventListener("click", () => {
+                        let local = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`);
+                        let parse = JSON.parse(local);
+                        let otherTodo = []
+                        for(i=0;i<parse.todoList.length;i++){
+                            if(i==index){}
+                            else{
+                                otherTodo.push(parse.todoList[index]);
+                            }
+                        }
+                        if(parse.todoList == null){
+                            localStorage.removeItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`);
+                        }
+                        else{
+                            parse.todoList = otherTodo;
+                            let story = JSON.stringify(parse);
+                            localStorage.setItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`,story);
+                        }
+                        allList.querySelectorAll(".border")[index].innerHTML = "";
+                        showCalender(todayOfYear, todayOfMonth);
+                    })
+                })
+            }
 
         }
-
 
         showCalender(todayOfYear, todayOfMonth);   //叫出這個月的日曆
 
@@ -360,7 +423,7 @@
             for (let i = 1; i <= monthOfDays; i++) {
                 dateArr[firstDayOfWeek + i - 1].innerText = "";
                 let dayNum = document.createElement("h3");
-                dateArr[firstDayOfWeek + i - 1].addEventListener("click", allSchdule);
+                dateArr[firstDayOfWeek + i - 1].addEventListener("click", allSchdule, false);
                 dayNum.innerText = i;
                 dateArr[firstDayOfWeek + i - 1].append(dayNum);
 
@@ -432,51 +495,33 @@
         })
         Send = document.querySelector(".Send");
         Send.addEventListener("click", store);
-        // function addOrDelList(date) {
-        //     let local = localStorage.getItem(date);
-        //     let localArr = local.todoList;
-        //     schd.innerHTML = "";
-        //     localArr.forEach(x => {
+        function addOrDelList(date) {
+            let local = localStorage.getItem(date);
+            let localArr = local.todoList;
+            schd.innerHTML = "";
+            localArr.forEach(x => {
 
-        //         let div = document.createElement("div");
-        //         div.classList.add("border", "p-2");
-        //         let titleText = document.createElement("p");
-        //         p1.classList.add("fw-bolder");
-        //         timeText.innerText = x.title;
-        //         let timeText = document.createElement("p");
-        //         timeText.innerText = `時間 : ${x.timeFrom} ~ ${x.timeEnd}`;
-        //         let contentText = document.createElement("p");
-        //         contentText.innerText = x.text;
-        //         let btndiv = document.createElement("div");
-        //         let btn1 = document.createElement("button");
-        //         let btn2 = document.createElement("button");
-        //         btn2.addEventListener("click", () => {
-        //             div.innerHTML = "";
-        //             x = undefined;
-        //             localStorage.setItem(date, local);
-        //         })
-        //         btn1.addEventListener("click", () => {
-        //             div.innerHTML = "";
-        //             x = undefined;
-        //             allSchdule();
-        //         })
-
-
-        //         div.append(titleText);
-        //         div.append(timeText);
-        //         div.append(contentText);
-        //         btndiv.append(btn1);
-        //         btndiv.append(btn2);
-        //         div.append(btndiv);
-        //         schd.append(div);
-        //     })
-        // }
-        // let tdArr = document.querySelectorAll("td");
-        // tdArr.forEach(x =>
-        //     x.addEventListener("click", () => {
-        //         addOrDelList();
-        //     })
-        // )
+                let div = document.createElement("div");
+                div.classList.add("border", "p-2");
+                let titleText = document.createElement("p");
+                p1.classList.add("fw-bolder");
+                timeText.innerText = x.title;
+                let timeText = document.createElement("p");
+                timeText.innerText = `時間 : ${x.timeFrom} ~ ${x.timeEnd}`;
+                let contentText = document.createElement("p");
+                contentText.innerText = x.text;
+                let btndiv = document.createElement("div");
+                let btn1 = document.createElement("button");
+                let btn2 = document.createElement("button");
+                div.append(titleText);
+                div.append(timeText);
+                div.append(contentText);
+                btndiv.append(btn1);
+                btndiv.append(btn2);
+                div.append(btndiv);
+                schd.append(div);
+            })
+        }
 
 
 
