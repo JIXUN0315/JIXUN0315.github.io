@@ -45,6 +45,17 @@
             text-align: center;
         }
 
+        h4 {
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .square {
+            width: 5px;
+            height: 5px;
+            margin-right: 5px;
+        }
+
         @media screen and (min-width:768px) {
             th {
                 font-size: 28px;
@@ -52,6 +63,16 @@
 
             td {
                 height: 140px;
+            }
+
+            h4 {
+                font-size: 18px;
+            }
+
+            .square {
+                width: 10px;
+                height: 10px;
+                margin-right: 10px;
             }
         }
     </style>
@@ -138,26 +159,35 @@
             </table>
         </div>
     </div>
-    <div class="modal" tabindex="-1">
+    <div class="modal modal-xl" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title Schdule-title">Date</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div>Schdule list</div>
+                <div class="modal-body schd">
+                    <div class="border p-2 ">
+                        <p class="fw-bolder">title</p>
+                        <p>時間 : 16:30 ~ 18:30</p>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem archit</p>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-success change">修改</button>
+                            <button type="button" class="btn btn-outline-danger del ">刪除</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        data-bs-whatever="@mdo">Add Schdule</button>
+                    <button type="button" class="btn btn-primary addbtn" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Schdule</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -212,6 +242,7 @@
     <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
     <script>
         const myModal = new bootstrap.Modal(document.querySelector('.modal'));
+        let schd = document.querySelector(".schd");
 
         let year = document.querySelector(".year");
         let month = document.querySelector("h2");
@@ -233,19 +264,17 @@
         let schduleTitle = document.querySelector(".Schdule-title");
         let listOfItem = document.createElement("div");     ///////////////////////////////////新增的行事曆清單項目
         let Send;
-        let listDataArr = [];
         let addbtn = document.querySelector(".addbtn");
         ///存資料進物件內
         let store = function () {
-            let existItem = listDataArr.find(x=> x['id'] == `${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
-
+            let existItem = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
             let listTitle = document.querySelector(".list-title");
-            let listFrom = document.querySelector(".listFrom")
+            let listFrom = document.querySelector(".listFrom");
             let listEnd = document.querySelector(".listEnd");
             let listColor = document.querySelector(".listColor");
             let listText = document.querySelector(".listText");
             let item
-            if (existItem==undefined || existItem ==null) {
+            if (existItem == undefined || existItem == null) {
                 item = {
                     id: `${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`,
                     thisYear: schduleYear.innerText,
@@ -261,9 +290,11 @@
                         }
                     ]
                 }
-                listDataArr.push(item);
+                let json = JSON.stringify(item);
+                localStorage.setItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`, json);
             }
             else {
+                let DataItem = JSON.parse(existItem);
                 let newTodoList = {
                     title: listTitle.value,
                     timeFrom: listFrom.value,
@@ -271,11 +302,11 @@
                     mark: listColor.value,
                     text: listText.value
                 }
-                
-                let target =  listDataArr.find(x => x['id'] == `${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
-                target["todoList"].push(newTodoList);
+                DataItem["todoList"].push(newTodoList);
+                let json = JSON.stringify(DataItem);
+                localStorage.setItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`, json);
             }
-            
+            showCalender(todayOfYear, todayOfMonth);
         }
 
 
@@ -287,6 +318,7 @@
             schduleTitle.innerText = `${monthArr[todayOfMonth]} ${e.target.innerText}`
             schduleYear.innerText = todayOfYear;
             schduleMonth.innerText = todayOfMonth + 1;
+
         }
 
 
@@ -326,13 +358,32 @@
             let LastDays = new Date(todayOfYear, todayOfMonth + 1, 0);
             let monthOfDays = LastDays.getDate();
             for (let i = 1; i <= monthOfDays; i++) {
-                dateArr[firstDayOfWeek + i - 1].innerHTML = "";
+                dateArr[firstDayOfWeek + i - 1].innerText = "";
                 let dayNum = document.createElement("h3");
                 dateArr[firstDayOfWeek + i - 1].addEventListener("click", allSchdule);
-
                 dayNum.innerText = i;
                 dateArr[firstDayOfWeek + i - 1].append(dayNum);
+
+                ///檢查是否有行程
+                let project = localStorage.getItem(`${todayOfYear}/${todayOfMonth + 1}/${i}`);
+                if (project == null || project == undefined) { }
+                else {
+                    let listItem = JSON.parse(project);
+                    listItem.todoList.forEach(element => {
+                        let div = document.createElement("div");
+                        div.classList.add("d-flex", "align-items-center")
+                        let colorDiv = document.createElement("div");
+                        colorDiv.classList.add("square");
+                        colorDiv.style["backgroundColor"] = element.mark;
+                        let h4 = document.createElement("h4");
+                        h4.innerText = element.title;
+                        div.append(colorDiv);
+                        div.append(h4);
+                        dateArr[firstDayOfWeek + i - 1].append(div);
+                    });
+                }
             }
+
 
             let preMonthTotal = firstDayOfWeek;    //跑出上個月剩餘日期
             let preMon = 0;
@@ -368,15 +419,64 @@
         }
 
 
+
+
+
+
+
         ///------------行事曆按鈕---------------------
         addbtn.addEventListener("click", () => {
             schduleYear.innerText = todayOfYear;
-            schduleMonth.innerText = todayOfMonth +1 ;
+            schduleMonth.innerText = todayOfMonth + 1;
             schduleDate.innerText = selectDate;
         })
         Send = document.querySelector(".Send");
         Send.addEventListener("click", store);
+        // function addOrDelList(date) {
+        //     let local = localStorage.getItem(date);
+        //     let localArr = local.todoList;
+        //     schd.innerHTML = "";
+        //     localArr.forEach(x => {
 
+        //         let div = document.createElement("div");
+        //         div.classList.add("border", "p-2");
+        //         let titleText = document.createElement("p");
+        //         p1.classList.add("fw-bolder");
+        //         timeText.innerText = x.title;
+        //         let timeText = document.createElement("p");
+        //         timeText.innerText = `時間 : ${x.timeFrom} ~ ${x.timeEnd}`;
+        //         let contentText = document.createElement("p");
+        //         contentText.innerText = x.text;
+        //         let btndiv = document.createElement("div");
+        //         let btn1 = document.createElement("button");
+        //         let btn2 = document.createElement("button");
+        //         btn2.addEventListener("click", () => {
+        //             div.innerHTML = "";
+        //             x = undefined;
+        //             localStorage.setItem(date, local);
+        //         })
+        //         btn1.addEventListener("click", () => {
+        //             div.innerHTML = "";
+        //             x = undefined;
+        //             allSchdule();
+        //         })
+
+
+        //         div.append(titleText);
+        //         div.append(timeText);
+        //         div.append(contentText);
+        //         btndiv.append(btn1);
+        //         btndiv.append(btn2);
+        //         div.append(btndiv);
+        //         schd.append(div);
+        //     })
+        // }
+        // let tdArr = document.querySelectorAll("td");
+        // tdArr.forEach(x =>
+        //     x.addEventListener("click", () => {
+        //         addOrDelList();
+        //     })
+        // )
 
 
 
