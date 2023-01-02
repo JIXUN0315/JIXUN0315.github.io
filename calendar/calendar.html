@@ -342,6 +342,10 @@
                     let btn1 = document.createElement("button");
                     btn1.classList.add("btn", "btn-outline-success", "change");
                     btn1.innerText = "修改";
+                    btn1.dataset.bsWhatever = "@mdo";
+                    btn1.dataset.bsTarget = "#exampleModal";
+                    btn1.dataset.bsToggle = "modal";
+
                     let btn2 = document.createElement("button");
                     btn2.classList.add("btn", "btn-outline-danger", "del");
                     btn2.innerText = "刪除";
@@ -352,31 +356,61 @@
                     btndiv.append(btn2);
                     outdiv.append(btndiv);
                     listGrow.append(outdiv);
-
-
-
                 })
+
                 let allList = document.querySelector(".listGrow");
                 let delArr = allList.querySelectorAll(".del");
+                let changeArr = allList.querySelectorAll(".change");
                 delArr.forEach((x, index) => {
                     x.addEventListener("click", () => {
                         let local = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`);
                         let parse = JSON.parse(local);
-                        let otherTodo = []
-                        for(i=0;i<parse.todoList.length;i++){
-                            if(i==index){}
-                            else{
-                                otherTodo.push(parse.todoList[index]);
+
+                        let otherTodo = [];
+                        for (i = 0; i < parse.todoList.length; i++) {
+                            if (i == index) { }
+                            else {
+                                otherTodo.push(parse.todoList[i]);
                             }
                         }
-                        if(parse.todoList == null){
+                        if (parse.todoList[0] == null || parse.todoList == [] || parse.todoList == null) {
                             localStorage.removeItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`);
+                            parse.todoList == []
                         }
-                        else{
+                        else {
                             parse.todoList = otherTodo;
                             let story = JSON.stringify(parse);
-                            localStorage.setItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`,story);
+                            localStorage.setItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`, story);
                         }
+                        allList.querySelectorAll(".border")[index].innerHTML = "";
+                        showCalender(todayOfYear, todayOfMonth);
+                    })
+                })
+                changeArr.forEach((x, index) => {
+                    x.addEventListener("click", () => {
+                        let local = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
+                        let parse = JSON.parse(local);
+                        let listTitle = document.querySelector(".list-title");
+                        let listFrom = document.querySelector(".listFrom");
+                        let listEnd = document.querySelector(".listEnd");
+                        let listColor = document.querySelector(".listColor");
+                        let listText = document.querySelector(".listText");
+                        let otherTodo = [];
+                        for (i = 0; i < parse.todoList.length; i++) {
+                            if (i == index) {
+                                listTitle.value = parse.todoList[i].title;
+                                listFrom.value = parse.todoList[i].timeFrom;
+                                listEnd.value = parse.todoList[i].timeEnd;
+                                listColor.value = parse.todoList[i].mark;
+                                listText.value = parse.todoList[i].text;
+                            }
+                            else {
+                                otherTodo.push(parse.todoList[i]);
+                            }
+                        }
+                        parse.todoList = otherTodo;
+                        let story = JSON.stringify(parse);
+                        localStorage.setItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`, story);
                         allList.querySelectorAll(".border")[index].innerHTML = "";
                         showCalender(todayOfYear, todayOfMonth);
                     })
@@ -429,7 +463,7 @@
 
                 ///檢查是否有行程
                 let project = localStorage.getItem(`${todayOfYear}/${todayOfMonth + 1}/${i}`);
-                if (project == null || project == undefined) { }
+                if (project == null || project == undefined) { }  // || project.todoList[0] == null
                 else {
                     let listItem = JSON.parse(project);
                     listItem.todoList.forEach(element => {
@@ -446,7 +480,6 @@
                     });
                 }
             }
-
 
             let preMonthTotal = firstDayOfWeek;    //跑出上個月剩餘日期
             let preMon = 0;
@@ -481,12 +514,6 @@
             }
         }
 
-
-
-
-
-
-
         ///------------行事曆按鈕---------------------
         addbtn.addEventListener("click", () => {
             schduleYear.innerText = todayOfYear;
@@ -495,42 +522,6 @@
         })
         Send = document.querySelector(".Send");
         Send.addEventListener("click", store);
-        function addOrDelList(date) {
-            let local = localStorage.getItem(date);
-            let localArr = local.todoList;
-            schd.innerHTML = "";
-            localArr.forEach(x => {
-
-                let div = document.createElement("div");
-                div.classList.add("border", "p-2");
-                let titleText = document.createElement("p");
-                p1.classList.add("fw-bolder");
-                timeText.innerText = x.title;
-                let timeText = document.createElement("p");
-                timeText.innerText = `時間 : ${x.timeFrom} ~ ${x.timeEnd}`;
-                let contentText = document.createElement("p");
-                contentText.innerText = x.text;
-                let btndiv = document.createElement("div");
-                let btn1 = document.createElement("button");
-                let btn2 = document.createElement("button");
-                div.append(titleText);
-                div.append(timeText);
-                div.append(contentText);
-                btndiv.append(btn1);
-                btndiv.append(btn2);
-                div.append(btndiv);
-                schd.append(div);
-            })
-        }
-
-
-
-
-
-
-
-
-
 
 
         document.querySelector('.modal').addEventListener('hidden.bs.modal', function (event) {
