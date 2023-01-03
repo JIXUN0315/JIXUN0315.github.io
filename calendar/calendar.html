@@ -231,6 +231,48 @@
         </div>
     </div>
 
+    <div class="modal fade modal" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Schdule</h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <p><span class="schduleYear1">2022</span>/<span class="schduleMonth1">12</span>/<span
+                                class="schduleDay1">31</span></p>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Title</label>
+                            <input type="text" class="form-control list-title1" id="recipient-name"
+                                placeholder="Add title and time">
+                        </div>
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div>
+                                <label for="timeFrom">From</label>
+                                <input type="time" id="timeFrom" name="timeFrom" class="listFrom1">
+                            </div>
+                            <div>
+                                <label for="timeEnd">End</label>
+                                <input type="time" id="timeEnd" name="timeEnd" class="listEnd1">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="chooseColor">Mark Color</label>
+                            <input type="color" id="chooseColor" name="body" value="#f6b73c" class="listColor1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Text</label>
+                            <input type="text" class="form-control listText1" id="recipient-name">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary editsend" data-bs-dismiss="modal">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -343,7 +385,7 @@
                     btn1.classList.add("btn", "btn-outline-success", "change");
                     btn1.innerText = "修改";
                     btn1.dataset.bsWhatever = "@mdo";
-                    btn1.dataset.bsTarget = "#exampleModal";
+                    btn1.dataset.bsTarget = "#exampleModal1";
                     btn1.dataset.bsToggle = "modal";
 
                     let btn2 = document.createElement("button");
@@ -390,19 +432,27 @@
                     x.addEventListener("click", () => {
                         let local = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
                         let parse = JSON.parse(local);
-                        let listTitle = document.querySelector(".list-title");
-                        let listFrom = document.querySelector(".listFrom");
-                        let listEnd = document.querySelector(".listEnd");
-                        let listColor = document.querySelector(".listColor");
-                        let listText = document.querySelector(".listText");
+                        let listTitle = document.querySelector(".list-title1");
+                        let listFrom = document.querySelector(".listFrom1");
+                        let listEnd = document.querySelector(".listEnd1");
+                        let listColor = document.querySelector(".listColor1");
+                        let listText = document.querySelector(".listText1");
+                        let editsend = document.querySelector(".editsend");
+                        let schduleYear1 = document.querySelector(".schduleYear1");
+                        let schduleMonth1 = document.querySelector(".schduleMonth1");
+                        let schduleDate1 = document.querySelector(".schduleDay1");
                         let otherTodo = [];
                         for (i = 0; i < parse.todoList.length; i++) {
                             if (i == index) {
+                                schduleYear1.innerText = parse.thisYear;
+                                schduleMonth1.innerText = parse.thisMonth;
+                                schduleDate1.innerText = parse.thisDate;
                                 listTitle.value = parse.todoList[i].title;
                                 listFrom.value = parse.todoList[i].timeFrom;
                                 listEnd.value = parse.todoList[i].timeEnd;
                                 listColor.value = parse.todoList[i].mark;
                                 listText.value = parse.todoList[i].text;
+                                editsend.addEventListener("click", store);
                             }
                             else {
                                 otherTodo.push(parse.todoList[i]);
@@ -525,7 +575,7 @@
 
 
         document.querySelector('.modal').addEventListener('hidden.bs.modal', function (event) {
-            document.write.value = "";
+            // document.write.value = "";
         })
     </script>
 
