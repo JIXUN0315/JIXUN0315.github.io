@@ -192,7 +192,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Schdule</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close cl" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -224,7 +224,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary cl" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary Send" data-bs-dismiss="modal">Send message</button>
                 </div>
             </div>
@@ -354,6 +354,7 @@
 
         let allSchdule = function (e) {            //添加行事曆按鈕
             myModal.show();
+            cl(false);
             let AA = e.target.closest("td");
             selectDate = AA.querySelector("h3").innerText;
             schduleTitle.innerText = `${monthArr[todayOfMonth]} ${selectDate}`
@@ -427,14 +428,18 @@
                     })
                 })
                 changeArr.forEach((x, index) => {
-                    x.addEventListener("click", () => {
-                        let local = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
+                    x.addEventListener("click", (e) => {
+                        schduleYear.innerText = todayOfYear;
+                        schduleMonth.innerText = todayOfMonth + 1;
+                        schduleDate.innerText = selectDate;
+                        let local = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${selectDate}`);
                         let parse = JSON.parse(local);
                         let listTitle = document.querySelector(".list-title");
                         let listFrom = document.querySelector(".listFrom");
                         let listEnd = document.querySelector(".listEnd");
                         let listColor = document.querySelector(".listColor");
                         let listText = document.querySelector(".listText");
+                        cl(true);
                         let otherTodo = [];
                         for (i = 0; i < parse.todoList.length; i++) {
                             if (i == index) {
@@ -560,9 +565,23 @@
             schduleMonth.innerText = todayOfMonth + 1;
             schduleDate.innerText = selectDate;
         })
+
         Send = document.querySelector(".Send");
         Send.addEventListener("click", store);
 
+        function cl(bool) {
+            let con = document.querySelectorAll(".cl");
+            if (bool) {
+                con.forEach(x => {
+                    x.classList.add("d-none");
+                })
+            }
+            else {
+                con.forEach(x => {
+                    x.classList.remove("d-none");
+                })
+            }
+        }
 
         document.querySelector('.modal').addEventListener('hidden.bs.modal', function (event) {
             // document.write.value = "";
