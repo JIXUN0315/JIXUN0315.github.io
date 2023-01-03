@@ -231,7 +231,7 @@
         </div>
     </div>
 
-    <div class="modal fade modal" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <!-- <div class="modal fade modal" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -272,7 +272,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 
@@ -352,8 +352,6 @@
         }
 
 
-
-
         let allSchdule = function (e) {            //添加行事曆按鈕
             myModal.show();
             let AA = e.target.closest("td");
@@ -385,7 +383,7 @@
                     btn1.classList.add("btn", "btn-outline-success", "change");
                     btn1.innerText = "修改";
                     btn1.dataset.bsWhatever = "@mdo";
-                    btn1.dataset.bsTarget = "#exampleModal1";
+                    btn1.dataset.bsTarget = "#exampleModal";
                     btn1.dataset.bsToggle = "modal";
 
                     let btn2 = document.createElement("button");
@@ -432,27 +430,19 @@
                     x.addEventListener("click", () => {
                         let local = localStorage.getItem(`${schduleYear.innerText}/${schduleMonth.innerText}/${schduleDate.innerText}`);
                         let parse = JSON.parse(local);
-                        let listTitle = document.querySelector(".list-title1");
-                        let listFrom = document.querySelector(".listFrom1");
-                        let listEnd = document.querySelector(".listEnd1");
-                        let listColor = document.querySelector(".listColor1");
-                        let listText = document.querySelector(".listText1");
-                        let editsend = document.querySelector(".editsend");
-                        let schduleYear1 = document.querySelector(".schduleYear1");
-                        let schduleMonth1 = document.querySelector(".schduleMonth1");
-                        let schduleDate1 = document.querySelector(".schduleDay1");
+                        let listTitle = document.querySelector(".list-title");
+                        let listFrom = document.querySelector(".listFrom");
+                        let listEnd = document.querySelector(".listEnd");
+                        let listColor = document.querySelector(".listColor");
+                        let listText = document.querySelector(".listText");
                         let otherTodo = [];
                         for (i = 0; i < parse.todoList.length; i++) {
                             if (i == index) {
-                                schduleYear1.innerText = parse.thisYear;
-                                schduleMonth1.innerText = parse.thisMonth;
-                                schduleDate1.innerText = parse.thisDate;
                                 listTitle.value = parse.todoList[i].title;
                                 listFrom.value = parse.todoList[i].timeFrom;
                                 listEnd.value = parse.todoList[i].timeEnd;
                                 listColor.value = parse.todoList[i].mark;
                                 listText.value = parse.todoList[i].text;
-                                editsend.addEventListener("click", store);
                             }
                             else {
                                 otherTodo.push(parse.todoList[i]);
