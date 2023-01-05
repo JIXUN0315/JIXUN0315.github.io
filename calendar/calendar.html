@@ -495,7 +495,7 @@
 
 
         function showCalender(todayOfYear, todayOfMonth) {
-            let firstDay = new Date(`${todayOfYear}, ${todayOfMonth + 1}, 1`); //跑出日期
+            let firstDay = new Date(`${todayOfYear}/${todayOfMonth + 1}/1`); //跑出日期
             let firstDayOfWeek = firstDay.getDay();
             let LastDays = new Date(todayOfYear, todayOfMonth + 1, 0);
             let monthOfDays = LastDays.getDate();
