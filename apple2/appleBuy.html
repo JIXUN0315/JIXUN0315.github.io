@@ -8,18 +8,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <style>
+        * {
+            font-family: "微軟正黑體";
+        }
         .title {
             width: 100px;
         }
 
-        .box {
-            box-sizing: border-box;
-            padding: 15px;
+        input:checked+label {
+            outline: 5px solid rgb(185, 185, 185);
         }
 
-        .color {
-            width: 50px;
-            height: 50px;
+        .colorCircle {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
         }
 
@@ -41,224 +43,256 @@
         .img {
             vertical-align: middle;
         }
+
+        .text {
+            min-height: 80px;
+        }
+
+        span {
+            color: rgb(158, 158, 158);
+        }
+
+        .pos {
+            position: sticky;
+            top: 0;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <button class="title m-1 btn bg-dark text-white">IPhone</button>
-            <button class="title m-1 btn bg-dark text-white">IPad</button>
-            <button class="title m-1 btn bg-dark text-white">MacPro</button>
+            <button class="title m-1 btn bg-dark text-white">Mac</button>
+            <button class="title m-1 btn bg-dark text-white">iPad</button>
+            <button class="title m-1 btn bg-dark text-white">iPhone</button>
+            <button class="title m-1 btn bg-dark text-white">iWatch</button>
         </div>
-        <div class="row dom">
-            <div class="col-12 col-md-6 px-3 d-flex justify-content-center align-items-center">
+        <div class="row top">
+            <!-- <div class="col-12 col-md-4 px-3 d-flex flex-column justify-content-center align-items-center">
                 <img src="iphone11-select-2019-family.png" class="w-75">
+                <p class="mt-2 fs-4 fw-bolder">MacBook Air</p>
             </div>
-            <div class="col-12 col-md-6">
-                <div class="item">
-                    <h2 class="fw-bolder">顏色</h2>
-                    <div class="color-box row">
-                        <div class="box col-6 col-md-4">
-                            <div class="content p-3 pt-4 border border-dark rounded">
-                                <div class="color mx-auto"></div>
-                                <p class="pt-2 text-center">紅色</p>
-                            </div>
+            <div class="col-12 col-md-4 px-3 d-flex flex-column justify-content-center align-items-center">
+                <img src="iphone11-select-2019-family.png" class="w-75">
+                <p class="mt-2 fs-4 fw-bolder">MacBook Air</p>
+            </div>
+            <div class="col-12 col-md-4 px-3 d-flex flex-column justify-content-center align-items-center">
+                <img src="iphone11-select-2019-family.png" class="w-75">
+                <p class="mt-2 fs-4 fw-bolder">MacBook Air</p>
+            </div> -->
+        </div>
+        <div class="row bottom my-5">
+            <!-- <div class="col-12 col-md-6 px-3 d-flex justify-content-start align-items-center flex-column">
+                <div class="pos">
+                    <img src="iphone11-select-2019-family.png" class="w-100">
+                    <div class="my-3 d-flex justify-content-evenly w-100">
+                        <div class="colorArea">
+                            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
+                                checked>
+                            <label class="btn bg-danger rounded-circle colorCircle" for="option1"></label>
+                            <p class="text-center my-2">red</p>
+                        </div>
+                        <div class="colorArea">
+                            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                            <label class="btn bg-danger rounded-circle colorCircle" for="option2"></label>
+                            <p class="text-center my-2">red</p>
                         </div>
                     </div>
-                </div>
-                <div class="item">
-                    <h2 class="fw-bolder">規格</h2>
-                    <div class="price-box row">
-                        <div class="box col-6 col-md-4">   
-                            <div class="content p-3 pt-4 border border-dark rounded text-center">
-                                <p class="size fw-bolder">64GB</p>
-                                <p class="price">NT$24900</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <h2 class="fw-bolder">價格試算</h2>
-                    <div class="total">
-                        NT$24900
+                    <div class="totle fw-bolder fs-4 text-center">
+                        20000
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-md-6 p-3 pe-5">
+                <h3 class="fs-4 fw-bolder my-4">Choose your desirable upgrades</h3>
+                <div>
+                    <h4 class="my-3 fs-5 fw-bolder">Processor</h4>
+                    <input type="radio" class="btn-check" name="optionsa" id="option3" autocomplete="off" checked>
+                    <label class="text btn w-100 border border-dark d-flex my-3" for="option3">
+                        <p class="col-8 my-3 text-start ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Excepturi, saepe</p>
+                        <span class="col-4 d-flex justify-content-center align-items-center">150US</span>
+                    </label>
+                    <input type="radio" class="btn-check" name="optionsa" id="option4" autocomplete="off">
+                    <label class="text btn w-100 border border-dark d-flex my-3" for="option4">
+                        <p class="col-8 my-3 text-start ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Excepturi, saepe</p>
+                        <span class="col-4 d-flex justify-content-center align-items-center">150US</span>
+                    </label>
+                </div>
+                <div>
+                    <h4 class="my-3 fs-5 fw-bolder">Processor</h4>
+                    <input type="radio" class="btn-check" name="optionsb" id="option5" autocomplete="off" checked>
+                    <label class="text btn w-100 border border-dark d-flex my-3" for="option5">
+                        <p class="col-8 my-3 text-start ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Excepturi, saepe</p>
+                        <span class="col-4 d-flex justify-content-center align-items-center">150US</span>
+                    </label>
+                    <input type="radio" class="btn-check" name="optionsb" id="option6" autocomplete="off">
+                    <label class="text btn w-100 border border-dark d-flex my-3" for="option6">
+                        <p class="col-8 my-3 text-start ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Excepturi, saepe</p>
+                        <span class="col-4 d-flex justify-content-center align-items-center">150US</span>
+                    </label>
+                </div>
+                <div>
+                    <h4 class="my-3 fs-5 fw-bolder">Processor</h4>
+                    <input type="radio" class="btn-check" name="optionsb" id="option5" autocomplete="off" checked>
+                    <label class="text btn w-100 border border-dark d-flex my-3" for="option5">
+                        <p class="col-8 my-3 text-start ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Excepturi, saepe</p>
+                        <span class="col-4 d-flex justify-content-center align-items-center">150US</span>
+                    </label>
+                    <input type="radio" class="btn-check" name="optionsb" id="option6" autocomplete="off">
+                    <label class="text btn w-100 border border-dark d-flex my-3" for="option6">
+                        <p class="col-8 my-3 text-start ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Excepturi, saepe</p>
+                        <span class="col-4 d-flex justify-content-center align-items-center">150US</span>
+                    </label>
+                </div>
+                <div>
+                    <h4 class="my-3 fs-5 fw-bolder">Processor</h4>
+                    <input type="radio" class="btn-check" name="optionsb" id="option5" autocomplete="off" checked>
+                    <label class="text btn w-100 border border-dark d-flex my-3" for="option5">
+                        <p class="col-8 my-3 text-start ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Excepturi, saepe</p>
+                        <span class="col-4 d-flex justify-content-center align-items-center">150US</span>
+                    </label>
+                    <input type="radio" class="btn-check" name="optionsb" id="option6" autocomplete="off">
+                    <label class="text btn w-100 border border-dark d-flex my-3" for="option6">
+                        <p class="col-8 my-3 text-start ps-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Excepturi, saepe</p>
+                        <span class="col-4 d-flex justify-content-center align-items-center">150US</span>
+                    </label>
+                </div>
+            </div> -->
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
-    <!-- <script>
+    <script>
+        const AppleUrl = "https://raw.githubusercontent.com/JIXUN0315/FileStorage/main/myAppleArray";
+        let appleArr = [];
+        let options = 0;
+        let option = 0;
+        let titleBtn, container, topArea, bottomArea, chooseBtn,total;
 
-        let IPhoneArr = [
-            { rgb: 'rgb(255, 0, 0)', color: "紅色", pic: './iphone-red.png', storage: "64GB", price: 24900 },
-            { rgb: 'rgb(255, 0, 0)', color: "紅色", pic: './iphone-red.png', storage: "128GB", price: 26900 },
-            { rgb: 'rgb(255, 0, 0)', color: "紅色", pic: './iphone-red.png', storage: "256GB", price: 30400 },
-            { rgb: 'rgb(255, 255, 0)', color: "黃色", pic: './iphone-yellow.png', storage: "64GB", price: 24900 },
-            { rgb: 'rgb(0, 0, 0)', color: "黑色", pic: './iphone-black.png', storage: "64GB", price: 24900 },
-            { rgb: 'rgb(255, 255, 0)', color: "黃色", pic: './iphone-yellow.png', storage: "128GB", price: 26900 },
-            { rgb: 'rgb(0, 0, 0)', color: "黑色", pic: './iphone-black.png.png', storage: "128GB", price: 26900 },
-            { rgb: 'rgb(255, 255, 0)', color: "黃色", pic: './iphone-yellow.png', storage: "256GB", price: 30400 },
-            { rgb: 'rgb(0, 0, 0)', color: "黑色", pic: './iphone-black.png.png', storage: "256GB", price: 30400 }
-        ];
-        let IPadArr = [
-            { rgb: 'rgb(110, 105, 105)', color: "太空灰色", pic: './ipad-space.png', storage: "32GB", price: 10900 },
-            { rgb: 'rgb(110, 105, 105)', color: "太空灰色", pic: './ipad-space.png', storage: "128GB", price: 13900 },
-            { rgb: 'rgb(185, 174, 174)', color: "銀色", pic: './ipad-silver.png', storage: "32GB", price: 10900 },
-            { rgb: 'rgb(185, 174, 174)', color: "銀色", pic: './ipad-silver.png', storage: "128GB", price: 13900 }
-        ]
-        let MacProArr = [
-            { rgb: 'rgb(110, 105, 105)', color: "太空灰色", pic: './mbp13touch-space.png', storage: "256GB", price: 51300 },
-            { rgb: 'rgb(110, 105, 105)', color: "太空灰色", pic: './mbp13touch-space.png', storage: "512GB", price: 57300 },
-            { rgb: 'rgb(110, 105, 105)', color: "太空灰色", pic: './mbp13touch-space.png', storage: "1TB", price: 63300 },
-            { rgb: 'rgb(110, 105, 105)', color: "太空灰色", pic: './mbp13touch-space.png', storage: "2TB", price: 75300 },
-            { rgb: 'rgb(185, 174, 174)', color: "銀色", pic: './mbp13touch-silver.png', storage: "256GB", price: 51300 },
-            { rgb: 'rgb(185, 174, 174)', color: "銀色", pic: './mbp13touch-silver.png', storage: "512GB", price: 57300 },
-            { rgb: 'rgb(185, 174, 174)', color: "銀色", pic: './mbp13touch-silver.png', storage: "1TB", price: 63300 },
-            { rgb: 'rgb(185, 174, 174)', color: "銀色", pic: './mbp13touch-silver.png', storage: "2TB", price: 75300 }
-        ]
-        let all = [];
-        all.push(IPhoneArr);
-        all.push(IPadArr);
-        all.push(MacProArr);
-        let picFamily = ["./iphone11-select-2019-family.png", "./ipad-hero-unselected-201909_GEO_TW.png", "./mbp13touch-space-gallery1-201907.png"];
-        let dom = document.querySelector('.dom');
-        let btn = document.querySelectorAll(".title");
-        btn.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                dom.innerHTML = "";
-                let phone = all[index];
-                let picbox = document.createElement('div');
-                picbox.classList.add("col-12", "col-md-6", "px-3", "d-flex", "justify-content-center", "align-items-center");
-                let img = document.createElement("img");
-                img.classList.add("w-75");
-                img.src = picFamily[index];
-                picbox.append(img);
-                dom.append(picbox);
+        window.onload = function () {
+            requestJSON(AppleUrl);
+            container = document.querySelector(".container");
+            titleBtn = document.querySelectorAll(".title");
+            topArea = document.querySelector(".top");
+            bottomArea = document.querySelector(".bottom");
+            titleBtn.forEach((topBtn, index) => {
+                topBtn.addEventListener("click", () => {
+                    let appleType = appleArr[index]; //手機/電腦/平板
+                    topArea.innerHTML = "";
+                    //////上半部圖片預覽機種區
+                    appleType.forEach(model => {
+                        topArea.innerHTML += `<div class="col-12 col-md-4 px-3 d-flex flex-column justify-content-center align-items-center chooseBtn">
+                                                <img src=${model["color"][0]["img"]} class="w-75">
+                                                <p class="mt-2 fs-4 fw-bolder">${model["name"]}</p>
+                                                </div>`;
+                        bottomArea.innerHTML = "";
+                        //////下半部選擇區
+                        chooseBtn = document.querySelectorAll(".chooseBtn");//將所有上半部的機種預覽圖片選取
+                        chooseBtn.forEach((pic, ind) => {
+                            pic.addEventListener("click", () => {
+                                let everyType = appleType[ind];
+                                let htmlStr = "";
+                                let htmlSelect = "";
+                                everyType["color"].forEach(x => {
+                                    let colorName = x["colorName"];
+                                    let rgb = x["rgb"];
+                                    let img = x["img"];
+                                    htmlStr += `<div class="colorArea d-flex flex-column justify-content-center align-items-center">
+                                                    <input type="radio" class="btn-check" name="options${options}" id="option${option}" autocomplete="off">
+                                                    <label class="btn rounded-circle colorCircle" style="background-color: ${rgb};" for="option${option}"></label>
+                                                    <p class="text-center my-2">${colorName}</p>
+                                                </div>`;
+                                    option ++;
+                                })
+                                let desirableName = Object.keys(everyType["desirable"]);
+                                let desirableValue = Object.values(everyType["desirable"]);
+                                    desirableValue.forEach((p,idx) => {
+                                        options++;
+                                        let str = "";
+                                        p.forEach(y=>{
+                                            str += `<input type="radio" class="btn-check" name="options${options}" id="option${option}" autocomplete="off">
+                                            <label class="text btn w-100 border border-primary d-flex my-3" for="option${option}">
+                                                <p class="col-8 my-3 text-start ps-2">${y["text"]}</p>
+                                                <span class="col-4 d-flex justify-content-center align-items-center">+${y["add"]} USD</span>
+                                                </label>`
+                                                option ++;
+                                        })
+                                        htmlSelect += `<div class="countArea">
+                                            <h4 class="my-3 fs-5 fw-bolder">${desirableName[idx]}</h4>
+                                            ${str}
+                                            </div>`
+                                        })
+                                bottomArea.innerHTML = `<div class="col-12 col-md-6 px-3 d-flex justify-content-start align-items-center flex-column">
+                                                            <div class="pos">
+                                                                <img src=${everyType["color"][0]["img"]} class="w-100">
+                                                                <div class="my-3 d-flex justify-content-evenly w-100">
+                                                                    ${htmlStr}
+                                                                </div>
+                                                                <div class="total fw-bolder fs-4 text-center">
+                                                                    $${everyType["price"]}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 p-3 pe-5">
+                                                            <h3 class="fs-4 fw-bolder my-4">Choose your desirable upgrades</h3>
+                                                            ${htmlSelect}
+                                                        </div>`
+                                //////////設定選擇的按鈕
+                                let colorBtnArr = document.querySelectorAll(".colorArea");
+                                let choImg = document.querySelector(".pos img")
+                                colorBtnArr.forEach((colorBtn, index) => {
+                                    let colorBox = colorBtn.querySelector("label");
+                                    colorBtn.addEventListener("click",()=>{
+                                        choImg.src = everyType["color"][index]["img"];
+                                    })
+                                })
+                                /////////設定價錢加購按鈕
+                                // let total = document.querySelector(".total");
+                                let priceBtnArea = document.querySelectorAll(".countArea");
+                                let thisPrice = everyType.price;
+                                let desArr = Object.values(everyType["desirable"]);
+                                total = document.querySelector(".total");
+                                priceBtnArea.forEach((Area, index1)=>{
+                                    let priceBtn = Area.querySelectorAll("label");
+                                    let current = 0
+                                    priceBtn.forEach((addPrice, index2)=>{
+                                        addPrice.addEventListener("click", ()=>{
+                                            thisPrice -= current;
+                                            thisPrice += desArr[index1][index2].add;
+                                            current = desArr[index1][index2].add;
+                                            total.innerText = `$${thisPrice}`;
+                                        })
+                                    })
+                                })
+                            })
+                        })
 
-                let largeBox = document.createElement("div");
-                largeBox.classList.add("col-12", "col-md-6");
-
-                let colorBox = document.createElement("div");  //item1
-                colorBox.classList.add("item");
-                let colorH2 = document.createElement("h2");
-                colorH2.innerText = "顏色";
-                colorH2.classList.add("fw-bolder");
-                colorBox.append(colorH2);
-                let colorData = document.createElement("div");
-                colorData.classList.add("color-box", "row");
-                let countArr = [];
-                phone.forEach((thisPhone, ind) => {
-                    countArr.push(thisPhone['color']);
-                });
-                let set1 = new Set(countArr);
-                let colorArr = [];
-                phone.forEach((thisPhone, ind) => {
-                    colorArr.push(thisPhone['rgb']);
-                });
-                let set21 = new Set(colorArr);
-                let set2 = [];
-                set21.forEach(x => {
-                    set2.push(x);
-                })
-                let set = [];
-                set1.forEach(x => {
-                    set.push(x);
-                })
-                set.forEach((color, ind) => {
-                    let outside = document.createElement("div");
-                    outside.classList.add("box", "col-6", "col-md-4");
-                    let content = document.createElement("div");
-                    content.classList.add("content", "p-3", "pt-4", "border", "border-dark", "rounded");
-                    let circle = document.createElement("div");
-                    circle.classList.add("color", "mx-auto");
-                    circle.style.backgroundColor = set2[ind];
-                    content.append(circle);
-                    let p = document.createElement("div");
-                    p.innerText = color;
-                    p.classList.add("pt-2", "text-center");
-                    content.append(p);
-                    outside.append(content);
-                    colorData.append(outside);
-                })
-                colorBox.append(colorData);
-
-                let typebox = document.createElement("div"); //item2
-                typebox.classList.add("item");
-                let colorH3 = document.createElement("h2");
-                colorH3.innerText = "規格";
-                colorH3.classList.add("fw-bolder");
-                typebox.append(colorH3);
-                let priceData = document.createElement("div");
-                priceData.classList.add("price-box", "row");
-                let typeArr = [];
-                phone.forEach((thisPhone, ind) => {
-                    typeArr.push(thisPhone['storage']);
-                });
-                let set31 = new Set(typeArr);
-                let set3 = [];
-                set31.forEach(x => {
-                    set3.push(x);
-                })
-                let priceArr = [];
-                phone.forEach((thisPhone, ind) => {
-                    priceArr.push(thisPhone['price']);
-                });
-                let set4 = new Set(priceArr);
-                set3.forEach((x, ind) => {
-                    let outside = document.createElement("div");
-                    outside.classList.add("box", "col-6", "col-md-4");
-                    let content = document.createElement("div");
-                    content.classList.add("content", "p-3", "pt-4", "border", "border-dark", "rounded", "text-center", "price-box-item");
-                    let p1 = document.createElement("p");
-                    p1.classList.add("size", "fw-bolder");
-                    p1.innerText = x;
-                    let p2 = document.createElement("p");
-                    p2.classList.add("price");
-                    p2.innerText = "NT$" + phone[ind]['price'];
-                    content.append(p1);
-                    content.append(p2);
-                    outside.append(content);
-                    priceData.append(outside);
-                })
-
-                let item = document.createElement("div");
-                let h4 = document.createElement("h2");
-                h4.classList.add("fw-bolder");
-                h4.innerText = "價格試算";
-                let total = document.createElement("div");
-                total.classList.add("total");
-                item.append(h4);
-                item.append(total);
-                typebox.append(priceData);
-                largeBox.append(colorBox);
-                largeBox.append(typebox);
-                largeBox.append(item);
-                dom.append(largeBox);
-
-
-                let total1 = document.querySelector(".total");
-                let choosePrice = document.querySelectorAll(".price-box-item");
-                choosePrice.forEach(item => {
-                    item.addEventListener('click', () => {
-                        total1.innerText = item.querySelector(".price").innerText;
                     })
-                })
 
 
-
-                let chooseColorArr = document.querySelectorAll(".color-box .box");
-                chooseColorArr.forEach(item => {
-                    item.addEventListener('click', () => {
-                        let RGB = phone.find(x =>  x['color'] == item.querySelector('.text-center').innerText)['pic'];
-                        img.src = RGB;
-                    })
                 })
             })
-        })
-    </script> -->
+        }
+
+        function requestJSON(url) {
+            let xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                appleArr = this.response;
+            }
+            xhr.open("GET", url);
+            xhr.responseType = "json";
+            xhr.send();
+        }
+    </script>
 </body>
 
 </html>

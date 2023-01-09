@@ -1,0 +1,337 @@
+let AllApple = [];
+let Mac = [
+    {
+        name: "MacBook Air",
+        price: 1299,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)" , img: "./macbook-air-space-gray-select-201810.jfif" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./macbook-air-silver-select-201810.jfif" },
+            { colorName: "gold",rgb:"rgb(255, 216, 131)", img: "./macbook-air-gold-select-201810.jfif" }],
+        desirable: {
+            Processor: [
+                { text: "1.1GHz quad-core 10th-generation Intel Core i5 processor, Turbo Boost up to 3.5GHz", add: 0 },
+                { text: "1.2GHz quad-core 10th-generation Intel Core i7 processor, Turbo Boost up to 3.8GHz", add: 150 }],
+            Memory: [
+                { text: "8GB 3733MHz LPDDR4X memory", add: 0 },
+                { text: "16GB 3733MHz LPDDR4X memory", add: 200 }
+            ],
+            Storage: [
+                { text: "512GB SSD storage", add: 0 },
+                { text: "1TB SSD storage", add: 200 },
+                { text: "2TB SSD storage", add: 600 }
+            ]
+        }
+    },
+    {
+        name: "MacBook Pro 13-inch",
+        price: 1799,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)" , img: "./mbp13touch-space.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./mbp13touch-silver.png" }],
+        desirable: {
+            Processor: [
+                { text: "2.4GHz quad-core 8th-generation Intel Care i5 pracess sgzr, Turtaa Boast up to 4.1GHz", add: 0 },
+                { text: "2.8GHz quad-core 8th-generation Intel Care i7 pracess sgzr, Turtaa Boast up to 4.7GHz", add: 300 }],
+            Memory: [
+                { text: "8GB 2133MHz LPDDR3 memory", add: 0 },
+                { text: "16GB 3733MHz LPDDR4X memory", add: 200 }
+            ],
+            Storage: [
+                { text: "256GB SSD storage", add: 0 },
+                { text: "512GB SSD storage", add: 200 },
+                { text: "1TB SSD storage", add: 400 },
+                { text: "2TB SSD storage", add: 800 }
+            ]
+        }
+    },
+    {
+        name: "MacBook Pro 16-inch",
+        price: 2799,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./mbp16touch-space-select-201911_GEO_TW.jfif" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./mbp16touch-silver-select-201911_GEO_TW.jfif" }],
+        desirable: {
+            Processor: [
+                { text: "2.3GHz 8-care 9th-generatic stian Intel Care i9 pracesspr, Turbo Boost up to 4.8GHz", add: 0 },
+                { text: "2.4GHz 8-care 9th-generatian Intel Care ig pracessor, Turba Boast up to 5.0GHz", add: 200 }],
+            Memory: [
+                { text: "16GB 2666MHz DDR4 memary", add: 0 },
+                { text: "32GB 2666MHz DDR4 memary", add: 400 },
+                { text: "64GB 2666MHz DOR4 memary", add: 800 }
+            ],
+            Graphics: [
+                { text: "AMD Radeon Pro 5500M with 4GB of GDDR6 memory", add: 0 },
+                { text: "AMD Radeon Pra S500M with 8GB of GDDR6 memory", add: 0 }
+            ],
+            Storage: [
+                { text: "1TB SSD storage", add: 0 },
+                { text: "2TB SSD storage", add: 400 },
+                { text: "4TB SSD storage", add: 1000 },
+                { text: "8TB SSD storage", add: 2200 }
+            ]
+        }
+    },
+]
+let iPad = [
+    {
+        name: "11-inch iPad Pro",
+        price: 799,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./ipad-pro-11-select-cell-spacegray-202003.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./ipad-pro-11-select-cell-silver-202003.png" }],
+        desirable: {
+            storage: [
+                { text: "128GB", add: 0 },
+                { text: "256GB", add: 200 },
+                { text: "512GB", add: 400 },
+                { text: "1TB", add: 600 }
+            ],
+            connectivity: [
+                { text: "Wi-Fi", add: 0 },
+                { text: "Wi-Fi + cellular", add: 150 }
+            ]
+        }
+
+    },
+    {
+        name: "12.9-inch iPad Pro",
+        price: 999,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./01.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./02.png" }],
+        desirable: {
+            storage: [
+                { text: "128GB", add: 0 },
+                { text: "256GB", add: 200 },
+                { text: "512GB", add: 400 },
+                { text: "1TB", add: 600 }
+            ],
+            connectivity: [
+                { text: "Wi-Fi", add: 0 },
+                { text: "Wi-Fi + cellular", add: 150 }
+            ]
+        }
+
+    },
+    {
+        name: "iPad mini",
+        price: 399,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./03.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./04.png" },
+            { colorName: "gold",rgb:"rgb(255, 216, 131)", img: "./05.png" }],
+        desirable: {
+            storage: [
+                { text: "64GB", add: 0 },
+                { text: "256GB", add: 150 }
+            ],
+            connectivity: [
+                { text: "Wi-Fi", add: 0 },
+                { text: "Wi-Fi + cellular", add: 130 }
+            ]
+        }
+    },
+    {
+        name: "iPad",
+        price: 329,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./06.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./07.png" },
+            { colorName: "gold",rgb:"rgb(255, 216, 131)", img: "./08.png" }],
+        desirable: {
+            storage: [
+                { text: "32GB", add: 0 },
+                { text: "128GB", add: 100 }
+            ],
+            connectivity: [
+                { text: "Wi-Fi", add: 0 },
+                { text: "Wi-Fi + cellular", add: 130 }
+            ]
+        }
+
+    },
+    {
+        name: "iPad Air",
+        price: 499,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./09.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./10.png" },
+            { colorName: "gold",rgb:"rgb(255, 216, 131)", img: "./11.png" }],
+        desirable: {
+            storage: [
+                { text: "64GB", add: 0 },
+                { text: "256GB", add: 150 }
+            ],
+            connectivity: [
+                { text: "Wi-Fi", add: 0 },
+                { text: "Wi-Fi + cellular", add: 130 }
+            ]
+        }
+
+    }
+]
+let iPhone = [
+    {
+        name: "iPhone 11 Pro",
+        price: 999,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./12.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./13.png" },
+            { colorName: "midnight green",rgb:"rgb(11, 59, 13)", img: "./14.png" },
+            { colorName: "gold",rgb:"rgb(255, 216, 131)", img: "./15.png" }],
+        desirable: {
+            storage: [
+                { text: "64GB", add: 0 },
+                { text: "128GB", add: 150 },
+                { text: "512GB", add: 450 }
+            ]
+        }
+    },
+    {
+        name: "iPhone 11 Pro Max",
+        price: 1099,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./16.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./17.png" },
+            { colorName: "midnight green",rgb:"rgb(11, 59, 13)", img: "./18.png" },
+            { colorName: "gold",rgb:"rgb(255, 216, 131)", img: "./19.png" }],
+        desirable: {
+            storage: [
+                { text: "64GB", add: 0 },
+                { text: "128GB", add: 150 },
+                { text: "512GB", add: 450 }
+            ]
+        }
+    },
+    {
+        name: "iPhone 11",
+        price: 699,
+        color: [
+            { colorName: "white",rgb:"rgb(229, 226, 209)", img: "./20.png" },
+            { colorName: "black",rgb:"rgb(0, 0, 0)", img: "./21.png" },
+            { colorName: "green",rgb:"rgb(148, 212, 146)", img: "./22.png" },
+            { colorName: "yellow",rgb:"rgb(235, 217, 61)", img: "./23.png" },
+            { colorName: "purple",rgb:"rgb(203, 153, 204)", img: "./24.png" },
+            { colorName: "red",rgb:"rgb(146, 0, 0)", img: ".25.png" }],
+        desirable: {
+            storage: [
+                { text: "64GB", add: 0 },
+                { text: "128GB", add: 150 },
+                { text: "512GB", add: 250 }
+            ]
+        }
+    },
+    {
+        name: "iPhone XR",
+        price: 599,
+        color: [
+            { colorName: "white",rgb:"rgb(229, 226, 209)", img: "./26.png" },
+            { colorName: "black",rgb:"rgb(0, 0, 0)", img: "./27.png" },
+            { colorName: "blue",rgb:"rgb(148, 212, 146)", img: "./28.png" },
+            { colorName: "yellow",rgb:"rgb(235, 217, 61)", img: "./29.png" },
+            { colorName: "coral",rgb:"rgb(203, 153, 204)", img: "./30.png" },
+            { colorName: "red",rgb:"rgb(146, 0, 0)", img: "./31.png" }],
+        desirable: {
+            storage: [
+                { text: "64GB", add: 0 },
+                { text: "128GB", add: 150 }
+            ]
+        }
+    },
+    {
+        name: "iPhone 8",
+        price: 449,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./32.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./33.png" },
+            { colorName: "gold",rgb:"rgb(255, 216, 131)", img: "./34.png" }],
+        desirable: {
+            storage: [
+                { text: "64GB", add: 0 },
+                { text: "128GB", add: 50 }
+            ]
+        }
+    },
+    {
+        name: "iPhone 8 Plus",
+        price: 549,
+        color: [
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./35.png" },
+            { colorName: "silver",rgb:"rgb(219, 219, 219)", img: "./36.png" },
+            { colorName: "gold",rgb:"rgb(255, 216, 131)", img: "./37.png" }],
+        desirable: {
+            storage: [
+                { text: "64GB", add: 0 },
+                { text: "128GB", add: 50 }
+            ]
+        }
+    }
+]
+watch = [
+    {
+        name: "Apple Watch Ultra",
+        price: 839,
+        color: [
+            { colorName: "green",rgb:"rgb(148, 212, 146)", img: "./38.jfif" },
+            { colorName: "space-gray",rgb:"rgb(141, 141, 141)", img: "./39.jfif" },
+            { colorName: "coral",rgb:"rgb(211, 61, 24)", img: "./40.jfif" }],
+        desirable: {
+            size: [
+                { text: "38mm", add: 0 },
+                { text: "42mm", add: 30 }
+            ],
+            connectivity:[
+                {text:"GPS", add:0},
+                {text:"GPS + cellular", add:100}
+            ]
+        }
+    },
+    {
+        name: "Apple Watch Series 8",
+        price: 429,
+        color: [
+            { colorName: "purple",rgb:"rgb(151, 104, 113)", img: "./41.jfif" },
+            { colorName: "blue",rgb:"rgb(88, 96, 113)", img: "./42.jfif" },
+            { colorName: "black",rgb:"rgb(106, 100, 89)", img: "./43.jfif" },
+            { colorName: "space-white",rgb:"rgb(233, 222, 212)", img: "./44.jfif" },
+            { colorName: "rainbow",rgb:"rgb(237, 212, 95)", img: "./45.jfif" },
+            { colorName: "red",rgb:"rgb(227, 65, 81)", img: "./46.jfif" }],
+        desirable: {
+            size: [
+                { text: "41mm", add: 0 },
+                { text: "45mm", add: 30 }
+            ],
+            connectivity:[
+                {text:"GPS", add:0},
+                {text:"GPS + cellular", add:100}
+            ]
+        }
+    },
+    {
+        name: "Apple Watch SE",
+        price: 259,
+        color: [
+            { colorName: "yellow",rgb:"rgb(253, 200, 132)", img: "./47.jfif" },
+            { colorName: "blue",rgb:"rgb(183, 195, 191)", img: "./48.jfif" },
+            { colorName: "pink",rgb:"rgb(239, 213, 212)", img: "./49.jfif" },
+            { colorName: "navy blue",rgb:"rgb(90, 100, 109)", img: "./50.jfif" },
+            { colorName: "black",rgb:"rgb(78, 79, 84)", img: "./51.jfif" },
+            { colorName: "white",rgb:"rgb(226, 221, 215)", img: "./52.jfif" }],
+        desirable: {
+            size: [
+                { text: "40mm", add: 0 },
+                { text: "44mm", add: 30 }
+            ],
+            connectivity:[
+                {text:"GPS", add:0},
+                {text:"GPS + cellular", add:100}
+            ]
+        }
+    }
+]
+AllApple.push(Mac);
+AllApple.push(iPad);
+AllApple.push(iPhone);
+AllApple.push(watch);
+let show = JSON.stringify(AllApple);
+console.log(show);
