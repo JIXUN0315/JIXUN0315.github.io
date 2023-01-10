@@ -32,6 +32,29 @@
             background-color: red;
         }
 
+        .box {
+            box-sizing: border-box;
+            height: 100px;
+        }
+
+        .champion {
+            background-color: rgb(255, 232, 84);
+            height: 80px;
+            width: 40px;
+        }
+
+        .second {
+            background-color: rgb(123, 123, 255);
+            height: 60px;
+            width: 40px;
+        }
+
+        .third {
+            background-color: rgb(109, 255, 109);
+            height: 40px;
+            width: 40px;
+        }
+
         @media screen and (min-width:960px) {
             .frame {
                 width: 50px;
@@ -48,7 +71,43 @@
 <body>
     <div class="container mt-5">
         <div class="moveArea m-auto">
-
+            <div class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">得分 <span class="score"></span></h5>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="text-center">歷史高分</h4>
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="text-center secondText">-</p>
+                                    <div class="box px-5 d-flex justify-content-center align-items-end">
+                                        <div class="second"></div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <p class="text-center championText">-</p>
+                                    <div class="box px-5 d-flex justify-content-center align-items-end">
+                                        <div class="champion"></div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <p class="text-center thirdText">-</p>
+                                    <div class="box px-5 d-flex justify-content-center align-items-end">
+                                        <div class="third"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <img src="./snake.jpg!con" class="w-100" alt=""> -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="restart btn btn-secondary"
+                                data-bs-dismiss="modal">重新開始</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="mt-5 keybord">
             <div class="row">
@@ -84,7 +143,9 @@
         crossorigin="anonymous"></script>
 
     <script>
+        const myModal = new bootstrap.Modal(document.querySelector('.modal'));
         let addressArr = [];
+        let historyArr = [];
         let noTurn = 0;
         let rowMove = 0;
         let colMove = 1;
@@ -93,7 +154,12 @@
         let speed2 = 200;
         let firstFood;
         let snakeArr = [];
-        let up,down,left,right;
+        let up, down, left, right;
+        let score, restart;
+        let champion, second, third;
+        third = document.querySelector(".thirdText");
+        second = document.querySelector(".secondText");
+        champion = document.querySelector(".championText");
         let moveArea = document.querySelector(".moveArea");
         for (let i = 0; i < 15; i++) {
             let row = document.createElement("div");
@@ -118,63 +184,97 @@
                 if ((e.keyCode == 39 || e.which == 39) && (noTurn != 1 && noTurn != 3)) {
                     control = 1;
                     turnRight();
-                    setTimeout(function(){    
+                    setTimeout(function () {
                         noTurn = 1;
-                    },speed2);
+                    }, speed2);
                 }
                 else if ((e.keyCode == 40 || e.which == 40) && (noTurn != 2 && noTurn != 4)) {
                     control = 2;
                     turnDown();
-                    setTimeout(function(){    
+                    setTimeout(function () {
                         noTurn = 2;
-                    },speed2);
+                    }, speed2);
                 }
                 else if ((e.keyCode == 37 || e.which == 37) && (noTurn != 1 && noTurn != 3)) {
                     control = 3;
                     turnleft();
-                    setTimeout(function(){    
+                    setTimeout(function () {
                         noTurn = 3;
-                    },speed2);
+                    }, speed2);
                 }
                 else if ((e.keyCode == 38 || e.which == 38) && (noTurn != 2 && noTurn != 4)) {
                     control = 4;
                     turnUp();
-                    setTimeout(function(){    
+                    setTimeout(function () {
                         noTurn = 4;
-                    },speed2);
+                    }, speed2);
                 }
             })
             up = document.querySelector(".up");
             down = document.querySelector(".down");
             left = document.querySelector(".left");
             right = document.querySelector(".right");
-            up.addEventListener("click",(e)=>{
-                if(noTurn != 2 && noTurn != 4){
+            up.addEventListener("click", (e) => {
+                if (noTurn != 2 && noTurn != 4) {
                     control = 4;
                     turnUp();
                     noTurn = 4;
                 }
             })
-            down.addEventListener("click", (e)=>{
-                if(noTurn != 2 && noTurn != 4){
+            down.addEventListener("click", (e) => {
+                if (noTurn != 2 && noTurn != 4) {
                     control = 2;
                     turnDown();
                     noTurn = 2;
                 }
             })
-            left.addEventListener("click", (e)=>{
-                if(noTurn != 1 && noTurn != 3){
+            left.addEventListener("click", (e) => {
+                if (noTurn != 1 && noTurn != 3) {
                     control = 3;
                     turnleft();
                     noTurn = 3;
                 }
             })
-            right.addEventListener("click", (e)=>{
-                if(noTurn != 1 && noTurn != 3){
+            right.addEventListener("click", (e) => {
+                if (noTurn != 1 && noTurn != 3) {
                     control = 1;
                     turnRight();
                     noTurn = 1;
                 }
+            })
+            score = document.querySelector(".score");
+            restart = document.querySelector(".restart");
+            restart.addEventListener("click", () => {
+                moveArea.innerHTML = "";
+                addressArr = [];
+                noTurn = 0;
+                rowMove = 0;
+                colMove = 1;
+                control = 0;
+                speed = 350;
+                speed2 = 200;
+                firstFood;
+                snakeArr = [];
+                up, down, left, right;
+                score, restart;
+                moveArea = document.querySelector(".moveArea");
+                for (let i = 0; i < 15; i++) {
+                    let row = document.createElement("div");
+                    let rowArr = [];
+                    row.classList.add("d-flex");
+                    for (let j = 0; j < 15; j++) {
+                        let frame = document.createElement("div");
+                        frame.classList.add("frame", `row${i}`, `frame${j}`);
+                        row.append(frame);
+                        rowArr.push(frame);
+                    }
+                    moveArea.append(row);
+                    addressArr.push(rowArr);
+                }
+                snakeArr = [addressArr[0][0], addressArr[0][1]];
+                dress(snakeArr);
+                firstFood = createFood();
+                firstFood.classList.add("food");
             })
         }
 
@@ -186,7 +286,10 @@
             else {
                 colMove++;
                 if (colMove > 14) {
-                    alert("遊戲結束");
+                    end(snakeArr.length - 2);
+                    myModal.show();
+                    score.innerText = snakeArr.length - 2;
+                    return;
                 }
                 move();
                 setTimeout(turnRight, speed);
@@ -199,7 +302,10 @@
             else {
                 rowMove++;
                 if (rowMove > 14) {
-                    alert("遊戲結束");
+                    end(snakeArr.length - 2);
+                    myModal.show();
+                    score.innerText = snakeArr.length - 2;
+                    return;
                 }
                 move();
                 setTimeout(turnDown, speed);
@@ -212,7 +318,10 @@
             else {
                 colMove--;
                 if (colMove < 0) {
-                    alert("遊戲結束");
+                    end(snakeArr.length - 2);
+                    myModal.show();
+                    score.innerText = snakeArr.length - 2;
+                    return;
                 }
                 move();
                 setTimeout(turnleft, speed);
@@ -226,14 +335,20 @@
             else {
                 rowMove--;
                 if (rowMove < 0) {
-                    alert("遊戲結束");
+                    end(snakeArr.length - 2);
+                    myModal.show();
+                    score.innerText = snakeArr.length - 2;
+                    return;
                 }
                 move();
                 setTimeout(turnUp, speed);
             }
         }
         function move() {
-            if(firstFood == addressArr[rowMove][colMove]){
+            if (rowMove < 0 || rowMove > 14 || colMove < 0 || colMove > 14) {
+                return;
+            }
+            if (firstFood == addressArr[rowMove][colMove]) {
                 snakeArr.push(addressArr[rowMove][colMove]);
                 firstFood.classList.remove("food");
                 dress(snakeArr);
@@ -241,10 +356,13 @@
                 firstFood.classList.add("food");
                 speedControl();
             }
-            else if(snakeArr.find(x => x ==addressArr[rowMove][colMove])){
-                alert("失敗");
+            else if (snakeArr.find(x => x == addressArr[rowMove][colMove])) {
+                end(snakeArr.length - 2);
+                myModal.show();
+                score.innerText = snakeArr.length - 2;
+                return;
             }
-            else{
+            else {
                 snakeArr[0].classList.remove("snake");
                 snakeArr.splice(0, 1);
                 snakeArr.push(addressArr[rowMove][colMove]);
@@ -270,18 +388,46 @@
                 return createFood();
             }
         }
-        function speedControl(){
-            if(speed <= 80){
+        function speedControl() {
+            if (speed <= 80) {
                 speed = 80;
             }
-            else{
+            else {
                 speed = speed - 5;
             }
-            if(speed2 <= 60){
+            if (speed2 <= 60) {
                 speed2 = 60;
             }
-            else{
+            else {
                 speed2 = speed2 - 5;
+            }
+        }
+        function end(score) {
+            let existItem = localStorage.getItem("history");
+            if (existItem == undefined || existItem == null) {
+                historyArr.push(score);
+                let json = JSON.stringify(historyArr);
+                localStorage.setItem("history", json);
+                champion.innerText = score;
+                debugger;
+            }
+            else {
+                let getArr = JSON.parse(existItem);
+                getArr.push(score);
+                let json = JSON.stringify(getArr);
+                localStorage.setItem("history", json);
+                getArr.sort(function (a, b) {
+                    return b - a;
+                })
+                let set = new Set(getArr);
+                let arr = [...set];
+                champion.innerText = arr[0];
+                if(arr[1] != undefined){
+                    second.innerText = arr[1];
+                }
+                if(arr[2] != undefined){
+                    third.innerText = arr[2];
+                }
             }
         }
     </script>
