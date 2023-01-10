@@ -89,7 +89,8 @@
         let rowMove = 0;
         let colMove = 1;
         let control = 0;
-        let speed = 300;
+        let speed = 350;
+        let speed2 = 200;
         let firstFood;
         let snakeArr = [];
         let up,down,left,right;
@@ -117,22 +118,30 @@
                 if ((e.keyCode == 39 || e.which == 39) && (noTurn != 1 && noTurn != 3)) {
                     control = 1;
                     turnRight();
-                    noTurn = 1;
+                    setTimeout(function(){    
+                        noTurn = 1;
+                    },speed2);
                 }
                 else if ((e.keyCode == 40 || e.which == 40) && (noTurn != 2 && noTurn != 4)) {
                     control = 2;
                     turnDown();
-                    noTurn = 2;
+                    setTimeout(function(){    
+                        noTurn = 2;
+                    },speed2);
                 }
                 else if ((e.keyCode == 37 || e.which == 37) && (noTurn != 1 && noTurn != 3)) {
                     control = 3;
                     turnleft();
-                    noTurn = 3;
+                    setTimeout(function(){    
+                        noTurn = 3;
+                    },speed2);
                 }
                 else if ((e.keyCode == 38 || e.which == 38) && (noTurn != 2 && noTurn != 4)) {
                     control = 4;
                     turnUp();
-                    noTurn = 4;
+                    setTimeout(function(){    
+                        noTurn = 4;
+                    },speed2);
                 }
             })
             up = document.querySelector(".up");
@@ -267,6 +276,12 @@
             }
             else{
                 speed = speed - 5;
+            }
+            if(speed2 <= 60){
+                speed2 = 60;
+            }
+            else{
+                speed2 = speed2 - 5;
             }
         }
     </script>
