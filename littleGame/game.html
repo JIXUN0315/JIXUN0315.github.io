@@ -265,6 +265,7 @@
             up.addEventListener("click", (e) => {
                 if (noTurn != 2 && noTurn != 4) {
                     control = 4;
+                    controlRo = "roTop";
                     turnUp();
                     noTurn = 4;
                 }
@@ -272,6 +273,7 @@
             down.addEventListener("click", (e) => {
                 if (noTurn != 2 && noTurn != 4) {
                     control = 2;
+                    controlRo = "roDown";
                     turnDown();
                     noTurn = 2;
                 }
@@ -279,6 +281,7 @@
             left.addEventListener("click", (e) => {
                 if (noTurn != 1 && noTurn != 3) {
                     control = 3;
+                    controlRo = "roLeft";
                     turnleft();
                     noTurn = 3;
                 }
@@ -286,6 +289,7 @@
             right.addEventListener("click", (e) => {
                 if (noTurn != 1 && noTurn != 3) {
                     control = 1;
+                    controlRo = "roRight"
                     turnRight();
                     noTurn = 1;
                 }
