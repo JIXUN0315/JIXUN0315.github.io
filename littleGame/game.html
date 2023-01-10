@@ -11,6 +11,7 @@
         .frame {
             width: 20px;
             height: 20px;
+            box-sizing: border-box;
         }
 
         .key {
@@ -25,16 +26,24 @@
 
         .snake {
             border-radius: 50%;
-            background-color: grey;
+            background-color: rgb(123, 158, 46);
+            box-shadow: 0 0 10px rgb(186, 239, 72);
+            transform: scale(.7);
         }
 
         .food {
-            background-color: red;
+            background-image: url('./heart.png');
+            Background-size: 20px;
         }
 
         .box {
             box-sizing: border-box;
             height: 100px;
+        }
+
+        .snakeHead {
+            background-image: url('./snake.png');
+            Background-size: 20px
         }
 
         .champion {
@@ -54,15 +63,34 @@
             height: 40px;
             width: 40px;
         }
-
+        .roTop{
+            transform: rotate(180deg);
+        }
+        .roDown{
+            transform: rotate(0deg);
+        }
+        .roLeft{
+            transform: rotate(90deg);
+        }
+        .roRight{
+            transform: rotate(270deg);
+        }
         @media screen and (min-width:960px) {
             .frame {
                 width: 50px;
                 height: 50px;
             }
 
+            .food {
+                Background-size: 50px
+            }
+
             .moveArea {
                 width: 750px;
+            }
+
+            .snakeHead {
+                Background-size: 50px
             }
         }
     </style>
@@ -138,14 +166,16 @@
 
 
 
+    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
-
     <script>
         const myModal = new bootstrap.Modal(document.querySelector('.modal'));
         let addressArr = [];
         let historyArr = [];
+        let color = ["rgb(141, 147, 169)","rgb(201, 185, 172)","rgb(153, 162, 141)","rgb(148, 82, 84)"]
+        let controlRo = "roRight";
         let noTurn = 0;
         let rowMove = 0;
         let colMove = 1;
@@ -183,6 +213,7 @@
             document.addEventListener("keydown", function (e) {
                 if ((e.keyCode == 39 || e.which == 39) && (noTurn != 1 && noTurn != 3)) {
                     control = 1;
+                    controlRo = "roRight"
                     turnRight();
                     setTimeout(function () {
                         noTurn = 1;
@@ -190,6 +221,7 @@
                 }
                 else if ((e.keyCode == 40 || e.which == 40) && (noTurn != 2 && noTurn != 4)) {
                     control = 2;
+                    controlRo = "roDown"
                     turnDown();
                     setTimeout(function () {
                         noTurn = 2;
@@ -197,6 +229,7 @@
                 }
                 else if ((e.keyCode == 37 || e.which == 37) && (noTurn != 1 && noTurn != 3)) {
                     control = 3;
+                    controlRo = "roLeft"
                     turnleft();
                     setTimeout(function () {
                         noTurn = 3;
@@ -204,6 +237,7 @@
                 }
                 else if ((e.keyCode == 38 || e.which == 38) && (noTurn != 2 && noTurn != 4)) {
                     control = 4;
+                    controlRo = "roTop"
                     turnUp();
                     setTimeout(function () {
                         noTurn = 4;
@@ -372,7 +406,12 @@
         function dress(arr) {
             arr.forEach(item => {
                 item.classList.add("snake");
+                item.classList.remove(("snakeHead"));
+                item.classList.remove("roLeft","roDown","roTop","roRight");
             });
+            arr[arr.length-1].classList.remove("snake");
+            arr[arr.length-1].classList.add("snakeHead");
+            arr[arr.length-1].classList.add(controlRo);
         }
         function getRndInteger(min, max) {
             return Math.floor(Math.random() * (max - min)) + min;
@@ -422,16 +461,15 @@
                 let set = new Set(getArr);
                 let arr = [...set];
                 champion.innerText = arr[0];
-                if(arr[1] != undefined){
+                if (arr[1] != undefined) {
                     second.innerText = arr[1];
                 }
-                if(arr[2] != undefined){
+                if (arr[2] != undefined) {
                     third.innerText = arr[2];
                 }
             }
         }
     </script>
-    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
 
 </body>
 
