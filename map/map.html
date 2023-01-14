@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        .container>.row {
+            height: 100vh;
+        }
+
+        table {
+            table-layout: fixed;
+        }
+
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row py-5">
+            <div class="col-6">
+                <div id="map"></div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="county">縣市</label>
+                        <select id="county" class="form-control">
+                            <!-- option -->
+                        </select>
+                        <label for="school">學校</label>
+                        <select id="school" class="form-control">
+                            <!-- option -->
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <h2 class="w-100 text-center">
+                        <strong></strong>
+                        大學校園人數統計
+                    </h2>
+                    <div class="col-12">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>學士男生人數</th>
+                                    <th>學士女生人數</th>
+                                    <th>學士人數總計</th>
+                                    <th>碩士男生人數</th>
+                                    <th>碩士女生人數</th>
+                                    <th>碩士人數總計</th>
+                                    <th>博士男生人數</th>
+                                    <th>博士女生人數</th>
+                                    <th>博士人數總計</th>
+                                    <th>總計</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
+    <!-- map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script>
+        //宣告
+        let map;
+        const areaUniversityRequest = fetch("https://raw.githubusercontent.com/JIXUN0315/FileStorage/main/University.json");
+        const studentCountRequest = fetch("https://raw.githubusercontent.com/JIXUN0315/FileStorage/main/StudentOfUniversity.json");
+        let areaUniversity; //大學位置資料
+        let studentCountData; //大學學生數資料
+        let newCountDataArr = [];
+        let CountDataArr = [];
+        let studentOfUniversity; //學生數量資料+大學經緯度資料
+        let markers = L.markerClusterGroup() //marker的欉集
+
+        //DOM
+        const countySelect = document.querySelector("#county");
+        const schoolSelect = document.querySelector("#school");
+        const countyText = document.querySelector("strong");
+        const tbody = document.querySelector("tbody");
+
+        //function
+        function initMap() {
+            //初始化地圖
+            ///第一個參數是id渲染的區域
+            ///第二個參數是座標
+            map = L.map("map", {
+                center: [25.03416068163684, 121.56454962636319],
+                zoom: 9
+            })
+
+            //設定圖層
+            let osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            let osm = new L.TileLayer(osmUrl, { minZoom: 8, maxZoom: 19 })
+            map.addLayer(osm);
+        }
+        function setMapItem() {
+            // //抓資料
+            // Promise.all([areaDataRequest, waterDataRequest])
+            //     .then(res => {
+            //         Promise.all(([areaRes, waterRes] = res).map(x => x.json()))
+            //             .then(jsonData => {
+            //                 console.log(jsonData)
+            //             })
+            //     })
+            Promise.all([areaUniversityRequest, studentCountRequest])
+                .then(res => Promise.all(res.map(x => x.json())))
+                .then(jsonData => {
+                    [areaUniversity, studentCountData] = jsonData;
+                    areaUniversity = areaUniversity[2]["data"];
+                    studentCountData.forEach(element => {
+                        let schoolname = element["學校名稱"];
+                        let city = element["縣市名稱"].substring(3, element["縣市名稱"].Length);
+                        let toGrade = studentCountData.filter(z => z["學校名稱"] == schoolname);
+                        let PhDM = toGrade[0]["男生計"].replace(",", "");
+                        let PhDF = toGrade[0]["女生計"].replace(",", "");
+                        let PhDT = toGrade[0]["總計"].replace(",", "");
+                        let masterM, masterF, masterT;
+                        if (toGrade[1] != undefined) {
+                            masterM = toGrade[1]["男生計"].replace(",", "");
+                            masterF = toGrade[1]["女生計"].replace(",", "");
+                            masterT = toGrade[1]["總計"].replace(",", "");
+                        }
+                        else {
+                            masterM = 0
+                            masterF = 0
+                            masterT = 0
+                        }
+                        let total, bachelorM, bachelorF, bachelorT;
+                        if (toGrade[2] != undefined) {
+                            bachelorM = toGrade[2]["男生計"].replace(",", "");
+                            bachelorF = toGrade[2]["女生計"].replace(",", "");
+                            bachelorT = toGrade[2]["總計"].replace(",", "");
+                        }
+                        else {
+                            bachelorM = 0
+                            bachelorF = 0
+                            bachelorT = 0
+                        }
+                        total = parseInt(PhDT) + parseInt(masterT) + parseInt(bachelorT);
+                        schoolname = schoolname.replace("國立", "");
+                        schoolname = schoolname.replace("臺", "台")
+                        let obj = { schoolname, PhDM, PhDF, PhDT, masterM, masterF, masterT, bachelorM, bachelorF, bachelorT, total, city }
+                        newCountDataArr.push(obj);
+                    });
+                    newCountDataArr.forEach(i => {
+                        if (CountDataArr.find(c => c.schoolname == i.schoolname) == undefined) {
+                            CountDataArr.push(i)
+                        }
+                    })
+                    studentOfUniversity = CountDataArr.map(x => {
+                        let area = areaUniversity.find(y => y["name"] == x["schoolname"])
+                        return {
+                            ...x,
+                            city: x.city,
+                            lat: area != undefined ? area.latitude : undefined,
+                            lng: area != undefined ? area.longitude : undefined
+                        }
+                    }).filter(x => x.lng != undefined).groupBy("city");
+
+                    //抓完資料(含整理)後，渲染地圖物件
+                    renderMarker()
+                    countySelect.addEventListener("change", citySelectChange);
+                    // initCountySelect()
+                })
+        }
+        function renderMarker() {
+            if (markers) markers.clearLayers()
+
+            Object.keys(studentOfUniversity).forEach(key => {
+                let data = studentOfUniversity[key]
+                data.forEach(school => {
+                    let marker = L.marker([school.lat, school.lng])
+                    markers.addLayer(marker);
+
+                    // let avg = (data.map(x => parseInt(x.total))
+                    //             .reduce((a,b) => a + b )/12).toFixed(2);
+                    //
+                    marker.bindPopup(
+                        `
+                        <h4>${school.schoolname}</h4>
+                        <p>學生總數:${school.total} 人</p>
+                        `
+                    )
+
+                    marker.addEventListener("click", function () {
+                        countyText.innerText = `${key} ${school.schoolname}`;
+                        tbody.innerHTML = ""
+                        let countTr = document.createElement("tr")
+                        let tagTr = document.createElement("tr")
+                        let bachelorM = document.createElement("td");
+                        bachelorM.innerText = school.bachelorM;
+                        countTr.append(bachelorM);
+                        let bachelorF = document.createElement("td");
+                        bachelorF.innerText = school.bachelorF;
+                        countTr.append(bachelorF);
+                        let bachelorT = document.createElement("td");
+                        bachelorT.innerText = school.bachelorT;
+                        countTr.append(bachelorT);
+                        let masterM = document.createElement("td");
+                        masterM.innerText = school.masterM;
+                        countTr.append(masterM);
+                        let masterF = document.createElement("td");
+                        masterF.innerText = school.masterF;
+                        countTr.append(masterF);
+                        let masterT = document.createElement("td");
+                        masterT.innerText = school.masterT;
+                        countTr.append(masterT);
+                        let PhDM = document.createElement("td");
+                        PhDM.innerText = school.PhDM
+                        countTr.append(PhDM)
+                        let PhDF = document.createElement("td");
+                        PhDF.innerText = school.PhDF
+                        countTr.append(PhDF)
+                        let PhDT = document.createElement("td");
+                        PhDT.innerText = school.PhDT
+                        countTr.append(PhDT)
+                        let all = document.createElement("td");
+                        all.innerText = school.total;
+                        countTr.append(all);
+                        for (let i = 1; i <= 10; i++) {
+                            let tagTd = document.createElement("td");
+                            let icon = document.createElement("i");
+                            icon.classList.add("fas", "fa-circle");
+                            if (i == 10) {
+                                icon.style.color = "black";
+                            }
+                            else if (i % 3 == 1) {
+                                icon.style.color = "blue";
+                            }
+                            else if (i % 3 == 2) {
+                                icon.style.color = "red";
+                            }
+                            else {
+                                icon.style.color = "greenyellow";
+                            }
+                            tagTd.appendChild(icon);
+                            tagTr.appendChild(tagTd);
+                        }
+                        tbody.appendChild(countTr)
+                        tbody.appendChild(tagTr)
+                    })
+                })
+            })
+
+            map.addLayer(markers)
+            for (let i = 0; i < Object.keys(studentOfUniversity).length; i++) {
+                let option1 = document.createElement("option");
+                option1.value = Object.keys(studentOfUniversity)[i];
+                option1.text = Object.keys(studentOfUniversity)[i];
+                countySelect.add(option1, null);
+                debugger;
+            }
+
+            //---請選擇縣市---
+            let option2 = document.createElement("option");
+            option2.value = "";
+            option2.text = "---請選擇縣市---";
+            option2.setAttribute("selected", "");
+            countySelect.add(option2, 0);
+
+            //---請選擇行政區---
+            let option3 = document.createElement("option");
+            option3.value = "";
+            option3.text = "---請選擇學校---";
+            option3.setAttribute("selected", "");
+            schoolSelect.add(option3, 0);
+
+            schoolSelect.disabled = true;
+        }
+        let selectedCityValue, selectedCityText;
+        function citySelectChange() {
+
+            schoolSelect.length = 1;
+            let districtyArray = studentOfUniversity[countySelect.selectedOptions[0].value];
+
+            studentOfUniversity[countySelect.selectedOptions[0].value].forEach(dt => {
+                let opt = document.createElement("option");
+                opt.value = dt.schoolname;
+                opt.setAttribute("lat",dt.lat);
+                opt.setAttribute("lng",dt.lng);
+                opt.text = dt.schoolname;
+                schoolSelect.add(opt);
+            });
+
+            schoolSelect.disabled = false;
+            schoolSelect.addEventListener("change", initCountySelect);
+            function initCountySelect() {
+                    if (this.value != "") {
+                        //改變地圖的焦點
+                        map.setView([schoolSelect.selectedOptions[0].getAttribute("lat"),schoolSelect.selectedOptions[0].getAttribute("lng")], 18)
+                    }
+            }
+
+        }
+
+
+
+        // window.onload
+        window.onload = function () {
+            initMap()
+            setMapItem()
+        }
+
+
+        Array.prototype.groupBy = function (prop) {
+            return this.reduce((groups, item) => {
+                const val = item[prop]
+                groups[val] = groups[val] || []
+                groups[val].push(item)
+                return groups
+            }, {})
+        }
+
+    </script>
+</body>
+
+</html>
