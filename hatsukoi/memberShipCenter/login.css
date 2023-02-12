@@ -5,11 +5,13 @@
     --peach-pink: #E3A4A4;
     --light-pink: #FEF4F6;
 }
-.login-pic{
+
+.login-pic {
     margin-left: -30px;
     display: block;
 }
-.login-icon{
+
+.login-icon {
     font-family: "微軟正黑體";
     width: 50px;
     height: 50px;
@@ -21,81 +23,173 @@
     border-radius: 50%;
     font-size: 24px;
 }
-.login-way{
+
+.login-way {
     width: 300px;
 }
-.line-grow{
+
+.line-grow {
     position: relative;
 }
-.line-grow::after,.line-grow::before{
-    content:'';
+
+.line-grow::after,
+.line-grow::before {
+    content: '';
     display: block;
     position: absolute;
     border: solid 1px var(--light-Gray);
-    width:80px;
+    width: 80px;
     top: 50%;
     flex-grow: 1;
 }
-.line-grow::after{
+
+.line-grow::after {
     right: 0;
 }
-#loginBtn,#applyBtn{
-    border: 2px solid var(--light-Gray)!important;
+
+#loginBtn,
+#applyBtn {
+    border: 2px solid var(--light-Gray) !important;
 }
-.apply-box-pic{
+
+.apply-box-pic {
     width: 250px;
 }
-#sendvalidateBtn,#normal-login-btn{
-    border-radius: 5px ;
+
+#sendvalidateBtn,
+#normal-login-btn {
+    border-radius: 5px;
     padding: 7px 0;
-    margin:10px 0 ;
+    margin: 10px 0;
     border: none;
 }
-#sendvalidateBtn,#normal-login-btn,#set-password-send,#set-password-resend{
+
+#sendvalidateBtn:hover,
+#normal-login-btn:hover,
+#set-password-send:hover,
+#set-password-resend:hover,
+#create-new-user-btn:hover,
+#info-btn:hover{
+    background-color: var(--peach-pink);
+}
+.reset-btn:hover, .text-pink:hover{
+    cursor: pointer;
+    color: var(--main-pink);
+}
+
+#sendvalidateBtn,
+#normal-login-btn,
+#set-password-send,
+#set-password-resend,
+#create-new-user-btn,
+#info-btn {
     background-color: var(--main-pink);
     color: #FEF4F6;
     padding: 10px;
 }
-#sendvalidateBtn:disabled, #normal-login-btn:disabled,#set-password-send:disabled,#set-password-resend:disabled{
+
+#sendvalidateBtn:disabled,
+#normal-login-btn:disabled,
+#set-password-send:disabled,
+#set-password-resend:disabled,
+#create-new-user-btn:disabled,
+#info-btn:disabled,
+.inputEmail {
     background-color: var(--light-Gray);
 }
-.reset-btn{
+
+.reset-btn {
     border: none;
     background-color: transparent;
     font-size: 14px;
 }
-.text-pink{
-    color:var(--peach-pink);
+
+.text-pink {
+    color: var(--peach-pink);
 }
+
 /* #reset-password-btn{
     border-right: 1px solid var(--dark-gray);
 } */
-.text-small{
+.text-small {
     font-size: 14px;
 }
-#account::-webkit-input-placeholder,#password::-webkit-input-placeholder{
-    color: var(--light-Gray);    /* 更改placeholder的字體顏色  */
-    font-size: 14px;    /* 更改placeholder的字體大小  */
+
+#account::-webkit-input-placeholder,
+#password::-webkit-input-placeholder {
+    color: var(--light-Gray);
+    /* 更改placeholder的字體顏色  */
+    font-size: 14px;
+    /* 更改placeholder的字體大小  */
 }
-.cover-input{
+
+.cover-input {
     background-color: transparent !important;
-    color: var(--light-Gray)!important; 
+    color: var(--light-Gray) !important;
     /* border: none !important; */
 }
-.cover-input-middle{
+
+.cover-input-middle {
     border: var(--light-Gray) 1px solid !important;
     border-left: none !important;
     border-right: none !important;
 }
-#seepassword-btn,#eye{
+
+#seepassword-btn,
+#eye,
+#seepassword-btn2 {
     border-left: none !important;
 }
-input:focus{
+
+input:focus {
     outline: none;
 }
-.text-very-small{
+
+.text-very-small {
     font-size: 10px;
 }
-#set-password-send,#set-password-resend{
+
+#set-password-send,
+#set-password-resend,
+#create-new-user-btn,
+#info-btn,
+.inputEmail {
     border: none;
+}
+
+.text-main-pink {
+    color: var(--main-pink);
+}
+
+.note {
+    display: block;
+    font-size: 10px;
+    color: var(--light-Gray);
+    text-align: left;
+    margin-top: 5px;
+}
+.my-input:nth-child(odd){
+    width: 100px;
+    line-height: 3;
+    border: 1px solid var(--light-Gray);
+}
+.my-input:nth-child(even){
+    width: 50px;
+    line-height: 3;
+    border: 1px solid var(--light-Gray);
+}
+.bg-gray{
+    background-color: var(--light-Gray);
+    opacity: .5;
+}
+.inputEmail{
+    line-height: 3;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+}
+.my-hover-gray:hover{
+    background-color: var(--light-Gray)!important;
+    color: white!important;
+    cursor: pointer;
 }

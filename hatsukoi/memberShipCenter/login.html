@@ -18,7 +18,7 @@
         登入
     </button>
 
-    <!-- Modal -->
+    <!-- login-modal -->
     <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -31,57 +31,28 @@
                     <div class="login-way mx-auto text-center my-3">
                         <p>用以下帳號繼續</p>
                         <div class="d-flex justify-content-around my-3">
-                            <div class="login-icon">
+                            <div class="login-icon my-hover-gray">
                                 <i class="fa-brands fa-google"></i>
                             </div>
-                            <div class="login-icon">
+                            <div class="login-icon my-hover-gray">
                                 <i class="fa-brands fa-line"></i>
                             </div>
-                            <div class="login-icon">
+                            <div class="login-icon my-hover-gray">
                                 <i class="fa-brands fa-facebook"></i>
                             </div>
                         </div>
                         <div class="d-flex my-3 mt-5">
                             <span class="flex-grow-1 line-grow">或用Hatsukoi帳號</span>
                         </div>
-                        <button class="btn border mx-2 px-5" id="loginBtn" onclick="login()">登入</button>
-                        <button class="btn border mx-2 px-5" id="applyBtn" onclick="apply()">註冊</button>
+                        <button class="btn border mx-2 px-5 my-hover-gray" id="loginBtn" onclick="login()">登入</button>
+                        <button class="btn border mx-2 px-5 my-hover-gray" id="applyBtn" onclick="apply()">註冊</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="apply-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="mx-auto apply-box-pic py-3">
-                        <img src="./hatsukoi_logo.svg" alt="123">
-                    </div>
-                </div>
-                <div class="login-way mx-auto text-center my-3">
-                    <p class="email-titlte">信箱驗證</p>
-                    <div class="email-text text-start">
-                        <span class="my-3 text-small d-block">為了確保是你本人，我們將會寄送一封驗證Email到你的信箱。</span>
-
-                        <label for="email" class="d-block">信箱</label>
-                        <div class="input-group">
-                            <input id="email" name="email" type="text" aria-label="email" class="form-control">
-                        </div>
-                        <button disabled id="sendvalidateBtn" class="w-100 my-3">
-                            寄送驗證信
-                        </button>
-                        <button class="w-100 text-pink reset-btn" onclick="turnBack()">
-                            回上一頁
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
+    <!-- normal-login-modal -->
     <div class="modal fade" id="normal-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -97,14 +68,17 @@
                         <!-- <input id="account" name="account" type="text" aria-label="account" class="form-control my-4" placeholder="Hatsukoi 帳號"> -->
                         <div class="input-group my-4">
                             <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-user"></i></span>
-                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="account" name="account" type="text" aria-label="account" placeholder="Hatsukoi 帳號">
+                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="account"
+                                name="account" type="text" aria-label="account" placeholder="Hatsukoi 帳號">
                             <span class="input-group-text cover-input" id="eye"></span>
                         </div>
                         <div class="input-group mb-3">
                             <!-- <i class="fa-regular fa-eye"></i> -->
                             <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-lock"></i></span>
-                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="password" name="password" type="password" aria-label="password" placeholder="密碼">
-                            <span class="input-group-text cover-input" id="seepassword-btn"><i class="fa-regular fa-eye-slash"></i></span>
+                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="password"
+                                name="password" type="password" aria-label="password" placeholder="密碼">
+                            <span class="input-group-text cover-input" id="seepassword-btn"><i
+                                    class="fa-regular fa-eye-slash"></i></span>
                         </div>
                         <button disabled id="normal-login-btn" class="w-100">
                             登入
@@ -125,7 +99,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- set-password-modal -->
     <div class="modal fade" id="set-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -142,7 +116,8 @@
                         <p class="text-very-small text-start">找不到認證信時，請到「垃圾信件」分類查找，或在信箱搜尋「Hatsukoi」。</p>
                         <div class="input-group my-3">
                             <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-envelope"></i></span>
-                            <input class="flex-grow-1 cover-input-middle" oninput="SendCheck()" id="send-password" name="send-password" type="text" aria-label="send-password" placeholder="Email">
+                            <input class="flex-grow-1 cover-input-middle" oninput="SendCheck()" id="send-password"
+                                name="send-password" type="text" aria-label="send-password" placeholder="Email">
                             <span class="input-group-text cover-input" id="eye"></span>
                         </div>
                         <button disabled id="set-password-send" class="w-100">
@@ -157,9 +132,8 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="resend-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <!-- resend-modal -->
+    <div class="modal fade" id="resend-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
@@ -174,7 +148,8 @@
                         <p class="text-very-small text-start">找不到認證信時，請到「垃圾信件」分類查找，或在信箱搜尋「Hatsukoi」。</p>
                         <div class="input-group my-3">
                             <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-envelope"></i></span>
-                            <input class="flex-grow-1 cover-input-middle" oninput="resendCheck()" id="resend-password" name="resend-password" type="text" aria-label="resend-password" placeholder="Email">
+                            <input class="flex-grow-1 cover-input-middle" oninput="resendCheck()" id="resend-password"
+                                name="resend-password" type="text" aria-label="resend-password" placeholder="Email">
                             <span class="input-group-text cover-input" id="eye"></span>
                         </div>
                         <button disabled id="set-password-resend" class="w-100">
@@ -189,6 +164,137 @@
         </div>
     </div>
 
+    <!-- create-new-user -->
+    <div class="modal fade" id="create-new-user-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="mx-auto apply-box-pic pt-3">
+                        <img src="./hatsukoi_logo.svg" alt="123">
+                    </div>
+                </div>
+                <div class="login-way mx-auto text-center pb-4">
+                    <div class="email-text text-center">
+                        <p>註冊 Hatsukoi 帳號</p>
+                        <label for="account1"
+                            class="text-very-small fw-bolder text-start d-block text-main-pink">Hatsukoi 帳號</label>
+                        <div class="input-group mt-1">
+                            <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-user"></i></span>
+                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck1()" id="account1"
+                                name="account1" type="text" aria-label="account1">
+                            <span class="input-group-text cover-input" id="eye"></span>
+                        </div>
+                        <span class="note mb-4">帳號只能是英文、數字和「-」</span>
+                        <label for="password1"
+                            class="text-very-small fw-bolder text-start d-block text-main-pink">密碼</label>
+                        <div class="input-group mt-1">
+                            <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-lock"></i></span>
+                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck1()" id="password1"
+                                name="password1" type="password" aria-label="password1">
+                            <span class="input-group-text cover-input" id="seepassword-btn2"><i
+                                    class="fa-regular fa-eye-slash"></i></span>
+                        </div>
+                        <span class="note mb-4">密碼須為 6 碼以上的英文、數字或符號</span>
+                        <label for="email1"
+                            class="text-very-small fw-bolder text-start d-block text-main-pink">Email</label>
+                        <div class="input-group mt-1 mb-3">
+                            <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-envelope"></i></span>
+                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck1()" id="email1"
+                                name="email1" type="text" aria-label="email1">
+                            <span class="input-group-text cover-input" id="eye"></span>
+                        </div>
+                        <button disabled onclick="intoInfo()" id="create-new-user-btn" class="w-100 my-3">
+                            註冊
+                        </button>
+                        <div class="my-3 text-small">
+                            <p>已經有帳號了? <span class="text-pink" onclick="login()">馬上登入</span> </p>
+                        </div>
+                        <button class="w-100 text-pink reset-btn" onclick="turnBack()">
+                            回上一頁
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- resend-modal -->
+    <div class="modal fade" id="info-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="mx-auto apply-box-pic pt-3">
+                        <img src="./hatsukoi_logo.svg" alt="123">
+                    </div>
+                </div>
+                <div class="login-way mx-auto text-center pb-4">
+                    <div class="email-text text-center">
+                        <h6 class="p-2">讓我們了解更多</h6>
+                        <p class="text-very-small text-start mt-3">我們會根據性別、年齡推薦給你最適合的商品、設計館及個人專屬通知，為你提供最好的體驗。</p>
+                        <span class="text-start text-small d-block">性別</span>
+                        <div class="d-flex mt-2 mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                    id="flexRadioDefault1">
+                                <label class="form-check-label text-small me-4" for="flexRadioDefault1">
+                                    女性
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                    id="flexRadioDefault2" checked>
+                                <label class="form-check-label text-small" for="flexRadioDefault2">
+                                    男性
+                                </label>
+                            </div>
+                        </div>
+                        <span class="text-start text-small d-block">生日</span>
+                        <div class="d-flex justify-content-between my-1">
+                            <input class="my-input text-very-small ps-2" oninput='inputCheck2()' type="text"
+                                placeholder="YYYY">
+                            <input class="my-input text-very-small ps-2" oninput='inputCheck2()' type="text"
+                                placeholder="MM">
+                            <input class="my-input text-very-small ps-2" oninput='inputCheck2()' type="text"
+                                placeholder="DD">
+                        </div>
+                        <button disabled id="info-btn" class="w-100 mt-4">
+                            完成
+                        </button>
+                        <button class="w-100 text-pink reset-btn mt-4" data-bs-dismiss="modal" aria-label="Close">
+                            稍後再說
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 請查看你的email-modal -->
+    <div class="modal fade" id="apply-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="mx-auto apply-box-pic pt-3">
+                        <img src="./hatsukoi_logo.svg" alt="123">
+                    </div>
+                </div>
+                <p class="email-titlte text-center">請查看你的 Email</p>
+                <p class="my-0 py-2 text-center text-very-small bg-gray">已將信件寄送至 {e4866995@gmail.com} 。</p>
+                <div class="login-way mx-auto text-center mb-3">
+
+                    <div class="email-text text-start">
+                        <span class="my-3 text-very-small d-block">為了確保是你本人，我們將會寄送一封驗證Email到你的信箱，請點擊信裡的確認連結已開通帳號。</span>
+                        <p class="text-very-small text-start">找不到認證信時，請到「垃圾信件」分類查找，或在信箱搜尋「Hatsukoi」。</p>
+                        <button id="sendvalidateBtn" class="w-100 my-3">
+                            重新寄送驗證信
+                        </button>
+                        <button class="w-100 text-pink reset-btn" data-bs-dismiss="modal" aria-label="Close">
+                            稍後認證
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
@@ -196,83 +302,127 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <script>
-        const applyBtn = document.querySelector('#applyBtn');
-        const loginBtn = document.querySelector('#loginBtn');
-        const mainLogin = new bootstrap.Modal(document.getElementById('login-modal'), true)
+        const mainLoginModal = new bootstrap.Modal(document.getElementById('login-modal'), true)
         const applyModal = new bootstrap.Modal(document.getElementById('apply-modal'), true)
         const normalLoginModal = new bootstrap.Modal(document.getElementById('normal-login-modal'), true)
+        const setPasswordModal = new bootstrap.Modal(document.getElementById('set-password-modal'), true)
+        const resendModal = new bootstrap.Modal(document.getElementById('resend-modal'), true)
+        const createNewUserModal = new bootstrap.Modal(document.getElementById('create-new-user-modal'), true)
+        const infoModal = new bootstrap.Modal(document.getElementById('info-modal'), true)
+        
         const emailInput = document.querySelector('#email');
-        const sendvalidateBtn = document.querySelector('#sendvalidateBtn');
         const accountInput = document.querySelector('#account');
         const passwordInput = document.querySelector('#password');
+        const sendPasswordInput = document.querySelector('#send-password')
+        const resendPasswordInput = document.querySelector('#resend-password')
+        const account1Input = document.querySelector('#account1')
+        const password1Input = document.querySelector('#password1')
+        const email1Input = document.querySelector('#email1')
+
+        const applyBtn = document.querySelector('#applyBtn');
+        const loginBtn = document.querySelector('#loginBtn');
+        const sendvalidateBtn = document.querySelector('#sendvalidateBtn');
         const normalLoginBtn = document.querySelector('#normal-login-btn');
         const seePasswordBtn = document.querySelector('#seepassword-btn');
-        const setPasswordModal = new bootstrap.Modal(document.getElementById('set-password-modal'), true)
-        const sendPasswordInput = document.querySelector('#send-password')
-        const setPasswordSend = document.querySelector('#set-password-send')
+        const setPasswordSendBtn = document.querySelector('#set-password-send')
         const resetPasswordBtn = document.querySelector('#reset-password-btn')
-        const resendModal = new bootstrap.Modal(document.getElementById('resend-modal'), true)
-        const resendPasswordInput = document.querySelector('#resend-password')
-        const setPasswordResend = document.querySelector('#set-password-resend')
+        const setPasswordResendBtn = document.querySelector('#set-password-resend')
         const resetEmailBtn = document.querySelector('#reset-email-btn')
+        const createNewUserBtn = document.querySelector('#create-new-user-btn')
+        const seepasswordBtn2 = document.querySelector('#seepassword-btn2')
+        const myInputArr = document.querySelectorAll('.my-input')
+        const infoBtn = document.querySelector('#info-btn')
 
-        window.onload = function () {
-
+        infoBtn.onclick = function(){
+            infoModal.hide();
+            applyModal.show();
         }
-        seePasswordBtn.addEventListener('click', function(){
-            if(passwordInput.type == 'password'){
+        seepasswordBtn2.addEventListener('click',function (){
+            if (password1Input.type == 'password') {
+                seepasswordBtn2.innerHTML = '<i class="fa-regular fa-eye"></i>'
+                password1Input.type = 'text'
+            }
+            else {
+                seepasswordBtn2.innerHTML = '<i class="fa-regular fa-eye-slash"></i>'
+                password1Input.type = 'password'
+            }
+        })
+        seePasswordBtn.addEventListener('click', function () {
+            if (passwordInput.type == 'password') {
                 seePasswordBtn.innerHTML = '<i class="fa-regular fa-eye"></i>'
                 passwordInput.type = 'text'
             }
-            else{
+            else {
                 seePasswordBtn.innerHTML = '<i class="fa-regular fa-eye-slash"></i>'
                 passwordInput.type = 'password'
             }
         })
 
-        resetPasswordBtn.addEventListener('click',()=>{
+        resetPasswordBtn.addEventListener('click', () => {
             normalLoginModal.hide();
             setPasswordModal.show();
         })
-        resetEmailBtn.addEventListener('click',()=>{
+        resetEmailBtn.addEventListener('click', () => {
             normalLoginModal.hide();
             resendModal.show();
         })
         emailInput.addEventListener("input", function () {
             sendvalidateBtn.disabled = !emailInput.value ? true : false;
         })
-        function resendCheck(){
-            setPasswordResend.disabled = !resendPasswordInput.value ? true : false;
+        function resendCheck() {
+            setPasswordResendBtn.disabled = !resendPasswordInput.value ? true : false;
         }
-        function SendCheck(){
-            setPasswordSend.disabled = !sendPasswordInput.value ? true : false;
+        function SendCheck() {
+            setPasswordSendBtn.disabled = !sendPasswordInput.value ? true : false;
         }
-        function apply(){
-            mainLogin.hide();
+        function apply() {
+            mainLoginModal.hide();
             normalLoginModal.hide();
-            applyModal.show();
+            createNewUserModal.show();
         }
-        function login(){
-            mainLogin.hide();
+        function login() {
+            createNewUserModal.hide();
+            mainLoginModal.hide();
             applyModal.hide();
             normalLoginModal.show();
         }
         function turnBack() {
+            createNewUserModal.hide();
             applyModal.hide();
             normalLoginModal.hide();
             setPasswordModal.hide();
             resendModal.hide();
-            mainLogin.show();
+            mainLoginModal.show();
             emailInput.value = '';
         }
 
-        function inputCheck(){
-            if(accountInput.value && passwordInput.value){
+        function inputCheck() {
+            if (accountInput.value && passwordInput.value) {
                 normalLoginBtn.disabled = false
             }
-            else{
+            else {
                 normalLoginBtn.disabled = true
             }
+        }
+        function inputCheck1() {
+            if (account1Input.value && password1Input.value && email1Input.value) {
+                createNewUserBtn.disabled = false
+            }
+            else {
+                createNewUserBtn.disabled = true
+            }
+        }
+        function inputCheck2() {
+            if (myInputArr[0].value && myInputArr[1].value && myInputArr[2].value) {
+                infoBtn.disabled = false
+            }
+            else {
+                infoBtn.disabled = true
+            }
+        }
+        function intoInfo() {
+            createNewUserModal.hide();
+            infoModal.show();
         }
     </script>
 </body>
