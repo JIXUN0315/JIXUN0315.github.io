@@ -1,0 +1,132 @@
+a, .icon-level{
+    cursor: pointer;
+}
+.logo-box{
+    width: 150px;
+}
+.Top-box{
+    width: 120px;
+}
+img{
+    width: 100%;
+    vertical-align: middle;
+}
+body a{
+    text-decoration: none;
+    color: black;
+}
+.btn-bord{
+    color: var(--dark-gray);
+}
+.mian-pic{
+    padding: 45% 22% 55% 22%;
+    background-image: url("./phone-main-pic.png");
+    background-position: center;
+    background-size:cover ;
+    background-repeat: no-repeat;
+}
+.position-ul{
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.position-ul li{
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.bf{
+    position: relative;
+}
+.bf li:before{
+    content: "";
+    height: 20px;
+    left: 0;
+    position: absolute;
+    width: 20px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.bf li:first-child:before{
+    background-image: url(./list_icon1.svg);
+    top: 2px;
+}
+.bf li:nth-child(2n):before{
+    background-image: url(./list_icon3.svg);
+    top: 28px;
+}
+.box-pic{
+    width: 100px;
+}
+.myBtn{
+    background-color: var(--main-pink);
+    color: #FEF4F6;
+    padding: 10px;
+}
+.banner-pic{
+    background-color: var(--light-pink);
+}
+.icon-level{
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+}
+.icon-level, .icon-level+p{
+    color: var(--light-Gray);
+}
+.btn-check:checked+label .icon-level{
+    color: var(--peach-pink);
+}
+.btn-check:checked+label p{
+    color: black;
+}
+.odd-even-choose{
+    border-right: 1px black solid;
+}
+.box:nth-child(odd) .odd-even-choose{
+    background-color: var(--light-pink);
+}
+.box:nth-child(even) .odd-even-choose{
+    background-color: var(--main-pink);
+    color:white;
+}
+.box:nth-child(even) .aj{
+    background-color: var(--light-Gray)
+}
+.item-1 i{
+    color: var(--peach-pink);
+}
+.footer-logo-box-1{
+    width: 180px;
+}
+.footer-1{
+    width: 400px;
+}
+.footer-fluid-1{
+    background-color: var(--light-pink);
+}
+.footer-icon-1{
+    width: 50px;
+    height: 50px;
+    background-color: white ;
+    color: var(--dark-gray); 
+}
+.copy-by{
+    font-size: 12px;
+}
+@media screen and (min-width:768px){
+    body{
+        font-size: 1.2em!important;
+    }
+    .mian-pic{
+        padding: 0;
+        height: 800px;
+        background-image: url("./topbanner@1x_bg_v3.png");
+    }
+    .banner-pic-text{
+        background-color: var(--light-pink);
+        font-weight: bold;
+        text-align: center;
+    }
+}

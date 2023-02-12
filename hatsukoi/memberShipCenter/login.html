@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>hatsukoi</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="icon" href="../hatsukoi_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../rootColor.css">
+    <link rel="stylesheet" href="./login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body>
+    <button type="button" class="btn btn-primary mx-5 mt-5" data-bs-toggle="modal" data-bs-target="#login-modal">
+        登入
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="overflow-hidden">
+                        <img class="login-pic" src="./未命名.png" alt="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="login-way mx-auto text-center my-3">
+                        <p>用以下帳號繼續</p>
+                        <div class="d-flex justify-content-around my-3">
+                            <div class="login-icon">
+                                <i class="fa-brands fa-google"></i>
+                            </div>
+                            <div class="login-icon">
+                                <i class="fa-brands fa-line"></i>
+                            </div>
+                            <div class="login-icon">
+                                <i class="fa-brands fa-facebook"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex my-3 mt-5">
+                            <span class="flex-grow-1 line-grow">或用Hatsukoi帳號</span>
+                        </div>
+                        <button class="btn border mx-2 px-5" id="loginBtn" onclick="login()">登入</button>
+                        <button class="btn border mx-2 px-5" id="applyBtn" onclick="apply()">註冊</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="apply-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="mx-auto apply-box-pic py-3">
+                        <img src="./hatsukoi_logo.svg" alt="123">
+                    </div>
+                </div>
+                <div class="login-way mx-auto text-center my-3">
+                    <p class="email-titlte">信箱驗證</p>
+                    <div class="email-text text-start">
+                        <span class="my-3 text-small d-block">為了確保是你本人，我們將會寄送一封驗證Email到你的信箱。</span>
+
+                        <label for="email" class="d-block">信箱</label>
+                        <div class="input-group">
+                            <input id="email" name="email" type="text" aria-label="email" class="form-control">
+                        </div>
+                        <button disabled id="sendvalidateBtn" class="w-100 my-3">
+                            寄送驗證信
+                        </button>
+                        <button class="w-100 text-pink reset-btn" onclick="turnBack()">
+                            回上一頁
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="normal-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="mx-auto apply-box-pic pt-3">
+                        <img src="./hatsukoi_logo.svg" alt="123">
+                    </div>
+                </div>
+                <div class="login-way mx-auto text-center pb-4">
+                    <div class="email-text text-center">
+                        <span>用 Hatsukoi 帳號登入</span>
+                        <!-- <input id="account" name="account" type="text" aria-label="account" class="form-control my-4" placeholder="Hatsukoi 帳號"> -->
+                        <div class="input-group my-4">
+                            <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-user"></i></span>
+                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="account" name="account" type="text" aria-label="account" placeholder="Hatsukoi 帳號">
+                            <span class="input-group-text cover-input" id="eye"></span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <!-- <i class="fa-regular fa-eye"></i> -->
+                            <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-lock"></i></span>
+                            <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="password" name="password" type="password" aria-label="password" placeholder="密碼">
+                            <span class="input-group-text cover-input" id="seepassword-btn"><i class="fa-regular fa-eye-slash"></i></span>
+                        </div>
+                        <button disabled id="normal-login-btn" class="w-100">
+                            登入
+                        </button>
+                        <div class="">
+                            <button class="reset-btn" id="reset-password-btn">忘記密碼</button>
+                            <button class="reset-btn" id="reset-email-btn">重寄認證信</button>
+                        </div>
+                        <div class="my-3 text-small">
+                            <p>還不是會員嗎? <span class="text-pink" onclick="apply()">立即註冊新帳號</span> </p>
+                        </div>
+                        <button class="w-100 text-pink reset-btn" onclick="turnBack()">
+                            回上一頁
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="set-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="mx-auto apply-box-pic pt-3">
+                        <img src="./hatsukoi_logo.svg" alt="123">
+                    </div>
+                </div>
+                <div class="login-way mx-auto text-center pb-4">
+                    <div class="email-text text-center">
+                        <h6 class="p-2">重設密碼</h6>
+                        <p class="text-very-small text-start mt-3">請輸入你註冊時的 Email，我們會發送一封信件，點擊信件中的連結以重設密碼。</p>
+                        <p class="text-very-small text-start">找不到認證信時，請到「垃圾信件」分類查找，或在信箱搜尋「Hatsukoi」。</p>
+                        <div class="input-group my-3">
+                            <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-envelope"></i></span>
+                            <input class="flex-grow-1 cover-input-middle" oninput="SendCheck()" id="send-password" name="send-password" type="text" aria-label="send-password" placeholder="Email">
+                            <span class="input-group-text cover-input" id="eye"></span>
+                        </div>
+                        <button disabled id="set-password-send" class="w-100">
+                            送出
+                        </button>
+                        <button class="w-100 text-pink reset-btn pt-3" onclick="turnBack()">
+                            回上一頁
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resend-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="mx-auto apply-box-pic pt-3">
+                        <img src="./hatsukoi_logo.svg" alt="123">
+                    </div>
+                </div>
+                <div class="login-way mx-auto text-center pb-4">
+                    <div class="email-text text-center">
+                        <h6 class="p-2">重新寄送認證信</h6>
+                        <p class="text-very-small text-start mt-3">我們會將一封認證信寄送至你的 Email，請點擊信裡的確認連結以開通帳號。</p>
+                        <p class="text-very-small text-start">找不到認證信時，請到「垃圾信件」分類查找，或在信箱搜尋「Hatsukoi」。</p>
+                        <div class="input-group my-3">
+                            <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-envelope"></i></span>
+                            <input class="flex-grow-1 cover-input-middle" oninput="resendCheck()" id="resend-password" name="resend-password" type="text" aria-label="resend-password" placeholder="Email">
+                            <span class="input-group-text cover-input" id="eye"></span>
+                        </div>
+                        <button disabled id="set-password-resend" class="w-100">
+                            送出
+                        </button>
+                        <button class="w-100 text-pink reset-btn pt-3" onclick="turnBack()">
+                            回上一頁
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script>
+        const applyBtn = document.querySelector('#applyBtn');
+        const loginBtn = document.querySelector('#loginBtn');
+        const mainLogin = new bootstrap.Modal(document.getElementById('login-modal'), true)
+        const applyModal = new bootstrap.Modal(document.getElementById('apply-modal'), true)
+        const normalLoginModal = new bootstrap.Modal(document.getElementById('normal-login-modal'), true)
+        const emailInput = document.querySelector('#email');
+        const sendvalidateBtn = document.querySelector('#sendvalidateBtn');
+        const accountInput = document.querySelector('#account');
+        const passwordInput = document.querySelector('#password');
+        const normalLoginBtn = document.querySelector('#normal-login-btn');
+        const seePasswordBtn = document.querySelector('#seepassword-btn');
+        const setPasswordModal = new bootstrap.Modal(document.getElementById('set-password-modal'), true)
+        const sendPasswordInput = document.querySelector('#send-password')
+        const setPasswordSend = document.querySelector('#set-password-send')
+        const resetPasswordBtn = document.querySelector('#reset-password-btn')
+        const resendModal = new bootstrap.Modal(document.getElementById('resend-modal'), true)
+        const resendPasswordInput = document.querySelector('#resend-password')
+        const setPasswordResend = document.querySelector('#set-password-resend')
+        const resetEmailBtn = document.querySelector('#reset-email-btn')
+
+        window.onload = function () {
+
+        }
+        seePasswordBtn.addEventListener('click', function(){
+            if(passwordInput.type == 'password'){
+                seePasswordBtn.innerHTML = '<i class="fa-regular fa-eye"></i>'
+                passwordInput.type = 'text'
+            }
+            else{
+                seePasswordBtn.innerHTML = '<i class="fa-regular fa-eye-slash"></i>'
+                passwordInput.type = 'password'
+            }
+        })
+
+        resetPasswordBtn.addEventListener('click',()=>{
+            normalLoginModal.hide();
+            setPasswordModal.show();
+        })
+        resetEmailBtn.addEventListener('click',()=>{
+            normalLoginModal.hide();
+            resendModal.show();
+        })
+        emailInput.addEventListener("input", function () {
+            sendvalidateBtn.disabled = !emailInput.value ? true : false;
+        })
+        function resendCheck(){
+            setPasswordResend.disabled = !resendPasswordInput.value ? true : false;
+        }
+        function SendCheck(){
+            setPasswordSend.disabled = !sendPasswordInput.value ? true : false;
+        }
+        function apply(){
+            mainLogin.hide();
+            normalLoginModal.hide();
+            applyModal.show();
+        }
+        function login(){
+            mainLogin.hide();
+            applyModal.hide();
+            normalLoginModal.show();
+        }
+        function turnBack() {
+            applyModal.hide();
+            normalLoginModal.hide();
+            setPasswordModal.hide();
+            resendModal.hide();
+            mainLogin.show();
+            emailInput.value = '';
+        }
+
+        function inputCheck(){
+            if(accountInput.value && passwordInput.value){
+                normalLoginBtn.disabled = false
+            }
+            else{
+                normalLoginBtn.disabled = true
+            }
+        }
+    </script>
+</body>
+
+</html>
