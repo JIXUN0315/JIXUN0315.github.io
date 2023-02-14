@@ -192,3 +192,6 @@ input:focus {
     color: white!important;
     cursor: pointer;
 }
+.text-red{
+    color: red !important;
+}

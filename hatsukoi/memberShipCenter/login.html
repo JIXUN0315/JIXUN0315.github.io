@@ -88,7 +88,7 @@
                 <div class="login-way mx-auto text-center pb-4">
                     <div class="email-text text-center">
                         <span>用 Hatsukoi 帳號登入</span>
-                        <!-- <input id="account" name="account" type="text" aria-label="account" class="form-control my-4" placeholder="Hatsukoi 帳號"> -->
+                        <span class="d-block text-red text-small mx-auto my-2">帳號或密碼不正確，請再檢查一下</span>
                         <div class="input-group my-4">
                             <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-user"></i></span>
                             <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="account"
@@ -209,6 +209,7 @@
                             <span class="input-group-text cover-input" id="eye"></span>
                         </div>
                         <span class="note mb-4">帳號只能是英文、數字和「-」</span>
+                        <span class="d-block text-red text-small mx-auto my-2">帳號只能是英文、數字和「-」</span>
                         <label for="password1"
                             class="text-very-small fw-bolder text-start d-block text-main-pink">密碼</label>
                         <div class="input-group mt-1">
@@ -219,6 +220,7 @@
                                     class="fa-regular fa-eye-slash"></i></span>
                         </div>
                         <span class="note mb-4">密碼須為 6 碼以上的英文、數字或符號</span>
+                        <span class="d-block text-red text-small mx-auto my-2">密碼須為 6 碼以上的英文、數字或符號</span>
                         <label for="email1"
                             class="text-very-small fw-bolder text-start d-block text-main-pink">Email</label>
                         <div class="input-group mt-1 mb-3">
@@ -227,6 +229,7 @@
                                 name="email1" type="text" aria-label="email1">
                             <span class="input-group-text cover-input" id="eye"></span>
                         </div>
+                        <span class="d-block text-red text-small mx-auto my-2">Email 的格式不正確</span>
                         <button disabled onclick="intoInfo()" id="create-new-user-btn" class="w-100 my-3">
                             註冊
                         </button>
@@ -280,6 +283,7 @@
                             <input class="my-input text-very-small ps-2" oninput='inputCheck2()' type="text"
                                 placeholder="DD">
                         </div>
+                        <span class="d-block text-red text-small mx-auto my-2">日期 的格式不正確</span>
                         <button disabled id="info-btn" class="w-100 mt-4">
                             完成
                         </button>
