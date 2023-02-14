@@ -24,3 +24,29 @@ img{
 .text-pink{
     color: var(--peach-pink);
 }
+.max-768{
+    max-width: 768px;
+    margin: auto;
+}
+.bg-pink{
+    background-color: var(--peach-pink) !important;
+}
+.bg-main{
+    background-color: var(--main-pink) !important;
+}
+.border-main{
+    border: 1px solid var(--main-pink) !important;
+}
+.border-main:hover{
+    background-color:var(--dark-gray) !important;
+    color: white !important;
+}
+.bg-main:hover{
+    background-color:var(--peach-pink) !important;
+}
+input:invalid {
+    border: 2px solid red;
+  }
+.text-red{
+    color: red !important;
+}
