@@ -1,0 +1,61 @@
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-Gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+img{
+    vertical-align: middle;
+    width: 100%;
+}
+.text-small {
+    font-size: 14px !important;
+}
+.text-very-small {
+    font-size: 10px !important;
+}
+.notification-navbar-item{
+    line-height: 2.5;
+}
+.notification-navbar-item:nth-child(1){
+    border-bottom: 1px solid var(--light-Gray);
+}
+.notification-navbar-show{
+    background-color: var(--light-Gray);
+    margin-right: -6%;
+    margin-left: -6%;
+    padding-left: 6%;
+}
+.my-icon{
+    width: 70px !important;
+}
+.bottom-accord{
+    margin-left: 74px;
+}
+.accord-text{
+    padding-left: 74px !important;
+}
+button{
+    outline: none !important;
+}
+.accordion-button:focus{
+    border-color: none !important;
+    outline: none !important;
+    box-shadow: none!important;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: var(--light-pink) !important;
+    color: black !important;
+}
+.accordion-item{
+    border: none !important;
+}
+.my-btn{
+    background-color: var(--main-pink) !important;
+    color: white !important;
+}
+.my-btn:hover{
+    background-color: var(--dark-gray) !important;
+}
