@@ -1,0 +1,28 @@
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-Gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+.text-main{
+    color: var(--main-pink) !important;
+}
+.max-500{
+    max-width: 500px !important;
+}
+.text-small{
+    font-size: 14px !important;
+}
+.my-btn{
+    background-color: var(--dark-gray) !important;
+    color: var(--light-pink) !important;
+}
+.my-btn:hover{
+    background-color: var(--main-pink) !important;
+    color: white !important;
+}
+img{
+    width: 100%;
+    vertical-align: middle;
+}
