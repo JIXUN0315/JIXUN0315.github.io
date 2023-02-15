@@ -5,6 +5,10 @@
     --peach-pink: #E3A4A4;
     --light-pink: #FEF4F6;
 }
+a{
+    color: black !important;
+    text-decoration: none !important;
+}
 img{
     vertical-align: middle;
     width: 100%;
@@ -58,4 +62,10 @@ button{
 }
 .my-btn:hover{
     background-color: var(--dark-gray) !important;
+}
+.notifi-navbar-area{
+    background-color: rgb(229, 229, 230);
+}
+.notifi-click a{
+    color: var(--main-pink) !important;
 }
