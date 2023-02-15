@@ -69,3 +69,9 @@ button{
 .notifi-click a{
     color: var(--main-pink) !important;
 }
+.accordion-item + .accordion-item{
+    border-top: 1px solid var(--main-pink) !important;
+}
+.accordion-item:hover h2 button{
+    background-color: var(--light-pink) !important;
+}
