@@ -1,0 +1,54 @@
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-Gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+img{
+    width: 100%;
+    vertical-align: middle;
+}
+a{
+    color: black !important;
+    text-decoration: none !important;
+}
+.text-gray{
+    color: rgb(153, 153, 153) !important;
+}
+.text-small {
+    font-size: 14px;
+}
+.text-very-small {
+    font-size: 10px;
+}
+.message-pic{
+    width: 30px;
+}
+.message-center-header{
+    border-bottom: 1px solid var(--light-Gray) !important;
+}
+.modal-button-pic{
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+    background-image: url(./My.png);
+    background-position: center;
+    background-size: contain;
+}
+.all-chat-room{
+    width: 100%;
+}
+.every-message-pic{
+    width: 50px;
+    height: 50px;
+    border-radius: 50% !important;
+    background-image: url(./hatsukoi_icon.png);
+    background-position: center;
+    background-size:auto 72px;
+}
+@media screen and (min-width:768px){
+    .all-chat-room{
+        width: 480px;
+    }
+}
