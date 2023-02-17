@@ -1,0 +1,79 @@
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-Gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+img{
+    width: 100%;
+    vertical-align: middle;
+}
+a{
+    color: black !important;
+    text-decoration: none !important;
+}
+.bg-gray{
+    background-color: var(--light-pink) !important;
+}
+.text-gray{
+    color: rgb(153, 153, 153) !important;
+}
+.text-small {
+    font-size: 14px;
+}
+.text-middle-small{
+    font-size: 13px;
+}
+.text-very-small {
+    font-size: 10px;
+}
+.text-big{
+    font-size: 17px;
+}
+.text-very-big{
+    font-size: 22px;
+}
+li{
+    list-style: none;
+}
+.head-pic{
+    width: 50px;
+    height: 50px;
+    background-image: url(./My.png);
+    background-position: center;
+    background-size: contain;
+}
+.mission-icon{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid var(--main-pink);
+    font-size: 30px;
+}
+.mission-next-year{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid var(--peach-pink);
+    font-size: 30px;
+}
+.first-mission{
+    height: 120px;
+}
+@media screen and (min-width:768px){
+    .first-mission{
+        border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
+    }
+    div .bg-gray{
+        border: none !important;
+        background-color: transparent !important;
+    }
+    div .list-info{
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    div .border-md-none{
+        border: none !important;
+    }
+}
