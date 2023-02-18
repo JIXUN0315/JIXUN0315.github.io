@@ -108,8 +108,25 @@ li{
     color: white;
 }
 .status-over{
-    background-color: var(--light-Gray) !important;
+    background-color: var(--dark-gray) !important;
     color: white;
+}
+.order-detail-card-text{
+    flex-wrap: wrap;
+    max-width: 350px;
+}
+.fix-price-area{
+    width: 100px;
+}
+.my-btn-mark{
+    border-radius: 5px;
+    background-color: var(--main-pink);
+}
+.my-btn-mark a{
+    color: white !important;
+}
+.my-btn-mark:hover{
+    background-color: var(--dark-gray);
 }
 @media screen and (min-width:768px){
     .first-mission{
