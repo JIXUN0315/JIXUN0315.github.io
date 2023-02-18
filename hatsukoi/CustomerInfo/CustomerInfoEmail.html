@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>hatsukoi</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="icon" href="../hatsukoi_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../rootColor.css">
+    <link rel="stylesheet" href="./CustomerInfo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container my-5">
+        <div class="row flex-md-row-reverse">
+            <div class="col-12 col-md-9 px-4 py-2">
+                <h4>電子郵件通知設定</h4>
+                <p class="text-small my-0 py-4 border-bottom">根據你的偏好，自訂想接收的通知類型，不錯過任何有興趣的優惠資訊！</p>
+                <ul class="nav nav-tabs justify-content-between my-tab-list" id="myTab" role="tablist">
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="no-pay-tab"
+                            data-bs-toggle="tab" data-bs-target="#no-pay" type="button" role="tab"
+                            aria-controls="no-pay" aria-selected="true">訂單狀態</button>
+                    </li>
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="deal-tab"
+                            data-bs-toggle="tab" data-bs-target="#deal" type="button" role="tab" aria-controls="deal"
+                            aria-selected="false">站內訊息</button>
+                    </li>
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="receive-tab"
+                            data-bs-toggle="tab" data-bs-target="#receive" type="button" role="tab"
+                            aria-controls="receive" aria-selected="false">活動優惠及推薦</button>
+                    </li>
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="finish-tab"
+                            data-bs-toggle="tab" data-bs-target="#finish" type="button" role="tab"
+                            aria-controls="finish" aria-selected="false">會員提醒</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade py-3" id="no-pay" role="tabpanel" aria-labelledby="no-pay-tab">
+                        <div class="form-check border p-3 d-flex align-items-center">
+                            <input class="form-check-input mx-3" type="checkbox" value="" id="check-email-1">
+                            <label class="form-check-label" for="check-email-1">
+                                <p class="my-1 fw-bolder">訂單狀態</p>
+                                <p class="text-small my-1">即時更新出貨狀態、繳費提醒等訂單資訊。</p>
+                            </label>
+                        </div>
+                        <div class="btn my-btn-mark p-2 px-4 text-small my-4">更新</div>
+                        <h4>注意事項</h4>
+                        <p class="my-2">1.若關閉通知，將不再收到相關電子郵件。</p>
+                        <p class="my-2">2.為確保會員權益，取消訂閱電子郵件，Hatsukoi 仍會寄送重要會員權益相關通知。</p>
+                    </div>
+                    <div class="tab-pane fade py-3" id="deal" role="tabpanel" aria-labelledby="deal-tab">
+                        <div class="form-check border p-3 d-flex align-items-center">
+                            <input class="form-check-input mx-3" type="checkbox" value="" id="check-email-1">
+                            <label class="form-check-label" for="check-email-1">
+                                <p class="my-1 fw-bolder">站內訊息</p>
+                                <p class="text-small my-1">與設計品牌來往的訊息，和官方優惠通知。</p>
+                            </label>
+                        </div>
+                        <div class="btn my-btn-mark p-2 px-4 text-small my-4">更新</div>
+                        <h4>注意事項</h4>
+                        <p class="my-2">1.若關閉通知，將不再收到相關電子郵件。</p>
+                        <p class="my-2">2.為確保會員權益，取消訂閱電子郵件，Hatsukoi 仍會寄送重要會員權益相關通知。</p>
+                    </div>
+                    <div class="tab-pane fade py-3" id="receive" role="tabpanel" aria-labelledby="receive-tab">
+                        <div class="form-check border p-3 d-flex align-items-center">
+                            <input class="form-check-input mx-3" type="checkbox" value="" id="check-email-1">
+                            <label class="form-check-label" for="check-email-1">
+                                <p class="my-1 fw-bolder">活動優惠</p>
+                                <p class="text-small my-1">當期特別企劃，官方活動發送的運費折抵 P Coins 贈送等優惠活動。</p>
+                            </label>
+                        </div>
+                        <div class="form-check border p-3 d-flex align-items-center">
+                            <input class="form-check-input mx-3" type="checkbox" value="" id="check-email-1">
+                            <label class="form-check-label" for="check-email-1">
+                                <p class="my-1 fw-bolder">個人化推薦</p>
+                                <p class="text-small my-1">根據你近期偏好推薦主題。</p>
+                            </label>
+                        </div>
+                        <div class="form-check border p-3 d-flex align-items-center">
+                            <input class="form-check-input mx-3" type="checkbox" value="" id="check-email-1">
+                            <label class="form-check-label" for="check-email-1">
+                                <p class="my-1 fw-bolder">會員雙週報</p>
+                                <p class="text-small my-1">為你匯集可能會感興趣的商品、設計館和設計誌。</p>
+                            </label>
+                        </div>
+                        <div class="btn my-btn-mark p-2 px-4 text-small my-4">更新</div>
+                        <h4>注意事項</h4>
+                        <p class="my-2">1.若關閉通知，將不再收到相關電子郵件。</p>
+                        <p class="my-2">2.為確保會員權益，取消訂閱電子郵件，Hatsukoi 仍會寄送重要會員權益相關通知。</p>
+                    </div>
+                    <div class="tab-pane fade py-3" id="finish" role="tabpanel" aria-labelledby="finish-tab">
+                        <div class="form-check border p-3 d-flex align-items-center">
+                            <input class="form-check-input mx-3" type="checkbox" value="" id="check-email-1">
+                            <label class="form-check-label" for="check-email-1">
+                                <p class="my-1 fw-bolder">會員權益</p>
+                                <p class="text-small my-1">生日禮、會員升級到期等和你最相關的會員權益。</p>
+                            </label>
+                        </div>
+                        <div class="form-check border p-3 d-flex align-items-center">
+                            <input class="form-check-input mx-3" type="checkbox" value="" id="check-email-1">
+                            <label class="form-check-label" for="check-email-1">
+                                <p class="my-1 fw-bolder">追蹤的商品和設計館</p>
+                                <p class="text-small my-1">追蹤的商品降價，預約商品搶購，關注設計館新品上架。</p>
+                            </label>
+                        </div>
+                        <div class="form-check border p-3 d-flex align-items-center">
+                            <input class="form-check-input mx-3" type="checkbox" value="" id="check-email-1">
+                            <label class="form-check-label" for="check-email-1">
+                                <p class="my-1 fw-bolder">關注評價優惠券</p>
+                                <p class="text-small my-1">透過關注設計館、評價商品所取得的優惠券。</p>
+                            </label>
+                        </div>
+                        <div class="btn my-btn-mark p-2 px-4 text-small my-4">更新</div>
+                        <h4>注意事項</h4>
+                        <p class="my-2">1.若關閉通知，將不再收到相關電子郵件。</p>
+                        <p class="my-2">2.為確保會員權益，取消訂閱電子郵件，Hatsukoi 仍會寄送重要會員權益相關通知。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-3 p-0 list-info">
+                <p class="fw-bolder text-very-big d-none d-md-block">我的 Hatsukoi</p>
+                <div
+                    class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                    <a href="">購買訂單</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                </div>
+                <div
+                    class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                    <a href="">退款申請</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                </div>
+                <div
+                    class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                    <a href="">我的訊息</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                </div>
+                <div
+                    class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                    <a href="">優惠券</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                </div>
+                <div class="my-3 p-2 bg-gray border-top border-bottom">
+                    帳號設定
+                    <div class="p-2 px-3">
+                        <div
+                            class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                            <a class="d-block" href="">基本設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                        </div>
+                        <div
+                            class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                            <a class="d-block" href="">信用卡管理</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                        </div>
+                        <div
+                            class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                            <a class="d-block" href="">常用地址簿</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                        </div>
+                        <div class="py-2 d-flex justify-content-between align-items-center border-md-none"><a
+                                class="d-block" href="">電子郵件通知設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
