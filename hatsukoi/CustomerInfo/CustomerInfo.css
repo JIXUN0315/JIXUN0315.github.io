@@ -128,7 +128,7 @@ li{
     color: white !important;
 }
 .my-btn-mark:hover{
-    background-color: var(--dark-gray);
+    background-color: var(--dark-gray) !important;
 }
 .my-bottom-border{
     border-bottom: 5px solid var(--main-pink);
@@ -139,6 +139,9 @@ li{
 .buy-item-big-pic{
     width: 150px;
     height: 150px;
+}
+.credit-pic{
+    width: 40px;
 }
 @media screen and (min-width:768px){
     .first-mission{
