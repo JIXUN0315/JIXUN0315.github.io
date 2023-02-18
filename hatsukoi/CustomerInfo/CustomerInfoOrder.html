@@ -19,9 +19,1575 @@
     <div class="container my-5">
         <div class="row flex-md-row-reverse">
             <div class="col-12 col-md-9 align-items-center">
-                <h3>購買訂單</h3>
-
-
+                <div>
+                    <h3 class="fw-bolder">購買訂單</h3>
+                    <ul class="nav nav-tabs justify-content-between my-tab-list" id="myTab" role="tablist">
+                        <li class="nav-item mx-3" role="presentation">
+                            <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="no-pay-tab"
+                                data-bs-toggle="tab" data-bs-target="#no-pay" type="button" role="tab"
+                                aria-controls="no-pay" aria-selected="true">尚未付款 <span class="ms-2">0</span></button>
+                        </li>
+                        <li class="nav-item mx-3" role="presentation">
+                            <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="deal-tab"
+                                data-bs-toggle="tab" data-bs-target="#deal" type="button" role="tab"
+                                aria-controls="deal" aria-selected="false">處理中 <span class="ms-2">3</span></button>
+                        </li>
+                        <li class="nav-item mx-3" role="presentation">
+                            <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="receive-tab"
+                                data-bs-toggle="tab" data-bs-target="#receive" type="button" role="tab"
+                                aria-controls="receive" aria-selected="false">待收貨 <span class="ms-2">1</span></button>
+                        </li>
+                        <li class="nav-item mx-3" role="presentation">
+                            <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="finish-tab"
+                                data-bs-toggle="tab" data-bs-target="#finish" type="button" role="tab"
+                                aria-controls="finish" aria-selected="false">已完成  <span class="ms-2">20</span></button>
+                        </li>
+                        <li class="nav-item mx-3" role="presentation">
+                            <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="cancel-tab"
+                                data-bs-toggle="tab" data-bs-target="#cancel" type="button" role="tab"
+                                aria-controls="cancel" aria-selected="false">已取消  <span class="ms-2">5</span></button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade" id="no-pay" role="tabpanel" aria-labelledby="no-pay-tab">
+                            <div class="no-order-pic">
+                                <img src="./order_v2.png">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="deal" role="tabpanel" aria-labelledby="deal-tab">
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1">
+                                                    待出貨
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                運送方式
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    7-11 取貨付款
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                收件人資訊
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    <p class="my-1">湯季勳</p>
+                                                    <p class="my-1">超商名稱 : 昌原</p>
+                                                    <p class="my-1">0912909577</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1">
+                                                    待出貨
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                運送方式
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    7-11 取貨付款
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                收件人資訊
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    <p class="my-1">湯季勳</p>
+                                                    <p class="my-1">超商名稱 : 昌原</p>
+                                                    <p class="my-1">0912909577</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1">
+                                                    待出貨
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                運送方式
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    7-11 取貨付款
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                收件人資訊
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    <p class="my-1">湯季勳</p>
+                                                    <p class="my-1">超商名稱 : 昌原</p>
+                                                    <p class="my-1">0912909577</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="receive" role="tabpanel" aria-labelledby="receive-tab">
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1">
+                                                    待收貨
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                運送方式
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    7-11 取貨付款
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                收件人資訊
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    <p class="my-1">湯季勳</p>
+                                                    <p class="my-1">超商名稱 : 昌原</p>
+                                                    <p class="my-1">0912909577</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="finish" role="tabpanel" aria-labelledby="finish-tab">
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已完成
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination d-flex justify-content-center my-4">
+                                  <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                      <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                  </li>
+                                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                  <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                      <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </nav>
+                        </div>
+                        <div class="tab-pane fade" id="cancel" role="tabpanel" aria-labelledby="cancel-tab">
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已取消
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已取消
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已取消
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已取消
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-info-card my-3">
+                                <div class="order-info-card-title p-3 text-small">
+                                    2023-02-18 <a class="ms-2 text-pink" href="">肉球paw pad</a>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                狀態
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="status px-2 py-1 status-over">
+                                                    已取消
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                寄往
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    台灣
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                訂單編號
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    202302180452g2zD
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                單館總計
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="">
+                                                    NT$ 407
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="row my-2">
+                                            <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                購買項目
+                                            </div>
+                                            <div class="col-8 d-flex">
+                                                <div class="buy-item-pic">
+                                                    <img src="./80x80.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                聯絡設計師
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-4">
+                                            <div class="order-detial-btn text-center mx-auto p-1">
+                                                查看訂單細節
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>

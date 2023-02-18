@@ -19,6 +19,9 @@ a{
 .text-gray{
     color: rgb(153, 153, 153) !important;
 }
+.text-pink{
+    color: var(--main-pink) !important;
+}
 .text-small {
     font-size: 14px;
 }
@@ -29,10 +32,10 @@ a{
     font-size: 10px;
 }
 .text-big{
-    font-size: 17px;
+    font-size: 17px !important;
 }
 .text-very-big{
-    font-size: 22px;
+    font-size: 22px !important;
 }
 li{
     list-style: none;
@@ -60,6 +63,53 @@ li{
 }
 .first-mission{
     height: 120px;
+}
+#myTab{
+    flex-wrap: nowrap;
+    overflow-x: auto !important;
+    width: 100% !important;
+    white-space:nowrap !important;
+}
+#myTab li button:focus-visible{
+    border: none !important;
+}
+#myTab li button{
+    transition: none !important;
+}
+#myTab li button:focus{
+    border: none !important;
+    border-bottom: 4px solid var(--main-pink) !important;
+}
+.no-order-pic{
+    width: 350px;
+    margin: auto;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+.order-info-card-title{
+    background-color: rgb(228, 228, 228);
+}
+.status{
+    border-radius: 20px;
+    background-color: var(--main-pink);
+    color: white;
+}
+.buy-item-pic{
+    width: 60px;
+    height: 60px;
+}
+.order-detial-btn{
+    width: 140px;
+    border: 1px solid var(--dark-gray);
+    border-radius: 5px;
+}
+.order-detial-btn:hover{
+    background-color: var(--main-pink);
+    color: white;
+}
+.status-over{
+    background-color: var(--light-Gray) !important;
+    color: white;
 }
 @media screen and (min-width:768px){
     .first-mission{
