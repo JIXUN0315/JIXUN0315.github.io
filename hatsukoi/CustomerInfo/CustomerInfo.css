@@ -121,7 +121,8 @@ li{
 }
 .my-btn-mark{
     border-radius: 5px;
-    background-color: var(--main-pink);
+    background-color: var(--main-pink) !important;
+    color: white !important;
 }
 .my-btn-mark a{
     color: white !important;
@@ -132,7 +133,13 @@ li{
 .my-bottom-border{
     border-bottom: 5px solid var(--main-pink);
 }
-
+#setting-select{
+    width: 100px;
+}
+.buy-item-big-pic{
+    width: 150px;
+    height: 150px;
+}
 @media screen and (min-width:768px){
     .first-mission{
         border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
