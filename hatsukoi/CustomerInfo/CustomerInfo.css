@@ -143,6 +143,27 @@ li{
 .credit-pic{
     width: 40px;
 }
+.star{
+    color: rgb(241, 108, 93);
+}
+.star{
+    cursor: pointer;
+}
+.star-1:hover~.star{
+    color:black !important;
+}
+.star-2:hover~.star{
+    color:black !important;
+}
+.star-3:hover~.star{
+    color:black !important;
+}
+.star-4:hover~.star{
+    color:black !important;
+}
+.star-5:hover~.star{
+    color:black !important;
+}
 @media screen and (min-width:768px){
     .first-mission{
         border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;

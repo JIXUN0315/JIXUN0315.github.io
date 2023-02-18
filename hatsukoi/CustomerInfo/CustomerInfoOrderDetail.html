@@ -24,7 +24,8 @@
                             <li class="breadcrumb-item active" aria-current="page">202301042235k6qR</li>
                         </ol>
                     </nav>
-                    <h5 class="fw-bolder d-flex justify-content-between"><a href="">Groww and Gloww</a> <span class="text-end">2023-01-04</span></h5>
+                    <h5 class="fw-bolder d-flex justify-content-between"><a href="">Groww and Gloww</a> <span
+                            class="text-end">2023-01-04</span></h5>
                     <div class="d-flex my-3">
                         <div class="status px-2 py-1 status-over">
                             已完成
@@ -46,7 +47,8 @@
                             <div class="fix-price-area d-flex align-items-center justify-content-center">
                                 X <span>1</span>
                             </div>
-                            <div class="fix-price-area d-flex align-items-center justify-content-center fw-bolder text-small">
+                            <div
+                                class="fix-price-area d-flex align-items-center justify-content-center fw-bolder text-small">
                                 NT$ <span>980</span>
                             </div>
                         </div>
@@ -74,7 +76,10 @@
                     </div>
                     <div class="order-detail-card border rounded p-3 my-4">
                         <h5 class="fw-bolder border-bottom pt-2 pb-4">優惠折抵明細</h5>
-                        <div class="text-small my-4 d-flex justify-content-between"><p>使用 優惠券 折抵現金 NT$ 84</p><p class="text-danger">-NT$ 84</p></div>
+                        <div class="text-small my-4 d-flex justify-content-between">
+                            <p>使用 優惠券 折抵現金 NT$ 84</p>
+                            <p class="text-danger">-NT$ 84</p>
+                        </div>
                     </div>
                     <div class="order-detail-card border rounded p-3 my-4">
                         <h5 class="fw-bolder border-bottom pt-2 pb-4">收件人資訊</h5>
@@ -109,11 +114,9 @@
                 </div>
                 <div class="col-12 col-md-3 py-3">
                     <div class="p-2">
-                        <p class="my-btn-mark p-2">
-                            <a href="">
-                                <span class="me-2"><i class="fa-regular fa-star"></i></span>
-                                給評價
-                            </a>
+                        <p class="my-btn-mark p-2" data-bs-toggle="modal" data-bs-target="#evaluate-Modal">
+                            <span class="me-2"><i class="fa-regular fa-star"></i></span>
+                            給評價
                         </p>
                     </div>
                     <div class="p-2">
@@ -175,6 +178,88 @@
             </div>
         </div>
     </div>
+
+    <!-- 評價的modal -->
+    <div class="modal fade" id="evaluate-Modal" tabindex="-1" aria-labelledby="evaluate-ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="evaluate-ModalLabel">給商品評價</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>設計館 : <a href="">Groww and Gloww</a></p>
+                    <p>訂單號 : <span>202301042235k6qR</span></p>
+                    <div class="buy-item-big-pic">
+                        <img src="./80x80.jpg" alt="">
+                    </div>
+                    <div class="d-flex p-3">
+                        <div class="text-very-big star star-1 mx-1"><i class="fa-solid fa-star"></i></div>
+                        <div class="text-very-big star star-2 mx-1"><i class="fa-solid fa-star"></i></div>
+                        <div class="text-very-big star star-3 mx-1"><i class="fa-solid fa-star"></i></div>
+                        <div class="text-very-big star star-4 mx-1"><i class="fa-solid fa-star"></i></div>
+                        <div class="text-very-big star star-5 mx-1"><i class="fa-solid fa-star"></i></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn my-btn-mark p-2 px-4 text-small my-3">送出</div>
+                    <button type="button" class="btn btn-secondary p-2 px-4" data-bs-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const star1 = document.querySelector('.star-1');
+        const star2 = document.querySelector('.star-2');
+        const star3 = document.querySelector('.star-3');
+        const star4 = document.querySelector('.star-4');
+        const star5 = document.querySelector('.star-5');
+        let countStar = 5;
+
+        star1.addEventListener('click', function () {
+            star1.style.color = 'rgb(241, 108, 93)';
+            star2.style.color = 'black';
+            star3.style.color = 'black';
+            star4.style.color = 'black';
+            star5.style.color = 'black';
+            countStar = 1;
+        })
+        star2.addEventListener('click', function () {
+            star1.style.color = 'rgb(241, 108, 93)'
+            star2.style.color = 'rgb(241, 108, 93)';
+            star3.style.color = 'black';
+            star4.style.color = 'black';
+            star5.style.color = 'black';
+            countStar = 2;
+        })
+        star3.addEventListener('click', function () {
+            star1.style.color = 'rgb(241, 108, 93)';
+            star2.style.color = 'rgb(241, 108, 93)';
+            star3.style.color = 'rgb(241, 108, 93)';
+            star4.style.color = 'black';
+            star5.style.color = 'black';
+            countStar = 3;
+        })
+        star4.addEventListener('click', function () {
+            star1.style.color = 'rgb(241, 108, 93)';
+            star2.style.color = 'rgb(241, 108, 93)';
+            star3.style.color = 'rgb(241, 108, 93)';
+            star4.style.color = 'rgb(241, 108, 93)';
+            star5.style.color = 'black';
+            countStar = 4;
+        })
+        star5.addEventListener('click', function () {
+            star1.style.color = 'rgb(241, 108, 93)';
+            star2.style.color = 'rgb(241, 108, 93)';
+            star3.style.color = 'rgb(241, 108, 93)';
+            star4.style.color = 'rgb(241, 108, 93)';
+            star5.style.color = 'rgb(241, 108, 93)';
+            countStar = 5;
+        })
+
+
+    </script>
 
     <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
