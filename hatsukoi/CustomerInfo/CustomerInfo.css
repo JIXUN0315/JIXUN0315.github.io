@@ -97,6 +97,7 @@ li{
 .buy-item-pic{
     width: 60px;
     height: 60px;
+    overflow: hidden;
 }
 .order-detial-btn{
     width: 140px;
@@ -128,6 +129,10 @@ li{
 .my-btn-mark:hover{
     background-color: var(--dark-gray);
 }
+.my-bottom-border{
+    border-bottom: 5px solid var(--main-pink);
+}
+
 @media screen and (min-width:768px){
     .first-mission{
         border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
