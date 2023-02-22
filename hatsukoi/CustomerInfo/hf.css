@@ -664,13 +664,14 @@
     border: none;
     font-weight: 600;
 }
-
+.homepage-footer-maininfo .homepage-footer-wrap{
+    padding-top: 12px;
+}
 @media screen and (max-width: 1200px) {
     /* footer */
     .homepage-footer-container .homepage-copyright-text {
         justify-content: right;
     }
-
 }
 
 @media screen and (min-width:1200px) {
@@ -684,5 +685,8 @@
         flex-direction: column;
         align-items: last baseline;
         padding-top: 0;
+    }
+    .homepage-footer-maininfo .homepage-footer-wrap{
+        padding-top: 0px;
     }
 }

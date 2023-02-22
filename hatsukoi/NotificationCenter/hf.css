@@ -302,7 +302,9 @@
 .homepage-nav-member-block {
     display: none;
 }
-
+.homepage-footer-maininfo .homepage-footer-wrap{
+    padding-top: 12px;
+}
 /* 手機以上 */
 @media screen and (min-width:768px) {
     /* header */
@@ -509,6 +511,9 @@
 
     .category-second-list-pc li:first-child {
         border-top: none;
+    }
+    .homepage-footer-maininfo .homepage-footer-wrap{
+        padding-top: 0px;
     }
 }
 .homepage-footer {
