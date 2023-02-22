@@ -164,6 +164,9 @@ li{
 .star-5:hover~.star{
     color:black !important;
 }
+.pt-146{
+    padding-top: 90px !important;
+}
 @media screen and (min-width:768px){
     .first-mission{
         border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
@@ -179,7 +182,7 @@ li{
     div .border-md-none{
         border: none !important;
     }
-}
-.pt-146{
-    padding-top: 146px !important;
+    .pt-146{
+        padding-top: 146px !important;
+    }
 }

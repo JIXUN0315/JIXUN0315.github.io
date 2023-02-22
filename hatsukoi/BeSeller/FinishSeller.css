@@ -30,5 +30,10 @@ p{
     line-height: 1.5 !important;
 }
 .pt-146{
-    padding-top: 146px !important;
+    padding-top: 90px !important;
+}
+@media screen and (min-width:768px){
+    .pt-146{
+        padding-top: 146px !important;
+    }
 }
