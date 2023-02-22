@@ -167,6 +167,152 @@ li{
 .pt-146{
     padding-top: 90px !important;
 }
+.coupon-ticketlist {
+    list-style: none;
+}
+
+
+.coupon-ticketlist li {
+    box-sizing: border-box;
+    width: 50%;
+}
+
+.coupon-ticket {
+    align-items: flex-start;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    list-style: none;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+
+}
+
+.ticket-top {
+    box-sizing: border-box;
+    padding: 0 14px;
+    position: relative;
+    width: 100%;
+}
+
+.ticket-pic {
+    align-items: flex-start;
+    display: flex;
+    justify-content: flex-start;
+    padding-bottom: 3px;
+    padding-top: 14px;
+}
+
+.ticket-pic {
+    width: 50px;
+    height: 50px;
+    
+}
+
+.decorate-hr {
+    padding: 0 14px;
+    align-items: center;
+    display: flex;
+    height: 14px;
+    margin-top: auto;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+.decorate-hr hr{
+    background-color: #eeeeef;
+    border: none;
+    height: 1px;
+    opacity: .75;
+    width: 100%;
+}
+
+.half-circle {
+    background-color: #fff;
+    border: 1px solid #d3d3d5;
+    border-radius: 100%;
+    box-sizing: border-box;
+    height: 14px;
+    position: absolute;
+    width: 14px;
+}
+
+.decorate-hr .half-circle.left {
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.decorate-hr .half-circle.right {
+    right: 0;
+    top: 50%;
+    transform: translate(50%, -50%);
+}
+
+.coupon-ticket>.ticket-border {
+    border: 1px solid #d3d3d5;
+    border-radius: 4px;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0;
+}
+
+.coupon-ticket>.ticket-bottom {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    min-height: 40px;
+    padding-bottom: 10px;
+    padding-top: 3px;
+}
+
+.coupon-ticket>.ticket-bottom {
+    box-sizing: border-box;
+    padding: 0 14px;
+    position: relative;
+    width: 100%;
+}
+
+/* 字設定 */
+.text-pink {
+    color: var(--peach-pink);
+}
+
+.text-gray {
+    color: var(--light-gray);
+}
+
+.text-dgray {
+    color: var(--dark-gray);
+}
+
+.text-sm {
+    font-size: 12px;
+}
+
+/* ----------------- */
+/* btn設定 */
+.btn-pk {
+    background-color: var(--peach-pink);
+    color: var(--light-pink);
+    box-sizing: border-box;
+    margin-right: 0;
+}
+
+.btn-pk:hover {
+    background-color: var(--light-pink);
+    color: var(--peach-pink);
+    cursor: pointer;
+}
 @media screen and (min-width:768px){
     .first-mission{
         border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
@@ -184,5 +330,9 @@ li{
     }
     .pt-146{
         padding-top: 146px !important;
+    }
+    .coupon-ticketlist li {
+        box-sizing: border-box;
+        width: 100%;
     }
 }

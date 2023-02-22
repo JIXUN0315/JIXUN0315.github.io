@@ -329,6 +329,17 @@ li{
 .my-btn:hover{
     background-color: var(--dark-gray) !important;
 }
+p{
+    line-height: 1.5 !important;
+}
+.update-pic{
+    width: 200px;
+    height: 200px;
+}
+.update-banner{
+    width: 500px;
+    height: 100px;
+}
 @media screen and (min-width:768px) {
     .seller-nav5 {
         display: block;
