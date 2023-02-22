@@ -179,4 +179,7 @@ li{
     div .border-md-none{
         border: none !important;
     }
+    .pt-146{
+        padding-top: 146px !important;
+    }
 }

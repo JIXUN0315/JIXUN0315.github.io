@@ -344,8 +344,7 @@ li{
     .HB5 {
         display: none;
     }
-    .left-space{
-        width: 300px;
-        height: 100vh;
+    .all-space-seller{
+        padding-left: 300px;
     }
 }
