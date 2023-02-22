@@ -319,6 +319,7 @@ li{
     word-wrap:break-word;
 }
 .warn-area-english{
+    width: 100% !important;
     background-color: var(--light-gray);
     line-height: 3;
 }
@@ -357,5 +358,8 @@ p{
     }
     .all-space-seller{
         padding-left: 300px;
+    }
+    .warn-area-english{
+        width: 75% !important;
     }
 }
