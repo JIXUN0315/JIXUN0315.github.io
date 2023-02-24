@@ -32,9 +32,12 @@
                 <input class="form-check-input mt-0 checkCircle" type="checkbox" v-model="todo.checked"
                     aria-label="Checkbox for following text input" @click="check(todo.checked,index)">
             </div>
-            <input type="text" v-model="todo.text" class="form-control inputText"
+            <input v-bind:disabled="disa[index]" type="text" v-model="todo.text" class="form-control inputText"
                 aria-label="Text input with checkbox">
-            <button type="button" class="btn btn-success myBtn update" @click="edit(index)">保存</button>
+            <button type="button" :class="editArr[index]" class="btn btn-warning myBtn update"
+                @click="bfEdit(index)">修改</button>
+            <button type="button" :class="saveArr[index]" class="btn btn-success myBtn save"
+                @click="edit(index)">保存</button>
             <button type="button" class="btn btn-danger myBtn delete" @click="deleteItem(index)">刪除</button>
         </div>
     </div>
@@ -45,258 +48,66 @@
         const app = new Vue({
             el: '#app',
             data: {
+                nothing: '',
                 inputText: '',
                 isChecked: false,
-                localArr: []
+                localArr: [],
+                disa: [],
+                editArr: [],
+                saveArr: []
             },
             methods: {
                 setLocal() {
                     this.localArr.push({ text: this.inputText, checked: this.isChecked })
+                    this.disa.push(true)
+                    this.editArr.push('')
+                    this.saveArr.push('d-none')
                     localStorage.setItem("todo", JSON.stringify(this.localArr));
                 },
                 getLocal() {
                     let local = localStorage.getItem("todo")
                     if (local != null && local != undefined) {
                         this.localArr = JSON.parse(local)
+                        this.localArr.forEach((x, ind) => {
+                            this.disa.push(true)
+                            this.editArr.push('')
+                            this.saveArr.push('d-none')
+                        });
                     }
                 },
-                check(bool, index){
+                check(bool, index) {
                     bool = !bool
                     this.localArr[index].checked = bool
                     localStorage.setItem("todo", JSON.stringify(this.localArr));
                 },
-                edit(ind){
+                edit(ind) {
                     let local = JSON.parse(localStorage.getItem("todo"))
                     local[ind] = this.localArr[ind]
                     localStorage.setItem("todo", JSON.stringify(local));
+                    this.disa[ind] = !this.disa[ind]
+                    this.editArr[ind] = ''
+                    this.saveArr[ind] = 'd-none'
+                    this.inputText = this.inputText.substr(0, this.inputText.length - 1)
                 },
-                deleteItem(ind){
+                deleteItem(ind) {
                     let local = JSON.parse(localStorage.getItem("todo"))
-                    local.splice(ind,1)
+                    local.splice(ind, 1)
                     this.localArr = local
                     localStorage.setItem("todo", JSON.stringify(local));
+                    this.disa.splice(ind, 1)
+                },
+                bfEdit(ind) {
+                    this.disa[ind] = !this.disa[ind]
+                    this.inputText = this.inputText + '1'
+                    this.editArr[ind] = 'd-none'
+                    this.saveArr[ind] = ''
+                    this.inputText = this.inputText.substr(0, this.inputText.length - 1)
                 }
             }
         })
         window.onload = () => {
             app.getLocal();
         }
-
-
-
-
-        // let newListBtn = document.querySelector(".newList");
-        // let newListText = document.querySelector(".newListText");
-        // let container = document.querySelector(".container");
-        // let everyItemNum = 0;
-        // // let deleteArr = [];
-        // window.onload = () => {
-        //     if (localStorage.getItem("todo") != null && localStorage.getItem("todo") != undefined) {
-        //         let startStore = localStorage.getItem("todo");
-        //         let startArr = JSON.parse(startStore);
-        //         startArr.forEach(element => {
-        //             let newListItem = document.createElement("div");
-        //             let nice;
-        //             if (element.done == 0) {
-        //                 nice = "";
-        //             }
-        //             else {
-        //                 nice = "checked"
-        //             }
-        //             newListItem.classList.add("list", "border", "border-secondary", "p-4", "rounded", "d-flex");
-        //             newListItem.innerHTML =
-        //                 `<div class="input-group me-3">
-        //                 <div class="input-group-text">
-        //                 <input class="form-check-input mt-0 checkCircle" type="checkbox" value=""
-        //                 aria-label="Checkbox for following text input" ${nice}>
-        //             </div>
-        //             <input type="text" value=${element.text} class="form-control inputText" aria-label="Text input with checkbox" disabled="true" data-num=${element.id}></div>
-        //             <button type="button" class="btn btn-warning mx-1 myBtn update">修改</button>
-        //             <button type="button" class="btn btn-success mx-1 myBtn save d-none">保存</button>
-        //             <button type="button" class="btn btn-danger mx-1 myBtn delete">刪除</button>`;
-        //             container.append(newListItem);
-        //             let updateBtn = newListItem.querySelector(".update");
-        //             let deleteBtn = newListItem.querySelector(".delete");
-        //             let saveBtn = newListItem.querySelector(".save");
-        //             let inputText = newListItem.querySelector(".inputText");
-        //             let newText = inputText.value;
-        //             let checkCircle = newListItem.querySelector(".checkCircle");
-        //             let beforeSave, indId;
-        //             indId = inputText.getAttribute("data-num");
-        //             updateBtn.addEventListener("click", () => {
-        //                 inputText.disabled = false;
-        //                 saveBtn.classList.remove("d-none");
-        //                 updateBtn.classList.add("d-none");
-        //                 beforeSave = inputText.value;
-        //             })
-        //             saveBtn.addEventListener("click", () => {
-        //                 if (inputText.value != "") {
-        //                     inputText.disabled = true;
-        //                     saveBtn.classList.add("d-none");
-        //                     updateBtn.classList.remove("d-none");
-        //                     let saveOfStore = localStorage.getItem("todo");
-        //                     let saveOfArr = JSON.parse(saveOfStore);
-        //                     let startNum;
-        //                     saveOfArr.forEach((x, ind) => {
-        //                         if (x.id == indId) {
-        //                             indId = ind;
-        //                         }
-        //                     })
-        //                     let i;
-        //                     if (saveOfArr[indId].done == 0) {
-        //                         i = 0;
-        //                     }
-        //                     else {
-        //                         i = 1;
-        //                     }
-        //                     saveOfArr.splice(indId, 1, { text: inputText.value, done: i, id: parseInt(indId, 10) })
-        //                     let setSave = JSON.stringify(saveOfArr);
-        //                     localStorage.setItem("todo", setSave);
-        //                 }
-        //             })
-        //             deleteBtn.addEventListener("click", () => {
-        //                 container.removeChild(newListItem);
-        //                 let delOfStore = localStorage.getItem("todo");
-        //                 let delOfArr = JSON.parse(delOfStore);
-        //                 let startNum;
-        //                 delOfArr.forEach((x, ind) => {
-        //                     if (x.id == indId) {
-        //                         indId = ind;
-        //                         return;
-        //                     }
-        //                 })
-        //                 delOfArr.splice(indId, 1);
-        //                 let setSave = JSON.stringify(delOfArr);
-        //                 localStorage.setItem("todo", setSave);
-        //             })
-        //             checkCircle.addEventListener("change", () => {
-        //                 let saveOfStore = localStorage.getItem("todo");
-        //                 let saveOfArr = JSON.parse(saveOfStore);
-        //                 let startNum;
-        //                 saveOfArr.forEach((x, ind) => {
-        //                     if (x.id == indId) {
-        //                         indId = ind;
-        //                     }
-        //                 })
-        //                 if (checkCircle.checked == true) {
-        //                     saveOfArr.splice(indId, 1, { text: beforeSave, done: 1, id: parseInt(indId, 10) });
-
-        //                 }
-        //                 else {
-        //                     saveOfArr.splice(indId, 1, { text: beforeSave, done: 0, id: parseInt(indId, 10) });
-        //                 }
-        //                 let setSave = JSON.stringify(saveOfArr);
-        //                 localStorage.setItem("todo", setSave)
-        //             })
-        //         });
-        //     }
-        //     newListBtn.addEventListener("click", () => {
-        //         if (newListText.value == "") {
-        //             return;
-        //         }
-        //         let newText = newListText.value;
-        //         let newListItem = document.createElement("div");
-        //         if (localStorage.getItem("todo") == null || localStorage.getItem("todo") == undefined || JSON.parse(localStorage.getItem("todo")).length == 0) {
-        //             let Arr = [];
-        //             Arr.push({ text: newText, done: 0, id: everyItemNum });
-        //             let storeArr = JSON.stringify(Arr);
-        //             localStorage.setItem("todo", storeArr);
-        //         }
-        //         else {
-        //             let store = localStorage.getItem("todo");
-        //             let Arr = JSON.parse(store);
-        //             everyItemNum = Arr[Arr.length - 1].id + 1;
-        //             Arr.push({ text: newText, done: 0, id: everyItemNum });
-        //             let storeArr = JSON.stringify(Arr);
-        //             localStorage.setItem("todo", storeArr);
-        //         }
-        //         newListItem.classList.add("list", "border", "border-secondary", "p-4", "rounded", "d-flex");
-        //         newListItem.innerHTML =
-        //             `<div class="input-group me-3">
-        //             <div class="input-group-text">
-        //             <input class="form-check-input mt-0 checkCircle" type="checkbox" value=""
-        //                 aria-label="Checkbox for following text input">
-        //         </div>
-        //         <input type="text" value=${newText} class="form-control inputText" aria-label="Text input with checkbox" disabled="true" data-num=${everyItemNum}></div>
-        //         <button type="button" class="btn btn-warning mx-1 myBtn update">修改</button>
-        //         <button type="button" class="btn btn-success mx-1 myBtn save d-none">保存</button>
-        //         <button type="button" class="btn btn-danger mx-1 myBtn delete">刪除</button>`;
-        //         container.append(newListItem);
-        //         newListText.value = "";
-        //         let updateBtn = newListItem.querySelector(".update");
-        //         let deleteBtn = newListItem.querySelector(".delete");
-        //         let saveBtn = newListItem.querySelector(".save");
-        //         let inputText = newListItem.querySelector(".inputText");
-        //         let checkCircle = newListItem.querySelector(".checkCircle");
-        //         let beforeSave, indId;
-        //         indId = inputText.getAttribute("data-num");
-        //         updateBtn.addEventListener("click", () => {
-        //             inputText.disabled = false;
-        //             saveBtn.classList.remove("d-none");
-        //             updateBtn.classList.add("d-none");
-        //             beforeSave = inputText.value;
-        //         })
-        //         saveBtn.addEventListener("click", () => {
-        //             if (inputText.value != "") {
-        //                 inputText.disabled = true;
-        //                 saveBtn.classList.add("d-none");
-        //                 updateBtn.classList.remove("d-none");
-        //                 let saveOfStore = localStorage.getItem("todo");
-        //                 let saveOfArr = JSON.parse(saveOfStore);
-        //                 let startNum;
-        //                 saveOfArr.forEach((x, ind) => {
-        //                     if (x.id == indId) {
-        //                         indId = ind;
-        //                     }
-        //                 })
-        //                 let i;
-        //                 if (saveOfArr[indId].done == 0) {
-        //                     i = 0;
-        //                 }
-        //                 else {
-        //                     i = 1;
-        //                 }
-        //                 saveOfArr.splice(indId, 1, { text: inputText.value, done: i, id: parseInt(indId, 10) })
-        //                 let setSave = JSON.stringify(saveOfArr);
-        //                 localStorage.setItem("todo", setSave);
-        //             }
-        //         })
-        //         deleteBtn.addEventListener("click", () => {
-        //             container.removeChild(newListItem);
-        //             let delOfStore = localStorage.getItem("todo");
-        //             let delOfArr = JSON.parse(delOfStore);
-        //             let startNum;
-        //             delOfArr.forEach((x, ind) => {
-        //                 if (x.id == indId) {
-        //                     indId = ind;
-        //                 }
-        //             })
-        //             delOfArr.splice(indId, 1);
-        //             let setSave = JSON.stringify(delOfArr);
-        //             localStorage.setItem("todo", setSave);
-        //         })
-        //         checkCircle.addEventListener("change", () => {
-        //             let saveOfStore = localStorage.getItem("todo");
-        //             let saveOfArr = JSON.parse(saveOfStore);
-        //             let startNum;
-        //             saveOfArr.forEach((x, ind) => {
-        //                 if (x.id == indId) {
-        //                     indId = ind;
-        //                 }
-        //             })
-        //             if (checkCircle.checked == true) {
-        //                 saveOfArr.splice(indId, 1, { text: beforeSave, done: 1, id: parseInt(indId, 10) });
-
-        //             }
-        //             else {
-        //                 saveOfArr.splice(indId, 1, { text: beforeSave, done: 0, id: parseInt(indId, 10) });
-        //             }
-        //             let setSave = JSON.stringify(saveOfArr);
-        //             localStorage.setItem("todo", setSave)
-        //         })
-        //     })
-        // }
-
     </script>
 </body>
 
