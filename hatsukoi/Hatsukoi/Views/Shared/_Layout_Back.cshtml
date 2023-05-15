@@ -1,0 +1,216 @@
+﻿@using System.Security.Claims
+@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Service.Interface
+@inject IAccountService _getUserService
+@{
+    var user = _getUserService.GetUser();
+
+}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hatsukoi</title>
+    <link rel="icon" href="~/img/hatsukoi_icon.png" type="image/png" />
+    <link href="~/css/reset.css" rel="stylesheet" />
+    <link href="~/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    <link href="~/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="~/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="~/sweetalert2/dist/sweetalert2.js"></script>
+    <script src="~/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link href="~/css/bs-hatsukoi.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    @*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />*@
+    @*<link rel="stylesheet" href="~/Hatsukoi.styles.css" asp-append-version="true" />*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="~/css/backnav/backnav.css" rel="stylesheet" />
+   
+    @*<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script src="~/js/ckeditor.js"></script>*@
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+    <!-- Load polyfills to support older browsers -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
+            crossorigin="anonymous"></script>
+
+    <!-- Load Vue followed by BootstrapVue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+
+
+    @await RenderSectionAsync("topCSS", required: false)
+    @await RenderSectionAsync("topJS", required: false)
+    <style>
+        body {
+            font-family: 'Roboto', 'Noto Sans TC', '微軟正黑體', 'Arial', sans-serif;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="main-header">
+            <div class="icons" id="header-app">
+                <input class="checkbox" type="checkbox" name="" id="search-control">
+
+                <span class="icon">
+                    <label for="search-control" class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </label>
+                </span>
+
+
+                <input class="checkbox" type="checkbox" name="" id="close-search">
+
+                <div class="searchbar input-group mb-3">
+                    <button class="btn  btn-light" type="button" id="button-addon2">
+                        <label for="close-search" class="search">
+                            <label for="search-control" class="search">
+                                <i class="fa-solid fa-xmark"></i>
+                            </label>
+                        </label>
+                    </button>
+                    <input type="text" class="form-control" placeholder="訂單編號、姓名、電話、地址"
+                           aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searchText" v-on:keyup.enter="searchOrders">
+
+                    <button class="btn btn btn-light" type="button" id="button-addon2" v-on:click="searchOrders">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                <a href="@Url.Content("~/Chatroom/SellerIndex")">
+                    <span class="icon"><i class="fa-regular fa-message"></i></span>
+                </a>
+                <a href="@Url.Content("~/Product/RediHome")">
+                    <span class="icon"><i class="fa-solid fa-store"></i></span>
+                </a>
+            </div>
+
+        </div>
+        <div class=" col-md-3">
+            <input type="checkbox" id="phone-menu-control5">
+            <div class="repot-HB">
+                <label for="phone-menu-control5" class="HB5">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+            </div>
+            <input type="checkbox" id="open-bar5">
+            <input type="checkbox" id="order-open-bar5">
+            <input type="checkbox" id="marketing-open-bar5">
+            <input type="checkbox" id="sale-open-bar5">
+            <input type="checkbox" id="line-open-bar5">
+            <input type="checkbox" id="shop-open-bar5">
+            <nav class="seller-nav5">
+                <div class="logo5">
+                    <img src="~/hatsukoipics/hatsukoi_icon.svg" alt="logo" />
+                    <p>設計館管理平台</p>
+                </div>
+
+                <ul class="seller-front-page5"><i class="fa-solid fa-house"></i><a href="~/Seller/SellerHome">首頁</a></ul>
+
+                <div class="seller-main-function5">
+                    <i class="fa-solid fa-gift"></i>
+                    <label for="open-bar5" class="label-open-bar5">
+                        <h2>商品管理</h2>
+                        <i class="fa-solid fa-chevron-up icon5"></i>
+                        <ul class="seller-item5">
+                            <i class="fa-solid fa-xmark"></i>
+                            <li class="title">商品管理</li>
+                            <li><a href="~/Product/Management">所有商品</a> </li>
+                            <li><a href="~/Product/Create">建立商品</a></li>
+                        </ul>
+                    </label>
+                </div>
+
+                <div class="seller-main-function5">
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <label for="order-open-bar5" class="label-order-open-bar5">
+                        <h2>訂單管理</h2>
+                        <i class="fa-solid fa-chevron-up icon5"></i>
+                        <ul class="seller-item5">
+                            <i class="fa-solid fa-xmark"></i>
+                            <li class="title">訂單管理</li>
+                            <li><a href="~/Order/Management">所有訂單</a> </li>
+                            <li><a href="~/Order/Evaluate">評價管理</a> </li>
+                    </label>
+                </div>
+
+                <div class="seller-main-function5">
+                    <i class="fa-regular fa-lightbulb "></i>
+                    <label for="marketing-open-bar5" class="label-marketing-open-bar5">
+                        <h2>行銷工具</h2>
+                        <i class="fa-solid fa-chevron-up icon5"></i>
+                        <ul class="seller-item5">
+                            <i class="fa-solid fa-xmark"></i>
+                            <li class="title">行銷工具</li>
+                            <li><a href="~/Seller/CouponSetting">優惠券設定</a> </li>
+                        </ul>
+                    </label>
+                </div>
+
+                <div class="seller-main-function5">
+                    <i class="fa-solid fa-sack-dollar "></i>
+                    <label for="sale-open-bar5" class="label-sale-open-bar5">
+                        <h2>營銷管理</h2>
+                        <i class="fa-solid fa-chevron-up icon5"></i>
+                        <ul class="seller-item5">
+                            <i class="fa-solid fa-xmark"></i>
+                            <li class="title">營銷管理</li>
+                            <li><a href="~/Report/Chart">數據中心</a></li>
+                        </ul>
+                    </label>
+                </div>
+
+                <div class="seller-main-function5">
+                    <i class="fa-solid fa-gear"></i>
+                    <label for="shop-open-bar5" class="label-shop-open-bar5">
+                        <h2>店家設定</h2>
+                        <i class="fa-solid fa-chevron-up icon5"></i>
+                        <ul class="seller-item5">
+                            <i class="fa-solid fa-xmark"></i>
+                            <li class="title"><a href="@Url.Content("~/Seller/InfoSetting")">基本設定</a></li>
+                            <li><a href="@Url.Content("~/Seller/Introduction")">品牌介紹</a> </li>
+                            <li><a href="@Url.Content("~/Seller/Vacation")">休假模式</a> </li>
+                            <li><a href="@Url.Content("~/Seller/Finance")">財務設定</a> </li>
+                        </ul>
+                    </label>
+                </div>
+                <div class="report-user">
+                    <div class="img-wrap">
+                        <img src="@user.Image" alt="icon會員" />
+                    </div>
+                    <a class="seller-name" href="~/Home">@user.Name</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    @RenderBody()
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/seller/header.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("endJS", required: false)
+
+    <script>
+        let connection = new signalR.HubConnectionBuilder().withUrl('/Chathub').build()
+        connection.start()
+    </script>
+</body>
+</html>

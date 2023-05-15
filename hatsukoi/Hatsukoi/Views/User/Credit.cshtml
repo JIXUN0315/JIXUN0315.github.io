@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+<div class="container my-5 pt-146">
+    <div id="test"></div>
+    <div class="row flex-md-row-reverse">
+        <div class="col-12 col-md-9 p-4 align-items-center">
+
+            <h4>信用卡管理</h4>
+            <p class="text-small my-0 py-4 border-bottom">以下為你的常用信用卡，可以在這裡管理所有使用過的信用卡</p>
+            <!-- 沒有信用卡時的畫面 -->
+            <div class="my-3 d-flex">
+                <div class="no-order-pic">
+                    <img src="~/img/user/creditcard_v2.png" />
+                </div>
+                <div class="my-auto">
+                    <p>尚未加入信用卡，馬上新增，讓結帳更快速！</p>
+                    <div class="btn my-btn-mark p-2 px-4 text-small my-3">新增常用信用卡</div>
+                </div>
+            </div>
+            <!-- 有信用卡時的畫面 -->
+            <div class="border">
+                <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="credit-pic">
+                            <img src="~/img/user/jcb_logo.svg.png" />
+                        </div>
+                        <p class="my-0 ms-2">合作金庫 <span class="ms-2">( ****<span class="ms-1">1234</span> )</span></p>
+                    </div>
+                    <a class="text-danger text-small d-block">刪除</a>
+                </div>
+                <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="credit-pic">
+                            <img src="~/img/user/jcb_logo.svg.png" />
+                        </div>
+                        <p class="my-0 ms-2">合作金庫 <span class="ms-2">( ****<span class="ms-1">1234</span> )</span></p>
+                    </div>
+                    <a class="text-danger text-small d-block">刪除</a>
+                </div>
+                <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="credit-pic">
+                            <img src="~/img/user/jcb_logo.svg.png" />
+                        </div>
+                        <p class="my-0 ms-2">合作金庫 <span class="ms-2">( ****<span class="ms-1">1234</span> )</span></p>
+                    </div>
+                    <a class="text-danger text-small d-block">刪除</a>
+                </div>
+                <p class="my-0 p-3"><a class="text-pink" href=""> + 新增常用信用卡</a></p>
+            </div>
+
+        </div>
+        <div class="col-12 col-md-3 p-0 list-info">
+            <p class="fw-bolder text-very-big d-none d-md-block">我的 Hatsukoi</p>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Order")">購買訂單</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Order")">退款申請</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/Chatroom/Index")">我的訊息</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Coupon")">優惠券</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom">
+                帳號設定
+                <div class="p-2 px-3">
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Setting")">基本設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+@*                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Credit")">信用卡管理</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Address")">常用地址簿</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>*@
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Email")">電子郵件通知設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/user/customerinfo.css" rel="stylesheet" />
+}

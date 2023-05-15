@@ -1,0 +1,150 @@
+﻿:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+[v-cloak] {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--dark-gray);
+}
+    /* cart-nav */
+    a:hover {
+        color: var(--light-gray);
+        cursor: pointer;
+    }
+
+
+/* logo */
+.logo {
+    width: 150px;
+}
+
+.title {
+    color: var(--dark-gray);
+    border-left: 0.7px solid var(--dark-gray);
+    padding-left: 10px;
+    font-size:25px;
+}
+
+
+
+/* footer */
+.cart-copyright-logo {
+    width: 30%;
+}
+
+/* 按鈕設定 */
+
+.btn {
+    font-size: 14px;
+}
+
+.btn-lg {
+    border: 1px solid var(--light-gray);
+    color: var(--dark-Gray);
+}
+
+    .btn-lg:hover {
+        color: #fff;
+        background-color: var(--dark-gray);
+    }
+
+.btn-pk {
+    background-color: var(--peach-pink);
+    color: var(--light-pink);
+    box-sizing: border-box;
+    margin-right: 0;
+}
+
+    .btn-pk:hover {
+        background-color: var(--light-pink);
+        color: var(--peach-pink);
+    }
+
+.btn-dg {
+    background-color: var(--dark-gray);
+    color: #fff;
+}
+
+    .btn-dg:hover {
+        background-color: var(--light-gray);
+        color: #fff;
+    }
+
+
+/* 字設定 */
+.text-darkgray {
+    color: var(--dark-gray);
+}
+
+.text-pink {
+    color: var(--peach-pink);
+}
+.text-mainpink {
+    color: var(--main-pink);
+}
+
+    .text-mainpink:hover {
+        color: var(--peach-pink);
+    }
+
+.text-gray {
+    color: var(--light-gray);
+}
+
+.text-darkgray:hover {
+    color: var(--light-gray);
+}
+
+.text-sm {
+    font-size: 12px;
+}
+
+/* 字設定 */
+.text-darkgray {
+    color: var(--dark-gray);
+}
+
+.text-pink {
+    color: var(--peach-pink);
+}
+
+.text-gray {
+    color: var(--light-gray);
+}
+
+.text-darkgray:hover {
+    color: var(--light-gray);
+}
+
+.text-sm {
+    font-size: 12px;
+}
+/* 背景設定 */
+.bgc-pink {
+    background-color: var(--light-pink);
+}
+
+.bgc-gray {
+    background-color: var(--light-gray);
+}
+
+.bgc-pink {
+    background-color: var(--light-pink);
+}
+
+
+
+img {
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+}
+
+

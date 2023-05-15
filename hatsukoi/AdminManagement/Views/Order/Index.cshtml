@@ -1,0 +1,335 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="app" class="container" v-cloak>
+    @*<div v-if="isbusy" class="loading" style="display: none;">
+        <div class="spinner">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="loading-text">加载中，请稍等...</div>
+    </div>*@
+        <div class="my-3">
+            <input v-model="filterText" class="form-control" type="text">
+            
+        </div>
+        <div class="p-2">       
+            <button class="btn btn-info m-2" v-on:click="updateOrderList('week')">當週</button>
+            <button class="btn btn-info m-2" v-on:click="updateOrderList('month')">當月</button>
+            <button class="btn btn-info m-2" v-on:click="updateOrderList('3months')">前三月</button>
+            <button class="btn btn-info m-2" v-on:click="updateOrderList('year')">今年</button>
+            <button class="btn btn-info m-2" v-on:click="updateOrderList('lastyear')">去年</button>
+
+        </div>
+            <h5>資料範圍 :  {{selectedRange}}</h5>
+    <b-table hover :items="orderList" :fields="fields" :busy="isbusy" :per-page="perpage" :current-page="currentPage" :filter="filterText" >
+        @*<b-table :items="orderList" :fields="fields" :busy="isbusy" :filter="filterText">*@
+            <template #table-busy>
+            <div class="text-center text-info my-5 py-5">
+                    <b-spinner class="align-middle"></b-spinner>
+                    <strong>Loading....</strong>
+                </div>
+            </template>
+            
+            <template #cell(status)="{ value }">
+                {{ getStatusString(value) }}
+              </template>
+            
+
+        <template #cell(action)="row">
+            <button v-on:click="row.toggleDetails" class="btn btn-info">{{ row.detailsShowing ? '關閉' : '詳細' }}</button>
+            
+        </template>
+        <template #row-details="row">
+            <b-card>
+                
+                <h5 class="fw-bold">訂單明細 </h5>
+                <ul>
+                    <li v-for="(prouduct, index) in row.item.orderDetails" :key="index" class="fs-4">
+
+                        <span class="fw-bolder ">商品名稱 :</span>
+                        <span class="text-info">{{ prouduct.productName }} </span>&nbsp;
+                        <span class="fw-bolder">規格 : </span> 
+                        <span class="text-info">{{ prouduct.spec }} </span>&nbsp;
+                        <span class="fw-bolder">價錢 :</span> 
+                        <span class="text-info">{{ prouduct.unitPrice }} </span>&nbsp;
+                        <span class="fw-bolder">數量 :</span> 
+                        <span class="text-info"> {{ prouduct.quantity }} </span>
+                    </li>
+                </ul>
+            </b-card>
+        </template>
+          
+
+        </b-table>
+    <b-pagination v-model ="currentPage" :total-rows="totalRows" :per-page="perpage" size="sm" align="center"
+                  class="my-0 py-3 "></b-pagination>
+    @*<nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item">
+                <button class="page-link" aria-label="Previous" v-on:click.prevent="previousPage()">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+            </li>
+            
+            <li v-for="page in displayedPages" :key="page" :class="{active: page === currentPage}" class="page-item">
+                <button class="page-link" v-on:click.prevent="getOrderList(page)" >{{page}}</button></li>
+            
+            <li class="page-item">
+                <button class="page-link" aria-label="Next" v-on:click.prevent="nextPage()">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+            </li>
+        </ul>
+    </nav>*@
+
+    </div>
+
+@section topCSS{
+    
+    <link href="~/css/orderindex.css" rel="stylesheet" />
+}
+@section Scripts {
+    <script>
+        //const loading = document.querySelector('.loading');
+        
+        
+        const app = new Vue({
+            el: '#app',
+            data: {
+                //分頁
+                //pageSize: 10,
+                perpage: 10,
+                currentPage: 1,
+                //totalPages: 0,
+                //篩選
+                filterText: '',
+                isbusy: false,
+                orderList: [
+                    //{
+                    //    "orderId": 1,
+                    //    "sellerId": 4,
+                    //    "sellerName": "PotPot",
+                    //    "seller": "4 PotPot",
+                    //    "userId": 1,
+                    //    "userName": "Tom",
+                    //    "user": "1 Tom",
+                    //    "totalPrice": 500,
+                    //    "payment": null,
+                    //    "status": 5
+                    //},
+
+                ],
+                fields: [
+                    { key: 'orderId', label: '訂單編號', sortable: true},
+                    { key: 'seller', label: '賣家資訊'},
+                    { key: 'user', label: '買家資訊' },
+                    { key: 'totalPrice', label: '金額', sortable: true },
+                    { key: 'createTime', label: '成立時間', sortable: true },
+                    { key: 'status', label: '訂單狀態', sortable: true },
+                    //自定義欄位
+                    { key: 'action', label: '功能' },
+                ],
+                detailModal: {
+                    title: '',
+                    content: '',
+
+                },
+                orderDetailList: [],
+                orderDetailContent: '',
+                selectedRow: null, // 新增 selectedRow 屬性
+                //showModal: false,
+                //displayedPages: [],
+                selectedRange:'',
+
+
+            },
+            mounted() {
+                this.updateOrderList('week');
+                //this.getOrderList();
+                //this.getOrdersByPage(this.currentPage);
+            },
+            computed: {
+                totalRows() {
+                    return this.orderList.length
+                },
+               
+            },
+            methods: {
+                //getOrdersByPage(currentPage) {
+                   
+                //    this.isbusy = true; // 显示等待页面
+                    
+                //    let perpage = this.perpage
+                //    axios.post('/api/Order/GetOrderPage', { currentPage, perpage })
+                //        .then(res => {
+                //            //debugger
+                //            // 成功獲取數據後的操作
+                //            //loading.style.display = 'none'; // 隱藏等待頁面
+                //            this.isbusy = false; // 隐藏等待页面
+                //            this.orderList = res.data.body.orderList
+                //            //if (Array.isArray(this.orderList)) {
+                //            //    this.orderList = this.orderList.concat(res.data.body.orderList)
+                //            //} else {
+                //            //    this.orderList = res.data.body.orderList
+                //            //}
+                //            this.totalPages = res.data.body.totalCount
+                //            this.currentPage = currentPage
+                //            //debugger
+                            
+                //        })
+                //        .catch(err => {
+                //            // 請求失敗的操作
+                //            this.isbusy = false; // 隐藏等待页面
+                //            //loading.style.display = 'none'; // 隱藏等待頁面
+                //            console.log(err)
+                //        })
+                    
+                    
+                //},
+                getOrderList(currentPage, perpage, startDate, endDate) {
+                    this.isbusy = true; // 显示等待页面
+                    //debugger
+                    axios.post('/api/Order/GetOrderPage', { startDate, endDate, currentPage, perpage })
+                        .then(res => {
+                            this.isbusy = false; // 隐藏等待页面
+                            this.orderList = res.data.body
+                            //this.orderList = res.data.body.map(item => ({
+                            //    ...item,
+                            //    isActive: true
+                            //}))
+                        })
+                        .catch(err => {
+                            this.isbusy = false; // 隐藏等待页面
+                            //loading.style.display = 'none'; // 隱藏等待頁面
+                            console.log(err)
+                        })
+                },
+
+                previousPage(){
+                    if (this.currentPage > 1) {
+                        let page = this.currentPage - 1
+                        this.getOrdersByPage(page);   
+                    }
+                },
+                nextPage() {
+                    if (this.currentPage < this.totalPages) {
+                        let page = this.currentPage + 1
+                        this.getOrdersByPage(page); 
+                        // 在修改 currentPage 變量的值後，再次調用獲取數據的方法
+                    }
+                },
+                updateOrderList(type = 'week') {
+                    
+                    const now = new Date();
+                    let startDate, endDate;
+                    switch (type) {
+                        case 'week':
+                            startDate = new Date(now.setDate(now.getDate() - now.getDay() + 1));
+                            endDate = new Date(now.setDate(now.getDate() - now.getDay() + 7));
+                            this.selectedRange = '當週'
+                            break;
+                        case 'month':
+                            startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                            endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                            this.selectedRange = '當月'
+                            break;
+                        case '3months':
+                            startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+                            endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                            this.selectedRange = '前3個月'
+                            break;
+                        case 'year':
+                            startDate = new Date(now.getFullYear(), 0, 1);
+                            endDate = new Date(now.getFullYear() + 1, 0, 0);
+                            this.selectedRange = '今年'
+                            break;
+                        case 'lastyear':
+                            startDate = new Date(now.getFullYear() - 1, 0, 1);
+                            endDate = new Date(now.getFullYear(), 0, 0);
+                            this.selectedRange = '去年'
+                            break;
+                    }
+
+                    const currentPage = this.currentPage || 1;
+                    const perpage = this.perpage || 10;
+                    this.getOrderList(currentPage, perpage, startDate, endDate);
+                },
+                //getOrders() {
+                //    //...
+                    
+                //    this.displayedPages = [];
+
+                //    // 將當前頁碼加入陣列
+                //    this.displayedPages.push(this.currentPage);
+
+                //    // 計算前後頁碼
+                //    for (let i = 1; i <= 2; i++) {
+                //        if (this.currentPage - i > 0) {
+                //            this.displayedPages.unshift(this.currentPage - i);
+                //        }
+                //        if (this.currentPage + i <= this.totalPages) {
+                //            this.displayedPages.push(this.currentPage + i);
+                //        }
+                //    }
+                //},
+                //getAllOrder() {
+                //    loading.style.display = 'flex';// 顯示等待頁面
+                //    axios.get('/api/Order/GetOrderPage')
+                // axios.get(`/api/Order/GetOrderPage?page=${currentPage}&pageSize=${perpage}`)
+                //        .then(res => {
+                //            // 成功獲取數據後的操作
+                //            loading.style.display = 'none'; // 隱藏等待頁面
+                //            this.orderList = res.data.body
+                //            //console.log(this.orderList)
+                            
+                //        })
+                //        .catch(err => {
+                //            // 請求失敗的操作
+                //            loading.style.display = 'none'; // 隱藏等待頁面
+                //            console.log(err)
+                //        })
+   
+                //},
+                showDetail(orderId){
+                    console.log(orderId)
+                    // 展开折叠面板以显示订单详情
+                    //this.$refs.detailCollapse.show();
+                },
+                getStatusString(status) {
+                    switch (status) {
+                        case 1:
+                            return '未付款';
+                        case 2:
+                            return '已付款';
+                        case 3:
+                            return '尚未付款';
+                        case 4:
+                            return '處理中';
+                        case 5:
+                            return '已完成';
+                        case 6:
+                            return '退貨申請中';
+                        case 7:
+                            return '已退貨';
+                        default:
+                            return '';
+                    }
+                }
+                
+            },
+            watch: {
+                currentPage(newPage) {
+                    //this.getOrdersByPage(newPage)
+                }
+            },
+        })
+    </script>
+    }
+
+
+

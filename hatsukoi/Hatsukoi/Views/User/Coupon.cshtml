@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Hatsukoi.Models.ViewModels.User.UserCouponViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+
+<div class="container my-5 pt-146">
+    <div id="test"></div>
+    <div class="row flex-md-row-reverse">
+        <div class="col-12 col-md-9 p-4 align-items-center">
+
+            <h4 class="my-2">優惠券</h4>
+            <div class="border-bottom d-flex">
+                <h5 class="fw-bolder py-3 my-bottom-border my-0">
+                    設計館優惠券
+                </h5>
+            </div>
+            <div class="row py-3">
+                @if (Model.Count() == 0)
+                {
+                    <div class="no-order-pic">
+                        <img src="~/img/user/order_v2.png" />
+                    </div>
+                }
+                else
+                {
+                    @foreach (var coupon in Model)
+                    {
+                        <div class="col-12 col-md-6 p-2">
+                            <ul class="coupon-ticketlist">
+                                <li class="coupon-ticket w-100">
+                                    <div class="ticket-top d-flex p-2">
+                                        <div class="ticket-pic">
+                                            <img src="@coupon.Img">
+                                        </div>
+                                        <div class="ticket-text p-2">
+                                            <div class="ticket-title">@coupon.SellerName</div>
+                                            <div class="ticket-subtitle">
+                                                消費滿 @coupon.Condition.ToString("C0")，享 @coupon.Discount.ToString("0.0") 折
+                                            </div>
+                                            <span class="text-gray text-sm">使用期限：@coupon.StartTime.ToString("yyyy/MM/dd") ~ @coupon.EndTime.ToString("yyyy/MM/dd")</span>
+                                        </div>
+                                    </div>
+                                    <div class="decorate-hr">
+                                        <div class="half-circle left"></div>
+                                        <hr>
+                                        <div class="half-circle right"></div>
+
+                                    </div>
+                                    <div class="ticket-bottom">
+                                        <div class="ticket-use">
+                                            優惠券代碼 <span id="@coupon.CouponNumber">@coupon.CouponNumber</span>
+                                        </div>
+                                        <button class="btn btn-pk btn-copy text-sm" onclick="copyText('@coupon.CouponNumber.ToString()')">複製</button>
+                                    </div>
+                                    <div class="ticket-border"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                }
+            </div>
+@*            <nav aria-label="Page navigation example">
+                <ul class="pagination d-flex justify-content-center my-4">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>*@
+
+        </div>
+        <div class="col-12 col-md-3 p-0 list-info">
+            <p class="fw-bolder text-very-big d-none d-md-block">我的 Hatsukoi</p>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Order")">購買訂單</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/Chatroom/Index")">我的訊息</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Coupon")">優惠券</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom">
+                帳號設定
+                <div class="p-2 px-3">
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Setting")">基本設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    @*                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                    <a class="d-block"
+                    href="@Url.Content("~/User/Credit")">信用卡管理</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                    <a class="d-block"
+                    href="@Url.Content("~/User/Address")">常用地址簿</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>*@
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Email")">電子郵件通知設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function copyText(e) {
+        window.getSelection().removeAllRanges()
+        let range = document.createRange();
+        let selectItem = document.getElementById(e);
+        debugger
+        range.selectNode(selectItem);
+        let selection = window.getSelection();
+        selection.addRange(range);
+        document.execCommand("copy");
+        selection.removeAllRanges()
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: '複製成功'
+        })
+    }
+</script>
+@section topCSS{
+    <link href="~/css/user/customerinfo.css" rel="stylesheet" />
+}

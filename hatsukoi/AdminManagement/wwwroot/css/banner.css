@@ -1,0 +1,33 @@
+﻿.handle{
+    cursor:move;
+    width:30px;
+}
+.banner-img{
+    width:300px;
+}
+
+.btn-delete {
+    color: #fff;
+    background-color: #E98278;
+    border-color: #E98278;
+}
+
+.btn-css{
+    padding:10px 15px;
+}
+label {
+    margin-bottom: 0!important;
+}
+.btn-info {
+    color: #fff;
+    background-color: #E3A4A4 !important;
+    border-color: #E3A4A4 !important;
+}
+h1{
+    font-size:25px;
+}
+.main-color {
+    color: #A27F82;
+}
+
+

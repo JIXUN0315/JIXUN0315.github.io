@@ -1,0 +1,186 @@
+﻿@model Hatsukoi.Models.ViewModels.Seller.FinanceViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+}
+
+<div class="all-space-seller">
+    <div class="container my-container my-3" id="financeApp" v-cloak>
+        <h4 class="fw-bolder py-4 fs-2">財務相關設定</h4>
+        <div class="row py-3 mb-4 pb-5 border-bottom">
+            <div class="col-12 col-md-3 mb-3">
+                <p class="m-0 fs-3">收款帳戶</p>
+                <p class="my-2 lh-lg">買家支付的款項會先由 Hatsukoi 代收，收到訂單的付款確認通知即可安心出貨。我們會以月結的方式將款項匯至你指定的收款帳戶。</p>
+            </div>
+            <div class="col-12 col-md-9">
+                <div class="my-white-text-space p-3 mb-4">
+                    <p class="my-2 fw-bolder">銀行名稱及代碼</p>
+                    <p class="d-none" id="BankCode">@Model.BankCode</p>
+                    <span class="p-2 my-0 text-danger text-small d-block">{{ bankCodeWarn }}</span>
+                    <input class="my-2 mb-5 p-2 w-75" type="text" v-model="bankCode" v-bind:disabled="inputDisa">
+                    <p class="my-2 fw-bolder">分行名稱及代碼</p>
+                    <p class="d-none" id="BranchCode">@Model.BranchCode</p>
+                    <span class="p-2 my-0 text-danger text-small d-block">{{ branchCodeWarn }}</span>
+                    <input class="my-2 mb-5 p-2 w-75" type="text" v-model="branchCode" v-bind:disabled="inputDisa">
+                    <p class="my-2 fw-bolder">銀行帳號</p>
+                    <p class="d-none" id="BankAccount">@Model.BankAccount</p>
+                    <span class="p-2 my-0 text-danger text-small d-block">{{ bankAccountWarn }}</span>
+                    <input class="my-2 mb-5 p-2 w-75" type="text" v-model="bankAccount" v-bind:disabled="inputDisa">
+                    <p class="my-2 fw-bolder">戶名</p>
+                    <p class="d-none" id="BankAccountName">@Model.BankAccountName</p>
+                    <span class="p-2 my-0 text-danger text-small d-block">{{ bankAccountNameWarn }}</span>
+                    <input class="my-2 mb-5 p-2 w-75" type="text" v-model="bankAccountName" v-bind:disabled="inputDisa">
+                    <p class="my-2"><button class="btn my-btn" v-on:click="editInfo">修改</button></p>
+                </div>
+            </div>
+        </div>
+        <div class="row py-3 mb-4 pb-5 border-bottom">
+            <div class="col-12 col-md-3 mb-3">
+                <p class="m-0 fs-3">財務信箱</p>
+            </div>
+            <div class="col-12 col-md-9">
+                <div class="my-white-text-space p-3 mb-4">
+                    <p class="my-2 fw-bolder">財務電子信箱</p>
+                    <p class="my-2 mb-5">@Model.Email</p>
+                </div>
+            </div>
+        </div>
+        <div class="row py-3 mb-4 pb-5 border-bottom">
+            <div class="col-12 col-md-3 mb-3">
+                <p class="m-0 fs-3">驗證碼</p>
+            </div>
+            <div class="col-12 col-md-9">
+                <div class="p-3 mb-4">
+                    <p class="my-2 w-75">為確保帳號安全，修改財務信箱與收款帳戶時，需輸入驗證碼證明身分。</p>
+                    <div class="d-flex pt-3">
+                        <input class="my-2 mb-5 p-2 w-75" type="text" v-model="pass">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="p-2 my-0 text-danger text-small d-block">{{ checkWarn }}</span>
+        <div class="d-flex justify-content-center py-4">
+            <button class="btn my-btn" v-on:click="editSellerFinance" v-bind:disabled="disa">更新</button>
+        </div>
+    </div>
+</div>
+<script>
+    let BankCode = document.querySelector('#BankCode');
+    let BranchCode = document.querySelector('#BranchCode');
+    let BankAccount = document.querySelector('#BankAccount');
+    let BankAccountName = document.querySelector('#BankAccountName');
+    const financeApp = new Vue({
+        el: '#financeApp',
+        data: {
+            bankCode: BankCode.innerText,
+            branchCode: BranchCode.innerText,
+            bankAccount: BankAccount.innerText,
+            bankAccountName: BankAccountName.innerText,
+            pass: '',
+            bankCodeWarn: '',
+            branchCodeWarn: '',
+            bankAccountWarn: '',
+            bankAccountNameWarn: '',
+            checkWarn: '',
+            disa: true,
+            checkWarn: '',
+            inputDisa: true
+        },
+        methods: {
+            editInfo() {
+                this.inputDisa = !this.inputDisa
+            },
+            editSellerFinance() {
+                let th = this
+                this.disa = true
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: '資訊更新中'
+                })
+                $.ajax({
+                    url: '/api/Seller/EditFinance',
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        BankCode: th.bankCode,
+                        BranchCode: th.branchCode,
+                        BankAccount: th.bankAccount,
+                        BankAccountName: th.bankAccountName,
+                        PassCode: th.pass
+                    }),
+                    success: function (output) {
+                        th.disa = false
+                        if(output.result.pass == ""){
+                            window.location.href = "/Seller/Finance"
+                        }
+                        else{
+                            th.checkWarn = output.result.pass
+                        }
+                    }
+                });
+            }
+        },
+        watch: {
+            bankCode: function () {
+                let r = /^\d{3}$/
+                if (!r.test(this.bankCode)) {
+                    this.bankCodeWarn = '銀行名稱及代碼不得為空，並且只能為3碼數字。'
+                    this.disa = true
+                }
+                else {
+                    this.bankCodeWarn = ''
+                    this.disa = false
+                }
+            },
+            branchCode: function () {
+                let r = /^\d{3,7}$/
+                if (!r.test(this.branchCode)) {
+                    this.branchCodeWarn = '分行名稱及代碼不得為空，並且只能為3到7碼數字。'
+                    this.disa = true
+                }
+                else {
+                    this.branchCodeWarn = ''
+                    this.disa = false
+                }
+            },
+            bankAccount: function () {
+                let r = /^\d{10,14}$/
+                if (!r.test(this.bankAccount)) {
+                    this.bankAccountWarn = '銀行帳號不得為空，並且只能為10到14碼數字。'
+                    this.disa = true
+                }
+                else {
+                    this.bankAccountWarn = ''
+                    this.disa = false
+                }
+            },
+            bankAccountName: function () {
+                let r = /^[\u4E00-\u9FFFA-Za-z]+$/
+                if (!r.test(this.bankAccountName)) {
+                    this.bankAccountNameWarn = '姓名不得為空，並且只能為英文或中文。'
+                    this.disa = true
+                }
+                else {
+                    this.bankAccountNameWarn = ''
+                    this.disa = false
+                }
+            }
+        }
+    })
+</script>
+
+@section topCSS{
+    <link href="~/css/seller/sellerinfo.css" rel="stylesheet" />
+}

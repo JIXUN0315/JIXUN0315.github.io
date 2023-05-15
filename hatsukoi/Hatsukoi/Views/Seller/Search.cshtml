@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+}
+
+<div class="search-main " id="search-app" v-cloak>
+    <div class="main-body container">
+        <h1>搜尋訂單</h1>
+        <p><span>{{q}}</span>：找到<span>{{filteredOrders.length}}</span>筆訂單</p>
+        <div class="toolbar">
+            <div class="wrap">
+                <div class="sides right-side">
+                    <div class="toolbar-btn btn-select">
+                        <span class="select-label">排序</span>
+                        <select v-model="sort">
+                            <option selected>排序</option>
+                            <option value="newest">下單時間：新 → 舊</option>
+                            <option value="oldest">下單時間：舊 → 新</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-label hp-none">顯示</div>
+                    <div class="toolbar-btn btn-select hp-none">
+                        <span class="select-label">5</span>
+                        <select v-model="perPage">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-label hp-none">筆 / 頁</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="order-list-status my-3">
+            <div v-if="sort === 'newest'">下單時間：新 → 舊</div>
+            <div v-if="sort === 'oldest'">下單時間：舊 → 新</div>
+        </div>
+        <div v-if="filteredOrders.length==0" class="no-order">
+            <p class="mb-3">找不到可以顯示的資料</p>
+            <a href="/Order/Management">查看所有訂單</a>
+        </div>
+        <div v-else class="search-list-order " v-for="order in pagedList">
+            <div class="order">
+                <div class="header">
+                    <a class="text" :href="'/OrderDetails?orderNum='+order.orderNumber">
+                        <div v-html="highlight(order.orderNumber)"></div>
+
+                    </a>
+                </div>
+                <div class="body">
+                    <div class="main-info">
+                        <div class="left">
+                            <div class="user-img">
+                                <img :src="order.photo">
+                            </div>
+                            <div class="buyer-and-price ">
+                                <div v-html="highlight(order.name)" class="buyer-nick text"></div>
+                                <div class="price text">NT$ {{order.totalPrice}}</div>
+                            </div>
+                        </div>
+                        <div class="order-status">
+                            <div class="order-status-label">{{order.statusText}}</div>
+                        </div>
+                    </div>
+                    <div class="secondary-info">
+                        <div class="info-title">收件人資訊</div>
+                        <div class="text">
+                            <div v-html="highlight(order.recipientName)" class="row-content"></div>
+                            <div v-html="highlight(order.recipientAddress)" class="row-content"></div>
+                            <div v-html="highlight(order.recipientPhone)" class="row-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <b-pagination v-if="filteredOrders.length > perPage" @@change="goTop" v-model="ListCurrentPage" :total-rows="filteredOrders.length" :per-page="perPage" />
+
+    </div>
+</div>
+
+@section topCSS{
+    <link href="~/css/seller/search.css" rel="stylesheet" />
+  }
+@section endJS{
+    <script src="~/js/seller/search.js"></script>
+  }

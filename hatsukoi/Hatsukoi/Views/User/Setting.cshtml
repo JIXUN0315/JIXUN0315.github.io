@@ -1,0 +1,288 @@
+﻿@model Hatsukoi.Models.ViewModels.User.UserSettingViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    int gender;
+    string bd;
+    if (Model.Birthday == null)
+    {
+        bd = "";
+    }
+    else
+    {
+        DateTime birth = (DateTime)Model.Birthday;
+        bd = birth.ToString("yyyy-MM-dd");
+    }
+    if (Model.Gender == null)
+    {
+        gender = 3;
+    }
+    else
+    {
+        gender = Model.Gender == true ? 1 : 2;
+    }
+}
+<!-- Load required Bootstrap and BootstrapVue CSS -->
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+<!-- Load polyfills to support older browsers -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
+
+<!-- Load Vue followed by BootstrapVue -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+
+<!-- Load the following for BootstrapVueIcons support -->
+<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+<div class="container my-5 pt-146">
+    <div id="test"></div>
+    <div class="row flex-md-row-reverse">
+        <div class="col-12 col-md-9 p-4 align-items-center" id="settingApp" v-cloak>
+            <div>
+                <h4>基本設定</h4>
+                <div id="settingName" class="d-none">@Model.UserName</div>
+                <p class="text-small my-0 py-4 border-bottom">請放心，你的電子郵件及所有與設計師溝通的訊息、檔案及相關購買資料，網站將依照個人資料保護法保障你的個人隱私！</p>
+                <label class="text-small fw-bolder mb-2 mt-4" for="setting-name">顯示暱稱</label>
+                <input class="d-block w-100 text-small p-2" type="text" id="setting-name" v-model="name">
+                <p class="text-gray text-small my-1">如果不希望真實姓名出現在搜尋頁面，請選擇一個你喜歡的暱稱，系統會用你設定的暱稱來稱呼你</p>
+                <div id="settingGender" class="d-none">@gender</div>
+                <span class="d-block my-2 text-small text-danger">{{ applyNameWarn }}</span>
+                <label class="text-small fw-bolder mb-2 mt-4" for="setting-select">性別</label>
+                <select class="form-select text-small" aria-label="Default select example" id="setting-select" v-model="gender">
+                    <option value="1">男</option>
+                    <option value="2">女</option>
+                    <option value="3">未設定性別</option>
+                </select>
+                <p class="text-small fw-bolder mb-2 mt-4">生日</p>
+                <div id="birthday" class="d-none">@bd</div>
+                <template>
+                    <div>
+                        <label for="example-datepicker">Choose a date</label>
+                        <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+                        <p>{{ value }}</p>
+                    </div>
+                </template>
+                @*                <div class="d-flex flex-wrap">
+                <input class="my-input text-very-small ps-2 my-2" type="text"
+                placeholder="1997">
+                <input class="my-input text-very-small ps-2 mx-3 my-2" type="text"
+                placeholder="03">
+                <input class="my-input text-very-small ps-2 my-2" type="text"
+                placeholder="15">
+                </div>*@
+                <label class="fw-bolder mb-2 mt-4" for="setting-pic-select">更換大頭貼照</label>
+                <div class="d-flex align-items-center my-2">
+                    <div id="settingImg" class="d-none">@Model.Img</div>
+                    <div class="buy-item-big-pic me-4">
+                        <img v-bind:src="pre" />
+                    </div>
+                    <div>
+                        <p class="text-small">從電腦中選取圖檔</p>
+                        <label for="formFile" class="btn my-btn-mark p-2 px-4 text-small">選擇照片</label>
+                        <input class="d-none" type="file" accept="image/*" id="formFile" v-on:change="changeImg">
+                    </div>
+                </div>
+                <span class="d-block my-2 text-small text-danger">{{ checkWarn }}</span>
+                <button class="btn my-btn-mark p-2 px-4 text-small my-3 mb-5" v-on:click="editInfo" v-bind:disabled="disa">確定更變</button>
+            </div>
+            <div class="fw-bolder text-big mb-2 mt-4">你的電子郵件</div>
+            <div id="settingEmail" class="d-none">@Model.Email</div>
+            <input class="d-block w-100 text-small p-2" type="text" id="setting-name" v-model="email">
+            <span class="d-block my-2 text-small text-danger">{{ emailWarn }}</span>
+            <button class="btn my-btn-mark p-2 px-4 text-small my-3" v-bind:disabled="emailDisa" v-on:click="editEmail">{{ countEmail }}</button>
+            <div class="fw-bolder text-big my-2 text-danger">更變電子郵件時會寄驗證信到您新設定的Email以此來確定您的身分。</div>
+
+        </div>
+        <div class="col-12 col-md-3 p-0 list-info">
+            <p class="fw-bolder text-very-big d-none d-md-block">我的 Hatsukoi</p>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Order")">購買訂單</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/Chatroom/Index")">我的訊息</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Coupon")">優惠券</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom">
+                帳號設定
+                <div class="p-2 px-3">
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Setting")">基本設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    @*                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                    <a class="d-block"
+                    href="@Url.Content("~/User/Credit")">信用卡管理</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                    <a class="d-block"
+                    href="@Url.Content("~/User/Address")">常用地址簿</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>*@
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Email")">電子郵件通知設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let birth = document.querySelector('#birthday');
+    let UserName = document.querySelector('#settingName');
+    let UserGender = document.querySelector('#settingGender');
+    let UserEmail = document.querySelector('#settingEmail');
+    let UserImg = document.querySelector('#settingImg');
+    const settingApp = new Vue({
+        el: '#settingApp',
+        data: {
+            value: birth.innerText,
+            name: UserName.innerText,
+            gender: UserGender.innerText,
+            email: UserEmail.innerText,
+            pre: UserImg.innerText,
+            img: '',
+            disa: true,
+            applyNameWarn: '',
+            checkWarn: '',
+            emailDisa: true,
+            emailWarn: '',
+            countEmail: '更變email'
+        },
+        methods: {
+            changeImg: function (event) {
+                var input = event.target;
+                if (input.files) {
+                    var reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.pre = e.target.result;
+                    }
+                    this.img = input.files[0];
+                    reader.readAsDataURL(input.files[0]);
+                }
+            },
+            editInfo() {
+                if (this.value == '') {
+                    this.checkWarn = '生日不得為空'
+                }
+                else if (this.gender == 3) {
+                    this.checkWarn = '需要設定性別'
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: '資訊更新中'
+                    })
+                    this.checkWarn = ''
+                    let th = this
+                    th.disa = true
+                    let input = {
+                        Name: this.name,
+                        Gender: this.gender,
+                        Birthday: this.value,
+                        Img: this.pre
+                    }
+                    $.ajax({
+                        url: '/api/User/EditInfo',
+                        type: 'POST',
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            Name: th.name,
+                            Gender: th.gender,
+                            Birthday: th.value,
+                            Img: th.pre
+                        }),
+                        success: function (output) {
+                            th.disa = false
+                            window.location.href = "/User/Setting"
+                        }
+                    });
+                }
+            },
+            editEmail() {
+                let th = this
+                this.emailDisa = true
+                let edEmail = this.email
+                let input = { email: edEmail }
+                $.ajax({
+                    url: '/api/User/EditEmail',
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        InputEmail: edEmail
+                    }),
+                    success: function (output) {
+                        if (output.result.hasGoogle != '') {
+                            th.emailWarn = output.result.hasGoogle
+                        }
+                        else if (output.result.hasEmail != '') {
+                            th.emailWarn = output.result.hasEmail
+                        }
+                        else {
+                            let count = 60;
+                            let timerId = setInterval(function () {
+                                th.countEmail = count
+                                count = count - 1;
+                                if (count < 0) {
+                                    clearInterval(timerId);
+                                    th.countEmail = '重新寄送驗證信'
+                                    th.emailDisa = false;
+                                }
+                            }, 1000)
+                        }
+                    }
+                });
+            }
+        },
+        watch: {
+            name: function () {
+                let r = /^[\u4E00-\u9FFFA-Za-z]+$/
+                if (!r.test(this.name)) {
+                    this.applyNameWarn = '名稱不得為空，並且只能為英文或中文。'
+                    this.disa = true
+                }
+                else {
+                    this.applyNameWarn = ''
+                    this.disa = false
+                }
+            },
+            value: function () {
+                this.disa = false
+            },
+            gender: function () {
+                this.disa = false
+            },
+            pre: function () {
+                this.disa = false
+            },
+            email: function () {
+                let r = /^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                if (!r.test(this.email)) {
+                    this.emailWarn = 'email格式錯誤。'
+                    this.emailDisa = true
+                }
+                else {
+                    this.emailWarn = ''
+                    this.emailDisa = false
+                }
+            },
+        }
+    })
+</script>
+@section topCSS{
+    <link href="~/css/user/customerinfo.css" rel="stylesheet" />
+}

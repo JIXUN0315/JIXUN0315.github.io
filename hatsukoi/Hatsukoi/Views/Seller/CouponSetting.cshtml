@@ -1,0 +1,278 @@
+﻿@using Hatsukoi.Models.ViewModels.Seller;
+@using Hatsukoi.Repository.EntityModel;
+@model List<CouponViewModel>
+@{
+    ViewData["Title"] = "Coupon setting";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+}
+
+<div class="coupon-setting-main col-12 " id="couponForm" v-cloak>
+    <div class="main-body container">
+        <h1 class="main-title">優惠券設定</h1>
+        <p class="text">製作不同的優惠券發送給你的社群粉絲或是朋友、熟客，能為你提高購買率。當買家下單前在購物車輸入優惠碼，就能獲得優惠。</p>
+        <!-- 小提醒區塊 -->
+        <div class="reminder mb-4">
+            <div class="title">小提醒</div>
+            <ul>
+                <li>因有提供商品折扣，我們將以「折扣後」及「扣除優惠券金額後」視為商品售價以計算管理費。更多折扣金額與成交管理費詳細資訊請見 <a href="#">設計館常見問題</a></li>
+                <li>如有設定多張自動發送的優惠券，系統會從建立時間最新的那一張開始發送。若該優惠券已失效，會依建立時間自動改發送下一張優惠券。</li>
+            </ul>
+        </div>
+        <!-- 建立優惠券 -->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn p-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            建立優惠券
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">建立優惠券</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 小提醒區塊 -->
+                        <div class="reminder mb-4">
+                            <div class="title">小提醒</div>
+                            <ul>
+                                <li>相同的優惠碼無法重複建立喔！優惠券型式及折扣一旦設定就無法再更改，送出前請務必再次確認。</li>
+                            </ul>
+                        </div>
+
+                        <div class="coupon-edit-form">
+                            <div class="coupon-type">
+                                <div class="form-label">滿額優惠</div>
+                                <p>設定滿額條件及折扣</p>
+                            </div>
+                            <div>
+                                <div class="form-label required">優惠碼</div>
+                                <div class="form-input-wrapper">
+                                    <input placeholder="設定 24 個字元以內的英文字母和數字" type="text" class="form-control" value="" v-model="promoCode">
+                                    <span class="d-block my-2 text-small text-red" style="color: red;">{{ promoCodeWarn }}</span>
+                                    <span class="d-block my-2 text-small text-red" style="color: red;">{{ checkpromoCodeWarn }}</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="form-label required">訂單滿額條件 NT$</div>
+                                <div class="form-input-wrapper">
+                                    <input placeholder="設定金額" type="text" class="form-control" value="" v-model="condition">
+                                    <span class="d-block my-2 text-small " style="color: red;"> {{ conditionWarn }} </span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-label required">折扣</div>
+
+                                <select class="form-select" aria-label="Default select example" v-model="discount">
+                                    <option value="">請選擇折扣</option>
+                                    <option value="0.95">5% off（95 折）</option>
+                                    <option value="0.9">10% off（9 折）</option>
+                                    <option value="0.85">15% off（85 折）</option>
+                                    <option value="0.8">20% off（8 折）</option>
+                                    <option value="0.75">25% off（75 折）</option>
+                                    <option value="0.7">30% off（7 折）</option>
+                                    <option value="0.65">35% off（65 折）</option>
+                                    <option value="0.6">40% off（6 折）</option>
+                                    <option value="0.55">45% off（55 折）</option>
+                                </select>
+                                <p class="mt-2" v-if="!discount" style="color: red;">請選擇一個折扣</p>
+                            </div>
+                            <div>
+                                <div class="form-label required">開始日期</div>
+                                <input type="date" autocomplete="off" class="form-control mx-auto datepicker" v-model="startTime">
+                                <p class="mt-2" v-if="!startTime" style="color: red;">請選擇開始日期</p>
+
+                            </div>
+                            <div>
+                                <div class="form-label required">結束日期</div>
+                                <input type="date" autocomplete="off" class="form-control mx-auto datepicker" v-model="endTime">
+                                <p class="mt-2" v-if="!endTime" style="color: red;">請選擇結束日期</p>
+                            </div>
+
+                        </div>
+                        <span class="d-block my-2 text-small text-red" style="color: red;">{{ checkWarn }}</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn p-btn" id="submit-btn" @@click="createInfo" v-bind:disabled="isVerify">確定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Model.Count == 0)
+        {
+            <!-- 優惠券清單 -->
+            <div class="list-state">
+                <!-- 沒有優惠券 -->
+                <div class="list-empty">
+                    <div class="empty">沒有資料</div>
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="editCouponModal">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">建立優惠券</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- 小提醒區塊 -->
+                            <div class="reminder mb-4">
+                                <div class="title">小提醒</div>
+                                <ul>
+                                    <li>相同的優惠碼無法重複建立喔！優惠券型式及折扣一旦設定就無法再更改，送出前請務必再次確認。</li>
+                                </ul>
+                            </div>
+                            <div class="coupon-edit-form">
+                                <div class="coupon-type">
+                                    <div class="form-label">滿額優惠</div>
+                                    <p>設定滿額條件及折扣</p>
+                                </div>
+                                <div>
+                                    <div class="form-label required">優惠碼</div>
+                                    <div class="form-input-wrapper">
+                                        <input disabled placeholder="設定 24 個字元以內的英文字母和數字" type="text" class="form-control" value="" v-model="editPromoCode">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="form-label required">訂單滿額條件 NT$</div>
+                                    <div class="form-input-wrapper">
+                                        <input placeholder="設定金額" type="text" class="form-control" value="" v-model="editCondition">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-label required">折扣</div>
+
+                                    <select disabled class="form-select" aria-label="Default select example" v-model="editDiscount">
+                                        <option value="">請選擇折扣</option>
+                                        <option value="0.95">5% off（95 折）</option>
+                                        <option value="0.9">10% off（9 折）</option>
+                                        <option value="0.85">15% off（85 折）</option>
+                                        <option value="0.8">20% off（8 折）</option>
+                                        <option value="0.75">25% off（75 折）</option>
+                                        <option value="0.7">30% off（7 折）</option>
+                                        <option value="0.65">35% off（65 折）</option>
+                                        <option value="0.6">40% off（6 折）</option>
+                                        <option value="0.55">45% off（55 折）</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <div class="form-label required">開始日期</div>
+                                    <input type="date" autocomplete="off" class="form-control mx-auto datepicker" v-model="editStartTime" :disabled="isEditStartTimeDisabled">
+                                </div>
+                                <div>
+                                    <div class="form-label required">結束日期</div>
+                                    <input type="date" autocomplete="off" class="form-control mx-auto datepicker" v-model="editEndTime">
+                                </div>
+                                <span class="d-block my-2 text-small text-red" style="color: red;">{{ checkWarn }}</span>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="button" class="btn p-btn" v-on:click="UpdateCoupon">確定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table">
+                <div class="thead row">
+                    <div class="cell col-xl-2">優惠碼</div>
+                    <div class="cell col-xl-1">型式</div>
+                    <div class="cell col-xl-3">時間</div>
+                    <div class="cell col-xl-3">折扣內容</div>
+                    <div class="cell col-xl-1">狀態</div>
+                    <div class="cell col-xl-2"></div>
+                </div>
+                @foreach (var coupon in Model)
+                {
+                    <div class="single-coupon row" id="coupon-@coupon.PromoCode">
+                        <div class="cell col-xl-2">
+                            <div class="title">優惠碼</div>
+                            <div class="content" id="@coupon.PromoCode">@coupon.PromoCode</div>
+                        </div>
+                        <div class="cell col-xl-1">
+                            <div class="title">型式</div>
+                            <div class="content">滿額優惠</div>
+                        </div>
+                        <div class="cell col-xl-3">
+                            <div class="title">時間</div>
+                            <div class="content">@coupon.StartTime - @coupon.EndTime</div>
+                        </div>
+                        <div class="cell col-xl-3">
+                            <div class="title">折扣內容</div>
+                            <div class="content">消費滿 NT$ @coupon.Condition，享 @coupon.Discount.ToString("0.0") 折</div>
+                        </div>
+                        <div class="cell col-xl-1">
+                            <div class="title">狀態</div>
+                            @if (DateTime.Parse(coupon.StartTime) > DateTime.Today)
+                            {
+                                <div class="content"> 尚未生效</div>
+                            }
+                            else if (DateTime.Parse(coupon.EndTime) < DateTime.Today)
+                            {
+                                <div class="content" style="color:  #FACB4D">過期</div>
+                            }
+                            else
+                            {
+                                <div class="content" style="color:#30BBA5">有效</div>
+                            }
+
+                        </div>
+                        <div class="cell col-xl-2">
+                            <div class="title"></div>
+                            <div class="content">
+                                <div>
+                                    <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="deleteCouponModal">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">刪除優惠券</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>你確定要刪除優惠券 {{deletePromoCode}}？</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                                    <button type="button" class="btn p-btn" v-on:click="deleteCoupon()">確定</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (DateTime.Parse(coupon.EndTime) < DateTime.Today)
+                                    {
+                                        <button class="btn delete" data-coupon-id="@coupon.PromoCode" v-on:click="deleteModal">刪除</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn delete" data-coupon-id="@coupon.PromoCode" v-on:click="deleteModal">刪除</button>
+                                        <button type="button" class="btn edit mx-2" data-coupon-id="@coupon.PromoCode" v-on:click="getInfo">編輯</button>
+
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        }
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/seller/coupon_setting.css" rel="stylesheet" />
+}
+@section endJS{
+    <script src="~/js/seller/coupon.js"></script>
+}
+

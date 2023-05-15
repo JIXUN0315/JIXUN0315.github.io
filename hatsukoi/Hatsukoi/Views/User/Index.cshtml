@@ -1,0 +1,101 @@
+﻿@model Hatsukoi.Models.ViewModels.User.UserIndexViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+<div class="container my-5 pt-146">
+    <div id="test"></div>
+    <div class="row flex-md-row-reverse">
+        <div class="col-12 col-md-9 p-4 align-items-center">
+            <div class="row">
+                <div class="col-12 col-md-4 d-flex my-2">
+                    <div class="head-pic">
+                        <img src="@Model.UserImg" />
+                    </div>
+                    <div class="info-name mx-2 px-2">
+                        <p class="fw-bolder m-0">@Model.UserName</p>
+                        <p class="my-1 text-small"><i class="fa-regular fa-gem text-danger"></i> @Model.UserLevel</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 border-top border-bottom py-2 first-mission">
+                    <p class="fw-bolder my-2">當年度升級任務</p>
+                    <div class="mission-this-year d-flex align-items-center">
+                        <div class="mission-icon d-flex justify-content-center align-items-center text-center">
+                            <i class="fa-brands fa-old-republic"></i>
+                        </div>
+                        @if (@Model.ThisYearMissionName == "")
+                        {
+                            <div class="p-2 text-small fw-bolder">您在今年度已經是最高等級的會員了!</div>
+                        }
+                        else
+                        {
+                            <div class="p-2 text-small fw-bolder">再消費 NT @Model.ThisYearMissionPrice，可在今年度成為 @Model.ThisYearMissionName !</div>
+                        }
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 border-bottom py-2 first-mission">
+                    <p class="fw-bolder my-2">下個年度等級任務</p>
+                    <div class="mission-this-year d-flex align-items-center">
+                        <div class="mission-next-year d-flex justify-content-center align-items-center text-center">
+                            <i class="fa-brands fa-jedi-order"></i>
+                        </div>
+                        @if (@Model.NextYearMissionName == "")
+                        {
+                            <div class="p-2 text-small fw-bolder">您在下個年度已經是最高等級的會員了!</div>
+                        }
+                        else
+                        {
+                            <div class="p-2 text-small fw-bolder">再消費 NT @Model.NextYearMissionPrice，可在明年度成為 @Model.NextYearMissionName !</div>
+                        }
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p class="border-bottom text-small fw-bolder my-0 py-2">關於我</p>
+                    <p class="my-2">個人名片</p>
+                    <div class="d-flex align-items-center text-very-small">
+                        <span class="text-gray me-3">性別</span><span>@Model.UserGender</span>
+                    </div>
+                    <div class="d-flex align-items-center text-very-small">
+                        <span class="text-gray me-3">加入日期</span><span> @Model.UserCreateTime.ToString("yyyy-MM-dd")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3 p-0 list-info">
+            <p class="fw-bolder text-very-big d-none d-md-block">我的 Hatsukoi</p>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Order")">購買訂單</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/Chatroom/Index")">我的訊息</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Coupon")">優惠券</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom">
+                帳號設定
+                <div class="p-2 px-3">
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Setting")">基本設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+@*                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Credit")">信用卡管理</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Address")">常用地址簿</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>*@
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Email")">電子郵件通知設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/user/customerinfo.css" rel="stylesheet" />
+}

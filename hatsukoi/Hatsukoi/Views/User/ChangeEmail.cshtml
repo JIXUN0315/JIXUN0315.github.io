@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+<div class="pt-146 container py-4">
+    <h2 class="text-main my-5 fw-bolder fs-4 text-center">已更新你的Email 到 Hatsukoi 帳號！</h2>
+    <div class="max-500 mx-auto">
+        <img src="~/img/user/submitted-successfully.png" />
+    </div>
+    <div class="max-500 border rounded mx-auto text-small p-4">
+        <p class="my-3">再次謝謝你的耐心等待，歡迎來到 Hatsukoi！</p>
+        <a id="open" href="@Url.Content("~/Home/Index")" class="btn my-4 my-btn d-block mx-auto p-2 px-3">回到首頁</a>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/user/finishseller.css" rel="stylesheet" />
+}

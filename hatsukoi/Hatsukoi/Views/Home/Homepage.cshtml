@@ -1,0 +1,592 @@
+﻿@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Service;
+@model Hatsukoi.Models.ViewModels.HomepageProductViewModel
+@using System.Security.Claims
+@using Hatsukoi.Service.Interface
+@inject IAccountService _getUserService
+
+@{
+    ViewData["Title"] = "Homepage";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    var take3 = 3;
+    var take6 = 6;
+    var skip3 = 3;
+    var skip6 = 6;
+    var skip12 = 12;
+    var user = _getUserService.GetUser();
+}
+<div class="homepage-container">
+    <!--------------------- kv ------------------------>
+    <section class="homepage-kv">
+        <div id="carouselExampleIndicators" class="kv-container carousel slide" data-bs-ride="true">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                @for (int i = 1; i <= (Model.Banners.Count() - 1); i++)
+                {
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i"
+                            aria-label="Slide @(i+1)"></button>
+                }
+
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="@(Model.Banners.First(b => b.Sort == 1).ImgUrl)" class="d-block w-100" alt="">
+                </div>
+
+                @foreach (var banner in Model.Banners)
+                {
+                    if (banner.Sort > 1)
+                    {
+                        <div class="carousel-item">
+                            <img src="@banner.ImgUrl" class="d-block w-100" alt="">
+                        </div>
+                    }
+                }
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+    <!------------------ 編輯嚴選 ------------------>
+    <section class="homepage-section-recommended container">
+        <div class="homepage-recommended-container">
+            <div class="homepage-text-title">
+                <h2>編輯嚴選</h2>
+            </div>
+            <div id="carouselExampleIndicators-recommend" class="carousel slide" data-bs-ride="true">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                </div>
+                <!-- 商品卡片在這 -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="homepage-recommended-row row products-row">
+                            @foreach (var product in Model.RmdProductCards.Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="homepage-recommended-row row products-row">
+                            @foreach (var product in Model.RmdProductCards.Skip(skip6).Take(skip6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="homepage-recommended-row row products-row">
+                            @foreach (var product in Model.RmdProductCards.Skip(skip12).Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+                <button class="carousel-control-prev" type="button"
+                        data-bs-target="#carouselExampleIndicators-recommend" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button"
+                        data-bs-target="#carouselExampleIndicators-recommend" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!---------------- 品牌探索 ------------------------->
+    <section class="homepage-section-shops container">
+        <div class="homepage-shops-container">
+            <div class="homepage-text-title">
+                <h2>品牌探索</h2>
+            </div>
+            <div id="carouselExampleIndicators-shops" class="carousel slide" data-bs-ride="true">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="homepage-shops-row row" id="row-service-cards">
+                            @foreach (var shop in Model.RmdShopCards.Take(take3))
+                            {
+                                <div class="homepage-shops-col col-12 col-md-4 col-lg-4">
+                                    <div class="homepage-shops-card">
+                                        <div class="homepage-shops-pic">
+                                            <a href="~/Shop?id=@shop.Id" class="shop-pic-a"><img class="lazyload" data-src="@shop.ShopBannerSquare" src="~/hatsukoipics/hatsukoi_icon.png"></a>
+                                        </div>
+                                        <div class="homepage-shop-info-row row">
+                                            <div class="homepage-shops-info-col col-3 col-md-4 col-lg-4">
+                                                <div class="homepage-shops-logo">
+                                                    <a href="~/Shop?id=@shop.Id" class="shop-logo-a"><img src="@shop.Logo"></a>
+                                                </div>
+                                            </div>
+                                            <div class="homepage-shops-info-col col-8 col-md-7 col-lg-8">
+                                                <div class="homepage-shops-name">
+                                                    <h2><a href="~/Shop?id=@shop.Id">@shop.BrandName</a></h2>
+                                                </div>
+                                                <div class="homepage-shops-performance">
+                                                    <span><i class="fa-solid fa-star"></i> 評價 @shop.AvgEvaluate</span>
+                                                    <span><i class="fa-solid fa-user"></i> 關注人數 @shop.Followers</span>
+                                                </div>
+                                            </div>
+                                            <div class="homepage-shops-info-col col-12 col-md-12 col-lg-12">
+                                                <div class="homepage-shops-btns">
+                                                    <button type="button"
+                                                            class="btn-explore btn btn-outline-secondary">
+                                                        <a href="~/Shop?id=@shop.Id">即刻探索</a>
+                                                    </button>
+                                                    <!----- Button加入喜歡商家按鈕------>
+                                                    @if (user != null)
+                                                    {
+                                                        <button type="button" onclick="AddfavShop(@shop.Id)" class="btn-like btn btn-outline-secondary">
+                                                            <i class="fa-regular fa-heart"></i>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" onclick="openLoginModal()" class="btn-like btn btn-outline-secondary">
+                                                            <i class="fa-regular fa-heart"></i>
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="homepage-shops-row row" id="row-service-cards">
+                            @foreach (var shop in Model.RmdShopCards.Skip(skip3).Take(take3))
+                            {
+                                <div class="homepage-shops-col col-12 col-md-4 col-lg-4">
+                                    <div class="homepage-shops-card">
+                                        <div class="homepage-shops-pic">
+                                            <a href="~/Shop?id=@shop.Id" class="shop-pic-a"><img class="lazyload" data-src="@shop.ShopBannerSquare" src="~/hatsukoipics/hatsukoi_icon.png"></a>
+                                        </div>
+                                        <div class="homepage-shop-info-row row">
+                                            <div class="homepage-shops-info-col col-3 col-md-4 col-lg-4">
+                                                <div class="homepage-shops-logo">
+                                                    <a href="~/Shop?id=@shop.Id" class="shop-logo-a"><img src="@shop.Logo"></a>
+                                                </div>
+                                            </div>
+                                            <div class="homepage-shops-info-col col-8 col-md-7 col-lg-8">
+                                                <div class="homepage-shops-name">
+                                                    <h2><a href="~/Shop?id=@shop.Id">@shop.BrandName</a></h2>
+                                                </div>
+                                                <div class="homepage-shops-performance">
+                                                    <span><i class="fa-solid fa-star"></i> 評價 @shop.AvgEvaluate</span>
+                                                    <span><i class="fa-solid fa-user"></i> 關注人數 @shop.Followers</span>
+                                                </div>
+                                            </div>
+                                            <div class="homepage-shops-info-col col-12 col-md-12 col-lg-12">
+                                                <div class="homepage-shops-btns">
+                                                    <button type="button"
+                                                            class="btn-explore btn btn-outline-secondary">
+                                                        <a href="~/Shop?id=@shop.Id">即刻探索</a>
+                                                    </button>
+                                                    <!----- Button加入喜歡商家按鈕------>
+                                                    <button type="button" onclick="AddfavShop(@shop.Id)" class="btn-like btn btn-outline-secondary">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="homepage-shops-row row" id="row-service-cards">
+                            @foreach (var shop in Model.RmdShopCards.Skip(skip6).Take(take3))
+                            {
+                                <div class="homepage-shops-col col-12 col-md-4 col-lg-4">
+                                    <div class="homepage-shops-card">
+                                        <div class="homepage-shops-pic">
+                                            <a href="~/Shop?id=@shop.Id" class="shop-pic-a"><img class="lazyload" data-src="@shop.ShopBannerSquare" src="~/hatsukoipics/hatsukoi_icon.png"></a>
+                                        </div>
+                                        <div class="homepage-shop-info-row row">
+                                            <div class="homepage-shops-info-col col-3 col-md-4 col-lg-4">
+                                                <div class="homepage-shops-logo">
+                                                    <a href="~/Shop?id=@shop.Id" class="shop-logo-a"><img src="@shop.Logo"></a>
+                                                </div>
+                                            </div>
+                                            <div class="homepage-shops-info-col col-8 col-md-7 col-lg-8">
+                                                <div class="homepage-shops-name">
+                                                    <h2><a href="~/Shop?id=@shop.Id">@shop.BrandName</a></h2>
+                                                </div>
+                                                <div class="homepage-shops-performance">
+                                                    <span><i class="fa-solid fa-star"></i> 評價 @shop.AvgEvaluate</span>
+                                                    <span><i class="fa-solid fa-user"></i> 關注人數 @shop.Followers</span>
+                                                </div>
+                                            </div>
+                                            <div class="homepage-shops-info-col col-12 col-md-12 col-lg-12">
+                                                <div class="homepage-shops-btns">
+                                                    <button type="button"
+                                                            class="btn-explore btn btn-outline-secondary">
+                                                        <a href="~/Shop?id=@shop.Id">即刻探索</a>
+                                                    </button>
+                                                    <!----- Button加入喜歡商家按鈕------>
+                                                    <button type="button" onclick="AddfavShop(@shop.Id)" class="btn-like btn btn-outline-secondary">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <button class="carousel-control-prev" type="button"
+                        data-bs-target="#carouselExampleIndicators-shops" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button"
+                        data-bs-target="#carouselExampleIndicators-shops" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!------------------ 熱門商品 ------------------>
+    <section class="homepage-section-hot container">
+        <div class="homepage-hot-container">
+            <div class="homepage-text-title">
+                <h2>熱門商品</h2>
+            </div>
+            <div id="carouselExampleIndicators-hot" class="carousel slide" data-bs-ride="true">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                </div>
+                <!-- 商品卡片在這 -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="homepage-hot-row row products-row">
+                            @foreach (var product in Model.HottestProductCards.Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="homepage-hot-row row products-row">
+                            @foreach (var product in Model.HottestProductCards.Skip(skip6).Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="homepage-hot-row row products-row">
+                            @foreach (var product in Model.HottestProductCards.Skip(skip12).Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+                <button class="carousel-control-prev" type="button"
+                        data-bs-target="#carouselExampleIndicators-hot" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button"
+                        data-bs-target="#carouselExampleIndicators-hot" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!------------------ 新品上架 ------------------>
+    <section class="homepage-section-new container">
+        <div class="homepage-new-container">
+            <div class="homepage-text-title">
+                <h2>新品上架</h2>
+            </div>
+            <div id="carouselExampleIndicators-new" class="carousel slide" data-bs-ride="true">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                </div>
+                <!-- 商品卡片在這 -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="homepage-new-row row products-row">
+                            @foreach (var product in Model.NewestProductCards.Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="homepage-new-row row products-row">
+                            @foreach (var product in Model.NewestProductCards.Skip(skip6).Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+
+
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="homepage-new-row row products-row">
+                            @foreach (var product in Model.NewestProductCards.Skip(skip12).Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+                <button class="carousel-control-prev" type="button"
+                        data-bs-target="#carouselExampleIndicators-new" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button"
+                        data-bs-target="#carouselExampleIndicators-new" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!------------------ 近期熱銷 ------------------>
+    <section class="homepage-section-discount container">
+        <div class="homepage-discount-container">
+            <div class="homepage-text-title">
+                <h2>近期熱銷</h2>
+            </div>
+            <div id="carouselExampleIndicators-discount" class="carousel slide" data-bs-ride="true">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                </div>
+                <!-- 商品卡片在這 -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="homepage-discount-row row products-row">
+                            @foreach (var product in Model.TrendingProductCards.Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="homepage-discount-row row products-row">
+                            @foreach (var product in Model.TrendingProductCards.Skip(skip6).Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="homepage-discount-row row products-row">
+                            @foreach (var product in Model.TrendingProductCards.Skip(skip12).Take(take6))
+                            {
+                                @Html.Partial("~/Views/Shared/Home/_ProductCard.cshtml", product)
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+                <button class="carousel-control-prev" type="button"
+                        data-bs-target="#carouselExampleIndicators-discount" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button"
+                        data-bs-target="#carouselExampleIndicators-discount" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!--------------- 關於hatsukoi --------------->
+    <section class="homepage-about">
+        <div class="homepage-about-container row">
+            <div class="homepage-about-card col-12 col-md-3 col-lg-3">
+                <div class="homepage-about-pic">
+                    <img src="~/hatsukoiPics/hp-pic1.svg" alt="">
+                </div>
+                <div class="homepage-about-text">
+                    <h3>集結全球好設計</h3>
+                    <p>販售超過百萬件獨特商品，透過好設計實現心中的理想生活！</p>
+                </div>
+            </div>
+            <div class="homepage-about-card  col-12 col-md-3 col-lg-3">
+                <div class="homepage-about-pic">
+                    <img src="~/hatsukoiPics/hp-pic2.svg" alt="">
+                </div>
+                <div class="homepage-about-text">
+                    <h3>優質獨立創作者</h3>
+                    <p>串連全球優質設計師群，直接與他們溝通購買專屬你的設計品。</p>
+                </div>
+            </div>
+            <div class="homepage-about-card col-12 col-md-3 col-lg-3">
+                <div class="homepage-about-pic ">
+                    <img src="~/hatsukoiPics/hp-pic3.svg" alt="">
+                </div>
+                <div class="homepage-about-text">
+                    <h3>安心消費有保障</h3>
+                    <p>專業工程團隊時時把關，保障你的個資安全。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+@section topCSS{
+    <link href="~/css/homepage.css" rel="stylesheet" />
+}
+
+<script>
+    let images = document.querySelectorAll("img.lazyload");
+    lazyload(images);
+
+
+    function addFavProduct(productId) {
+        $.ajax({
+            url: '@Url.Action("AddfavProduct","Favlist")',
+            type: 'POST',
+            data: {
+
+                productId: productId,
+            },
+            success: function (json) {
+                console.log(productId)
+                let result = json
+
+                if (result.isCreate == "已將此商品加入喜歡清單") {
+
+                    Toast.fire(result.isCreate);
+                }
+                else {
+
+                    Toast.fire(result.isCreate);
+                    
+                }
+
+            }
+
+        })
+    }
+
+
+    function AddfavShop(sellerId) {
+        $.ajax({
+            url: '@Url.Action("AddfavShop","Favlist")',
+            type: 'POST',
+            data: {
+
+                sellerId: sellerId,
+            },
+            success: function (json) {
+
+                let result = json
+
+                if (result.isCreate == "已關注此品牌") {
+
+                    Toast.fire(result.isCreate);
+                }
+                else {
+
+                    Toast.fire(result.isCreate);
+                }
+
+
+            }
+
+        })
+    }
+
+
+
+</script>
+
+
+

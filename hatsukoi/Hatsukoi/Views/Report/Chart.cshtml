@@ -1,0 +1,433 @@
+﻿
+
+@{
+    ViewData["Title"] = "chart";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+
+}
+
+<div class="container three col-md-11" id="app">
+    <div class="row xxx">
+        <div class="report-main col-12 ">
+
+            <div class="report-sale-situation">
+                <h1>數據中心</h1>
+                <p>你可以看見設計館營收報表與總銷售金額，以及本月熱賣商品與消費最多的買家。</p>
+                <p class="report-text">由於銷售狀況非即時更新，設計館每月營收仍請以圖表為主</p>
+            </div>
+
+            <div class="report-little-abacus-table">
+                <!-- 小計 -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>尚未出貨訂單</th>
+                            <th>本月已出貨訂單</th>
+                            <th>累計銷售金額</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="order-money">NT$0</td>
+                            <td class="ship-money">NT$0</td>
+                            <td class="total-order">NT$ 30,884</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="report-little-abacus-laptop">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>尚未出貨訂單</th>
+                            <td class="order-money-phone">NT$0</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>本月已出貨訂單</th>
+                            <td class="ship-money-phone">NT$0</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>累計銷售金額</th>
+                            <td class="total-order-phone">NT$ 30,884</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="mb-4">
+                <h2>商品瀏覽數</h2>
+            </div>
+
+            <div class="report-table now-month-report align-items-center d-flex">
+
+                <!-- 圖表 -->
+                <canvas class="produc-circle"   ></canvas>
+            </div>
+            <div class="report-data-div report-necessaary">
+                <div class=" d-flex justify-content-between mb-4">
+                    <!-- 關鍵指標 -->
+                    <h2>關鍵指標</h2>
+                    <select class="form-select-sm report-option option-date" aria-label=".form-select-sm example" id="two">
+                        @*動態生成*@
+                    </select>
+                </div>
+                <div class="report-chart">
+                    <canvas class="now-month-order" ></canvas>
+
+                </div>
+            </div>
+            <div class="report-data-div report-order">
+                <div class=" d-flex justify-content-between mb-4">
+                    <!-- 訂單數據 -->
+                    <h2>取消訂單數據</h2>
+                    <select class="form-select-sm report-option option-date" aria-label=".form-select-sm example" id="one">
+                        @*動態生成*@
+                    </select>
+                </div>
+                <div class="report-chart">
+                    <canvas class="cancel-order-count"></canvas>
+                </div>
+            </div>
+            <div class="report-data-div">
+                <div class=" d-flex justify-content-between mb-4">
+                    <!-- 商品數據 -->
+
+                    <h2>營收報表</h2>
+                    <select class="form-select-sm report-option option-date" aria-label=".form-select-sm example" id="three">
+                        @*動態生成*@
+                    </select>
+                </div>
+                <div class="report-chart  ">
+                    <canvas class="now-month-sale "></canvas>
+                    <span class="sale-report mb-0"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    let monthList = []
+    let nowMonthReport = document.querySelector('.now-month-report')
+    let orderMoney = document.querySelector('.order-money')
+    let shipMoney = document.querySelector('.ship-money')
+    let orderMoneyPhone = document.querySelector('.order-money-phone')
+    let shipMoneyPhone = document.querySelector('.ship-money-phone')
+    let totalOrder = document.querySelector('.total-order')
+    let totalOrderPhone = document.querySelector('.total-order-phone')
+    let buyPeople = document.getElementById('buy-people')
+    let nowMonthOrder = document.querySelectorAll('.now-month-order')
+    let two = document.getElementById('two')
+    let producCircle = document.querySelector('.produc-circle')
+    let three = document.getElementById('three')
+    let one = document.getElementById('one')
+    let saleReport = document.querySelector('.sale-report')
+
+    //當月
+    let optionDate = document.querySelectorAll('.option-date')
+    let dt = new Date();
+    let month = dt.getMonth()
+    let yearMonth = dt.getFullYear()
+    let firstDay = new Date(yearMonth, month, 1)
+    let lastDay = new Date(yearMonth, month + 1, 0)
+    //近半年
+
+    let halfYear = new Date();
+    halfYear.setMonth(halfYear.getMonth() - 6);
+    //近一年
+    let year = new Date()
+    year.setFullYear(year.getFullYear() - 1)
+    let dateArr = [`${firstDay.toLocaleDateString()}-${lastDay.toLocaleDateString()}`, `${halfYear.toLocaleDateString()} - ${dt.toLocaleDateString()}`, `${year.toLocaleDateString()} - ${dt.toLocaleDateString()}`]
+    let kk = ['當月', '近半年', '近一年']
+
+    let firstDate = ''
+    let lastDate = ''
+    optionDate.forEach(y => {
+        dateArr.forEach((x, index) => {
+            let date = document.createElement('option')
+            date.setAttribute('value', x)
+            date.innerHTML = kk[index]
+            y.appendChild(date)
+
+        })
+    })
+
+    let myChart = new Chart()
+    $.ajax({
+        url: '/api/Report/Change',
+        type: 'POST',
+        contentType: "application/json",
+        dataType: 'json',
+        data: JSON.stringify({
+        }),
+        success: function (response) {
+            let data = {
+                labels: response.result.date,
+                datasets: [{
+                    label: '訂單數',
+                    data: response.result.count,
+                    fill: false,
+                    backgroundColor: 'rgba(255,0,0,0.3)',
+                    //borderColor: 'rgb(0,0,0)',
+                    pointStyle: 'circle',
+                    pointBackgroundColor: 'rgba(255,0,0,0.3)',
+                    pointRadius: 5,
+                    pointHoverRadius: 10
+                }]
+            };
+            myChart = new Chart(document.querySelectorAll(".now-month-order"), {
+                type: "bar",
+                data: data,
+            });
+
+        }
+    })
+
+    two.addEventListener('change', () => {
+        if (two.value == `${firstDay.toLocaleDateString()}-${lastDay.toLocaleDateString()}`) {
+            firstDate = firstDay.toLocaleDateString()
+            lastDate = lastDay.toLocaleDateString()
+        } else if (two.value == `${halfYear.toLocaleDateString()} - ${dt.toLocaleDateString()}`) {
+            firstDate = halfYear.toLocaleDateString()
+            lastDate = dt.toLocaleDateString()
+        } else {
+            firstDate = year.toLocaleDateString()
+            lastDate = dt.toLocaleDateString()
+        }
+
+        $.ajax({
+            url: '/api/Report/Change',
+            type: 'POST',
+            contentType: "application/json",
+            dataType: 'json',
+            data: JSON.stringify({
+                First: firstDate,
+                Last: lastDate
+            }),
+            success: function (response) {
+                myChart.data.datasets[0].data = response.result.count
+                myChart.data.labels = response.result.date
+                myChart.update();
+            }
+        })
+    })
+
+    let salesChart = new Chart()
+    $.ajax({
+        url: '/api/Report/AAA',
+        type: 'POST',
+        contentType: "application/json",
+        dataType: 'json',
+        data: JSON.stringify({
+        }),
+        success: function (response) {
+            console.log(response.result)
+            if (response.result.message == '本帳號尚無成立任何訂單') {
+                saleReport.innerHTML = response.result.message
+            }
+            else {
+                let salesData = {
+                    labels: response.result.date,
+                    datasets: [{
+                        label: '營銷',
+                        data: response.result.price,
+                        fill: false,
+                        backgroundColor: 'rgba(255,0,0,0.3)',
+                        //borderColor: 'rgb(0,0,0)',
+                        pointStyle: 'circle',
+                        pointBackgroundColor: 'rgba(255,0,0,0.3)',
+                        pointRadius: 5,
+                        pointHoverRadius: 10
+                    }]
+                };
+                salesChart = new Chart(document.querySelectorAll(".now-month-sale"), {
+                    type: "line",
+                    data: salesData,
+                });
+            }
+
+        }
+    })
+
+    three.addEventListener('change', () => {
+        if (three.value == `${firstDay.toLocaleDateString()}-${lastDay.toLocaleDateString()}`) {
+            firstDate = firstDay.toLocaleDateString()
+            lastDate = lastDay.toLocaleDateString()
+        } else if (three.value == `${halfYear.toLocaleDateString()} - ${dt.toLocaleDateString()}`) {
+            firstDate = halfYear.toLocaleDateString()
+            lastDate = dt.toLocaleDateString()
+        } else {
+            firstDate = year.toLocaleDateString()
+            lastDate = dt.toLocaleDateString()
+        }
+
+
+        $.ajax({
+            url: '/api/Report/AAA',
+            type: 'POST',
+            contentType: "application/json",
+            dataType: 'json',
+            data: JSON.stringify({
+                First: firstDate,
+                Last: lastDate
+            }),
+            success: function (response) {
+                salesChart.data.datasets[0].data = response.result.price
+                salesChart.data.labels = response.result.date
+                salesChart.update();
+            }
+        })
+    })
+
+    let cancelOrderChart = new Chart()
+    $.ajax({
+        url: '/api/Report/CancelOrder',
+        type: 'POST',
+        contentType: "application/json",
+        dataType: 'json',
+        data: JSON.stringify({
+        }),
+        success: function (response) {
+            console.log(response.result)
+            let cancelData = {
+                labels: response.result.date,
+                datasets: [{
+                    label: '取消訂單',
+                    data: response.result.count,
+                    fill: false,
+                    backgroundColor: 'rgba(255,0,0,0.3)',
+                    //borderColor: 'rgb(0,0,0)',
+                    pointStyle: 'circle',
+                    pointBackgroundColor: 'rgba(255,0,0,0.3)',
+                    pointRadius: 5,
+                    pointHoverRadius: 10
+                }]
+            };
+            cancelOrderChart = new Chart(document.querySelectorAll(".cancel-order-count"), {
+                type: "bar",
+                data: cancelData,
+            });
+        }
+    })
+
+    one.addEventListener('change', () => {
+        if (one.value == `${firstDay.toLocaleDateString()}-${lastDay.toLocaleDateString()}`) {
+            firstDate = firstDay.toLocaleDateString()
+            lastDate = lastDay.toLocaleDateString()
+        } else if (one.value == `${halfYear.toLocaleDateString()} - ${dt.toLocaleDateString()}`) {
+            firstDate = halfYear.toLocaleDateString()
+            lastDate = dt.toLocaleDateString()
+        } else {
+            firstDate = year.toLocaleDateString()
+            lastDate = dt.toLocaleDateString()
+        }
+
+
+        $.ajax({
+            url: '/api/Report/CancelOrder',
+            type: 'POST',
+            contentType: "application/json",
+            dataType: 'json',
+            data: JSON.stringify({
+                First: firstDate,
+                Last: lastDate
+            }),
+            success: function (response) {
+                cancelOrderChart.data.datasets[0].data = response.result.count
+                cancelOrderChart.data.labels = response.result.date
+                cancelOrderChart.update();
+            }
+        })
+    })
+    window.onload = function () {
+        $.ajax({
+            url: '/api/Report/PayTime',
+            type: 'Get',
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (response) {
+                orderMoney.innerHTML = `NT$${response.result.a.notShipPrice}`
+                shipMoney.innerHTML = `NT$${response.result.shipOrder.shipPrice}`
+                orderMoneyPhone.innerHTML = `NT$${response.result.a.notShipPrice}`
+                shipMoneyPhone.innerHTML = `NT$${response.result.shipOrder.shipPrice}`
+                totalOrder.innerHTML = `NT$${response.result.totalOrder.totalPrice}`
+                totalOrderPhone.innerHTML = `NT$${response.result.totalOrder.totalPrice}`
+
+            }
+        })
+        $.ajax({
+            url: '/api/Report/Product',
+            type: 'POST',
+            contentType: "application/json",
+            dataType: 'json',
+            data: JSON.stringify({
+            }),
+            success: function (response) {
+                let chart = new Chart(producCircle, {
+                    type: 'pie',
+                    data: {
+                        labels: response.result.date,
+                        datasets: [{
+                            label: '瀏覽數',
+                            data: response.result.count,
+                            fill: false,
+                            backgroundColor: 'rgba(255,0,0,0.3)',
+                            backgroundColor: [
+                                '#80D9C5',
+                                '#C8DD9F',
+                                '#F4D58F',
+                                '#EF8476',
+                                '#C3A5D0',
+                                '#EAC5BD',
+                                '#DE9190',
+                                '#F5C186',
+                                '#F2AB80',
+                                '#A6BF5E',
+                                '#8FC2D3',
+                                '#7E6E9A',
+                            ],
+                            pointStyle: 'circle',
+                            pointBackgroundColor: 'rgba(255,0,0,0.3)',
+                            pointRadius: 5,
+                            pointHoverRadius: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            paddingRight: 450 // 設定圖表放置在右側的寬度
+                        },
+                        legend: {
+                            position: 'left' // 設定圖例在左側顯示
+                        },
+                        //responsive: false,
+                        width: 900,
+                        height: 400
+                    }
+
+                })
+            }
+        })
+    }
+</script>
+@section topCSS{
+    <link href="~/css/report/report.css" rel="stylesheet" />
+    <link href="~/css/report/style.css" rel="stylesheet" />
+    <style>
+        .now-month-report {
+            font-size: 25px;
+        }
+    </style>
+}
+@section topJS{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+}
+@section endJS{
+
+}

@@ -1,0 +1,44 @@
+﻿@model Hatsukoi.Models.Dtos.BindPageDto
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    var email = Model.Email;
+    var type = Enum.GetName(typeof(Hatsukoi.Common.HatsukoiEnum.ExternalLoginType), Model.LoginType);
+    var register = Enum.GetName(typeof(Hatsukoi.Common.HatsukoiEnum.ExternalLoginType), Model.RegisterType);
+    var token = Model.Token;
+}
+<div class="pt-146 container py-4">
+    <h2 class="text-main my-5 fw-bolder fs-4 text-center">您的 Email 已註冊過！</h2>
+    <div class="max-500 mx-auto">
+        <img src="~/img/user/submitted-successfully.png" />
+    </div>
+    <p id="bindToken" class="d-none">@token</p>
+    <div class="max-500 border rounded mx-auto text-small p-4">
+        <p><span id="bindEmail">@email</span> 已被使用 @type 登入 註冊過</p>
+        <p class="my-3">是否將您的 Hatsukoi 帳號綁定 <span id="bindType">@register</span> 登入?</p>
+        <button id="open" class="btn my-4 my-btn d-block mx-auto p-2 px-3" onclick="ExternalLogin()">確認</button>
+        <a class="btn my-4 my-btn d-block mx-auto p-2 px-3" href="@Url.Content("~/Home/Index")">稍後再說</a>
+    </div>
+</div>
+<script>
+    let bindEmail = document.querySelector('#bindEmail')
+    let bindType = document.querySelector('#bindType')
+    let bindToken = document.querySelector('#bindToken')
+    function ExternalLogin(){
+        $.ajax({
+            url: '@Url.Action("Bind","Login")',
+            type: 'POST',
+            data: {
+                Email: bindEmail.innerText,
+                Type: bindType.innerText,
+                Token: bindToken.innerText
+            },
+            success:function(){
+                window.location.href = "/Home/Index"
+            }
+        })
+    }
+</script>
+@section topCSS{
+    <link href="~/css/user/finishseller.css" rel="stylesheet" />
+}

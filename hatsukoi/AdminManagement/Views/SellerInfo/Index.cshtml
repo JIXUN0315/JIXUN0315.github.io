@@ -1,0 +1,213 @@
+﻿<div id="app" class="container" v-cloak>
+
+    <div class="my-5">
+        <input v-model="filterText" class="form-control" type="text">
+    </div>
+
+    <b-table :items="reviewerList" :filter="filterText" :fields="fields" :busy="isbusy" :per-page="perpage" :current-page="currentPage">
+        <template #table-busy>
+            <div class="text-center text-danger my-2">
+                <b-spinner class="align-middle">
+                </b-spinner>
+                <strong>Loading...</strong>
+            </div>
+        </template>
+        <template #cell(action)="row">
+            <button @@click="row.toggleDetails" class="btn btn-secondary">{{ row.detailsShowing ? '隱藏明細' : '顯示明細'}}</button>
+            <button v-if="row.item.status == '停權'" @@click="applyReview(row.item)" class="btn btn-secondary">復原停權</button>
+            <button v-if="row.item.status == '正常'" @@click="showDetail(row.item)" v-b-modal.detail-modal class="btn btn-danger">停權賣家</button>
+        </template>
+
+        <template #row-details="row">
+            <b-card>
+                <ul>
+                    <li class="py-2">店家Id: {{ row.item.sellerId }}</li>
+                    <li class="py-2">負責人姓名: {{ row.item.applyName }}</li>
+                    <li class="py-2">負責人電話: {{ row.item.applyPhone }}</li>
+                    <li class="py-2">店家名稱: {{ row.item.shopName }}</li>
+                    <li class="py-2">負責人Email: {{ row.item.email }}</li>
+                    <li class="py-2">社群帳號連結: {{ row.item.socialMedia }}</li>
+                    <li class="py-2">申請人電話: {{ row.item.applyPhone }}</li>
+                    @*<li class="py-2">商店簡介: {{ row.item.introduction }}</li>*@
+                    <li class="py-2">商店建立日期: {{ row.item.createDate }}</li>
+                    <li class="py-2">店家狀態: {{ row.item.status }}</li>
+                    <li v-if="row.item.suspension != '' && row.item.status == '停權'" class="py-2">停權原因: {{ row.item.suspension }}</li>
+                </ul>
+                <h3>商店圖片</h3>
+                <div class="row my-3">
+                    <p class="col-3">商店招牌(方形)</p>
+                    <div class="col-3">
+                        <div><img :src="row.item.shopBannerSquare" class="w-100" /></div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <p class="col-3">商店招牌(矩形)</p>
+                    <div class="col-6">
+                        <div><img :src="row.item.shopBannerRect" class="w-100" /></div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <p class="col-3">商店Icon</p>
+                    <div class="col-3">
+                        <div><img :src="row.item.icon" class="w-100" /></div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <p class="col-3">商店Logo</p>
+                    <div class="col-6">
+                        <div><img :src="row.item.logo" class="w-100" /></div>
+                    </div>
+                </div>
+            </b-card>
+        </template>
+    </b-table>
+    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perpage" align="fill" size="lg" class="my-0">
+
+    </b-pagination>
+    <!-- modal -->
+    <b-modal id="detail-modal" hide-footer>
+        <template #modal-title>
+            賣家編號 {{ detailModal.title }} : 停權原因
+        </template>
+        <div class="d-block text-center">
+            <b-form-textarea id="textarea"
+                             v-model="failText"
+                             placeholder="Enter something..."
+                             rows="3"
+                             max-rows="6"></b-form-textarea>
+        </div>
+        <b-button class="mt-3 btn-info" v-bind:disabled="dis" block @@click="rejectApply(detailModal.title)">確定</b-button>
+        <b-button class="mt-3" block @@click="$bvModal.hide('detail-modal')">取消</b-button>
+    </b-modal>
+</div>
+@section Scripts {
+    <script>
+        const allApi = {
+            getSeller: '/SellerInfo/GetSllSeller'
+        }
+        const allApiCaller = {
+            getSeller: () => httpGet(allApi.getSeller)
+        }
+        const applyApi = {
+            getUserName: '/SellerInfo/Restoration'
+        }
+
+        const applyApiCaller = {
+            getUserName: (ReviewerId) => httpPost(applyApi.getUserName, ReviewerId)
+        }
+        const rejectApi = {
+            getUserName: '/SellerInfo/Suspension'
+        }
+
+        const rejectApiCaller = {
+            getUserName: (ReviewerId) => httpPost(rejectApi.getUserName, ReviewerId)
+        }
+        const app = new Vue({
+            el: '#app',
+            data: {
+                reviewerList: [],
+                fields: [
+                    { key: 'sellerId', label: '店家Id' },
+                    { key: 'shopName', label: '店家名稱' },
+                    { key: 'applyName', label: '負責人姓名' },
+                    //{ key: 'applyPhone', label: '負責人電話' },
+                    { key: 'email', label: '負責人Email' },
+                    { key: 'createDate', label: '商店創建日期' },
+                    { key: 'status', label: '店家狀態' },
+                    { key: 'action', label: '功能' }
+                ],
+                isbusy: false,
+                //分頁資料
+                perpage: 15,
+                currentPage: 1,
+                detailModal: {
+                    title: '',
+                    content: ''
+                },
+                filterText: '',
+                failText: ''
+            },
+            mounted() {
+                //請求data
+                this.showAll()
+            },
+            computed: {
+                totalRows() {
+                    return this.reviewerList.length
+                },
+                dis() {
+                    if (this.failText.trim() != '') {
+                        return false
+                    }
+                    else {
+                        return true
+                    }
+                }
+            },
+            methods: {
+                showAll() {
+                    this.isbusy = true
+                    allApiCaller.getSeller()
+                        .then((res) => {
+                            let arr = res.body
+                            arr.forEach(x => {
+                                if (x.status === '正常') {
+                                    x._cellVariants = { status: 'success' }
+                                }
+                                else {
+                                    x._cellVariants = { status: 'danger' }
+                                }
+                                this.reviewerList.push(x)
+                            })
+                            this.isbusy = false
+                        })
+                },
+                showDetail(data) {
+                    this.failText = ''
+                    this.detailModal.title = data.sellerId
+                    this.detailModal.content = JSON.stringify(data, null, 2)
+                },
+                applyReview(data) {
+                    let text = '確定復原賣家編號: ' + data.sellerId + ' 的停權?'
+                    let input = { reviewerId: data.sellerId }
+                    this.$bvModal.msgBoxConfirm(text, {
+                        title: '復原停權',
+                        size: 'md',
+                        okVariant: 'success',
+                        okTitle: '確定',
+                        cancelTitle: '取消',
+                        footerClass: 'p-2',
+                        hideHeaderClose: true,
+                        centered: true
+                    }).then(value => {
+                        if (value !== true) {
+                            return
+                        }
+                        applyApiCaller.getUserName(input)
+                            .then((res) => {
+                                this.reviewerList = []
+                                this.showAll()
+                            })
+                    })
+                },
+                rowClass(item, type) {
+                    if (!item || type !== 'row') return
+                    if (item.reviewstatus === '已駁回') return 'table-info'
+                    if (item.reviewstatus === '已通過') return 'table-success'
+                },
+                rejectApply(data) {
+                    let input = { reviewerId: data, reason: this.failText }
+                    rejectApiCaller.getUserName(input)
+                        .then((res) => {
+                            this.reviewerList = []
+                            this.showAll()
+                            this.$bvModal.hide('detail-modal')
+                        })
+                },
+                closeModal() {
+                    $bvModal.hide('detail-modal')
+                }
+            }
+        })
+    </script>
+}

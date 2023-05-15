@@ -1,0 +1,376 @@
+﻿@model Hatsukoi.Models.ViewModels.User.UserOrderDetailViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    string statusText = "";
+    var odProductList = Model.OrderDetailItems;
+    switch (Model.OrderStatus)
+    {
+        case 1:
+            statusText = "未付款";
+            break;
+        case 2:
+            statusText = "處理中";
+            break;
+        case 3:
+            statusText = "待收貨";
+            break;
+        case 4:
+            statusText = "已完成";
+            break;
+        case 5:
+            statusText = "已取消";
+            break;
+        default:
+            break;
+    }
+    var price = Model.TotalPrice + Model.CouponCount;
+}
+<div class="container my-5 pt-146">
+    <div id="test"></div>
+    <div class="row flex-md-row-reverse">
+        <div class="col-12 col-md-9 p-4 align-items-center">
+
+            <div class="row">
+                <div class="col-12 col-md-9">
+                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="~/User/Order">@statusText</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" id="orderNum">@Model.OrderNumber</li>
+                        </ol>
+                    </nav>
+                    <h5 class="fw-bolder d-flex justify-content-between">
+                        <a href="~/Shop?id=@Model.SellerId">@Model.ShopName</a> <span class="text-end">@Model.OrderTime.ToString("yyyy-MM-dd")</span>
+                    </h5>
+                    <div class="d-flex my-3">
+                        <div class="status px-2 py-1 status-over">
+                            @statusText
+                        </div>
+                    </div>
+                    <div class="order-detail-card border rounded p-3 my-4">
+                        <h5 class="fw-bolder border-bottom pt-2 pb-4">運送狀態</h5>
+                        <div class="text-small text-center my-4">物流公司寄送</div>
+                        <div>
+                            <img src="~/img/user/shipping-status.png" />
+                        </div>
+                    </div>
+                    <div class="order-detail-card border rounded p-3 my-4">
+                        <h5 class="fw-bolder border-bottom pt-2 pb-4 my-0">訂單內容</h5>
+                        @foreach (var od in odProductList)
+                        {
+                            <div class="py-4 d-flex border-bottom">
+                                <div class=".buy-item-pic w80">
+                                    <img src="@od.ProductImg" />
+                                </div>
+                                <div class="order-detail-card-text p-2 text-small">
+                                    <p class="my-1"><a href="~/Product/Id/@od.ProductID">@od.ProductName</a></p>
+                                    <p class="my-1 text-pink">@od.FirstSepcItem</p>
+                                    @if (od.SecondSepcItem != null)
+                                    {
+                                        <p class="my-1 text-pink">@od.SecondSepcItem</p>
+                                    }
+                                </div>
+                                <div class="fix-price-area d-flex align-items-center justify-content-center">
+                                    X <span>@od.Quantity</span>
+                                </div>
+                                <div class="fix-price-area d-flex align-items-center justify-content-center fw-bolder text-small">
+                                    NT$ <span>@od.UnitPrice</span>
+                                </div>
+                            </div>
+                        }
+@*                        <div class="py-4 d-flex border-bottom">
+                            <div class=".buy-item-pic w80">
+                                <img src="@Model.FirstImg" />
+                            </div>
+                            <div class="order-detail-card-text p-2 text-small">
+                                <p class="my-1"><a href="">2023手帳 日帳本 手帳本 寫下簡單卻不平凡的日子</a></p>
+                                <p class="my-1 text-pink">上半冊晨光橘+下半冊湖水藍</p>
+                            </div>
+                            <div class="fix-price-area d-flex align-items-center justify-content-center">
+                                X <span>1</span>
+                            </div>
+                            <div class="fix-price-area d-flex align-items-center justify-content-center fw-bolder text-small">
+                                NT$ <span>980</span>
+                            </div>
+                        </div>*@
+                        <div class="row my-2">
+                            <div class="col-4"></div>
+                            <div class="col-8 row my-2">
+                                <div class="col-6 text-small border-bottom">
+                                    <p class="my-2 text-end">小計</p>
+                                    <p class="my-2 text-end">使用 優惠券 折抵</p>
+                                </div>
+                                <div class="col-6 text-small border-bottom">
+                                    <p class="my-2 text-end">NT$ @price</p>
+                                    <p class="my-2 text-end text-danger">- NT$ @Model.CouponCount</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="my-2 text-end text-big fw-bolder">單館總計</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="my-2 text-end text-big fw-bolder">NT$ @Model.TotalPrice</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-detail-card border rounded p-3 my-4">
+                        <h5 class="fw-bolder border-bottom pt-2 pb-4">優惠折抵明細</h5>
+                        <div class="text-small my-4 d-flex justify-content-between">
+                            <p>使用 優惠券 折抵現金 NT$ @Model.CouponCount</p>
+                            <p class="text-danger">-NT$ @Model.CouponCount</p>
+                        </div>
+                    </div>
+                    <div class="order-detail-card border rounded p-3 my-4">
+                        <h5 class="fw-bolder border-bottom pt-2 pb-4">收件人資訊</h5>
+                        <div class="text-small my-4 row">
+                            <div class="col-4 my-3  fw-bolder">
+                                <p class="my-2 text-end">收件人</p>
+                                <p class="my-2 text-end">收件人地址</p>
+                                <p class="my-2 text-end">收件人電話</p>
+                                <p class="my-2 text-end">寄往</p>
+                                <p class="my-2 text-end">運送方式</p>
+                            </div>
+                            <div class="col-8 my-3">
+                                <p class="my-2">@Model.RecipientName</p>
+                                <p class="my-2">@Model.RecipientAddress</p>
+                                <p class="my-2">@Model.RecipientPhone</p>
+                                <p class="my-2">@Model.RecipientCity</p>
+                                <p class="my-2">物流公司寄送</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-detail-card border rounded p-3 my-4">
+                        <h5 class="fw-bolder border-bottom pt-2 pb-4">付款資訊</h5>
+                        <div class="text-small my-2 row">
+                            <div class="col-4 my-3  fw-bolder">
+                                <p class="my-2 text-end">付款方式</p>
+                            </div>
+                            <div class="col-8 my-3">
+                                <p class="my-2">信用卡付款</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 py-3">
+                    @if(Model.OrderStatus == 1)
+                    {
+                        <div class="p-2">
+                           
+                                <form action="/Payment/CheckOut" method="post">
+                                    <input class="d-none" type="text" name="sellerId" value="@Model.SellerId" />
+                                    <input class="d-none" type="text" name="RecipientName" value="@Model.RecipientName" />
+                                    <input class="d-none" type="text" name="RecipientPhone" value="@Model.RecipientPhone" />
+                                    <input class="d-none" type="text" name="RecipientAddress" value="@Model.RecipientAddress" />
+                                    <input class="d-none" type="text" name="RecipientCity" value="@Model.RecipientCity" />
+                                    <!-- ??需要郵遞區號 -->
+                                    <input class="d-none" type="text" name="RecipientPostCode" value="" />
+                                    <input class="d-none" type="text" name="TotalPrice" value="@price" />
+                                    <input class="d-none" type="text" name="Payment" value="1" />
+                                    <input class="d-none" type="text" name="Status" value="1" />
+                                    <input class="d-none" type="text" name="userId" value="" />
+                                    <input class="d-none" type="text" name="GreenPayId" value="0" />
+                                    <input class="d-none" type="text" name="orderNumber" value="@Model.OrderNumber" />
+
+                                <p class="my-btn-mark ">
+                                    <button type="submit" class="btn my-btn-mark w-100 btn-tocheck p-2">
+                                        <span class="me-2 "><i class="fa-solid fa-money-check-dollar text-white"></i></span>
+                                        前往付款
+                                    </button>
+                                </p>
+                                </form>
+                                @*<a href="">
+                                    <span class="me-2"><i class="fa-solid fa-money-check-dollar"></i></span>
+                                    前往付款
+                                </a>*@
+                            
+                        </div>
+                    }
+                    else if (Model.OrderStatus == 2)
+                    {
+                    }
+                    else if(Model.OrderStatus == 3)
+                    {
+                        <div class="p-2">
+                            <p class="my-btn-mark p-2" onclick="finishOrderBtn()">
+                                <span class="me-2"><i class="fa-solid fa-flag-checkered"></i></span>
+                                完成訂單
+                            </p>
+                        </div>
+                    }
+                    else if(Model.ExistEvaluate == false && Model.OrderStatus == 4)
+                    {
+                        <div class="p-2">
+                            <p class="my-btn-mark p-2" data-bs-toggle="modal" data-bs-target="#evaluate-Modal">
+                                <span class="me-2"><i class="fa-regular fa-star"></i></span>
+                                給評價
+                            </p>
+                        </div>
+                    }
+                    <div class="p-2">
+                        <p class="my-btn-mark p-2">
+                            <a href='/Chatroom/UserStarChat?sendTo=@Model.SellerId&msg=訂單編號:@Model.OrderNumber'>
+                                <span class="me-2"><i class="fa-solid fa-phone-volume"></i></span>
+                                聯絡設計師
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal fade" id="evaluate-Modal" tabindex="-1" aria-labelledby="evaluate-ModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="evaluate-ModalLabel">給商品評價</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>設計館 : <a href="~/Shop?id=@Model.SellerId">@Model.ShopName</a></p>
+                                <p>訂單號 : <span>@Model.OrderNumber</span></p>
+                                <div class="buy-item-big-pic">
+                                    <img src="@Model.FirstImg" />
+                                </div>
+                                <div class="d-flex py-3">
+                                    <div class="text-very-big star star-1 mx-1"><i class="fa-solid fa-star"></i></div>
+                                    <div class="text-very-big star star-2 mx-1"><i class="fa-solid fa-star"></i></div>
+                                    <div class="text-very-big star star-3 mx-1"><i class="fa-solid fa-star"></i></div>
+                                    <div class="text-very-big star star-4 mx-1"><i class="fa-solid fa-star"></i></div>
+                                    <div class="text-very-big star star-5 mx-1"><i class="fa-solid fa-star"></i></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="textarea-mytext" class="form-label">留下你的評價吧!</label>
+                                    <textarea class="form-control" id="textarea-mytext" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="btn my-btn-mark p-2 px-4 text-small my-3" id="sendEveluteBtn" onclick="sendEvaluate()">送出</div>
+                                <button type="button" class="btn btn-secondary p-2 px-4" data-bs-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-12 col-md-3 p-0 list-info">
+            <p class="fw-bolder text-very-big d-none d-md-block">我的 Hatsukoi</p>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Order")">購買訂單</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/Chatroom/Index")">我的訊息</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Coupon")">優惠券</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom">
+                帳號設定
+                <div class="p-2 px-3">
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Setting")">基本設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+@*                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Credit")">信用卡管理</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Address")">常用地址簿</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>*@
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Email")">電子郵件通知設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const star1 = document.querySelector('.star-1');
+    const star2 = document.querySelector('.star-2');
+    const star3 = document.querySelector('.star-3');
+    const star4 = document.querySelector('.star-4');
+    const star5 = document.querySelector('.star-5');
+    const textareaMytext = document.querySelector('#textarea-mytext')
+    const orderNum = document.querySelector('#orderNum').innerText
+    let countStar = 5;
+
+    star1.addEventListener('click', function () {
+        star1.style.color = 'rgb(241, 108, 93)';
+        star2.style.color = 'black';
+        star3.style.color = 'black';
+        star4.style.color = 'black';
+        star5.style.color = 'black';
+        countStar = 1;
+    })
+    star2.addEventListener('click', function () {
+        star1.style.color = 'rgb(241, 108, 93)'
+        star2.style.color = 'rgb(241, 108, 93)';
+        star3.style.color = 'black';
+        star4.style.color = 'black';
+        star5.style.color = 'black';
+        countStar = 2;
+    })
+    star3.addEventListener('click', function () {
+        star1.style.color = 'rgb(241, 108, 93)';
+        star2.style.color = 'rgb(241, 108, 93)';
+        star3.style.color = 'rgb(241, 108, 93)';
+        star4.style.color = 'black';
+        star5.style.color = 'black';
+        countStar = 3;
+    })
+    star4.addEventListener('click', function () {
+        star1.style.color = 'rgb(241, 108, 93)';
+        star2.style.color = 'rgb(241, 108, 93)';
+        star3.style.color = 'rgb(241, 108, 93)';
+        star4.style.color = 'rgb(241, 108, 93)';
+        star5.style.color = 'black';
+        countStar = 4;
+    })
+    star5.addEventListener('click', function () {
+        star1.style.color = 'rgb(241, 108, 93)';
+        star2.style.color = 'rgb(241, 108, 93)';
+        star3.style.color = 'rgb(241, 108, 93)';
+        star4.style.color = 'rgb(241, 108, 93)';
+        star5.style.color = 'rgb(241, 108, 93)';
+        countStar = 5;
+    })
+    let orderNumText = document.querySelector('#orderNum').innerText
+    function finishOrderBtn(){
+        $.ajax({
+            url: '/api/User/FinishOrder',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+                InputEmail: orderNumText
+            }),
+            success: function (data) {
+                window.location.href = location.href
+            }
+        });
+    }
+    function sendEvaluate(){
+        $('#sendEveluteBtn').attr('disabled', true);
+        $.ajax({
+            url: '/api/User/EvaluateOrder',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+                Evaluate: countStar,
+                EvaluateText: textareaMytext.value,
+                orderNum: orderNumText
+            }),
+            success: function (data) {
+                $('#sendEveluteBtn').attr('disabled', false);
+                let address = "/User/OrderDetail?orderNum=" + orderNum
+                window.location.href = address
+            }
+        });
+    }
+    
+
+</script>
+@section topCSS{
+    <link href="~/css/user/customerinfo.css" rel="stylesheet" />
+}

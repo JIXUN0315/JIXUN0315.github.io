@@ -1,0 +1,133 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BSLab - Login</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="~/lib/sb/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" />
+    <style>
+        #errorMsg {
+            color: red;
+        }
+
+        html {
+            background-color: #A27F82 !important;
+        }
+
+        .bg-login-image {
+            background-image: url('../img/hatsukoi_icon.png') !important;
+            background-position: center center !important;
+            background-size: cover !important;
+            max-width: 400px !important;
+            margin: 20px 0 30px 0 !important;
+        }
+
+        .bg-gradient-primary {
+            background-color: #A27F82 !important;
+            background-image: linear-gradient(180deg,#A27F82 10%,#A27F82 100%);
+            background-size: cover cover;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #A27F82 !important;
+            border-color: #A27F82 !important;
+        }
+
+            .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
+                box-shadow: 0 0 0 0.2rem rgba(224,128,128,.3);
+            }
+
+        .form-control:focus {
+            border-color: #A27F82;
+            box-shadow: 0 0 0 0.2rem rgba(224,128,128,.3);
+        }
+
+        
+    </style>
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container ">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center vh-100 align-items-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6" id="authLogin">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Hatsukoi Management Platform</h1>
+                                    </div>
+                                    <form class="user" v-on:submit.prevent>
+                                        <div class="form-group">
+                                            <input v-model="login.userName" placeholder="Account" type="input" class="form-control form-control-user" id="exampleInputUserName">
+                                        </div>
+                                        <div class="form-group">
+                                            <input v-model="login.password" placeholder="Password" type="password" class="form-control form-control-user">
+                                        </div>
+                                        <div class="form-group" id="errorMsg">
+                                            {{ errorMsg }}
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">
+                                                    Remember
+                                                    Me
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <button v-on:click="loginBtn" href="index.html" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- vue -->
+    <script src="~/lib/vue@2.7.10/vue.js"></script>
+    <!-- axios -->
+    <script src="~/lib/axios/axios.min.js"></script>
+    <!-- cookie.js -->
+    <script src="~/lib/js-cookie/js.cookie.min.js"></script>
+    <!-- 封裝的axios -->
+    <script src="~/js/request.js"></script>
+
+    <script src="~/js/auth/login.js"></script>
+</body>
+</html>
+

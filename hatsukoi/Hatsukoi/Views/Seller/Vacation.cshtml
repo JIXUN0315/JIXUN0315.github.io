@@ -1,0 +1,198 @@
+﻿@model Hatsukoi.Models.Dtos.Seller.VacationViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+}
+<!-- Load required Bootstrap and BootstrapVue CSS -->
+@*<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />*@
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+<!-- Load polyfills to support older browsers -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
+
+<!-- Load Vue followed by BootstrapVue -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+
+<!-- Load the following for BootstrapVueIcons support -->
+<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+<div class="all-space-seller">
+    <div class="container my-container my-3" id="vacationApp" v-cloak>
+        <h4 class="fw-bolder py-4 fs-2">休假模式</h4>
+        <p class="m-0 w-75 mb-3">啟用休假模式時，會於設計館顯示休假時間、恢復出貨日期的公告。並在買家下單或以站內訊息聯絡時，顯示休假訊息。</p>
+
+        <div class="form-check text-big my-3">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="vacation-ratio-1" checked="!@Model.IsVacation" v-on:change="setVacation">
+            <label class="form-check-label pt-1" for="vacation-ratio-1">
+                關閉休假模式
+            </label>
+        </div>
+        <div class="form-check text-big my-3">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="vacation-ratio-2" checked="@Model.IsVacation" v-on:change="setVacation">
+            <label class="form-check-label pt-1" for="vacation-ratio-2">
+                開啟休假模式
+            </label>
+        </div>
+        @if (Model.IsVacation)
+        {
+            <div class="d-none" id="block"></div>
+        }
+        else
+        {
+            <div class="d-none" id="block">d-none</div>
+        }
+        <div class="p-3 mb-4" v-bind:class="none">
+            <div class="d-none" id="first">@Model.VacationFirstDay</div>
+            <p class="my-2 fw-bolder text-small">休假第一天日期<sup class="text-danger">*</sup></p>
+            @*<input class="my-2 mb-5 p-2 w-75" type="text" value="" disabled>*@
+            <template>
+                <div>
+                    <label for="example-datepicker1">Choose a date</label>
+                    <b-form-datepicker id="example-datepicker1" v-model="firstDay" class="mb-2"></b-form-datepicker>
+                    <p>{{ firstDay }}</p>
+                </div>
+            </template>
+            <div class="d-none" id="last">@Model.VacationLastDay</div>
+            <p class="my-2 fw-bolder text-small">休假最後一天日期<sup class="text-danger">*</sup></p>
+            @*<input class="my-2 mb-5 p-2 w-75" type="text" value="" disabled>*@
+            <template>
+                <div>
+                    <label for="example-datepicker2">Choose a date</label>
+                    <b-form-datepicker id="example-datepicker2" v-model="lastDay" class="mb-2"></b-form-datepicker>
+                    <p>{{ lastDay }}</p>
+                </div>
+            </template>
+        </div>
+        <span class="d-block my-2 text-small text-danger">{{ checkWarn }}</span>
+        <div class="d-flex my-5">
+            <button class="btn my-btn ms-3" v-bind:disabled="disa" v-on:click="editInfo">更新</button>
+        </div>
+    </div>
+</div>
+<script>
+    let first = document.querySelector('#first');
+    let last = document.querySelector('#last');
+    let block = document.querySelector('#block');
+    const vacationApp = new Vue({
+        el: '#vacationApp',
+        data: {
+            firstDay: first.innerText,
+            lastDay: last.innerText,
+            disa: false,
+            checkWarn: '',
+            none: block.innerText
+        },
+        methods: {
+            setVacation: function () {
+                let close = document.querySelector('#vacation-ratio-1');
+                let open = document.querySelector('#vacation-ratio-2');
+                if (open.checked) {
+                    this.none = ""
+                }
+                else {
+                    this.none = "d-none"
+                }
+            },
+            editInfo() {
+                if (new Date(this.firstDay) <= new Date) {
+                    this.checkWarn = '起始時間不可比今天還早'
+                }
+                else if (new Date(this.firstDay) >= new Date(this.lastDay)) {
+                    this.checkWarn = '結束時間不可比起始時間還早'
+                }
+                else {
+                    this.disa = true
+                    this.checkWarn = ''
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: '資訊更新中'
+                    })
+                    let close = document.querySelector('#vacation-ratio-1');
+                    let th = this
+                    if (close.checked) {
+                        $.ajax({
+                            url: '/api/Seller/CloseVacation',
+                            type: 'POST',
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                IsVacation: false,
+                                VacationFirstDay: '',
+                                VacationLastDay: ''
+                            }),
+                            success: function (output) {
+                                th.disa = false
+                                window.location.href = "/Seller/Vacation"
+                            }
+                        });
+                    }
+                    else {
+                        $.ajax({
+                            url: '/api/Seller/OpenVacation',
+                            type: 'POST',
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                IsVacation: true,
+                                VacationFirstDay: th.firstDay,
+                                VacationLastDay: th.lastDay
+                            }),
+                            success: function (output) {
+                                th.disa = false
+                                window.location.href = "/Seller/Vacation"
+                            }
+                        });
+                    }
+                }
+            },
+            editEmail() {
+                let th = this
+                this.emailDisa = true
+                let edEmail = this.email
+                let input = { email: edEmail }
+                $.ajax({
+                    url: '/api/User/EditEmail',
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        InputEmail: edEmail
+                    }),
+                    success: function (output) {
+                        if (output.result.hasGoogle != '') {
+                            th.emailWarn = output.result.hasGoogle
+                        }
+                        else if (output.result.hasEmail != '') {
+                            th.emailWarn = output.result.hasEmail
+                        }
+                        else {
+                            let count = 60;
+                            let timerId = setInterval(function () {
+                                th.countEmail = count
+                                count = count - 1;
+                                if (count < 0) {
+                                    clearInterval(timerId);
+                                    th.countEmail = '重新寄送驗證信'
+                                    th.emailDisa = false;
+                                }
+                            }, 1000)
+                        }
+                    }
+                });
+            }
+        }
+    })
+</script>
+
+@section topCSS{
+    <link href="~/css/seller/sellerinfo.css" rel="stylesheet" />
+}

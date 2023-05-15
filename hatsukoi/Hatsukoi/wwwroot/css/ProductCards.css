@@ -1,0 +1,136 @@
+﻿.pf-container {
+    list-style: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+
+.homepage-text-title h2 {
+    font-weight: bold;
+    color: var(--main-pink);
+    font-size: 22px;
+}
+
+/* 愛心按鈕 */
+#modal-btn {
+    height: 40px;
+    font-size: 14px;
+    border: 1px solid var(--light-gray);
+    color: var(--light-gray);
+}
+
+    #modal-btn:hover {
+        background-color: var(--peach-pink);
+        color: var(--light-pink);
+        border: 1px solid var(--peach-pink);
+    }
+
+/* ------ 共用商品卡片------- */
+.products-col {
+    padding: 5px;
+}
+
+.products-card {
+    height: 95%;
+    margin: auto;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 15px;
+    box-shadow: 0px 3px 20px 0px rgb(17 29 48 / 5%);
+}
+
+.products-pic {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+    padding-top: 100%;
+}
+
+.products-pic-a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.products-pic img {
+    width: 100%;
+    vertical-align: middle;
+}
+
+    .products-pic .product-badge {
+        background-color: var(--peach-pink);
+        color: #fff;
+        width: 50px;
+        height: 25px;
+        text-align: center;
+        font-size: 12px;
+        padding: 4px;
+        font-weight: 900;
+    }
+
+    
+    .products-pic .btn i {
+        color: var(--light-gray);
+    }
+
+    .products-pic .btn:focus {
+        border: none;
+    }
+
+    .products-pic .btn:hover i {
+        color: var(--peach-pink);
+    }
+
+    .products-pic .homepage-hatsukoi-iconbox {
+        width: 30px;
+        height: 30px;
+    }
+
+        .products-pic .homepage-hatsukoi-iconbox img {
+            width: 100%;
+            vertical-align: middle;
+        }
+
+.products-text a {
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--dark-gray);
+}
+
+    .products-text a:hover {
+        color: var(--peach-pink);
+    }
+
+.products-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+    .products-text h3 a {
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+.products-price {
+    padding: 5px 0;
+}
+
+    .products-price span {
+        color: var(--peach-pink);
+        font-size: 14px;
+    }

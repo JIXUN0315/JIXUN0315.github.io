@@ -1,0 +1,73 @@
+﻿<div class="container-fluid" id="banner-app" v-cloak>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">主頁Banner</h1>
+        <div>
+            <div class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mx-2 btn-css">
+                <label for="formFile">上傳Banner圖片</label>
+            </div>
+            <input class="d-none" type="file" id="formFile" accept="image/*" v-on:change="createImg">
+            <button class="d-sm-inline-block btn btn-sm btn-primary shadow-sm btn-css" v-if="!edit" v-on:click="toggleDrag">編輯排序</button>
+            <button class="d-sm-inline-block btn btn-sm btn-info shadow-sm btn-css" v-if="edit" v-on:click="updateSort">完成</button>
+        </div>
+    </div>
+    <div v-if="isbusy" class="text-center text-info my-5 py-5">
+        <b-spinner class="align-middle" variant="primary"></b-spinner>
+        <strong class="main-color">Loading....</strong>
+    </div>
+    <div class="row" v-else>
+        <div class=" col-xl-12 col-lg-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th v-if="edit">
+                        </th>
+                        <th>順序</th>
+                        <th>圖片</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody is="draggable" v-model="imgList" tag="tbody" v-bind="dragOptions" v-on:start="drag=true"
+                       v-on:end="drag=false" handle=".handle">
+
+                    <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+                        <tr v-for="img in imgList">
+
+                            <td v-if="edit" class="handle text-nowrap">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                            </td>
+                            <td class="text-nowrap">{{img.sort}}</td>
+                            <td class="text-nowrap "><a :href="img.imgUrl"><img class="banner-img" :src="img.imgUrl"></a></td>
+                            <td class="text-nowrap">
+                                <button v-if="!edit" v-on:click="showModal" type="button" :data-banner-id="img.id" class="btn btn-delete float-right">Delete</button>
+                            </td>
+                        </tr>
+                    </transition-group>
+                </tbody>
+            </table>
+            <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="deleteModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">刪除Banner</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>你確定要刪除這張Banner？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" v-on:click="closeModal">取消</button>
+                            <button type="button" class="btn btn-info" v-on:click="deleteBanner">確定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/banner.css" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/js/banner.js"></script>
+}

@@ -1,0 +1,714 @@
+﻿<link href="~/css/login/login.css" rel="stylesheet" />
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- 登入註冊跳出modal -->
+<div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false" data-dismiss="modal" v-cloak>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="~/img/user/slmodal1.svg" />
+                        </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <img src="~/img/user/slmodal2.svg" />
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/img/user/slmodal3.svg" />
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="login-way mx-auto text-center my-3">
+                    <p>用以下帳號繼續</p>
+                    <div class="d-flex justify-content-around my-3">
+                        <div id="g_id_onload"
+                             data-client_id="674468583568-sf4pjra1shlnjti1a6707nrn9g8u6c19.apps.googleusercontent.com"
+                             data-login_uri="/Login/ValidGoogleLogin"
+                             data-auto_prompt="false" class="d-none">
+                        </div>
+                        @*                        <div class="g_id_signin"
+                        data-type="standard"
+                        data-size="large"
+                        data-theme="outline"
+                        data-text="sign_in_with"
+                        data-shape="rectangular"
+                        data-logo_alignment="left">
+                        </div>*@
+                        @*                        <div class="login-icon my-hover-gray d-flex justify-content-center align-items-center">
+                        <div class="g_id_signin" data-type="icon" data-shape="standard" data-size="large">
+                        </div>
+                        </div>*@
+                        <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-size="large" data-theme="outline" data-text="signin_with" data-logo_alignment="left" data-locale="zh_TW">
+                        </div>
+                        @*                        <div class="login-icon my-hover-gray">
+                        <i class="fa-brands fa-line"></i>
+                        </div>
+                        <div class="login-icon my-hover-gray">
+                        <i class="fa-brands fa-facebook"></i>
+                        </div>*@
+                    </div>
+                    <div class="d-flex my-3 mt-5">
+                        <span class="flex-grow-1 line-grow">或用Hatsukoi帳號</span>
+                    </div>
+                    <button class="btn border mx-2 px-5 my-hover-gray mb-2" id="loginBtn" onclick="login()">登入</button>
+                    <button class="btn border mx-2 px-5 my-hover-gray mb-2" id="applyBtn" onclick="apply()">註冊</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 登入主頁 -->
+<div class="modal fade" id="normal-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-backdrop="false" data-dismiss="modal" v-cloak>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mx-auto apply-box-pic pt-3">
+                    <img src="~/img/hatsukoi_logo.svg" />
+                </div>
+            </div>
+            <div class="login-way mx-auto text-center pb-4">
+                <div class="email-text text-center">
+                    <span>用 Hatsukoi 帳號登入</span>
+                    <span id="warn-account-or-password" class="d-block text-red text-small mx-auto my-2"></span>
+                    <div class="input-group my-4">
+                        <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-user"></i></span>
+                        <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="account"
+                               name="account" type="text" aria-label="account" placeholder="Hatsukoi 帳號">
+                        <span class="input-group-text cover-input" id="eye"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <!-- <i class="fa-regular fa-eye"></i> -->
+                        <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-lock"></i></span>
+                        <input class="flex-grow-1 cover-input-middle" oninput="inputCheck()" id="password"
+                               name="password" type="password" aria-label="password" placeholder="密碼">
+                        <span class="input-group-text cover-input" id="seepassword-btn">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </span>
+                    </div>
+                    <button disabled id="normal-login-btn" class="w-100">
+                        登入
+                    </button>
+                    <div class="">
+                        <button class="reset-btn" id="reset-password-btn">忘記密碼</button>
+                        <button class="reset-btn" id="reset-email-btn">重寄認證信</button>
+                    </div>
+                    <div class="my-3 text-small">
+                        <p>還不是會員嗎? <span class="text-pink" onclick="apply()">立即註冊新帳號</span> </p>
+                    </div>
+                    <button class="w-100 text-pink reset-btn" onclick="turnBack()">
+                        回上一頁
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 寄重設密碼信 -->
+<div class="modal fade" id="set-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-backdrop="false" data-dismiss="modal" v-cloak>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mx-auto apply-box-pic pt-3">
+                    <img src="~/img/hatsukoi_logo.svg" />
+                </div>
+            </div>
+            <div class="login-way mx-auto text-center pb-4">
+                <div class="email-text text-center" id="rePwd">
+                    <h6 class="p-2">重設密碼</h6>
+                    <p class="text-very-small text-start mt-3">請輸入你註冊時的 Email，我們會發送一封信件，點擊信件中的連結以重設密碼。</p>
+                    <p class="text-very-small text-start">找不到認證信時，請到「垃圾信件」分類查找，或在信箱搜尋「Hatsukoi」。</p>
+                    <div class="input-group my-3">
+                        <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-envelope"></i></span>
+                        <input class="flex-grow-1 cover-input-middle" id="send-password" v-model="inputResend"
+                               name="send-password" type="text" aria-label="send-password" placeholder="Email">
+                        <span class="input-group-text cover-input" id="eye"></span>
+                    </div>
+                    <span id="warnResetPwd" class="d-block text-red text-small mx-auto my-2"></span>
+                    <span class="d-block text-red text-small mx-auto my-2">{{ warnResend }}</span>
+                    <button id="set-password-send" class="w-100" v-bind:disabled="dis" v-on:click="rePwdBtn">
+                        確認
+                    </button>
+                    <button class="w-100 text-pink reset-btn pt-3" onclick="turnBack()">
+                        回上一頁
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 重寄驗證信 -->
+<div class="modal fade" id="resend-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false" data-dismiss="modal" v-cloak>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mx-auto apply-box-pic pt-3">
+                    <img src="~/img/hatsukoi_logo.svg" />
+                </div>
+            </div>
+            <div class="login-way mx-auto text-center pb-4">
+                <div class="email-text text-center" id="resendEmail">
+                    <h6 class="p-2">重新寄送認證信</h6>
+                    <p class="text-very-small text-start mt-3">我們會將一封認證信寄送至你的 Email，請點擊信裡的確認連結以開通帳號。</p>
+                    <p class="text-very-small text-start">找不到認證信時，請到「垃圾信件」分類查找，或在信箱搜尋「Hatsukoi」。</p>
+                    <div class="input-group my-3">
+                        <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-envelope"></i></span>
+                        <input class="flex-grow-1 cover-input-middle" oninput="resendCheck()" id="resend-password" v-model="inputResend"
+                               name="resend-password" type="text" aria-label="resend-password" placeholder="Email">
+                        <span class="input-group-text cover-input" id="eye"></span>
+                    </div>
+                    <span id="warnResetMail" class="d-block text-red text-small mx-auto my-2">{{ warnResend }}</span>
+                    <button id="set-password-resend" class="w-100" v-bind:disabled="dis" v-on:click="resendBtn">
+                        送出
+                    </button>
+                    <button class="w-100 text-pink reset-btn pt-3" onclick="turnBack()">
+                        回上一頁
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 註冊畫面1，輸入帳密信箱 -->
+<div class="modal fade" id="create-new-user-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-backdrop="false" data-dismiss="modal" v-cloak>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mx-auto apply-box-pic pt-3">
+                    <img src="~/img/hatsukoi_logo.svg" />
+                </div>
+            </div>
+            <div class="login-way mx-auto text-center pb-4">
+                <div class="email-text text-center" id="register">
+                    <p>註冊 Hatsukoi 帳號</p>
+                    <label for="account1"
+                           class="text-very-small fw-bolder text-start d-block text-main-pink">Hatsukoi 帳號</label>
+                    <div class="input-group mt-1">
+                        <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-user"></i></span>
+                        <input class="flex-grow-1 cover-input-middle" id="account1" v-model="inputAccount"
+                               name="account1" type="text" aria-label="account1">
+                        <span class="input-group-text cover-input" id="eye"></span>
+                    </div>
+                    <span class="note mb-4">帳號只能是英文、數字</span>
+                    <span class="d-block text-red text-small mx-auto my-2">{{ warnAccount }}</span>
+                    <label for="password1"
+                           class="text-very-small fw-bolder text-start d-block text-main-pink">密碼</label>
+                    <div class="input-group mt-1">
+                        <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-lock"></i></span>
+                        <input class="flex-grow-1 cover-input-middle" id="password1" v-model="inputPassword"
+                               name="password1" v-bind:type="type" aria-label="password1">
+                        <span class="input-group-text cover-input" id="seepassword-btn2" v-on:click="changeType">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </span>
+                    </div>
+                    <span class="note mb-4">密碼須為 6 碼以上的英文、數字或符號</span>
+                    <span class="d-block text-red text-small mx-auto my-2">{{ warnPassword }}</span>
+                    <label for="email1"
+                           class="text-very-small fw-bolder text-start d-block text-main-pink">Email</label>
+                    <div class="input-group mt-1 mb-3">
+                        <span class="py-2 input-group-text cover-input"><i class="fa-solid fa-envelope"></i></span>
+                        <input class="flex-grow-1 cover-input-middle" id="email1" v-model="inputEmail"
+                               name="email1" type="text" aria-label="email1">
+                        <span class="input-group-text cover-input" id="eye"></span>
+                    </div>
+                    <span class="d-block text-red text-small mx-auto my-2">{{ warnEmail }}</span>
+                    <span class="d-block text-red text-small mx-auto my-2" id="checkResult"></span>
+                    <button v-bind:disabled="registerBtn" onclick="intoInfo()" id="create-new-user-btn" class="w-100 my-3">
+                        註冊
+                    </button>
+                    <div class="my-3 text-small">
+                        <p>已經有帳號了? <span class="text-pink" onclick="login()">馬上登入</span> </p>
+                    </div>
+                    <button class="w-100 text-pink reset-btn" onclick="turnBack()">
+                        回上一頁
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 註冊畫面2，輸入生日性別並產生User -->
+<div class="modal fade" id="info-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false" data-dismiss="modal" v-cloak>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mx-auto apply-box-pic pt-3">
+                    <img src="~/img/hatsukoi_logo.svg" />
+                </div>
+            </div>
+            <div class="login-way mx-auto text-center pb-4" id="registerInfo">
+                <div class="email-text text-center">
+                    <h6 class="p-2">讓我們了解更多</h6>
+                    <p class="text-very-small text-start mt-3">我們會根據性別、年齡推薦給你最適合的商品、設計館及個人專屬通知，為你提供最好的體驗。</p>
+                    <span class="text-start text-small d-block">性別</span>
+                    <div class="d-flex mt-2 mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                   id="flexRadioDefault1" value="">
+                            <label class="form-check-label text-small me-4" for="flexRadioDefault1">
+                                女性
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                   id="flexRadioDefault2" checked>
+                            <label class="form-check-label text-small" for="flexRadioDefault2">
+                                男性
+                            </label>
+                        </div>
+                    </div>
+                    <span class="text-start text-small d-block">生日</span>
+                    <div class="d-flex justify-content-between my-1">
+                        <input class="my-input text-very-small ps-2" type="text" v-model="inputYear"
+                               placeholder="YYYY" id="Year">
+                        <input class="my-input text-very-small ps-2" type="text" v-model="inputMonth"
+                               placeholder="MM" id="Month">
+                        <input class="my-input text-very-small ps-2" type="text" v-model="inputDay"
+                               placeholder="DD" id="Day">
+                    </div>
+                    <span class="d-block text-red text-small mx-auto mt-2">{{ warnYear }}</span>
+                    <span class="d-block text-red text-small mx-auto my-0">{{ warnMonth }}</span>
+                    <span class="d-block text-red text-small mx-auto my-0">{{ warnDay }}</span>
+                    <span class="d-block text-red text-small mx-auto my-0" id="registerError"></span>
+                    <button v-bind:disabled="registerInfoBtn" onclick="CreateUser()" id="info-btn" class="w-100 mt-4">
+                        完成
+                    </button>
+                    <button class="w-100 text-pink reset-btn mt-4" data-bs-dismiss="modal" aria-label="Close">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 最後一頁的重寄認證信 -->
+<div class="modal fade" id="apply-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false" data-dismiss="modal" v-cloak>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mx-auto apply-box-pic pt-3">
+                    <img src="~/img/hatsukoi_logo.svg" />
+                </div>
+            </div>
+            <p class="email-titlte text-center">請查看你的 Email</p>
+            <p class="my-0 py-2 text-center text-very-small bg-gray" id="showEmail">已將信件寄送至 {e4866995@gmail.com} 。</p>
+            <div class="login-way mx-auto text-center mb-3">
+
+                <div class="email-text text-start">
+                    <span class="my-3 text-very-small d-block">為了確保是你本人，我們將會寄送一封驗證Email到你的信箱，請點擊信裡的確認連結已開通帳號。</span>
+                    <p class="text-very-small text-start">找不到認證信時，請到「垃圾信件」分類查找，或在信箱搜尋「Hatsukoi」。</p>
+                    <button id="sendvalidateBtn" class="w-100 my-3" disabled>
+                        重新寄送驗證信
+                    </button>
+                    <button class="w-100 text-pink reset-btn" data-bs-dismiss="modal" aria-label="Close" onclick="CloseModal()">
+                        稍後認證
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/login/login.js"></script>
+<script>
+    //登入主頁
+    normalloginbtn = document.querySelector('#normal-login-btn')
+    normalloginbtn.onclick = function () {
+        accountInput = document.querySelector('#account');
+        passwordInput = document.querySelector('#password');
+        normalloginbtn.disabled = true
+        $.ajax({
+            url: '/api/Login/login',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+                Account: accountInput.value,
+                Password: passwordInput.value
+            }),
+            success: function (data) {
+                if (data.result.controller != '') {
+                    let redirectUrl = data.result.controller
+                    window.location.href = redirectUrl
+                    normalloginbtn.disabled = false
+                }
+                else if (data.result.isEmailCertified == 'no') {
+                    normalLoginModal.hide()
+                    resendModal.show()
+                    normalloginbtn.disabled = false
+                }
+                else {
+                    $('#warn-account-or-password').text('帳號或密碼不正確，請再檢查一下')
+                    normalloginbtn.disabled = false
+                }
+            }
+        });
+    }
+    //註冊畫面1，輸入帳密信箱
+    function intoInfo() {
+        $('#create-new-user-btn').attr('disabled', true);
+        $.ajax({
+            url: '/api/Login/CheckEmail',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+                Email: register._data.inputEmail,
+                Account: register._data.inputAccount
+            }),
+            success: function (output) {
+                debugger
+                if (output.result.myId != '') {
+                    window.location.href = `/Login/SendEmailToBind/${output.result.myId}`
+                }
+                else if (output.result.email == true) {
+                    $('#checkResult').text('email已被註冊過，請重新輸入')
+                    $('#create-new-user-btn').attr('disabled', false);
+                }
+                else if (output.result.account == true) {
+                    $('#checkResult').text('帳號已被註冊過，請重新輸入')
+                    $('#create-new-user-btn').attr('disabled', false);
+                }
+                else {
+                    $('#create-new-user-btn').attr('disabled', false);
+                    $('#checkResult').text('')
+                    createNewUserModal.hide();
+                    infoModal.show();
+                }
+            }
+        })
+    }
+    register = new Vue({
+        el: '#register',
+        data: {
+            inputAccount: '',
+            inputPassword: '',
+            inputEmail: '',
+            warnAccount: '',
+            warnPassword: '',
+            warnEmail: '',
+            viewPassword: 'false'
+        },
+        watch: {
+            inputAccount: function () {
+                let r = /^[a-zA-Z]\w{5,17}$/
+                if (!r.test(this.inputAccount)) {
+                    this.warnAccount = '帳號只能是以字母開頭，長度在6~18之間，包含字母、數字和下底線'
+                }
+                else {
+                    this.warnAccount = ''
+                }
+            },
+            inputPassword: function () {
+                let r = /^[a-zA-Z]\w{5,17}$/
+                if (!r.test(this.inputPassword)) {
+                    this.warnPassword = '密碼只能是以字母開頭，長度在6~18之間，包含字母、數字和下底線'
+                }
+                else {
+                    this.warnPassword = ''
+                }
+            },
+            inputEmail: function () {
+                let r = /^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                if (!r.test(this.inputEmail)) {
+                    this.warnEmail = 'Email 的格式不正確'
+                }
+                else {
+                    this.warnEmail = ''
+                }
+            }
+        },
+        computed: {
+            registerBtn() {
+                if (this.inputAccount != '' && this.inputPassword != '' && this.inputEmail != '' && this.warnAccount == '' && this.warnPassword == '' && this.warnEmail == '') {
+                    return false
+                }
+                else {
+                    return true
+                }
+            },
+            type() {
+                return this.viewPassword ? 'password' : 'text'
+            }
+        },
+        methods: {
+            changeType() {
+                this.viewPassword = !this.viewPassword
+            }
+        }
+    })
+    //註冊畫面2，輸入生日性別並產生User
+    registerInfo = new Vue({
+        el: '#registerInfo',
+        data: {
+            inputYear: '',
+            inputMonth: '',
+            inputDay: '',
+            warnYear: '',
+            warnMonth: '',
+            warnDay: '',
+        },
+        watch: {
+            inputYear: function () {
+                let r = /^(19|20)\d{2}$/
+                if (!r.test(this.inputYear)) {
+                    this.warnYear = '年份 的格式不正確'
+                }
+                else {
+                    this.warnYear = ''
+                }
+            },
+            inputMonth: function () {
+                let r = /^(0?[1-9]|1[0-2])$/
+                if (!r.test(this.inputMonth)) {
+                    this.warnMonth = '月份 的格式不正確'
+                }
+                else {
+                    this.warnMonth = ''
+                }
+            },
+            inputDay: function () {
+                let r = /^((0?[1-9])|((1|2)[0-9])|30|31)$/
+                if (!r.test(this.inputDay)) {
+                    this.warnDay = '日期 的格式不正確'
+                }
+                else if ((this.inputMonth == 4 || this.inputMonth == 6 || this.inputMonth == 9 || this.inputMonth == 11) && this.inputDay > 30) {
+                    this.warnDay = '日期 的格式不正確'
+                }
+                else if (this.inputMonth == 2) {
+                    if (this.inputYear % 400 == 0 || (this.inputYear % 4 == 0 && this.inputYear % 100 != 0)) {
+                        if (this.inputDay > 29) {
+                            this.warnDay = '日期 的格式不正確'
+                        }
+                        else {
+                            this.warnDay = ''
+                        }
+                    }
+                    else {
+                        if (this.inputDay > 28) {
+                            this.warnDay = '日期 的格式不正確'
+                        }
+                        else {
+                            this.warnDay = ''
+                        }
+                    }
+                }
+                else {
+                    this.warnDay = ''
+                }
+            }
+        },
+        computed: {
+            registerInfoBtn() {
+                if (this.inputYear.value != '' && this.inputMonth.value != '' && this.inputDay != '' && this.warnYear == '' && this.warnMonth == '' && this.warnDay == '') {
+                    return false
+                }
+                else {
+                    return true
+                }
+            }
+        },
+    })
+    function CreateUser() {
+        $('#info-btn').attr('disabled', true);
+        $.ajax({
+            url: '/api/Login/Create',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+                Password: register._data.inputPassword,
+                Email: register._data.inputEmail,
+                Account: register._data.inputAccount,
+                Year: parseInt(registerInfo._data.inputYear),
+                Month: parseInt(registerInfo._data.inputMonth),
+                Day: parseInt(registerInfo._data.inputDay),
+                Gender: flexRadioDefault2.checked
+            }),
+            success: function (output) {
+                $('#info-btn').attr('disabled', false);
+                $('#showEmail').text(`已將信件寄送至 ${output.result.address} 。`)
+                infoModal.hide();
+                applyModal.show();
+                let count = 60;
+                let timerId = setInterval(function () {
+                    sendvalidateBtn.innerText = count
+                    count = count - 1;
+                    if (count < 0) {
+                        clearInterval(timerId);
+                        sendvalidateBtn.innerText = "重新寄送驗證信"
+                        sendvalidateBtn.disabled = false
+                    }
+                }, 1000)
+            }
+        });
+    }
+    //寄重設密碼信
+    rePwd = new Vue({
+        el: '#rePwd',
+        data: {
+            inputResend: '',
+            warnResend: '',
+            able: false
+        },
+        watch: {
+            inputResend: function () {
+                let r = /^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                if (!r.test(this.inputResend)) {
+                    this.warnResend = 'Email 的格式不正確'
+                }
+                else {
+                    this.warnResend = ''
+                }
+            }
+        },
+        computed: {
+            dis() {
+                if (this.inputResend == '' || this.warnResend != '') {
+                    return true
+                }
+                return this.able
+            }
+        },
+        methods: {
+            rePwdBtn() {
+                $('#set-password-send').attr('disabled', true);
+                let re = this.inputResend
+                $.ajax({
+                    url: '/api/Login/SendResetPwd',
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        InputEmail: re
+                    }),
+                    success: function (input) {
+                        if (input.result.hasEmail == "has") {
+                            let count = 60;
+                            let timerId = setInterval(function () {
+                                $('#set-password-send').text(count)
+                                count = count - 1;
+                                if (count < 0) {
+                                    clearInterval(timerId);
+                                    $('#set-password-send').text('重新寄送驗證信')
+                                    $('#set-password-send').attr('disabled', false);
+                                }
+                            }, 1000)
+                        }
+                        else {
+                            $('#warnResetPwd').text('沒有這個Email，請再檢查一下')
+                            $('#set-password-send').attr('disabled', false);
+                        }
+                    }
+                });
+            }
+        }
+    })
+    //重寄驗證信
+    resendEmail = new Vue({
+        el: '#resendEmail',
+        data: {
+            inputResend: '',
+            warnResend: '',
+            able: true
+        },
+        watch: {
+            inputResend: function () {
+                let r = /^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                if (!r.test(this.inputResend)) {
+                    this.warnResend = 'Email 的格式不正確'
+                    this.able = true
+                }
+                else {
+                    this.warnResend = ''
+                    this.able = false
+                }
+            }
+        },
+        computed: {
+            dis() {
+                if (this.inputResend == '') {
+                    return true
+                }
+                return this.able
+            }
+        },
+        methods: {
+            resendBtn() {
+                $('#set-password-resend').attr('disabled', true);
+                let th = this.inputResend
+                $.ajax({
+                    url: '/api/Login/ResendEmail',
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        InputEmail: th
+                    }),
+                    success: function (output) {
+                        if (output.result.hasEmail == "") {
+                            let count = 60;
+                            let timerId = setInterval(function () {
+                                $('#set-password-resend').text(count)
+                                count = count - 1;
+                                if (count < 0) {
+                                    clearInterval(timerId);
+                                    $('#set-password-resend').text("重新寄送驗證信")
+                                    $('#set-password-resend').attr('disabled', false);
+                                }
+                            }, 1000)
+                        }
+                        else {
+                            $('#warnResetMail').text(output.result.hasEmail)
+                        }
+                    }
+                })
+            }
+        }
+    })
+    //最後一頁的重寄認證信
+    sendvalidateBtn.onclick = function () {
+        $.ajax({
+            url: '@Url.Action("ResendEmail","Login")',
+            type: 'POST',
+            data: {
+                Email: register._data.inputEmail
+            },
+            success: function (output) {
+                let target = output
+                if (target.hasEmail == "") {
+                    $('#sendvalidateBtn').attr('disabled', true);
+                    let count = 60;
+                    let timerId = setInterval(function () {
+                        $('#sendvalidateBtn').text(count)
+                        count = count - 1;
+                        if (count < 0) {
+                            clearInterval(timerId);
+                            $('#sendvalidateBtn').text("重新寄送驗證信")
+                            $('#sendvalidateBtn').attr('disabled', false);
+                        }
+                    }, 1000)
+                }
+                else {
+                }
+            }
+        })
+    }
+</script>

@@ -1,0 +1,438 @@
+﻿@using static Hatsukoi.Common.HatsukoiEnum;
+@using Hatsukoi.Models.ViewModels.OrderVM;
+@model OrderViewModel
+
+@{
+    ViewData["Title"] = "Order Detail";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+}
+<div class="order-detail-main col-12">
+
+    <div class="main-body container">
+        <div class="row">
+            <div class="col-xl-7">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="~/Order/management">@Model.StatusText</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">訂單編號 <span id="orderNum">@Model.OrderNumber</span></li>
+                    </ol>
+                </nav>
+                <div class="created-time my-3">@Model.CreateTime</div>
+                <div class="order-status-label my-3">@Model.StatusText</div>
+                @if (Model.Status == OrderStatus.Cancelled)
+                {
+                    <div class="order-detail-card ">
+                        <div class="title">
+                            取消原因
+                        </div>
+                        <div class="content mt-4">
+                            <p>@Model.Memo</p>
+                        </div>
+                    </div>
+                }
+                <!-- 訂單內容 -->
+                <div class="order-detail-card ">
+                    <div class="title">
+                        訂單內容
+                    </div>
+                    <div class="content mt-4">
+                        <div class="order-product-list">
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                <div class="order-product-list-item  mb-4">
+                                    <div class="item-info">
+                                        <div class="item-img">
+                                            <a href="/Product/Id/@item.ProductId " target="_blank" rel="noreferrer noopener">
+                                                <img class="product-image" src="@item.ProductImg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="item-info-wrap">
+                                            <div class="specs ">
+                                                <a class="product-title" href="/Product/Id/@item.ProductId " target="_blank" rel="noreferrer noopener">
+                                                    @item.ProductName
+                                                </a>
+                                                <div class="variation">@(item.FirstSepcItem + " " + item.SecondSepcItem)</div>
+                                            </div>
+                                            <div class="quantity">
+                                                <div class="quantity-sign">x</div>
+                                                <div class="quantity-value">@item.Quantity</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item-subtotal">
+                                        <span class="item-subtotal-price">NT$ @(item.Quantity * item.UnitPrice)</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="order-summary-subtotals">
+                            @if (Model.Discount == 0)
+                            {
+                                <div class="subtotal-item total">
+                                    <div class="item-label">總金額</div>
+                                    <div class="item-amount">NT$ @Model.TotalPrice</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="subtotal-item">
+                                    <div class="item-label">小計</div>
+                                    <div class="item-amount">NT$ @Model.OriginalPrice</div>
+                                </div>
+                                <div class="subtotal-item">
+                                    <div class="item-label">賣場優惠券折抵</div>
+                                    <div class="item-amount discout">-NT$ @Model.DiscountNum</div>
+                                </div>
+                                
+                                <div class="subtotal-item sum">
+                                    <div class="item-label">總金額</div>
+                                    <div class="item-amount">NT$ @Model.TotalPrice</div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 訂單狀態 -->
+                <div class="order-detail-card ">
+                    <div class="title">
+                        訂單狀態
+                    </div>
+                    <div class="content mt-4">
+                        <!--運送階段-->
+                        <div class="step-list">
+                            <div class="step-list-item step-finish">
+                                <div class="step-item s-completed">
+                                    <div class="item-icon">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                    <div class="item-label">已成立</div>
+                                </div>
+
+                            </div>
+
+                            <div class="step-list-item step-pay">
+                                <div class="step-connector ">
+                                    <div class="connector-line"></div>
+                                </div>
+                                <div class="step-item s-completed">
+                                    <div class="item-icon">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                    <div class="item-label">已付款</div>
+                                </div>
+
+                            </div>
+                            <div class="step-list-item step-ship">
+                                <div class="step-connector ">
+                                    <div class="connector-line"></div>
+                                </div>
+                                <div class="step-item s-completed">
+                                    <div class="item-icon">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                    <div class="item-label">已出貨</div>
+                                </div>
+
+                            </div>
+                            <div class="step-list-item step-done">
+                                <div class="step-connector">
+                                    <div class="connector-line"></div>
+                                </div>
+                                <div class="step-item s-completed">
+                                    <div class="item-icon">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                    <div class="item-label">已完成</div>
+                                </div>
+
+                            </div>
+                            @if (Model.StatusText == "已取消")
+                            {
+                                <div class="step-list-item step-finish">
+                                    <div class="step-connector">
+                                        <div class="connector-line"></div>
+                                    </div>
+                                    <div class="step-item s-completed">
+                                        <div class="item-icon">
+                                            <i class="fa-solid fa-check"></i>
+                                        </div>
+                                        <div class="item-label">已取消</div>
+                                    </div>
+
+                                </div>
+                            }
+
+
+                        </div>
+                        <div class="timeline-list">
+                            @if (Model.StatusCancelTime != null)
+                            {
+                                <div class="timeline-list-item">
+                                    <div class="item-node"></div>
+                                    <div class="item-header">@Model.StatusCancelTime</div>
+                                    <div class="item-content">訂單已取消</div>
+                                </div>
+                            }
+                            @if (Model.StatusFinishTime != null)
+                            {
+                                <div class="timeline-list-item">
+                                    <div class="item-node"></div>
+                                    <div class="item-header">@Model.StatusFinishTime</div>
+                                    <div class="item-content">訂單已完成</div>
+                                </div>
+                            }
+
+                            @if (Model.StatusSendTime != null)
+                            {
+                                <div class="timeline-list-item">
+                                    <div class="item-node"></div>
+                                    <div class="item-header">@Model.StatusSendTime</div>
+                                    <div class="item-content">商品已出貨</div>
+                                </div>
+                            }
+
+                            @if (Model.PayTime != null)
+                            {
+                                <div class="timeline-list-item">
+                                    <div class="item-node"></div>
+                                    <div class="item-header">@Model.PayTime</div>
+                                    <div class="item-content">完成付款</div>
+                                </div>
+                            }
+
+                            <div class="timeline-list-item">
+                                <div class="item-node"></div>
+                                <div class="item-header">@Model.CreateTime </div>
+                                <div class="item-content">訂單成立</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- 右側 -->
+            <div class="order-detail-right-side col-xl-5">
+                <!-- 收件人資訊 -->
+                <div class="order-detail-card ">
+                    <div class="title">
+                        收件人資訊
+                    </div>
+                    <div class="content mt-4">
+                        <div class="card-info-list-item mb-2">
+                            <span class="label">收件人</span>
+                            <span class="info">@Model.RecipientName</span>
+                        </div>
+                        <div class="card-info-list-item mb-2">
+                            <span class="label">收件人地址</span>
+                            <span class="info">@Model.RecipientAddress</span>
+                        </div>
+                        <div class="card-info-list-item mb-2">
+                            <span class="label">收件人電話</span>
+                            <span class="info">@Model.RecipientPhone</span>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- 付款資訊 -->
+                <div class="order-detail-card ">
+                    <div class="title">
+                        付款資訊
+                    </div>
+                    <div class="content mt-4">
+                        <div class="buyer">
+                            <div class="user-profile">
+                                <div class="img-wrap">
+                                    <img src="@Model.Photo" alt="">
+                                </div>
+                                <div class="user-profile-info">
+                                    <div class="user-profile-name mb-2">
+                                        <span>@Model.Name</span>
+                                    </div>
+                                    <div class="membership mb-2">@Model.MemberLevel</div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--賣家功能 -->
+                <div class="order-actions ">
+                    @if (Model.Status == OrderStatus.NotShipped)
+                    {
+
+                        <div class="ac-shippingdate ac-btn" data-bs-toggle="modal" data-bs-target="#shippingdate-@Model.Id">
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <span>通知買家出貨</span>
+                        </div>
+                        <div class="modal fade" id="shippingdate-@Model.Id" data-bs-backdrop="static" data-bs-keyboard="false"
+                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="modal-title fs-5" id="staticBackdropLabel">通知買家出貨</div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body ">
+                                        <p>確認商品已出貨</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn" data-bs-dismiss="modal" onclick="shipOrder()">確定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+
+                    @if (Model.Status == OrderStatus.NotPay)
+                    {
+                        <div class="ac-notpay ac-btn" data-bs-toggle="modal" data-bs-target="#notpay-@Model.Id">
+                            <!-- Button trigger modal -->
+                            <i class="fa-solid fa-xmark"></i>
+                            <span>取消訂單</span>
+                            <!-- Modal -->
+                        </div>
+                        <div class="modal fade" id="notpay-@Model.Id" data-bs-backdrop="static" data-bs-keyboard="false"
+                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="modal-title fs-5" id="staticBackdropLabel">取消訂單</div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body ">
+                                        <label class="mb-2 required" for="Textarea-@Model.Id">取消原因</label>
+                                        <textarea class="form-control reason" id="Textarea2-@Model.Id"
+                                              style="height: 100px"></textarea>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn cancelBtn" data-bs-dismiss="modal" disabled onclick="CancelOrder()">確定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="ac-connection ac-btn">
+                        <a href='/Chatroom/SellerStarChat?sendTo=@Model.UserId&msg=訂單編號:@Model.OrderNumber'>
+                            <i class="fa-regular fa-comment-dots"></i>
+                            <span>聯絡買家</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/order/order_detail.css" rel="stylesheet" />
+}
+@section endJS{
+    <script>
+        let orderNumText = document.querySelector('#orderNum').innerText;
+        let cancelBtn = document.querySelector('.cancelBtn');
+        let cancelReason = document.querySelector('.reason');
+        function shipOrder() {
+            $.ajax({
+                url: '/api/Order/ShipOrder',
+                type: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    orderNum: orderNumText
+                }),
+                success: function (data) {
+                    if (data.result.isSuccess == "已成功更新") {
+                        Toast.fire(data.result.isSuccess);
+                        //Tom 通知中心的發送
+                        connection.invoke('SendOrderMessage', orderNumText)
+                        setTimeout(function () {
+                            window.location.href = "/OrderDetails?orderNum=" + orderNumText;
+                        }, 500);
+
+                    }
+                }
+            })
+
+        };
+
+
+        function CancelOrder() {
+
+            let cancelReasonTxt = cancelReason.value;
+
+            $.ajax({
+                url: '/api/Order/CancelOrder',
+                type: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify({
+
+                    orderNum: orderNumText,
+                    cancelReason: cancelReasonTxt
+                }),
+                success: function (data) {
+                    if (data.result.isSuccess == "已成功更新") {
+                        Toast.fire(data.result.isSuccess);
+                        setTimeout(function () {
+                            window.location.href = "/OrderDetails?orderNum=" + orderNumText;
+                        }, 500);
+
+                    }
+                }
+            });
+        }
+
+
+        let stepShip = document.querySelector('.step-ship')
+        let stepDone = document.querySelector('.step-done')
+        let stepPay = document.querySelector('.step-pay')
+        let statusText = document.querySelector('.order-status-label').innerText
+        let status
+        switch (statusText) {
+            case "待付款":
+                status = "notPay"
+                break;
+            case "待出貨":
+                stepPay.classList.add('step-finish');
+                status = "tobeshipped"
+                break;
+            case "已出貨":
+                stepPay.classList.add('step-finish');
+                stepShip.classList.add('step-finish');
+                status = "shipped"
+                break;
+            case "已完成":
+                stepPay.classList.add('step-finish');
+                stepShip.classList.add('step-finish');
+                stepDone.classList.add('step-finish');
+                status = "completed"
+                break;
+            case "已取消":
+                stepPay.classList.add('dp-none');
+                stepShip.classList.add('dp-none');
+                stepDone.classList.add('dp-none');
+                status = "cancel"
+                break;
+            default:
+                break;
+        }
+        $('.breadcrumb-item > a').on('click', function (event) {
+            event.preventDefault(); // 防止預設行為
+            window.location.href = '@Url.Action("Management", "Order")' + '?status=' + status; // 跳轉到帶有狀態錨點的 URL
+        });
+        if (status == "notPay") {
+            cancelReason.addEventListener("input", () => {
+                if (cancelReason.value.trim().length > 0) {
+                    cancelBtn.disabled = false;
+                }
+                else {
+                    cancelBtn.disabled = true;
+                }
+            })
+        }
+
+    </script>
+}

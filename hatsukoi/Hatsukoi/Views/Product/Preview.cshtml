@@ -1,0 +1,457 @@
+﻿@model Hatsukoi.Models.ViewModels.ProductViewModel.ProductVM
+
+@{
+    ViewData["Title"] = "Product";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    var product = Model.Product;
+    var sellerInfoList = Model.SellerInfoList;
+}
+
+<section class="product-main-container container">
+    <div class="review-product">
+        <div class="asd">
+            <p>管理商品</p>
+        </div>
+        <div class="d-flex asd">
+            <button type="submit" class="edit-product">編輯商品</button>
+            <button type="submit" class="update-product">上架商品</button>
+           
+        </div>
+    </div>
+    <div class="row">
+        <!-- 產品投影片 固定4張-->
+        <div class="col-12 col-md-6">
+            <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                <div class="swiper-wrapper">
+                    @foreach (var item in product.ProductImg)
+                    {
+                        <div class="swiper-slide">
+                            <img src="@item" />
+                        </div>
+                    }
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+            <div thumbsSlider="" class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in product.ProductImg)
+                    {
+                        <div class="swiper-slide">
+                            <img src="@item" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="product-body" id="app">
+                <!-- 價格 -->
+                <h1 class="card-title my-2">@product.ProductName</h1>
+
+                <p class="product-sales-amount my-1">設計品牌共售出 0  件商品</p>
+                <!-- 優惠券折數 render -->
+                <p class="product-price my-1">NT$ @product.Price </p>
+                <!-- 選商品規格 render -->
+                <div class="product-config">
+                    <select id="spec-select" class="form-select my-2" aria-label="Default select example">
+                        <option ha-price="@product.Price" selected>請選擇商品規格</option>
+                        @foreach (var spec in product.SpecList)
+                        {
+                            <option value="1" ha-price="@spec.UnitPrice">
+                                @string.Format("{0} {1}, NT${2}",
+                            spec.FirstSpecItem, spec.SecondSpecItem, spec.UnitPrice)
+                            </option>
+                        }
+                    </select>
+                </div>
+                <!-- 數量 render -->
+                <div class="product-quntity">
+                    <label>數量</label>
+                    <select class="form-select my-2" aria-label="Default select example">
+                        @for (int i = 1; i < 11; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <!-- 購物車 -->
+                <div class="product-cart my-1">
+                    <!-- Button  加入購物車鈕(yui) -->
+                    <button  type="button" class="btn btn-sm btn-gray py-2">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        放入購物車
+                    </button>
+                   
+                </div>
+                <!-- 收藏商品 JS-->
+                <div class="product-collect my-1">
+                    <button  type="button" class="btn btn-sm btn-pink py-2">
+                        <i class="fa-regular fa-heart"></i>
+                        收藏商品
+                    </button>
+                    
+                </div>
+                <p class="card-text my-3">
+                    付款後，從備貨到寄出商品為 3 個工作天。（不包含假日）<br>
+                    設計館提供統一發票或免用統一發票收據
+                </p>
+                <div class="product-info-list">
+                    <div class="box-title">
+                        <h2>商品資訊</h2>
+                    </div>
+                    <div class="title-line"></div>
+                    <div class="box-body">
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>商品產地</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <p>@product.MadeCountry</p>
+                            </div>
+                        </div>
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>商品摘要</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <p>@product.Description</p>
+                            </div>
+                        </div>
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>授權經銷品牌</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <p>@product.BrandName</p>
+                            </div>
+                        </div>
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>商品分類</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <a href="">@product.CategoryName</a>
+                                <a href="">@product.SubCategoryName</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 產品 detail -->
+<section class="container ooo">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="product-intro-list">
+                <div class="box-title">
+                    <h2>商品介紹</h2>
+                </div>
+                <div class="title-line"></div>
+                <div class="box-body">
+                    <div class="product-intro-item">
+                        <!-- 富文本 -->
+                        <div id="editor" class="d-none">
+                            @Html.Raw(product.Editor)
+                        </div>
+                        <div id="content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <!-- 關於品牌 -->
+            <div class="product-store">
+                <div class="box-title d-flex justify-content-between align-items-center">
+                    <h2>關於品牌</h2>
+                    <a href="@Url.Content("~/Shop")">前往品牌</a>
+                </div>
+                <div class="title-line"></div>
+                @foreach (var seller in sellerInfoList)
+                {
+                    <div class="box-body">
+                        <div class="store-card">
+                            <div class="store-banner">
+                                <img src="@seller.ShopBannerRect" />
+                            </div>
+                            <div class="store-main d-flex align-items-center">
+                                <div class="store-icon col-3">
+                                    <img src="@seller.Icon" />
+                                </div>
+                                <div class="store-info col-9">
+                                    <div class="store-name">
+                                        <a href="">@seller.BrandName</a>
+                                    </div>
+                                    <div class="store-detail">
+                                        <div class="store-country d-flex">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p>@seller.ProductOrigin</p>
+                                        </div>
+                                        <!-- 品牌評論 render -->
+                                        <div class="store-review d-flex">
+                                            <div class="review-star d-flex">
+                                                @{
+                                                    double evaluateAvg = (double)product.EvaluateAvg;
+                                                    int starCount = (int)Math.Round(evaluateAvg);
+                                                    int starMinusCount = 5 - starCount;
+                                                    if (starCount > 5)
+                                                    {
+                                                        starCount = 5;
+                                                    }
+                                                    else if (starCount == 0)
+                                                    {
+                                                        starCount = 0;
+                                                    }
+                                                }
+                                                @for (int i = 0; i < starCount; i++)
+                                                {
+                                                    <i class="fa-solid fa-star"></i>
+                                                }
+                                                @for (int i = 0; i < starMinusCount; i++)
+                                                {
+                                                    <i class="fa-regular fa-star"></i>
+                                                }
+
+                                                @if (starCount == 0)
+                                                {
+                                                    <p class="review-score">0</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="review-score">@product.EvaluateAvg</p>
+                                                }
+                                                @if (product.EvaluateSum == 0)
+                                                {
+                                                    <p class="review-amount">(0)</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="review-amount">(@product.EvaluateSum)</p>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="store-actions d-flex">
+                        <!-- JS 加到收藏店家的頁面 -->
+                        <div class="store-follow col-6 px-1">
+
+                            <!----- Button加入喜歡商家按鈕(yui)------>
+                            <button type="button" onclick="AddfavShop(@seller.Id)" class="btn btn-sm btn-pink py-1">
+                                <i class="fa-solid fa-plus"></i>
+                                加入關注
+                            </button>
+                        </div>
+                        <!-- JS 跳轉聊天室 -->
+                        <div class="store-contact col-6 px-1">
+                            <a class="btn btn-sm btn-gray py-1" href="@Url.Content("~/Chatroom/Index")">
+                                <i class="fa-regular fa-message"></i>
+                                聯絡設計師
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 品牌資訊 -->
+                    <div class="store-list">
+                        <div class="store-list-item">
+                            <div class="store-list-title col-3">上次上線</div>
+                            <div class="store-list-content col-9">1 天內</div>
+                        </div>
+                        <div class="store-list-item">
+                            <div class="store-list-title col-3">關注人數</div>
+                            @if (product.FavShop is null)
+                            {
+                                <div class="store-list-content col-9">0 人</div>
+                            }
+                            else
+                            {
+                                <div class="store-list-content col-9">@product.FavShop 人</div>
+                            }
+                        </div>
+                        <div class="store-list-item">
+                            <div class="store-list-title col-3">營業人名稱</div>
+                            <div class="store-list-content col-9">@seller.ShopName</div>
+                        </div>
+                        <div class="store-list-item">
+                            <div class="store-list-title col-3">統一編號</div>
+                            <div class="store-list-content col-9">@seller.TaxIdNumber</div>
+                        </div>
+                    </div>
+                }
+            </div>
+            @if (product.TagNames.Count() > 0)
+            {
+
+                <div class="product-info-others">
+                    <div class="box-title tag-title">
+                        <h2>商品標籤</h2>
+                    </div>
+                    <div class="title-line"></div>
+                    <div class="box-body">
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-content tag-names flex-wrap fw-folder">
+                                @foreach (var tag in product.TagNames)
+                                {
+                                    <span class="badge rounded-pill text-bg-light">@tag</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+
+@section topCSS{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <link href="~/css/product/product.css" rel="stylesheet" />
+    <link href="~/css/homepage.css" rel="stylesheet" />
+    <link href="~/css/productfilter.css" rel="stylesheet" />
+    <link href="~/css/productcards.css" rel="stylesheet" />
+    <style>
+        .review-product {
+            display: flex;
+            margin-top: 60px;
+            margin-bottom: 80px;
+            justify-content: space-between;
+            background-color: var(--peach-pink);
+        }
+
+        .asd p,
+        .asd button,
+        .asd a {
+            font-size: 15px;
+            padding: 10px 30px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .asd a {
+            color: black;
+        }
+
+        .asd button {
+            background-color: var(--peach-pink);
+            border: none;
+        }
+    </style>
+}
+@section topJS{
+    @*<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>*@
+    }
+
+@section endJS{
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="~/js/product/product.js"></script>
+
+    <script>
+        const editorElement = document.querySelector('#editor');
+        const contentElement = document.querySelector('#content');
+
+        //富文本
+        ClassicEditor
+            .create(editorElement, {
+                toolbar: {
+                    items: [
+                        'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                        '|', 'alignment', 'outdent', 'indent', '|', 'fontSize', 'fontColor',
+                        '|', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed',
+                        'undo', 'redo'
+                    ]
+                },
+                image: {
+                    toolbar: [
+                        'imageTextAlternative', 'imageStyle:inline',
+                        'imageStyle:block', 'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn', 'tableRow', 'mergeTableCells'
+                    ]
+                },
+                licenseKey: '',
+                heading: {
+                    // 設定 Heading 內的樣式，可新增多個
+                    options: [
+                        {
+                            model: 'paragraph',
+                            title: 'Paragraph',
+                            class: 'ck-heading_paragraph'
+                        },
+                        {
+                            model: 'heading1',
+                            view: 'h2',
+                            title: 'Heading 1',
+                            class: 'ck-heading_heading1'
+                        },
+                        {
+                            model: 'heading2',
+                            view: 'h3',
+                            title: 'Heading 2',
+                            class: 'ck-heading_heading2'
+                        }
+                    ]
+                },
+            })
+            .then(editor => {
+                const editorData = editor.getData();
+                contentElement.innerHTML = editorData;
+                let ck = document.querySelector('.ck-editor');
+                ck.classList.add('d-none');
+            })
+            .catch(error => {
+            });
+
+    </script>
+    <script>
+        
+        let updateProduct = document.querySelector('.update-product')
+        updateProduct.addEventListener('click', () => {
+            var url = window.location.href;
+            var id = url.match(/\/(\d+)$/)[1];
+  
+            $.ajax({
+                url: '/api/Product/ReadPreview',
+                type: 'POST',
+                contentType: "application/json",
+                //dataType: 'json',
+                data: JSON.stringify({
+                    Id: id
+                }),
+                success: function () {
+                    window.location.href = "/Product/Management/"
+                }
+            });
+        })
+
+        let editProduct = document.querySelector('.edit-product')
+        editProduct.addEventListener('click',() =>{
+            var url = window.location.href;
+            var id = url.match(/\/(\d+)$/)[1];
+
+            $.ajax({
+                url: '/api/Product/ReadEdit',
+                type: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    Id: id
+                }),
+                success: function () {
+                    window.location.href = `/Product/Editor/${id}`
+                }
+            });
+
+        })
+        
+    </script>
+}

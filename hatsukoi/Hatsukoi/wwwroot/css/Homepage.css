@@ -1,0 +1,380 @@
+﻿.homepage-container {
+    list-style: none;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: auto;
+    padding-top: 135px;
+}
+
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+
+.homepage-text-title h2 {
+    font-weight: bold;
+    color: var(--main-pink);
+    font-size: 22px;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    padding: 0 10px;
+    width: 3%;
+}
+
+/* 愛心按鈕 */
+#modal-btn {
+    height: 40px;
+    font-size: 14px;
+    border: 1px solid var(--light-gray);
+    color: var(--light-gray);
+}
+
+    #modal-btn:hover {
+        background-color: var(--peach-pink);
+        color: var(--light-pink);
+        border: 1px solid var(--peach-pink);
+    }
+
+/* ------ 共用商品卡片------- */
+.products-col {
+    padding: 5px;
+}
+
+.products-card {
+    height: 95%;
+    margin: auto;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 15px;
+    box-shadow: 0px 3px 20px 0px rgb(17 29 48 / 5%);
+}
+
+.products-pic {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+    padding-top: 100%;
+}
+
+.products-pic-a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.products-pic img {
+    width: 100%;
+    vertical-align: middle;
+}
+
+    .products-pic .product-badge {
+        background-color: var(--peach-pink);
+        color: #fff;
+        width: 50px;
+        height: 25px;
+        text-align: center;
+        font-size: 12px;
+        padding: 4px;
+        font-weight: 900;
+    }
+
+    
+
+
+    .products-pic .btn i {
+        color: var(--light-gray);
+    }
+
+    .products-pic .btn:focus {
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+
+    .products-pic .btn:hover i {
+        color: var(--peach-pink);
+    }
+
+    .products-pic .homepage-hatsukoi-iconbox {
+        width: 30px;
+        height: 30px;
+    }
+
+        .products-pic .homepage-hatsukoi-iconbox img {
+            width: 100%;
+            vertical-align: middle;
+        }
+
+.products-text a {
+    padding: 5px 0;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--dark-gray);
+}
+
+    .products-text a:hover {
+        color: var(--peach-pink);
+    }
+
+.products-text h3 {
+    padding: 5px 0;
+}
+
+.products-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+    .products-text h3 a {
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+.products-price {
+    padding: 10px 0;
+}
+
+    .products-price span {
+        color: var(--peach-pink);
+        font-size: 14px;
+        line-height: 1.5em;
+    }
+
+
+/* -------section-recommended 編輯嚴選--------- */
+.homepage-recommended-container, .homepage-hot-container,
+.homepage-new-container, .homepage-discount-container,
+.homepage-about-container {
+    margin: auto;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+/* -------section-recommended 探索品牌--------- */
+.homepage-shops-container {
+    margin: auto;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+    .homepage-shops-container .homepage-shops-col {
+        padding: 5px;
+    }
+
+    .homepage-shops-container .homepage-shops-card {
+        height: 95%;
+        margin: auto;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 15px;
+        border: 5px solid var(--light-pink);
+    }
+
+    .homepage-shops-container .homepage-shops-pic {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+    }
+
+        .homepage-shops-container .homepage-shops-pic .shop-pic-a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .homepage-shops-container .homepage-shops-pic img {
+            width: 100%;
+            vertical-align: middle;
+        }
+
+
+    .homepage-shops-container .homepage-shop-info-row {
+        padding: 0 5px;
+        align-items: center;
+        margin: 10px 0;
+    }
+
+
+
+    .homepage-shops-container .homepage-shops-logo {
+        margin-bottom: 10px;
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+    }
+
+        .homepage-shops-container .homepage-shops-logo .shop-logo-a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            overflow: hidden;
+            border-radius: 50% 50% 50% 50%;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .homepage-shops-container .homepage-shops-logo img {
+            width: 100%;
+            vertical-align: middle;
+            overflow: hidden;
+        }
+
+    .homepage-shops-container .homepage-shops-name h2 {
+        padding: 5px 0;
+    }
+
+        .homepage-shops-container .homepage-shops-name h2 a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    .homepage-shops-container .homepage-shops-performance {
+        padding: 3px 0;
+        display: flex;
+        flex-direction: column;
+        color: var(--dark-gray);
+    }
+
+        .homepage-shops-container .homepage-shops-performance span {
+            padding: 2px 0;
+            font-size: 13px;
+        }
+
+    .homepage-shops-container .homepage-shops-btns {
+        display: flex;
+        padding: 10px 0;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+        .homepage-shops-container .homepage-shops-btns .btn {
+            height: 40px;
+            font-size: 14px;
+            border: 1px solid var(--dark-gray);
+            
+        }
+
+            .homepage-shops-container .homepage-shops-btns .btn a {
+                color: var(--dark-gray); 
+                text-decoration:none;
+            }
+
+
+            .homepage-shops-container .homepage-shops-btns .btn:hover {
+                background-color: var(--peach-pink);
+                color: var(--light-pink);
+                border: 1px solid var(--peach-pink);
+            }
+
+                .homepage-shops-container .homepage-shops-btns .btn:hover a{
+                    color: var(--light-pink);
+                }
+
+                .homepage-shops-container .homepage-shops-btns .btn-explore {
+                    margin-right: 5px;
+                }
+
+/* about hatsukoi */
+.homepage-about {
+    margin: 40px 0;
+    padding: 20px 0;
+    background-color: #F7F7F8;
+}
+
+    .homepage-about .homepage-about-container {
+        justify-content: center;
+    }
+
+    .homepage-about .homepage-about-card {
+        padding: 10px 20px;
+    }
+
+    .homepage-about .homepage-about-pic img {
+        width: 100%;
+    }
+
+    .homepage-about .homepage-about-text h3 {
+        font-weight: bold;
+        padding: 15px;
+        font-size: 22px;
+    }
+
+    .homepage-about .homepage-about-text {
+        font-weight: bold;
+        text-align: center;
+    }
+
+
+/* 手機以上 */
+@media screen and (min-width:768px) {
+    /* -------section-shops 品牌探索--------- */
+    .homepage-shops-container .shops-btns {
+        padding: 20px 0;
+        display: flex;
+        justify-content: center;
+    }
+
+        .homepage-shops-container .shops-btns .btn {
+            width: 80%;
+            height: 40px;
+            font-size: 14px;
+            border: 1px solid var(--dark-gray);
+            color: var(--dark-gray);
+        }
+
+    .homepage-shops-container .homepage-shops-btns {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+/* 桌機以下 */
+/* @media screen and (max-width: 1200px) {} */
+
+/* 桌機 */
+@media screen and (min-width:1200px) {
+    /* -------section-shops 品牌探索--------- */
+    .homepage-shops-container .homepage-shops-performance span {
+        font-size: 15px;
+    }
+
+    .homepage-shops-container .homepage-shops-btns {
+        padding: 20px 0;
+        display: flex;
+        justify-content: center;
+    }
+
+        .homepage-shops-container .homepage-shops-btns .btn {
+            width: 80%;
+            height: 40px;
+            font-size: 14px;
+            border: 1px solid var(--dark-gray);
+            color: var(--dark-gray);
+        }
+}

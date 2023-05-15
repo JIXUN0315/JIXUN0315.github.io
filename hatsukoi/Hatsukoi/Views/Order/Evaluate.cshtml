@@ -1,0 +1,143 @@
+﻿@*@using Hatsukoi.Models.ViewModels.OrderVM;
+@using Hatsukoi.Repository.EntityModel;
+@model List<EvaluateViewModel>*@
+
+@{
+    ViewData["Title"] = "Order Evaluate";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+}
+<div class="evaluate-main col-12" id="evaluate-app" v-cloak>
+    <div class="main-body container">
+        <h1>所有評價</h1>
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="heart-list">
+                    <div class="heart-list-head" @@click="showEvaluateList(0)">
+                        <span class="title">綜合評價</span>
+
+                        <div class="num">
+                            <span class="score">{{averageScore}}</span>
+                            <span class="count"> ( {{evaluateListCount}} )</span>
+                        </div>
+                    </div>
+                    <div class="heart-list-body">
+                        <div class="heart-option" @@click="showEvaluateList(5)">
+                            <div class="rating">
+                                <div class="star">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <span class="score">{{fiveStarCount}}</span>
+                            </div>
+                            <div class="progress full">
+                                <b-progress-bar :value="fiveStarCount" :max="evaluateListCount"></b-progress-bar>
+                            </div>
+                        </div>
+                        <div class="heart-option" @@click="showEvaluateList(4)">
+                            <div class="rating">
+                                <div class="star">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <span class="score">{{fourStarCount}}</span>
+                            </div>
+                            <div class="progress">
+                                <b-progress-bar :value="fourStarCount" :max="evaluateListCount"></b-progress-bar>
+                            </div>
+                        </div>
+                        <div class="heart-option" @@click="showEvaluateList(3)">
+                            <div class="rating">
+                                <div class="star">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <span class="score">{{threeStarCount}}</span>
+                            </div>
+                            <div class="progress">
+                                <b-progress-bar :value="threeStarCount" :max="evaluateListCount"></b-progress-bar>
+                            </div>
+                        </div>
+                        <div class="heart-option" @@click="showEvaluateList(2)">
+                            <div class="rating">
+                                <div class="star">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <span class="score">{{twoStarCount}}</span>
+                            </div>
+                            <div class="progress">
+                                <b-progress-bar :value="twoStarCount" :max="evaluateListCount"></b-progress-bar>
+                            </div>
+                        </div>
+                        <div class="heart-option" @@click="showEvaluateList(1)">
+                            <div class="rating">
+                                <div class="star">
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <span class="score">{{oneStarCount}}</span>
+                            </div>
+                            <div class="progress">
+                                <b-progress-bar :value="oneStarCount" :max="evaluateListCount"></b-progress-bar>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-xl-8">
+                <div class="list-title">{{ listText}}</div>
+                <div v-if="filteredEvaluateList.length == 0" class="empty">
+                    <img src="~/image/order_v2.png" alt="">
+                    <p>沒有評價</p>
+                </div>
+                <div v-else class="review-list" >
+                    <div class="single-review" v-for="e in pagedList">
+                        <div class="user-info">
+                            <div class="img-wrap">
+                                <img v-bind:src="e.userImg" alt="">
+                            </div>
+                            <a href="#" class="user-name">{{e.userName}}</a>
+                        </div>
+                        <div class="order-info">
+
+                            <div class="order-id">
+                                <a v-bind:href="'/OrderDetails?orderNum='+ e.orderNumber">訂單編號  {{e.orderNumber}}</a>
+                            </div>
+                        </div>
+                        <div class="heart">
+                            <div class="star">
+                                <i v-for="s in e.evaluate" class="fa-solid fa-star"></i>
+                            </div>
+                            <div class="review-date">{{e.evaluateDate}}</div>
+                        </div>
+                        <div class="content">
+                            <p class="evalute-text">
+                                {{e.evaluateText}}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <b-pagination v-if="filteredEvaluateList.length > 10" @@change="goTop" v-model="filteredEvaluateListCurrentPage" :total-rows="filteredEvaluateList.length" :per-page="perPage" />
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/order/evaluate.css" rel="stylesheet" />
+}
+@section endJS{
+    <script src="~/js/order/evaluate.js"></script>
+}

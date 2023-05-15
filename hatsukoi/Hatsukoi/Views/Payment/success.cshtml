@@ -1,0 +1,159 @@
+﻿@model Hatsukoi.Models.Dtos.SuccessDto;
+
+@{
+    ViewData["Title"] = "success";
+    Layout = null;
+    var orderNumber = @Model.OrderNumber;
+}
+
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hatsukoi</title>
+    <link rel="icon" href="~/img/hatsukoi_icon.png" type="image/png" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="~/css/bs-hatsukoi.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    @*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Hatsukoi.styles.css" asp-append-version="true" />*@
+    <link href="~/css/Cart/_CartHeader.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-cookies@1.8.3/vue-cookies.js"></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', 'Noto Sans TC', '微軟正黑體', 'Arial', sans-serif;
+        }
+        :root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-Gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+.container a{
+    color: black !important;
+}
+img{
+    width: 100% !important;
+    vertical-align: middle !important;
+}
+a{
+    text-decoration: none !important;
+}
+.bg-successPay {
+    border: 0.5px solid var(--light-gray);
+    border-radius: 20px;
+}
+
+/* 字設定 */
+
+.pt-146 {
+    padding-top: 146px !important;
+}
+.text-pink {
+    color: var(--peach-pink);
+}
+
+.text-gray {
+    color: var(--light-gray);
+}
+
+.text-dgray {
+    color: var(--dark-gray);
+}
+
+.text-sm {
+    font-size: 12px;
+}
+.gift-img{
+    width:300px;
+}
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+/* ----------------- */
+/* btn設定 */
+.btn-pk {
+    background-color: var(--peach-pink);
+    color: var(--light-pink);
+    box-sizing: border-box;
+    margin-right: 0;
+}
+
+.btn-pk:hover {
+    background-color: var(--light-pink);
+    color: var(--peach-pink);
+    cursor: pointer;
+}
+
+        .gift-img {
+            width: 300px;
+        }
+
+@@media screen and (min-width:768px) {
+    
+    .pt-146{
+        padding-top: 146px !important;
+    }
+    .coupon-ticketlist li {
+        box-sizing: border-box;
+        width: 100%;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <div class="container my-5 pt-146">
+
+            <div class="">
+                <div class="row m-2">
+                    <div class="col-12 p-2  d-flex flex-column justify-content-center">
+
+                        <div class="gift-img text-center m-auto">
+                            <img src="~/img/sucessgift-612x612.jpg" />
+                        </div>
+                        <h2 class="text-pink text-center fw-semibold fs-2 p-3">付款成功</h2>
+                        <div class=" p-3 m-auto">
+                            @*<a href="@Url.Content("~/User/Order")">*@
+                            <a href="~/User/OrderDetail?orderNum=@orderNumber">
+                                <button class="btn btn-pk fw-semibold">查看訂單</button>
+                            </a>
+                            
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   
+   
+
+</body>
+</html>
+

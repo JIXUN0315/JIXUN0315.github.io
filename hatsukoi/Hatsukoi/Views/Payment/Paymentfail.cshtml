@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "success";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+
+<main>
+    <div class="container my-5 pt-146">
+
+        <div class="row m-2">
+            <div class="row m-2">
+                <div class="col-12 p-2">
+                    <h2 class="text-pink text-center fw-semibold fs-2 p-3">付款失敗</h2>
+
+                    <div class="d-flex justify-content-center p-3">
+                        <a href="@Url.Content("~/User/OrderDetail/")">
+                            <button class="btn btn-pk fw-semibold">查看訂單</button>
+                        </a>
+                        
+                        
+                        
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+@section topCSS{
+    <link href="~/css/cart/_success.css" rel="stylesheet" />
+
+}
+

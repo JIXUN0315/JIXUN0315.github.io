@@ -1,0 +1,433 @@
+﻿@using System.Text.Json;
+@using System.Text.Unicode;
+
+@model Hatsukoi.Models.ViewModels.Create.CreateViewModel
+
+
+@{
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+    var product = Model;
+    string jsonImg = JsonSerializer.Serialize(ViewBag.MonthsLabel);
+
+    var unitPrice = product.SpecificationMix;
+}
+
+<div class="container three" id="app" v-cloak>
+    <div class="row xxx">
+        <div class="col-12 col-md-8 build-product-main ">
+            <div class="build-product-div">
+                <div class="build-product-introduce col-md-4 p-2">
+                    <h2>商品圖片</h2>
+                    <p>最多可以上傳4張商品圖片(至少1張)，上傳前請先務必閱讀 圖片上傳規範</p>
+                </div>
+                <div class="build-product-item col-12 col-md-8 ">
+                    <label for="formFile" class="p-2">
+                        <div class="pic">
+                            <span class="border d-flex justify-content-center align-items-center p-5" v-if="preview_list.length==0">請上傳圖片</span>
+                            <div class="d-flex picBox " v-if="preview_list.length ">
+                                <div class="box d-flex" v-for="(item,index) in preview_list">
+                                    <img  :src="item" alt="" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </label>
+                    <input class="d-none" type="file" id="formFile" accept="image/*" multiple="multiple" v-on:change="previewImage">
+                    <p class="build-product-del"><i class="fa-regular fa-trash-can" v-on:click="clearImg">刪除全部圖片</i></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 build-product-main ">
+            <div class="build-product-div">
+                <!-- 多一個空間 -->
+                <div class="col-md-4">
+                    <h2>商品基本資訊</h2>
+                </div>
+                <div class="build-product-item col-12 col-md-8 p-2">
+                    <div class="d-flex justify-content-between">
+                        <label for="inputPassword5" class="form-label d-flex required">商品名稱(繁體中文)</label>
+                        <span class="text-danger ">{{ warnPassword }}</span>
+                    </div>
+                    <input class="form-control" aria-describedby="passwordHelpBlock"
+                           maxlength="30" id="ProductName" value="" v-model="nameVal">
+                    <div id="passwordHelpBlock" class="form-text">
+                        每個中文字的長度會以2做計算 <span class="text-danger">{{ checkNumber }}</span>/60
+                    </div>
+
+                    <div class="build-product-category">
+                        <select class="form-select " id="selectCategory" v-model="categoryStatus">
+                            <option>選擇商品主分類</option>
+                            <option v-for="c in category" :value="c">{{ c }}</option>
+                        </select>
+                        <select class="form-select sub-category" id="subCategory" v-model="subcategoryStatus">
+                            <option>選擇商品子分類</option>
+                            <option v-for="s in subCategory" :value="s">{{ s  }}</option>
+                        </select>
+
+                    </div>
+                    <div class="build-product-total">
+                        <span class="required">價格(NT$) {{ priceWarn }}</span><br>
+                        <input type="text" class="form-control" id="PriceVal" v-model="priceVal" />
+                    </div>
+                    <div class="build-product-detail">
+                        <span>商品產地</span>
+                        <select class="form-select " aria-label="Default select example" v-model="madeCountry">
+                            <option value="台灣">台灣</option>
+                            <option value="中國大陸">中國大陸</option>
+                            <option value="日本">日本</option>
+                            <option value="義大利">義大利</option>
+                        </select>
+                        <span class="required">商品規格</span>
+                        <div class="d-flex">
+                            <div class="col-6 col-md-6 inputDivOne">
+                                <input class="form-control " type="text" placeholder="主題"
+                                       aria-label="default input example" maxlength="25" v-model="firstSpecification" disabled>
+                                <div class="addOne">
+                                    <!-- 動態新增input -->
+                                    <input class="form-control " type="text" placeholder="內容"
+                                           aria-label="default input example" v-for="item in firstSepcItem" :value="item" disabled>
+
+                                </div>
+                                <div>
+                                    <button  class="btnOne btn btn-primary" disabled>添加</button>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-6 inputDivTwo">
+                                <input class="form-control mx-2" type="text" placeholder="主題"
+                                       aria-label="default input example" maxlength="25" v-model="secondSpecification" disabled>
+                                <div class="addTwo">
+                                    <!-- 動態新增input -->
+                                    <input class="form-control mx-2" type="text" placeholder="內容"
+                                           aria-label="default input example" v-for="item in secondSepcItem" :value="item" disabled>
+
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button class="btnTwo  btn btn-primary" disabled>添加</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class=" d-flex justify-content-center">
+                                <button class="btn btn-primary" disabled>規格整合</button>
+                            </div>
+                            <div class="mix py-3">
+                                <!-- 動態新增規格MIX -->
+                                @for (var i = 0; i < product.SpecificationMix.Length; i++)
+                                {
+                                    @if (product.FirstSepcItem.Length > 0 && product.SecondSepcItem.Length > 1)
+                                    {
+                                        <div class="d-flex justify-content-around ppp align-items-center">
+                                            <i class="fa-regular fa-trash-can dellIcon"></i>
+                                            <div class="SpecificationMixText"><span class=" first-spec">@unitPrice[i] </span></div>
+                                            <div><span class="yyy text-danger d-flex justify-content-end"></span><input class="form-control SpecificationMixInput mt-4" placeholder="價格" value="@product.UnitPrice[i]" /></div>
+                                        </div>
+                                    }
+                                    else if (product.FirstSepcItem.Length > 0)
+                                    {
+                                        <div class="d-flex justify-content-around ppp align-items-center">
+                                            <i class="fa-regular fa-trash-can dellIcon"></i>
+                                            <div class="SpecificationMixText"><span class=" first-spec">@product.FirstSepcItem[i] </span></div>
+                                            <div><span class="yyy text-danger d-flex justify-content-end"></span><input class="form-control SpecificationMixInput mt-4" placeholder="價格" value="@product.UnitPrice[i]" /></div>
+                                        </div>
+                                    }
+                                    else if (product.SecondSepcItem.Length > 0)
+                                    {
+                                        <div class="d-flex justify-content-around ppp align-items-center">
+                                            <i class="fa-regular fa-trash-can dellIcon"></i>
+                                            <div class="SpecificationMixText"><span>@product.SecondSepcItem[i]</span></div>
+                                            <div><span class="yyy text-danger d-flex justify-content-end"></span><input class="form-control SpecificationMixInput mt-4" placeholder="價格" value="@product.UnitPrice[i]" /></div>
+                                        </div>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                        <p class="spe">請至少填一項規格。<br>例如「顏色」或者「尺寸」。<br>規格整合後的單價，請記得『全部』都要輸入<br><span class="text-danger">注意規格選填後是無法修改</span></p>
+                        <div>
+                            <span>商品標籤</span>
+                            @foreach (var tag in product.Tag)
+                            {
+                                @if (product.TagStatus.Any(x => x == tag))
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input tagOne" type="checkbox" value="@tag" id="flexCheckDefault6" checked>
+                                        <label class="form-check-label" for="flexCheckDefault6">
+                                            @tag
+                                        </label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input tagOne" type="checkbox" value="@tag" id="flexCheckDefault6">
+                                        <label class="form-check-label" for="flexCheckDefault6">
+                                            @tag
+                                        </label>
+                                    </div>
+                                }
+                            }
+                            <p>請勾選產品適合的標籤。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 build-product-div-little ">
+            <p>請至少填一項規格。<br>例如「顏色」或者「尺寸」。<br>規格整合後的單價，請記得『全部』都要輸入<br><span class="text-danger">注意規格選填後是無法修改</span></p>
+        </div>
+        <div class="col-12 col-md-8 build-product-main">
+            <div class="build-product-div">
+                <div class="col-md-4 p-2">
+                    <h2>商品摘要與敘述</h2>
+                </div>
+                <div class="build-product-item col-12 col-md-8 p-2 ">
+                    <p>商品摘要(繁體中文)</p>
+                    <textarea class="form-control " id="description" rows="3" maxlength="200" v-model="description">@*@product.Description*@</textarea>
+                    <p>商品摘要是顯示於搜尋引擎結果的文字，應包含商品名稱、屬性。好的商品摘要對於提升商品的曝光量有很大的幫助，並讓買家在短時間內了解商品資訊，提升商品業的點擊率。</p>
+                    <P class="required">商品敘述(繁體中文)</P>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 build-product-div-little">
+            <p>商品摘要是顯示於搜尋引擎結果的文字，應包含商品名稱、屬性。好的商品摘要對於提升商品的曝光量有很大的幫助，並讓買家在短時間內了解商品資訊，提升商品業的點擊率。</p>
+        </div>
+        <div class="buttons fixed-bottom justify-content-end">
+            <div>
+                <a href="~/Product/Preview"></a>
+                <button class="btn btn-update " v-on:click="record">預覽</button>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label"></label>
+            <div class="form-control" id="editor">
+                @Html.Raw(Model.Editor)
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let inputNumberOne = []
+    let inputNumberTwo = []
+    let aa = []
+    let inputOneItem = []
+    let inputTwoItem = []
+    tagSet = new Set()
+    let tagArr = []
+    const app = new Vue({
+        el: '#app',
+        data: {
+            nameVal: '',
+            warnPassword: '',
+            priceVal: '',
+            checkNumber: '',
+            //類別
+            category: '',
+            subCategory: [],
+            categoryStatus: '',
+            subcategoryStatus: '',
+            subId: [],
+            //規格部分
+            firstSpecification: '',
+            secondSpecification: '',
+            firstSepcItem: [],
+            secondSepcItem: [],
+            specificationMix: [],
+            unitPrice: [],
+            //-----------------------
+            description: '',
+            madeCountry: '產地',
+            nameWarn: '',
+            priceWarn: '',
+            numberVal: '',
+            inputVal: '',
+            warntext: '',
+            //預覽照片
+            preview_list: @Html.Raw(jsonImg),
+            image_list: [],
+            tag: '',
+            tagStatus: '',
+            ttag: '',
+
+        },
+        watch: {
+            nameVal: {
+                immediate: true,
+                handler() {
+                    let r1 = /^[a-zA-Z0-9]*$/
+                    if (r1.test(this.nameVal)) {
+                        this.warnPassword = '只能是中文'
+                        this.nameVal = '' //輸入框不給他打
+                    } else {
+                        this.warnPassword = ''
+                    }
+
+                    if (this.nameVal == 0) {
+                        this.checkNumber = 60
+                    } else {
+                        this.checkNumber = 60 - (this.nameVal.length * 2)
+                    }
+                }
+            },
+            priceVal: function () {
+                let r = /^[0-9]*$/
+                if (!r.test(this.priceVal)) {
+                    this.priceVal = ''
+                }
+            },
+            secondSpecification: function () {
+                let firstSpec = document.querySelector('.first-spec')
+                if (this.secondSpecification == null) {
+                    firstSpec.classList.remove("mixPlus")
+                }
+            },
+
+        },
+        mounted() {
+            this.readEdit()
+        },
+        methods: {
+            previewImage: function (event) {
+                let input = event.target  //輸入進去的照片
+                let count = input.files.length  //輸入進去幾張照片
+                let index = 0
+                if (input.files) {
+                    while (count--) {
+                        let reader = new FileReader(); //把檔案轉成base64
+                        reader.onload = (e) => {
+                            this.preview_list.push(e.target.result)
+                        }
+                        //顯示畫面
+                        if (this.image_list < 4) {
+                            this.image_list.push(input.files[index]) 
+                            reader.readAsDataURL(input.files[index])
+                            index++
+                        }
+
+                    }
+                }
+            },
+            clearImg: function () {
+                this.preview_list = ''
+                let box = document.querySelector('.box')
+                if (this.preview_list == '') {
+                    box.innerHTML = ''
+                }
+            },
+            record: function () {
+                let a = this;
+                var url = window.location.href;
+                var id = url.match(/\/(\d+)$/)[1];
+                $.ajax({
+                    url: '/api/Product/UpEdit',
+                    contentType: "application/json",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        Id: id,
+                        ProductName: a.nameVal,
+                        Price: a.priceVal,
+                        SubCategoryName: a.subcategoryStatus,
+                        FirstSpecification: a.firstSpecification,
+                        SecondSpecification: a.secondSpecification,
+                        FirstSepcItem: a.firstSepcItem,
+                        SecondSepcItem: a.secondSepcItem,
+                        UnitPrice: aa,
+                        Description: a.description,
+                        MadeCountry: a.madeCountry,
+                        Editor: ff.innerHTML,
+                        TagName: tagArr,
+                        Img: a.preview_list
+                    }),
+                    success: function (response) {
+                        var url = window.location.href;
+                        var id = url.match(/\/(\d+)$/)[1];
+                        window.location.href = `/Product/Preview/${id}`
+
+                    }
+                })
+            },
+            readEdit: function () {
+                var url = window.location.href;
+                var id = url.match(/\/(\d+)$/)[1];
+                let a = this
+                $.ajax({
+                    url: '/api/Product/ReadEdit',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        Id: id
+                    }),
+                    success: function (response) {
+                        a.nameVal = response.result.productName;
+                        a.priceVal = response.result.price;
+                        a.category = response.result.categoryName;
+                        a.subCategory = response.result.subCategoryName;
+                        a.firstSpecification = response.result.firstSpecification;
+                        a.secondSpecification = response.result.secondSpecification;
+                        a.firstSepcItem = response.result.firstSepcItem;
+                        a.secondSepcItem = response.result.secondSepcItem;
+                        a.description = response.result.description;
+                        a.madeCountry = response.result.madeCountry;
+                        a.editoo = response.result.editor;
+                        a.tag = response.result.tag;
+                        a.preview_list = response.result.img;
+                        a.categoryStatus = response.result.categoryStatus;
+                        a.subcategoryStatus = response.result.subcategoryStatus;
+                        a.subId = response.result.subCategoryId;
+                        a.unitPrice = response.result.unitPrice;
+                        a.tagStatus = response.result.tagStatus;
+                        a.specificationMix = response.result.specificationMix
+                    },
+                    error: response => {
+                        console.log(123)
+                    },
+                })
+            }
+        }
+
+    })
+    let tagOne = document.querySelectorAll('.tagOne')
+    tagOne.forEach(x => {
+        x.addEventListener('click', () => {
+            if (x.checked == true) {
+                tagSet.add(x.value)
+                return tagArr = [...tagSet]
+            }
+            else if (x.checked != true) {
+                tagSet.forEach((y, index) => {
+                    if (x.value == y)
+                        tagSet.delete(y)
+                    return tagArr = [...tagSet]
+                })
+            }
+        })
+
+    })
+    aa = []
+
+    let specificationMixInput = document.querySelectorAll('.SpecificationMixInput')
+    let ppp = document.querySelectorAll('.ppp')
+
+    specificationMixInput.forEach((x, index) => {
+         aa[index] = x.value;
+        x.addEventListener('change', (e) => {
+            return aa[index] = x.value;
+
+        })
+    })
+</script>
+
+
+@section topCSS{
+    <link href="~/css/product/create.css" rel="stylesheet" />
+    <link href="~/css/product/sort.css" rel="stylesheet" />
+    }
+
+@section endJS{
+    <script src="~/js/product/neweditor.js"></script>
+    <script src="~/js/product/gettext.js"></script>
+
+
+    }

@@ -1,0 +1,646 @@
+﻿@model Hatsukoi.Models.ViewModels.User.UserAllOrder
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    var NotPayList = Model.NotPayList;
+    var NotShippedList = Model.NotShippedList;
+    var ToBeReceivedList = Model.ToBeReceivedList;
+    var CompletedList = Model.CompletedList;
+    var CancelledList = Model.CancelledList;
+}
+<div class="container my-5 pt-146">
+    <div class="row flex-md-row-reverse">
+        <div class="col-12 col-md-9 p-4 align-items-center">
+            <div>
+                <h3 class="fw-bolder">購買訂單</h3>
+                <ul class="nav nav-tabs justify-content-between my-tab-list" id="myTab" role="tablist">
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark active" id="no-pay-tab"
+                                data-bs-toggle="tab" data-bs-target="#no-pay" type="button" role="tab"
+                                aria-controls="no-pay" aria-selected="true">
+                            尚未付款 <span class="ms-2">@NotPayList.Count()</span>
+                        </button>
+                    </li>
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="deal-tab"
+                                data-bs-toggle="tab" data-bs-target="#deal" type="button" role="tab"
+                                aria-controls="deal" aria-selected="false">
+                            處理中 <span class="ms-2">@NotShippedList.Count()</span>
+                        </button>
+                    </li>
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="receive-tab"
+                                data-bs-toggle="tab" data-bs-target="#receive" type="button" role="tab"
+                                aria-controls="receive" aria-selected="false">
+                            待收貨 <span class="ms-2">@ToBeReceivedList.Count()</span>
+                        </button>
+                    </li>
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="finish-tab"
+                                data-bs-toggle="tab" data-bs-target="#finish" type="button" role="tab"
+                                aria-controls="finish" aria-selected="false">
+                            已完成  <span class="ms-2">@CompletedList.Count()</span>
+                        </button>
+                    </li>
+                    <li class="nav-item mx-3" role="presentation">
+                        <button class="nav-link py-3 my-0 fw-bolder text-big text-dark" id="cancel-tab"
+                                data-bs-toggle="tab" data-bs-target="#cancel" type="button" role="tab"
+                                aria-controls="cancel" aria-selected="false">
+                            已取消  <span class="ms-2">@CancelledList.Count()</span>
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="no-pay" role="tabpanel" aria-labelledby="no-pay-tab">
+                        @if (NotPayList.Count() == 0)
+                        {
+                            <div class="no-order-pic">
+                                <img src="~/img/user/order_v2.png" />
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var card in NotPayList)
+                            {
+                                <div class="order-info-card my-3">
+                                    <div class="order-info-card-title p-3 text-small">
+                                        @card.OrderTime.ToString("yyyy-MM-dd") <a class="ms-2 text-pink" href="~/Shop?id=@card.SellerId">@card.ShopName</a>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    狀態
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="status px-2 py-1">
+                                                        未付款
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    運送方式
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        郵寄
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    寄往
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.RecipientCity
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    收件人資訊
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        <p class="my-1">@card.RecipientName</p>
+                                                        <p class="my-1">@card.RecipientAddress</p>
+                                                        <p class="my-1">@card.RecipientPhone</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    訂單編號
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.OrderNumber
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    單館總計
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        NT$ @card.TotalPrice
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    購買項目
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="buy-item-pic">
+                                                        <img src="@card.FirstImg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a href='/Chatroom/UserStarChat?sendTo=@card.SellerId&msg=訂單編號:@card.OrderNumber' class="order-detial-btn text-center mx-auto p-1">
+                                                    聯絡設計師
+                                                </a>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a class="d-block order-detial-btn text-center mx-auto p-1" href="~/User/OrderDetail?orderNum=@card.OrderNumber">
+                                                    查看訂單細節
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="tab-pane fade" id="deal" role="tabpanel" aria-labelledby="deal-tab">
+                        @if (NotShippedList.Count() == 0)
+                        {
+                            <div class="no-order-pic">
+                                <img src="~/img/user/order_v2.png" />
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach(var card in NotShippedList)
+                            {
+                                <div class="order-info-card my-3">
+                                    <div class="order-info-card-title p-3 text-small">
+                                        @card.OrderTime.ToString("yyyy-MM-dd") <a class="ms-2 text-pink" href="~/Shop?id=@card.SellerId">@card.ShopName</a>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    狀態
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="status px-2 py-1">
+                                                        處理中
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    運送方式
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        郵寄
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    寄往
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.RecipientCity
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    收件人資訊
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        <p class="my-1">@card.RecipientName</p>
+                                                        <p class="my-1">@card.RecipientAddress</p>
+                                                        <p class="my-1">@card.RecipientPhone</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    訂單編號
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.OrderNumber
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    單館總計
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        NT$ @card.TotalPrice
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    購買項目
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="buy-item-pic">
+                                                        <img src="@card.FirstImg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a href='/Chatroom/UserStarChat?sendTo=@card.SellerId&msg=訂單編號:@card.OrderNumber' class="order-detial-btn text-center mx-auto p-1">
+                                                    聯絡設計師
+                                                </a>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a class="d-block order-detial-btn text-center mx-auto p-1" href="~/User/OrderDetail?orderNum=@card.OrderNumber">
+                                                    查看訂單細節
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="tab-pane fade" id="receive" role="tabpanel" aria-labelledby="receive-tab">
+                        @if (ToBeReceivedList.Count() == 0)
+                        {
+                            <div class="no-order-pic">
+                                <img src="~/img/user/order_v2.png" />
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var card in ToBeReceivedList)
+                            {
+                                <div class="order-info-card my-3">
+                                    <div class="order-info-card-title p-3 text-small">
+                                        @card.OrderTime.ToString("yyyy-MM-dd") <a class="ms-2 text-pink" href="~/Shop?id=@card.SellerId">@card.ShopName</a>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    狀態
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="status px-2 py-1">
+                                                        待收貨
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    運送方式
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        郵寄
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    寄往
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.RecipientCity
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    收件人資訊
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        <p class="my-1">@card.RecipientName</p>
+                                                        <p class="my-1">@card.RecipientAddress</p>
+                                                        <p class="my-1">@card.RecipientPhone</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    訂單編號
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.OrderNumber
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    單館總計
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        NT$ @card.TotalPrice
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    購買項目
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="buy-item-pic">
+                                                        <img src="@card.FirstImg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a href='/Chatroom/UserStarChat?sendTo=@card.SellerId&msg=訂單編號:@card.OrderNumber' class="order-detial-btn text-center mx-auto p-1">
+                                                    聯絡設計師
+                                                </a>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a class="d-block order-detial-btn text-center mx-auto p-1" href="~/User/OrderDetail?orderNum=@card.OrderNumber">
+                                                    查看訂單細節
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="tab-pane fade" id="finish" role="tabpanel" aria-labelledby="finish-tab">
+                        @if (CompletedList.Count() == 0)
+                        {
+                            <div class="no-order-pic">
+                                <img src="~/img/user/order_v2.png" />
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var card in CompletedList)
+                            {
+                                <div class="order-info-card my-3">
+                                    <div class="order-info-card-title p-3 text-small">
+                                        @card.OrderTime.ToString("yyyy-MM-dd") <a class="ms-2 text-pink" href="~/Shop?id=@card.SellerId">@card.ShopName</a>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    狀態
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="status px-2 py-1">
+                                                        已完成
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    運送方式
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        郵寄
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    寄往
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.RecipientCity
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    收件人資訊
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        <p class="my-1">@card.RecipientName</p>
+                                                        <p class="my-1">@card.RecipientAddress</p>
+                                                        <p class="my-1">@card.RecipientPhone</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    訂單編號
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.OrderNumber
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    單館總計
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        NT$ @card.TotalPrice
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    購買項目
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="buy-item-pic">
+                                                        <img src="@card.FirstImg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a href='/Chatroom/UserStarChat?sendTo=@card.SellerId&msg=訂單編號:@card.OrderNumber' class="order-detial-btn text-center mx-auto p-1">
+                                                    聯絡設計師
+                                                </a>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a class="d-block order-detial-btn text-center mx-auto p-1" href="~/User/OrderDetail?orderNum=@card.OrderNumber">
+                                                    查看訂單細節
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination d-flex justify-content-center my-4">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="tab-pane fade" id="cancel" role="tabpanel" aria-labelledby="cancel-tab">
+                        @if (CancelledList.Count() == 0)
+                        {
+                            <div class="no-order-pic">
+                                <img src="~/img/user/order_v2.png" />
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var card in CancelledList)
+                            {
+                                <div class="order-info-card my-3">
+                                    <div class="order-info-card-title p-3 text-small">
+                                        @card.OrderTime.ToString("yyyy-MM-dd") <a class="ms-2 text-pink" href="~/Shop?id=@card.SellerId">@card.ShopName</a>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    狀態
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="status px-2 py-1">
+                                                        已取消
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    運送方式
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        郵寄
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    寄往
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.RecipientCity
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    收件人資訊
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        <p class="my-1">@card.RecipientName</p>
+                                                        <p class="my-1">@card.RecipientAddress</p>
+                                                        <p class="my-1">@card.RecipientPhone</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    訂單編號
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        @card.OrderNumber
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    單館總計
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="">
+                                                        NT$ @card.TotalPrice
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="row my-2">
+                                                <div class="col-4 text-end text-small fw-bolder my-auto">
+                                                    購買項目
+                                                </div>
+                                                <div class="col-8 d-flex">
+                                                    <div class="buy-item-pic">
+                                                        <img src="@card.FirstImg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a href='/Chatroom/UserStarChat?sendTo=@card.SellerId&msg=訂單編號:@card.OrderNumber' class="order-detial-btn text-center mx-auto p-1">
+                                                    聯絡設計師
+                                                </a>
+                                            </div>
+                                            <div class="d-flex mt-4">
+                                                <a class="d-block order-detial-btn text-center mx-auto p-1" href="~/User/OrderDetail?orderNum=@card.OrderNumber">
+                                                    查看訂單細節
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3 p-0 list-info">
+            <p class="fw-bolder text-very-big d-none d-md-block">我的 Hatsukoi</p>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Order")">購買訂單</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/Chatroom/Index")">我的訊息</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Coupon")">優惠券</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom">
+                帳號設定
+                <div class="p-2 px-3">
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Setting")">基本設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+@*                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Credit")">信用卡管理</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Address")">常用地址簿</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>*@
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Email")">電子郵件通知設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/user/customerinfo.css" rel="stylesheet" />
+
+}

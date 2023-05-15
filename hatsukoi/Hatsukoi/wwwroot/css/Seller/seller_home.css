@@ -1,0 +1,164 @@
+﻿:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+
+/* all setting */
+ul {
+    padding: 0;
+}
+
+i {
+    cursor: pointer;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+.required::after {
+    content: '*';
+    color: red;
+}
+
+a {
+    text-decoration: none;
+    color: var(--dark-gray);
+}
+
+body {
+    background-color: #F7F7F8;
+}
+
+@media screen and (min-width:768px) {
+
+    .home-main {
+        padding-left: 240px;
+    }
+
+        .home-main .main-body {
+            padding: 40px;
+        }
+
+    .todo-list .card:hover .more {
+        transform: translateY(0%);
+    }
+
+    .todo-list .card:hover .inner {
+        transform: translateY(-24px);
+        transition: .2s;
+    }
+
+    .overview .tab-content .card-wrap .card {
+        width: 20%;
+    }
+}
+
+/* 內容 */
+.main-body {
+    padding: 40px 20px;
+    margin: 0 auto;
+}
+
+    .main-body h2 {
+        font-size: 30px;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+
+.todo-list {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+    .todo-list .card {
+        width: 25%;
+        margin: 5px;
+        border-radius: 5px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-flow: row wrap;
+        margin-bottom: 10px;
+        overflow: hidden;
+        padding: 12px;
+        position: relative;
+        min-height: 150px;
+    }
+
+        .todo-list .card .inner .number {
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .todo-list .card .inner .title {
+            font-size: 14px;
+        }
+
+        .todo-list .card .more {
+            background: var(--main-pink);
+            bottom: 0;
+            color: #fff;
+            font-size: 15px;
+            left: 0;
+            padding: 6px;
+            position: absolute;
+            right: 0;
+            transform: translateY(100%);
+            transition: .2s;
+        }
+
+/* --------------------- */
+.overview .nav-link {
+    color: var(--dark-gray);
+    background-color: #fff;
+    border: 1px solid var(--dark-gray);
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.overview .nav .active {
+    color: var(--peach-pink);
+    background-color: #fff;
+    border: 1px solid var(--peach-pink);
+}
+
+.overview .period {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.overview .card-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .overview .card-wrap .card {
+        width: 50%;
+        border-radius: 0;
+        margin-bottom: 10px;
+        padding: 15px;
+        color: var(--dark-gray);
+        display: flex;
+        justify-content: center;
+    }
+
+        .overview .card-wrap .card .value span {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .overview .card-wrap .card .value {
+            margin: 10px 0;
+        }
+
+.overview .link {
+    display: flex;
+    justify-content: end;
+}

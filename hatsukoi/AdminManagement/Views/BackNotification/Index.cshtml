@@ -1,0 +1,372 @@
+﻿@{
+
+}
+
+<div id="app" class="container" v-cloak>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between my-4">
+            <h1>通知訊息</h1>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#create-modal">新增通知訊息</button>
+        </div>
+        <table class="table text-center fixed">
+            <thead>
+                <tr>
+                    <th>發送時間</th>
+                    <th>通知標題</th>
+                    <th>通知內容</th>
+                    <th>通知連結</th>
+                    <th>是否發送</th>
+                    <th>功能</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="notification in notificationList">
+                    <td class="align-middle maxW180" v-show="false">{{notification.id}}</td>
+                    <td class="align-middle maxW180">{{notification.sendTime}}</td>
+                    <td class="align-middle maxW180">{{notification.title}}</td>
+                    <td class="align-middle maxW180">{{notification.text}}</td>
+                    <td class="align-middle maxW180">{{notification.linkTo}}</td>
+                    <td class="align-middle maxW180">{{notification.isSend ? '是':'否'}}</td>
+
+                    <td class="align-middle" v-show="!notification.isSend">
+                        <button v-on:click="selectEdit(notification)" class="btn btn-primary" data-toggle="modal"
+                                data-target="#edit-modal">
+                            編輯
+                        </button>
+                        <button v-on:click="deleteNotification(notification.id)" class="btn btn-danger">刪除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 新增Modal -->
+    <div class="modal fade  bd-example-modal-lg" id="create-modal" size="xl" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">新增訊息</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body container">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3">
+                            <label>寄送時間</label>
+                            <input :readonly="!enableSendRightNow" v-model="createNotificationData.SendTime" class="form-control" type="date">
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label>寄送時間</label>
+                            <input :readonly="!enableSendRightNow" v-model="createNotificationData.TimePick" class="form-control" type="time">
+                        </div>
+                        <div class="col-12 custom-control custom-switch">
+                            <input v-model="enableSendRightNow" type="checkbox" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">定時發送</label>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label>通知標題</label>
+                            <input v-model="createNotificationData.Title" class="form-control" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label>通知內容</label>
+                            <b-form-textarea id="textarea"
+                                             v-model="createNotificationData.Text"
+                                             placeholder="Enter something..."
+                                             rows="3"
+                                             max-rows="6"></b-form-textarea>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label>通知連結</label>
+                            <input v-model="createNotificationData.LinkTo" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="d-block text-danger">{{ checkWarn }}</span>
+                    <span class="d-block text-danger">{{ timeWarn }}</span>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button v-on:click="create" type="button" class="btn btn-primary" v-bind:disabled="dis">新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 編輯Modal -->
+    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body container">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3">
+                            <label>通知標題</label>
+                            <input v-model="currentNotification.title" class="form-control" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label>通知內容</label>
+                            <b-form-textarea id="textarea"
+                                             v-model="currentNotification.text"
+                                             placeholder="Enter something..."
+                                             rows="3"
+                                             max-rows="6"></b-form-textarea>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label>通知連結</label>
+                            <input v-model="currentNotification.linkTo" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button v-on:click="update" type="button" class="btn btn-primary">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <style>
+        .maxW180{
+            max-width: 180px !important;
+            word-break: break-all;
+        }
+    </style>
+}
+@section Scripts{
+    <script>
+        const allApi = {
+            get: '/Notification/GetAll',
+            create: '/Notification/Create',
+            update: '/Notification/Edit',
+            delete: '/Notification/Delete'
+        }
+        const allApiCaller = {
+            getAll: () => httpGet(allApi.get),
+            create: (data) => httpPost(allApi.create, data),
+            update: (data) => httpPost(allApi.update, data),
+            delete: (data) => httpPost(allApi.delete, data)
+        }
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+                notificationList: [],
+                //新增
+                createNotificationData: {
+                    SendTime: "",
+                    Text: "",
+                    Title: "",
+                    LinkTo: "",
+                    TimePick: ''
+                },
+                checkWarn: '',
+                timeWarn: '',
+                timebool: true,
+                //編輯
+                currentNotification: {},
+                enableSendRightNow: false
+            },
+            created() {
+                this.init()
+            },
+            watch: {
+                ["createNotificationData.SendTime"]: function () {
+                    let now = new Date
+                    let settime = new Date(this.createNotificationData.SendTime)
+                    let nowyear = now.getFullYear()
+                    let setyear = settime.getFullYear()
+                    let nowmonth = now.getMonth() + 1
+                    let setmonth = settime.getMonth() + 1
+                    let nowday = now.getDate()
+                    let setday = settime.getDate()
+                    if (setyear < nowyear) {
+                        this.checkWarn = '起始時間不可比現在還早'
+                        this.timebool = false
+                    }
+                    else if (setyear == nowyear && setmonth < nowmonth) {
+                        this.checkWarn = '起始時間不可比現在還早'
+                        this.timebool = false
+                    }
+                    else if (setyear == nowyear && setmonth == nowmonth && setday < nowday) {
+                        this.checkWarn = '起始時間不可比現在還早'
+                        this.timebool = false
+                    }
+                    else {
+                        this.checkWarn = ''
+                        this.timebool = true
+                    }
+                },
+                ["createNotificationData.TimePick"]: function () {
+                    let now = new Date
+                    let settime = new Date(this.createNotificationData.SendTime)
+                    let nowyear = now.getFullYear()
+                    let setyear = settime.getFullYear()
+                    let nowmonth = now.getMonth() + 1
+                    let setmonth = settime.getMonth() + 1
+                    let nowday = now.getDate()
+                    let setday = settime.getDate()
+                    let time = this.createNotificationData.TimePick
+                    let hour = time.split(':')[0]
+                    let min = time.split(':')[1]
+                    if (setyear == nowyear && setmonth == nowmonth && setday == nowday) {
+                        if (now.getHours() > hour) {
+                            this.timeWarn = '起始時間不可比現在還早'
+                        }
+                        else if (now.getHours() == hour && now.getMinutes() > min) {
+                            this.timeWarn = '起始時間不可比現在還早'
+                        }
+                        else {
+                            this.timeWarn = ''
+                        }
+                    }
+                    else {
+                        this.timeWarn = ''
+                    }
+                },
+            },
+            computed: {
+                dis() {
+                    if (this.createNotificationData.Text.trim() == '' || this.createNotificationData.Title.trim() == '' || this.createNotificationData.LinkTo.trim() == '') {
+                        return true
+                    }
+                    if (this.checkWarn != '' && this.enableSendRightNow == true) {
+                        return true
+                    }
+                    if (this.timeWarn != '' && this.enableSendRightNow == true) {
+                        return true
+                    }
+                    return false
+                }
+            },
+            methods: {
+                init() {
+                    allApiCaller.getAll()
+                        .then((res) => {
+                            this.notificationList = res.body
+                        })
+                },
+                selectEdit(data) {
+                    let copyNotification = { ...data }
+                    this.currentNotification = copyNotification
+                },
+                sendRightNow() {
+                    this.enableSendRightNow = !this.enableSendRightNow
+                },
+                create() {
+                    let data = this.createNotificationData
+                    allApiCaller.create(data)
+                        .then((res) => {
+                            if (res.isSuccess) {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: '新增成功'
+                                })
+                            }
+                            else {
+                                Toast.fire({
+                                    icon: 'fail',
+                                    title: '新增失敗'
+                                })
+
+                            }
+                            this.notificationList = [],
+                                $('#create-modal').modal('hide')
+                            this.initCreateNotificationData()
+                            this.init()
+
+                        })
+                        .catch((error) => {
+                            Toast.fire({
+                                icon: 'fail',
+                                title: '系統忙碌中請稍後再試'
+                            })
+                        })
+                },
+                initCreateNotificationData() {
+                    this.createNotificationData =
+                    {
+                        SendTime: "",
+                        Text: "",
+                        Title: "",
+                        LinkTo: "",
+                    }
+                },
+                update() {
+                    let data = this.currentNotification
+                    allApiCaller.update(data)
+                        .then((res) => {
+                            if (res.isSuccess) {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: '更新成功'
+                                })
+                            }
+                            else {
+                                Toast.fire({
+                                    icon: 'fail',
+                                    title: '更新失敗'
+                                })
+
+                            }
+                            $('#edit-modal').modal('hide');
+                            this.init()
+
+                        })
+                },
+                deleteNotification(id) {
+                    this.$bvModal.msgBoxConfirm('確定刪除資料', {
+                        title: '警告',
+                        size: 'sm',
+                        okVariant: 'danger',
+                        okTitle: '確定',
+                        cancelTitle: '取消',
+                        footerClass: 'p-2',
+                        hideHeaderClose: true,
+                        centered: true
+                    }).then(value => {
+                        if (value !== true) {
+                            return
+                        }
+                        else {
+                            let request = {
+                                id: id
+                            }
+                            allApiCaller.delete(request)
+                                .then((res) => {
+                                    if (res.isSuccess) {
+                                        Toast.fire({
+                                            icon: 'success',
+                                            title: '刪除成功'
+                                        })
+                                    }
+                                    else {
+                                        Toast.fire({
+                                            icon: 'fail',
+                                            title: '刪除失敗'
+                                        })
+                                    }
+                                    this.init()
+                                })
+
+                        }
+                    })
+                },
+            },
+        });
+    </script>
+}

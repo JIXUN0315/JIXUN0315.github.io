@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+<div class="container my-5 pt-146">
+    <div id="test"></div>
+    <div class="row flex-md-row-reverse">
+        <div class="col-12 col-md-9 p-4 align-items-center">
+
+            <h4>我的地址簿</h4>
+            <p class="text-small my-0 py-4 border-bottom">以下為你的常用地址，可以在這裡管理所有使用過的購買地址</p>
+            <form class="py-2 border-bottom" action="">
+                <div class=" mb-2 mt-4 d-flex justify-content-between align-items-center">
+                    <h5>收件人</h5>
+                    <a class="text-danger text-small">刪除</a>
+                </div>
+                <label class="text-small fw-bolder mb-2 mt-4" for="setting-name">名稱 <sup class="text-danger">*</sup></label>
+                <input class="d-block w-50 text-small p-2" type="text" id="setting-name" value="湯季勳">
+                <label class="text-small fw-bolder mb-2 mt-4" for="setting-name">電話 <sup class="text-danger">*</sup></label>
+                <input class="d-block w-50 text-small p-2" type="text" id="setting-name" value="0912909577">
+                <label class="text-small fw-bolder mb-2 mt-4" for="setting-name">地址 <sup class="text-danger">*</sup></label>
+                <input class="d-block w-50 text-small p-2" type="text" id="setting-name" value="新北市新莊區中原路1號7樓">
+                <label class="text-small fw-bolder mb-2 mt-4" for="setting-name">郵遞區號 <sup class="text-danger">*</sup></label>
+                <input class="d-block w-50 text-small p-2" type="text" id="setting-name" value="24251">
+                <div class="btn my-btn-mark p-2 px-4 text-small my-3">更新</div>
+            </form>
+
+        </div>
+        <div class="col-12 col-md-3 p-0 list-info">
+            <p class="fw-bolder text-very-big d-none d-md-block">我的 Hatsukoi</p>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Order")">購買訂單</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/Chatroom/Index")">我的訊息</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom d-flex justify-content-between align-items-center">
+                <a href="@Url.Content("~/User/Coupon")">優惠券</a><i class="fa-solid fa-angle-right d-md-none"></i>
+            </div>
+            <div class="my-3 p-2 bg-gray border-top border-bottom">
+                帳號設定
+                <div class="p-2 px-3">
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Setting")">基本設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+@*                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Credit")">信用卡管理</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none border-bottom">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Address")">常用地址簿</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>*@
+                    <div class="py-2 d-flex justify-content-between align-items-center border-md-none">
+                        <a class="d-block"
+                           href="@Url.Content("~/User/Email")">電子郵件通知設定</a><i class="fa-solid fa-angle-right d-md-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/user/customerinfo.css" rel="stylesheet" />
+}

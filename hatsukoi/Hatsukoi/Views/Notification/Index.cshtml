@@ -1,0 +1,142 @@
+﻿@model Hatsukoi.Models.ViewModels.Notifycation.NotificationListVM
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    var totalPage = Model.TotalPage;
+    var thisPage = Model.ThisPage;
+    var notify = Model.Items;
+    var notifyType = Model.notifyType;
+}
+<div class="container pt-5">
+    <div class="row pt-146">
+        <div class="col-12 col-md-2">
+            <div class="web-notification-navbar d-md-none px-2 fw-bolder">
+                <div class="d-flex justify-content-between notification-navbar-item">
+                    <a href=""
+                       class="d-block">訂單通知</a><a href="" class="d-block">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between notification-navbar-item">
+                    <a href="">帳號通知</a><a href=""><i class="fa-solid fa-angle-right"></i></a>
+                </div>
+                <div class="d-flex justify-content-between notification-navbar-item notification-navbar-show">
+                    <a href="">通知總覽</a>
+                </div>
+            </div>
+            <div class="mobile-notification-navbar d-none d-md-block">
+                <div class="notifi-navbar-area p-4">
+                    <p class="fw-bolder">通知中心</p>
+                    @if (notifyType == 3)
+                    {
+                        <div class="py-2 notifi-click"><a href="/Notification/index?NotifiType=3&page=1">通知總覽</a></div>
+                        <div class="py-2"><a href="/Notification/index?NotifiType=2&page=1">訂單通知</a></div>
+                        <div class="py-2"><a href="/Notification/index?NotifiType=1&page=1">帳號通知</a></div>
+                    }
+                    else if (notifyType == 1)
+                    {
+                        <div class="py-2"><a href="/Notification/index?NotifiType=3&page=1">通知總覽</a></div>
+                        <div class="py-2"><a href="/Notification/index?NotifiType=2&page=1">訂單通知</a></div>
+                        <div class="py-2 notifi-click"><a href="/Notification/index?NotifiType=1&page=1">帳號通知</a></div>
+                    }
+                    else
+                    {
+                        <div class="py-2"><a href="/Notification/index?NotifiType=3&page=1">通知總覽</a></div>
+                        <div class="py-2 notifi-click"><a href="/Notification/index?NotifiType=2&page=1">訂單通知</a></div>
+                        <div class="py-2"><a href="/Notification/index?NotifiType=1&page=1">帳號通知</a></div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-10">
+            <div class="accordion" id="accordionExample">
+                @foreach (var msg in notify)
+                {
+                    <div class="accordion-item text-small">
+                        <h2 class="accordion-header" id="notify-accordion-@msg.Id">
+                            <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#notify-accordion-1-@msg.Id" aria-expanded="false"
+                                aria-controls="notify-accordion-1-@msg.Id">
+                                <div class="my-icon">
+                                    <img src="@msg.SendImg" />
+                                </div>
+                                <div class="flex-grow-1 px-2">
+                                    <p class="fw-bolder">@msg.Title</p>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="notify-accordion-1-@msg.Id" class="accordion-collapse collapse"
+                         aria-labelledby="notify-accordion-@msg.Id" data-bs-parent="#accordionExample">
+                            <div class="accordion-body accord-text">
+                                @msg.Text
+                                <a href="@msg.LinkTo" class="w-100p btn my-2 d-block my-btn text-white">前往</a>
+                            </div>
+                        </div>
+                        <div class="text-very-small bottom-accord mb-3">@msg.SendTime</div>
+                    </div>
+                }
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination d-flex justify-content-center flex-row">
+                    <li class="page-item @(1 == thisPage ? "disabled" : "")">
+                        <a class="page-link" href="/Notification/index?NotifiType=@notifyType&page=@(thisPage-1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    @for (int i = 1; i <= totalPage; i++)
+                    {
+                        <li class="page-item @(i == thisPage ? "active" : "")"><a class="page-link" href="/Notification/index?NotifiType=@notifyType&page=@i">@i</a></li>
+                    }
+                    <li class="page-item  @(totalPage == thisPage ? "disabled" : "")">
+                        <a class="page-link" href="/Notification/index?NotifiType=@notifyType&page=@(thisPage+1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/Notification/NotificationCenter.css" rel="stylesheet" />
+}
+<script>
+    //window.onload = function () {
+    //    connection.on('userUpdateNoti', function (user) {
+    //        let accordionExample = document.getElementById('accordionExample')
+    //        let arrText = accordionExample.innerHTML
+    //        accordionExample.innerHTML =
+    //            `<div class="accordion-item text-small">
+    //                     <h2 class="accordion-header" id="notify-accordion-${user.Id}">
+    //                         <button class="accordion-button collapsed p-1" type="button" data-bs-toggle="collapse"
+    //                                     data-bs-target="#notify-accordion-1-${user.Id}" aria-expanded="false"
+    //                                     aria-controls="notify-accordion-1-${user.Id}">
+    //                             <div class="my-icon">
+    //                                  <img src="${user.SendImg}" />
+    //                             </div>
+    //                             <div class="flex-grow-1">
+    //                                      <p class="fw-bolder">${user.Title}</p>
+    //                             </div>
+    //                         </button>
+    //                     </h2>
+    //                         <div id="notify-accordion-1-${user.Id}" class="accordion-collapse collapse"
+    //                              aria-labelledby="notify-accordion-${user.Id}" data-bs-parent="#accordionExample">
+    //                          <div class="accordion-body accord-text">
+    //                                        ${user.Text}
+    //                                       <a href="${user.LinkTo}" class="w-100p btn my-2 d-block my-btn text-white">前往</a>
+    //                          </div>
+    //                     </div>
+    //                             <div class="text-very-small bottom-accord mb-3">${user.SendTime}</div>
+    //                     </div>`
+    //        accordionExample.innerHTML += arrText
+    //        $.ajax({
+    //            url: '/api/Chatroom/UserReadMessage',
+    //            type: 'GET',
+    //            contentType: 'application/json',
+    //            data: JSON.stringify({
+    //            }),
+    //            success: function (response) {
+    //            }
+    //        })
+    //    })
+</script>

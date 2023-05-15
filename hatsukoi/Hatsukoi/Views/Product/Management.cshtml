@@ -1,0 +1,190 @@
+﻿@using static Hatsukoi.Common.HatsukoiEnum
+@model Hatsukoi.Models.ViewModels.ProductViewModel.ProductVM
+@{
+    ViewData["Title"] = "Product Management";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+}
+
+<div class="product-main col-12" id="app" v-cloak>
+    <div class="main-body container">
+        <div class="main-title">
+            <div class="wrap">
+                <h1>所有商品</h1>
+                <div class="build-product-btn btn">
+                    <a href="~/Product/Create">建立商品</a>
+                </div>
+            </div>
+            @*<div class="input-group mb-4">
+                <input type="text" class="form-control" placeholder="商品名稱、規格、貨號" aria-label="Recipient's username"
+                       aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>*@
+        </div>
+
+        <!-- tab -->
+        <div class="tablist mb-3">
+            <div class="nav nav-pills" id="pills-tab" role="tablist">
+                <div class="nav-item" role="presentation" v-on:click="tabChange">
+                    <div class="nav-link active" id="shelveTab pills-OnShelves-tab" data-bs-toggle="pill"
+                         data-bs-target="#pills-OnShelves" type="button" role="tab" aria-controls="pills-OnShelves"
+                         aria-selected="true">
+                        已上架<span id="shelveCount" class="count">{{ productsByStatus.shelve.length }}</span>
+                    </div>
+                </div>
+                <div class="nav-item" role="presentation" v-on:click="tabChange">
+                    <div class="nav-link" id="offShelveTab pills-TemporarilyRemoved-tab" data-bs-toggle="pill"
+                         data-bs-target="#pills-TemporarilyRemoved" type="button" role="tab"
+                         aria-controls="pills-TemporarilyRemoved" aria-selected="false">
+                        已下架<span id="offShelveCount" class="count">{{ productsByStatus.offShelve.length }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工具按鈕區 -->
+        <div class="toolbar sticky">
+            <div class="wrap">
+                <div class="sides left-side">
+                    <div class="toolbar-btn">
+                        <label for="select" class="text">選取</label>
+                        <input v-model="allChecked" v-on:change="checkBoxAll" class="form-check-input" type="checkbox">
+                    </div>
+                    <div class="toolbar-btn btn-select">
+                        <span class="select-label">批次處理</span>
+                        <select v-on:change="batch">
+                            <option value="batch_org">批次處理</option>
+                            <option value="offShelve_multiple" class="offShelve-multiple-option"
+                                    v-show="isChanged">下架商品</option>
+                            <option value="shelve_multiple" class="shelve-multiple-option"
+                                    v-show="!isChanged">重新上架商品</option>
+                            <option value="delete_multiple">刪除商品</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sides right-side">
+                    <div class="toolbar-btn btn-select">
+                        <span class="select-label">排序&nbsp;&nbsp;</span>
+                        <select v-on:change="sort">
+                            <option value="sort_org">排序</option>
+                            <option value="time_asc">上架時間：舊 → 新</option>
+                            <option value="time_desc">上架時間：新 → 舊</option>
+                            <option value="name_asc">商品名稱：A → Z</option>
+                            <option value="name_desc">商品名稱：Z → A</option>
+                            <option value="price_asc">商品價格：低 → 高</option>
+                            <option value="price_desc">商品價格：高 → 低</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-label hp-none">顯示</div>
+                    <div class="toolbar-btn btn-select hp-none">
+                        <span class="select-label">6</span>
+                        <select v-on:change="updatePerPage" v-model="perPage">
+                            <option value="6">6</option>
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                            <option value="48">48</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-label hp-none">筆 / 頁</div>
+                </div>
+            </div>
+        </div>
+        <div class="sort-list-status my-3">{{ sortText }}</div>
+        <!-- 商品顯示區 -->
+        <div class="tab-content" id="pills-tabContent">
+            
+            <!-- 已上架 -->
+            <div class="tab-pane fade show active" id="pills-OnShelves" role="tabpanel"
+                 aria-labelledby="pills-OnShelves-tab" tabindex="0">
+                <div class="product-list">
+                    <div class="row">
+                        <div v-for="product in paginatedData" :key="product.productId"
+                             class="product-card col-6 col-md-3 col-xl-2">
+                            <div class="form-check">
+                                <label for="flexCheckDefault" class="form-check-label"></label>
+                                <input v-model="product.check" :value="product.productId"
+                                       id="flexCheckDefault" class="form-check-input" type="checkbox">
+                            </div>
+                            <div class="card-img">
+                                <img :src="product.productFirstImg" class="card-img-top">
+                            </div>
+                            <div class="product-content">
+                                <div class="card-body">
+                                    <p class="card-text">{{ product.productName }}</p>
+                                    <div class="price">NT$ {{ product.price }}</div>
+                                </div>
+                                <div class="card-footer">
+                                    <a :href="'/Product/Id/' + product.productId"><i class="fa-solid fa-store"></i></a>
+                                    <a for="product.productName" data-bs-toggle="collapse"
+                                       :href="`#${product.productName}`" role="button" aria-expanded="false" :aria-controls="`${product.productName}`">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </a>
+                                    <div class="collapse" :id="`${product.productName}`">
+                                        <button id="offShelveBtn" class="functionBtn" v-on:click="offShelveOneProduct(product.productId)">下架</button>
+                                        <button class="deleteBtn functionBtn" v-on:click="deleteOneProduct(product.productId)">刪除</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 分頁 -->
+                <b-pagination v-model="shelveCurrentPage"
+                              v-show="shelveProductList.length > 0"
+                              :total-rows="shelveProductList.length"
+                              :per-page="perPage" align="center"></b-pagination>
+            </div>
+            
+            <div class="tab-pane fade" id="pills-TemporarilyRemoved" role="tabpanel"
+                 aria-labelledby="pills-TemporarilyRemoved-tab" tabindex="0">
+                <!-- 已下架 -->
+                <div class="product-list">
+                    <div class="row">
+                        <div v-for="product in paginatedData" :key="product.productId"
+                             class="product-card col-6 col-md-3 col-xl-2">
+                            <div class="form-check">
+                                <label for="flexCheckDefault" class="form-check-label"></label>
+                                <input v-model="product.check" :value="product.productId"
+                                       id="flexCheckDefault" class="form-check-input" type="checkbox">
+                            </div>
+                            <div class="card-img">
+                                <img :src="product.productFirstImg" class="card-img-top">
+                            </div>
+                            <div class="product-content">
+                                <div class="card-body">
+                                    <p class="card-text">{{ product.productName }}</p>
+                                    <div class="price">NT$ {{ product.price }}</div>
+                                </div>
+                                <div class="card-footer">
+                                    <a :href="'/Product/Editor/' + product.productId"><i class="fa-solid fa-pen"></i></a>
+                                    <a for="product.productName" data-bs-toggle="collapse"
+                                       :href="`#${product.productName}`" role="button" aria-expanded="false" :aria-controls="`${product.productName}`">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </a>
+                                    <div class="collapse" :id="`${product.productName}`">
+                                        <button id="shelveBtn" class="functionBtn" v-on:click="shelveOneProduct(product.productId)">上架</button>
+                                        <button class="deleteBtn  functionBtn" v-on:click="deleteOneProduct(product.productId)">刪除</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 分頁 -->
+                <b-pagination v-model="offShelveCurrentPage"
+                              v-show="offShelveProductList.length > 0"
+                              :total-rows="offShelveProductList.length"
+                              :per-page="perPage" align="center"></b-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section topCSS{
+    <link href="~/css/product/productmanagement.css" rel="stylesheet" />
+}
+
+@section endJS{
+    <script src="~/js/product/management.js"></script>
+    }

@@ -1,0 +1,355 @@
+﻿@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Service;
+@model List<ShopCart>;
+
+@{
+    ViewData["Title"] = "購物車";
+    Layout = "~/Views/Shared/_Layout_Cart.cshtml";
+    var userCart = Model;
+}
+<!--------------------------------------------------------------->
+<main>
+    <div class="container" id="app">
+
+        @if (userCart.Count() == 0)
+        {
+            <div class="row justify-content-center w-75 m-auto" v-show="cartlistCount == 0">
+                <img src="~/img/user/order_v2.png" class="emptyimg m-auto" />
+            </div>
+        }
+        else
+        {
+            <div class="row justify-content-between">
+
+            <!----------- 店家清單 ---------------->
+            <div class="cart-shop-list col-12 col-md-8 mb-3">
+                <!----------- 店家 ---------------->
+                @foreach(var shop in userCart)
+                {
+                    
+                        <div class="cart-shop mb-2">
+                    <div class="cart-shop-header d-flex justify-content-between  p-2">
+                        <div class="form-check">
+                            <!-------商家勾選紐--------->
+                            <input v-model="selected" click="updateSelected(shop.id)" class="form-check-input " type="checkbox" value="" id="">
+                            <label class="form-check-label lh-base" for="shopselect">
+                             @shop.ShopName
+                            </label>
+
+                        </div>
+                        <!-------商家刪除紐--------->
+                        <button click="" type="button" class="btn-close btn-delete-shop " aria-label="Close"></button>
+                    </div>
+                    <div class="cart-shop-body">
+                        <div class="cart-shop-p me-0 ">
+
+                            @*<div class="cart-product-note p-2">
+                            <span>已套用優惠數量 : 1</span>
+                            </div>*@
+
+                            @foreach(var cartProduct in shop.CartItems)
+                                    {
+                                         <!-- 商品 -->
+                            <div class="cart-product d-flex position-relative"  key="">
+                                <div class="cart-product-pic m-2 col-md-2">
+                                    <img src="@cartProduct.ItemImg">
+                                </div>
+                                <div class="cart-product-detail d-flex flex-column  flex-md-row justify-content-md-between  col-9 col-md-9">
+                                    <div class="cart-product-text d-flex mt-2 ">
+                                        <div class="d-flex flex-column">
+                                            <div class=" mb-2">
+                                                            <a class="cart-product-title" href="#">@cartProduct.ItemName </a>
+                                            </div>
+                                            <div class="cart-product-describe mb-2">
+                                                <p>......</p>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="cart-product-extras d-flex justify-content-between">
+                                        <div class="cart-product-quantity m-2 px-2 ">
+                                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                <button type="button" class="btn btn-outline-primary" click="">-</button>
+                                                <span class="btn btn-outline-primary" disable>@cartProduct.Quantity </span>
+                                                <button type="button" class="btn btn-outline-primary" click="">+</button>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="cart-product-subtotal p-2 d-flex flex-column me-1" >
+                                            @*<del class="cart-product-subtotal-oprice">NT$2000</del>*@
+                                            product.quantity * product.unitPrice
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-------產品刪除紐--------->
+                                <button v-on:click="removeProduct(product.id)" type="button" class="btn-close btn-delete-product ms-2" aria-label="Close"></button>
+                            </div>
+                                    }
+                                   
+                        </div>
+                        <!-- 分隔線 -->
+                        <div class="divider"></div>
+
+                        <!-- 運送方式 -->
+                        <div class="cart-shipping-select  m-2">
+                            <div class="mb-2">選擇收件地與運送方式</div>
+                            <div class="country-option">
+                                <select class="form-select form-select-sm  w-100 ship-select"
+                                        aria-label=".form-select-sm ">
+                                    <option selected>國家</option>
+                                    <option value="TW">台灣</option>
+                                    <option value="JP">日本</option>
+                                    <option value="HK">香港</option>
+                                </select>
+                            </div>
+                            <div class="shipselect-option my-2">
+                                <select class="form-select form-select-sm  w-100 ship-select"
+                                        aria-label=".form-select-sm ">
+                                    <option disabled>請選擇運送方式</option>
+                                    <option value="TW">????</option>
+                                    <option value="CN">中國大陸</option>
+                                    <option value="JP">日本</option>
+                                    <option value="HK">香港</option>
+                                </select>
+
+                            </div>
+                            <div class="extra-note">
+                                <ul class="shipping-method-note list-unstyled">
+                                    <li class="info lh-base">
+                                        通知出貨後約 3 - 6 天寄達 | 提供追蹤 | 外島地區目前台灣順豐不支援配送，請選擇其他配送物流，設計師有權取消誤選順豐之外島訂單。
+                                    </li>
+                                    <li class="notice lh-base">
+                                        如所在地為台灣離島區域，將會產生轉運附加費用
+                                    </li>
+                                    <li class="notice lh-base">
+                                        跨境交易包裹會有被抽取關稅的可能性，進口相關稅金由收件方負擔，詳情請<a href="#"
+                                                                             class="inline text-decoration-none">點此查看</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                        <div class="cart-coupon p-2 d-flex align-items-center">
+                            <i class="fa-solid fa-ticket px-2"></i>
+                            <label class="form-check-label" for="checkedrecipientid">
+
+                                <!-- Button trigger modal 優惠券 -->
+                                <a type="" class="a-cart-coupon px-2" data-bs-toggle="modal"
+                                   data-bs-target="#staticBackdrop">輸入設計館代碼<span class="text-pink">已折抵100元</span></a>
+                            </label>
+                            <!-- Modal 優惠券 -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content rounded-1">
+                                        <div class="modal-header p-2">
+                                            <h5 class="modal-title" id="staticBackdropLabel">設計館優惠券</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <ul class="modal-body p-2">
+                                            <div class="coupon-input d-flex align-items-center">
+                                                <input type="text" class="form-control m-2 w-75 rounded-1 me-auto"
+                                                       placeholder="請輸入設計館優惠代碼" aria-label="Recipient's username"
+                                                       aria-describedby="coupon-add">
+                                                <a class="a-coupon-add m-2" type="button" id="coupon-add">+ 加入</a>
+                                            </div>
+                                            <span class="p-2 text-pink">請輸入設計館優惠代碼</span>
+                                            <li>
+                                                <div class="coupon-ticket d-flex align-items-center p-2 m-2">
+                                                    <input class="form-check-input m-2 " type="checkbox" value=""
+                                                           id="flexCheckChecked" checked>
+
+                                                    <label class="form-check-label lh-base m-2" for="flexCheckChecked">
+                                                        <div class="coupon-ticket-text d-flex flex-column">
+                                                            <span>
+                                                                使用 20180213 折抵 <span class="text-pink">NT$ 100元</span>
+                                                            </span>
+                                                            <span>適用於 白谷工房</span>
+                                                            <span class="text-gray text-sm">
+                                                                使用期限：2028/01/01 (六) 23:58
+                                                                前，專屬優惠限用 1 次
+                                                            </span>
+                                                        </div>
+                                                    </label>
+                                                    <div class="coupon-pic-shop m-auto">
+                                                        <img src="https://picsum.photos/300/200/?random=10">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="coupon-ticket d-flex align-items-center p-2 m-2">
+                                                    <input class="form-check-input m-2 " type="checkbox" value=""
+                                                           id="flexCheckChecked" checked>
+
+                                                    <label class="form-check-label lh-base m-2" for="flexCheckChecked">
+                                                        <div class="coupon-ticket-text d-flex flex-column">
+                                                            <span>
+                                                                使用 20180213 折抵 <span class="text-pink">NT$ 100元</span>
+                                                            </span>
+                                                            <span>適用於 白谷工房</span>
+                                                            <span class="text-gray text-sm">
+                                                                使用期限：2028/01/01 (六) 23:58
+                                                                前，專屬優惠限用 1 次
+                                                            </span>
+                                                        </div>
+                                                    </label>
+                                                    <div class="coupon-pic-shop m-auto">
+                                                        <img src="https://picsum.photos/300/200/?random=10">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li></li>
+                                        </ul>
+                                        <div class="modal-footer p-2">
+                                            <button type="button" class="btn btn-dg btn-Understood"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                確定
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!----------- 店家 ---------------->
+                    }
+                
+
+
+
+
+
+
+            </div>
+
+            <!----------- 結帳資訊 ---------------->
+            <div class="col-12 col-md-4 me-0 cart-shop-total ">
+                <div class="cart-fixed-panel-container-md">
+                    <div class="cart-fixed-panel-md ">
+                        <div class="accordion accordion-flush " id="accordion-total-detail">
+                            <div class="accordion-item">
+
+                                <div id="total-detail" class="accordion-collapse collapse"
+                                     aria-labelledby="collapsedetail" data-bs-parent="#accordion-total-detail">
+                                    <div class="total-detail-display m-2">
+                                        <div class="total-detail-price d-flex justify-content-between">
+                                            <span>總計</span>
+                                            <span>NT$ </span>
+                                        </div>
+                                        <div class="total-detail-discount d-flex justify-content-between">
+                                            <span>折抵</span>
+                                            <span>NT$</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="accordion-header d-flex justify-content-between" id="collapsedetail">
+                                    <div class="total-detail-text ">
+                                        <button class="accordion-button btn-detail-display p-2" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#total-detail"
+                                                aria-expanded="true" aria-controls="total-detail">
+                                            隱藏明細
+                                        </button>
+                                        <div class="m-2">結帳總金額 NT$</div>
+                                    </div>
+                                    <div>
+                                        <a href="/Cart/CartToCheck"></a>
+                                        <button type="button" class="btn btn-pk btn-checked m-2">前往結帳</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-fixed-panel-container sticky-top">
+                    <div class="cart-order-detail ">
+                        <p class="cart-order-detail-title p-2">訂單摘要</p>
+                        <div class="cart-fixed-panel p-2 ">
+                            <div class="total-detail-display m-2">
+                                <div class="total-detail-dprice d-flex justify-content-between">
+                                    <span>商品總計</span>
+                                    <span>NT$</span>
+                                </div>
+                                <div class="total-detail-ddiscount d-flex justify-content-between">
+                                    <span>運費</span>
+                                    <span>NT$ </span>
+                                </div>
+
+                                <!-- Button trigger modal -->
+                                <a type="" class="text-pink" data-bs-toggle="modal" data-bs-target="#discountdetail">
+                                    完整折抵細節
+                                </a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="discountdetail" data-bs-backdrop="static"
+                                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="discountdetailLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog  modal-dialog-centered ">
+                                        <div class="modal-content rounded-1">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="discountdetailLabel">完整折抵細節</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ...
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- modal end -->
+
+                                <p class="text-sm text-gray ">實際運費金額以購物車結算或是到貨時收取的金額為準。</p>
+                            </div>
+                            <span class="m-2">使用 Pinkoi 購物優惠及禮物卡</span>
+                            <div class="m-2">結帳總金額</div>
+
+                            <a href="/Cart/CartToCheck">
+                                <button type="button" class="btn btn-pk btn-checked m-2">前往結帳</button>
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        }
+
+
+
+        
+    </div>
+</main>
+
+
+@section topCSS{
+    <link href="~/css/Cart/_Cart.css" rel="stylesheet" />
+
+}
+@section topJS{
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+}
+
+@section endJS{
+
+
+}
+

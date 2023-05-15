@@ -1,0 +1,846 @@
+﻿@using System.Security.Claims
+@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Service.Interface
+@using Hatsukoi.Service;
+@inject IAccountService _getUserService
+@inject CartService _getCartService
+@inject IHomeProductFilterService _getAllCategoriesService
+
+
+@{
+    var user = _getUserService.GetUser();
+    var showAllCategories = _getAllCategoriesService.GetAllCategories();
+    int cartAmount = 0;
+    if(user != null)
+    {
+         cartAmount = _getCartService.GetCartAmount(user.Id);
+    }
+   
+}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="Hatsukoi | 設計購物網站 | Love at the first sight" />
+    <meta property="og:description" content="在 Hatsukoi 你能一眼就看見並愛上專屬於你的獨特商品，為日常的每一刻增添小驚喜、時時刻刻提醒自己是獨一無二的。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hatsukoifront.azurewebsites.net/" />
+    <meta property="og:image" content="https://hatsukoifront.azurewebsites.net/hatsukoiPics/hatsukoi_logo.svg" />
+    <title>@ViewData["Title"] - Hatsukoi</title>
+    <link rel="icon" href="~/img/hatsukoi_icon.png" type="image/png" />
+    <link href="~/css/reset.css" rel="stylesheet" />
+    <link href="~/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    <link href="~/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="~/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="~/sweetalert2/dist/sweetalert2.js"></script>
+    <script src="~/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link href="~/css/bs-hatsukoi.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/93adc92248.js" crossorigin="anonymous"></script>
+    <link href="~/css/_frontend.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+            integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+            crossorigin="anonymous"></script>
+    <script src="~/js/ckeditor.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
+    @RenderSection("topCSS",required:false)
+    @RenderSection("topJS",required:false)
+    <style>
+      
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    @*這邊是專門檢測有沒有登入成功的，等大家都成功渲染就可以把這區拆掉*@
+    @if (user != null)
+    {
+        <div class="homepage-main-header">
+            <header class="homepage-navbar navbar row navbar-expand-lg shadow-sm flex-column">
+                <input class="homepage-nav-checkbox" type="checkbox" name="" id="menu-control">
+                <div class="homepage-mainnav container-fluid">
+                    <!-- #region 手機版漢堡 -->
+                    <label for="menu-control" class="homepage-HB">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                    <!-- #endregion -->
+                    <!---------- 手機版產品分類(點漢堡會跳出的選單) -------------->
+                    <nav class="homepage-category-nav">
+                        <div class="homepage-login d-flex">
+                            <a href="@Url.Content("~/Login/logout")">登入 / 登出</a>
+                        </div>
+                        <div class="homepage-member-block ">
+                            <div class="homepage-list-title">
+                                <h2 class="m-0">我的會員帳號</h2>
+                            </div>
+                            <div class="homepage-member-account d-flex align-items-center">
+                                <div class="homepage-member-picbox">
+                                    <img src="@user.Image">
+                                </div>
+                                <div class="homepage-member-name">
+                                    <a href="@Url.Content("~/User/Index")" id="membername" class="m-0">@user.Name</a>
+                                    <a href="@Url.Content("~/User/Index")">@user.MemberLevel</a>
+                                </div>
+                            </div>
+                            <div class="list-group homepage-member-list-group">
+                                <a href="@Url.Content("~/User/Order")" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <div class="homepage-member-iconbox d-flex align-items-center">
+                                        <i class="fa-solid fa-file"></i>
+                                    </div>
+                                    <span>購買訂單</span>
+                                </a>
+                                <a href="@Url.Content("~/Chatroom/Index")" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <div class="homepage-member-iconbox d-flex align-items-center">
+                                        <i class="fa-solid fa-comment-dots"></i>
+                                    </div>
+                                    <span>我的訊息</span>
+                                </a>
+                                <a href="@Url.Content("~/Notification/Index")" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <div class="homepage-member-iconbox d-flex align-items-center">
+                                        <i class="fa-solid fa-bell"></i>
+                                    </div>
+                                    <span>通知中心</span>
+                                </a>
+                                <a href="@Url.Content("~/User/Setting")" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <div class="homepage-member-iconbox d-flex align-items-center">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <span>我的帳戶</span>
+                                </a>
+                                <a href="@Url.Content("~/User/Coupon")" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <div class="homepage-member-iconbox d-flex align-items-center">
+                                        <i class="fa-solid fa-ticket"></i>
+                                    </div>
+                                    <span>我的優惠券</span>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <div class="homepage-member-iconbox d-flex align-items-center">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </div>
+                                    <span>最近瀏覽</span>
+                                </a>
+                                <!-- 申請為賣家才有 -->
+                                @if (user.StoreStatus == Hatsukoi.Common.HatsukoiEnum.StoreStatus.Pass)
+                                {
+                                    <a href="~/seller/sellerhome" class="list-group-item list-group-item-action d-flex align-items-center">
+                                        <div class="homepage-member-iconbox d-flex align-items-center">
+                                            <i class="fa-solid fa-gear"></i>
+                                        </div>
+                                        <span>前往管理後台</span>
+                                    </a>
+                                    <a href="@Url.Content("~/Product/RediHome")" class="list-group-item list-group-item-action d-flex align-items-center">
+                                        <div class="homepage-member-iconbox d-flex align-items-center">
+                                            <i class="fa-solid fa-house"></i>
+                                        </div>
+                                        <span>前往品牌首頁</span>
+                                    </a>
+                                }
+                                @if (user.StoreStatus != Hatsukoi.Common.HatsukoiEnum.StoreStatus.Pass)
+                                {
+                                    <a href="@Url.Content("~/User/BeSeller")" class="list-group-item list-group-item-action d-flex align-items-center">
+                                        <div class="homepage-member-iconbox d-flex align-items-center">
+                                            <i class="fa-solid fa-store"></i>
+                                        </div>
+                                        <span>我想在 hatsukoi 上販售</span>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                        <div class="homepage-category-list">
+                            <div class="homepage-list-title">
+                                <h2 class="m-0">所有分類</h2>
+                            </div>
+                            <div class="homepage-category-accordion accordion accordion-flush"
+                             id="accordionFlushExample">
+                                <!-- ------------------配件飾品------------------- -->
+                                @foreach (var categories in showAllCategories)
+                                {
+                                    <div class="accordion-item" id="accordion-item-@categories.First().CategoryId">
+                                        <h3 class="accordion-header" id="flush-heading-@categories.First().CategoryId">
+                                            <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#flush-collapse-@categories.First().CategoryId"
+                                            aria-expanded="false" aria-controls="flush-collapse-@categories.First().CategoryId">
+                                                <a href="~/ProductFilter/Category?id=@categories.First().CategoryId">@categories.First().CategoryName</a>
+                                            </button>
+                                        </h3>
+                                        <div id="flush-collapse-@categories.First().CategoryId" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-heading-@categories.First().CategoryId" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <ul class="homepage-second-list p-0 m-0">
+                                                    @foreach (var subCategories in categories)
+                                                    {
+                                                        <li><a href="~/ProductFilter?id=@subCategories.SubCategoryId">@subCategories.SubCategoryName</a></li>
+
+                                                    }
+                                                    <li><a href="~/ProductFilter/Category?id=@categories.First().CategoryId">所有@(categories.First().CategoryName)</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+
+
+                            </div>
+                        </div>
+                    </nav>
+
+                    <!-------- 兩用logo ---------->
+                    <a class="homepage-navlogo navbar-brand" href="~/Home">
+                        <img src="~/hatsukoiPics/hatsukoi_logo.png" alt="logo" width="150" height="40">
+                    </a>
+
+                    <!-------- 手機版購物車 --------->
+                    <div class="homepage-login-cart">
+                        <a class="homepage-nav-link" href="@Url.Content("~/ShoppingCart")"><i class="fa-solid fa-cart-shopping"></i></a>
+                    </div>
+
+                    <!------------- 電腦版搜尋 ------------>
+                    <div class="homepage-nav-search position-relative" id="search-pc">
+                        <form v-on:submit.prevent="search" class="d-flex " role="search">
+                            <input v-on:click="visibleHandle" v-model="searchInput" class="form-control" type="search" placeholder="搜尋好設計、商品" aria-label="Search">
+                            <button class="btn btn-outline-secondary" type="submit">搜尋</button>
+                        </form>
+                        <div class="homepage-search-block" v-show="isVisible" v-cloak>
+                            <div class="search-list-group list-group position-absolute w-100">
+                                <p class="list-group-item d-flex align-items-center m-0"><i class="fa-solid fa-clock-rotate-left"></i>您曾搜尋過</p>
+                                <a :href="`/Search?keyword=${record}`" v-for="(record, index) in filteredRecs"
+                               :key="index" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                    {{ record }}
+                                    <button class="btn btn-close btn-sm" @@click="remove(index)"></button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="homepage-search-keyword" v-cloak>
+                            <ul class="p-0 m-0">
+                                <li v-for="(keyword, index) in keywords" :key="index">
+                                    <a :href="`/Search?keyword=${keyword}`">{{ keyword }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                    <!-- 桌機 優惠券和申請為賣家-->
+                    <div class="homepage-nav-items collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-1 mb-lg-0 align-items-center">
+                            @if (user.StoreStatus != Hatsukoi.Common.HatsukoiEnum.StoreStatus.Pass)
+                            {
+                                <li class="homepage-nav-item p-2">
+                                    <a class="homepage-nav-apply nav-link" href="@Url.Content("~/User/BeSeller")">我想在hatukoi上販售</a>
+                                </li>
+                            }
+                            <!-- 登出狀態下顯示登入鈕 跟tom串 -->
+                            <li class="homepage-nav-item p-2 d-none" id="homepage-login-pc">
+                                <a class="homepage-nav-apply nav-link" href="#">登入 / 註冊</a>
+                            </li>
+                            <!-- 登入後才有優惠券 -->
+                            @*<li class="homepage-nav-item p-2">
+                        <button class="nav-coupon btn btn-outline-secondary btn-sm">領取優惠券</button>
+                        </li>*@
+                        </ul>
+                    </div>
+
+                    <!-- 桌機版會員資訊 登入後才有-->
+                    <div class="homepage-nav-member-block nav-items collapse navbar-collapse"
+                     id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto ms-auto mb-2 mb-lg-0 align-items-center" id="homepage-member-ul">
+                            <li class="homepage-nav-member-item p-2">
+                                <button class="homepage-nav-memberpic position-relative" type="button">
+                                    <img src="@user.Image" id="nav-member-pic" alt="">
+
+                                    <div class="homepage-member-block dropdown-menu position-absolute end-0">
+                                        <div class="homepage-member-account d-flex align-items-center">
+                                            <div class="homepage-member-name">
+                                                <a href="@Url.Content("~/User/Index")" id="membername">@user.Name</a>
+                                                <a href="@Url.Content("~/User/Index")">@user.MemberLevel</a>
+                                            </div>
+                                        </div>
+                                        <div class="list-group homepage-member-list-group">
+                                            <a href="@Url.Content("~/User/Order")"
+                                           class="list-group-item list-group-item-action d-flex align-items-center">
+                                                <div class="homepage-member-iconbox d-flex align-items-center">
+                                                    <i class="fa-solid fa-file"></i>
+                                                </div>
+                                                <span>購買訂單</span>
+                                            </a>
+                                            <a href="@Url.Content("~/User/Setting")"
+                                           class="list-group-item list-group-item-action d-flex align-items-center">
+                                                <div class="homepage-member-iconbox d-flex align-items-center">
+                                                    <i class="fa-solid fa-user"></i>
+                                                </div>
+                                                <span>我的帳戶</span>
+                                            </a>
+                                            <a href="@Url.Content("~/User/Coupon")"
+                                           class="list-group-item list-group-item-action d-flex align-items-center">
+                                                <div class="homepage-member-iconbox d-flex align-items-center">
+                                                    <i class="fa-solid fa-ticket"></i>
+                                                </div>
+                                                <span>我的優惠券</span>
+                                            </a>
+                                            <a href="#"
+                                           class="list-group-item list-group-item-action d-flex align-items-center">
+                                                <div class="homepage-member-iconbox d-flex align-items-center">
+                                                    <i class="fa-solid fa-clock"></i>
+                                                </div>
+                                                <span>最近瀏覽</span>
+                                            </a>
+                                            @if (user.StoreStatus == Hatsukoi.Common.HatsukoiEnum.StoreStatus.Pass)
+                                            {
+                                                <a href="~/seller/sellerhome"
+                                           class="list-group-item list-group-item-action d-flex align-items-center">
+                                                    <div class="homepage-member-iconbox d-flex align-items-center">
+                                                        <i class="fa-solid fa-gear"></i>
+                                                    </div>
+                                                    <span>前往管理後台</span>
+                                                </a>
+                                                <a href="@Url.Content("~/Product/RediHome")"
+                                           class="list-group-item list-group-item-action d-flex align-items-center">
+                                                    <div class="homepage-member-iconbox d-flex align-items-center">
+                                                        <i class="fa-solid fa-house"></i>
+                                                    </div>
+                                                    <span>前往品牌首頁</span>
+                                                </a>
+                                            }
+                                            <div class="homepage-member-logout d-flex justify-content-center">
+                                                <a href="@Url.Content("~/Login/logout")" id="homepage-member-logout-pc">登出</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+
+                            </li>
+                            <!-- 喜歡清單 -->
+                            <li class="homepage-nav-member-item p-1">
+                                <div class="homepage-nav-likelist">
+                                    <a class="nav-link position-relative" href="@Url.Content("~/MyFavorite")">
+                                        <i class="fa-solid fa-heart"></i>
+                                    </a>
+
+                                </div>
+                            </li>
+                            <!-- 聊天室 -->
+                            <li class="homepage-nav-member-item p-1">
+                                <div class="homepage-nav-msg">
+                                    <a class="nav-link position-relative" href="@Url.Content("~/Chatroom/Index")">
+                                        <i class="fa-solid fa-comment-dots"></i>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" id="countRead">
+                                            0
+                                        </span>
+                                    </a>
+                                </div>
+                            </li>
+                            <!-- 通知中心 -->
+                            <li class="homepage-nav-member-item p-1">
+                                <div class="homepage-nav-notify">
+                                    <a class="nav-link position-relative" href="@Url.Content("~/Notification/Index")">
+                                        <i class="fa-solid fa-bell"></i>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" id="notiCountRead">
+                                            0
+                                        </span>
+                                    </a>
+                                </div>
+                            </li>
+                            <!-- 購物車 -->
+                            <li class="homepage-nav-member-item p-1">
+                                <div class="homepage-nav-cart">
+                                    <a class="nav-link position-relative" href="@Url.Content("~/ShoppingCart")">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                        @if(cartAmount > 0)
+                                        {
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCountRead">@cartAmount</span>
+                                        }else{
+
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" id="cartCountRead">@cartAmount</span>
+                                        }
+                                        
+                                        </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!----------- 手機版搜尋 -------------->
+                <div class="homepage-nav-search position-relative" v-cloak id="search-phone">
+                    <form v-on:submit.prevent="search" class="d-flex " role="search">
+                        <input v-on:click="visibleHandle" v-model="searchInput" class="form-control" type="search" placeholder="搜尋好設計、商品" aria-label="Search">
+                        <button class="btn btn-outline-secondary" type="submit">搜尋</button>
+                    </form>
+                    <div class="homepage-search-block" v-show="isVisible" v-cloak>
+                        <div class="search-list-group list-group position-absolute w-100">
+                            <p class="list-group-item d-flex align-items-center m-0"><i class="fa-solid fa-clock-rotate-left"></i>您曾搜尋過</p>
+                            <a :href="`/Search?keyword=${record}`" v-for="(record, index) in filteredRecs"
+                           :key="index" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                {{ record }}
+                                <button class="btn btn-close btn-sm" @@click="remove(index)"></button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="homepage-search-keyword" v-cloak>
+                        <ul class="p-0 m-0">
+                            <li v-for="(keyword, index) in keywords" :key="index">
+                                <a :href="`/Search?keyword=${keyword}`">{{ keyword }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 桌機版產品分類nav -->
+                <nav class="homepage-category-nav-pc">
+                    <ul class="homepage-category-navlist-pc p-0 m-0">
+                        @foreach (var categories in showAllCategories)
+                        {
+                            <li>
+                                <div class="category-title-pc">
+                                    <a href="~/ProductFilter/Category?id=@categories.First().CategoryId" id="main-title-pc">@categories.First().CategoryName</a>
+                                </div>
+
+                                <ul class="category-second-list-pc p-0 m-0">
+                                    @foreach (var subCategories in categories)
+                                    {
+                                        <li><a href="~/ProductFilter?id=@subCategories.SubCategoryId">@subCategories.SubCategoryName</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+                </nav>
+            </header>
+        </div>
+    }
+    else
+    {
+        <div class="homepage-main-header">
+            <header class="homepage-navbar navbar row navbar-expand-lg shadow-sm flex-column">
+                <input class="homepage-nav-checkbox" type="checkbox" name="" id="menu-control">
+                <div class="homepage-mainnav container-fluid">
+                    <!-- #region 手機版漢堡 -->
+                    <label for="menu-control" class="homepage-HB">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                    <!-- #endregion -->
+                    <!---------- 手機版產品分類(點漢堡會跳出的選單) -------------->
+                    <nav class="homepage-category-nav">
+                        <div class="homepage-login d-flex">
+                            <a href="#" id="openFirst">登入 / 註冊</a>
+                        </div>
+
+                        <div class="homepage-category-list">
+                            <div class="homepage-list-title">
+                                <h2 class="m-0">所有分類</h2>
+                            </div>
+                            <div class="homepage-category-accordion accordion accordion-flush"
+                             id="accordionFlushExample">
+                                <!-- ------------------配件飾品------------------- -->
+                                @foreach (var categories in showAllCategories)
+                                {
+                                    <div class="accordion-item" id="accordion-item-@categories.First().CategoryId">
+                                        <h3 class="accordion-header" id="flush-heading-@categories.First().CategoryId">
+                                            <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#flush-collapse-@categories.First().CategoryId"
+                                            aria-expanded="false" aria-controls="flush-collapse-@categories.First().CategoryId">
+                                                <a href="~/ProductFilter/Category/@categories.First().CategoryId">@categories.First().CategoryName</a>
+                                            </button>
+                                        </h3>
+                                        <div id="flush-collapse-@categories.First().CategoryId" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-heading-@categories.First().CategoryId" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <ul class="homepage-second-list p-0 m-0">
+                                                    @foreach (var subCategories in categories)
+                                                    {
+                                                        <li><a href="~/ProductFilter?id=@subCategories.SubCategoryId">@subCategories.SubCategoryName</a></li>
+
+                                                    }
+                                                    <li><a href="~/ProductFilter/Category?id=@categories.First().CategoryId">所有@(categories.First().CategoryName)</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+
+                            </div>
+                        </div>
+                    </nav>
+
+                    <!-------- 兩用logo ---------->
+                    <a class="homepage-navlogo navbar-brand" href="~/Home">
+                        <img src="~/hatsukoiPics/hatsukoi_logo.png" alt="logo" width="150" height="40">
+                    </a>
+
+                    <!-------- 手機版購物車 --------->
+                    <div class="homepage-login-cart">
+                        <a class="homepage-nav-link" href="#" id="openFirst1"><i class="fa-solid fa-cart-shopping"></i></a>
+                    </div>
+
+                    <!------------- 電腦版搜尋 ------------>
+                    <div class="homepage-nav-search position-relative" id="search-pc">
+                        <form v-on:submit.prevent="search" class="d-flex " role="search">
+                            <input v-on:click="visibleHandle" v-model="searchInput" class="form-control" type="search" placeholder="搜尋好設計、商品" aria-label="Search">
+                            <button class="btn btn-outline-secondary" type="submit">搜尋</button>
+                        </form>
+                        <div class="homepage-search-block" v-show="isVisible" v-cloak>
+                            <div class="search-list-group list-group position-absolute w-100">
+                                <p class="list-group-item d-flex align-items-center m-0"><i class="fa-solid fa-clock-rotate-left"></i>您曾搜尋過</p>
+                                <a :href="`/Search?keyword=${record}`" v-for="(record, index) in filteredRecs"
+                               :key="index" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                    {{ record }}
+                                    <button class="btn btn-close btn-sm" @@click="remove(index)"></button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="homepage-search-keyword" v-cloak>
+                            <ul class="p-0 m-0">
+                                <li v-for="(keyword, index) in keywords" :key="index">
+                                    <a :href="`/Search?keyword=${keyword}`">{{ keyword }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <!-- 桌機 優惠券和申請為賣家-->
+                    <div class="homepage-nav-items collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-1 mb-lg-0 align-items-center">
+                            <li class="homepage-nav-item p-2">
+                                <a class="homepage-nav-apply nav-link" href="#" id="openFirst4">我想在hatukoi上販售</a>
+                            </li>
+                            <!-- 登出狀態下顯示登入鈕 跟tom串 -->
+                            <li class="homepage-nav-item p-2" id="homepage-login-pc">
+                                <a class="homepage-nav-apply nav-link" href="#" id="openFirst2">登入 / 註冊</a>
+                            </li>
+                            <li class="homepage-nav-item p-2">
+                                <div class="homepage-nav-cart">
+                                    <a class="nav-link" href="#" id="openFirst3"><i class="fa-solid fa-cart-shopping"></i></a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+                </div>
+
+                <!----------- 手機版搜尋 -------------->
+                <div class="homepage-nav-search position-relative" v-cloak id="search-phone">
+                    <form v-on:submit.prevent="search" class="d-flex " role="search">
+                        <input v-on:click="visibleHandle" v-model="searchInput" class="form-control" type="search" placeholder="搜尋好設計、商品" aria-label="Search">
+                        <button class="btn btn-outline-secondary" type="submit">搜尋</button>
+                    </form>
+                    <div class="homepage-search-block" v-show="isVisible" v-cloak>
+                        <div class="search-list-group list-group position-absolute w-100">
+                            <p class="list-group-item d-flex align-items-center m-0"><i class="fa-solid fa-clock-rotate-left"></i>您曾搜尋過</p>
+                            <a :href="`/Search?keyword=${record}`" v-for="(record, index) in filteredRecs"
+                           :key="index" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                {{ record }}
+                                <button class="btn btn-close btn-sm" @@click="remove(index)"></button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="homepage-search-keyword" v-cloak>
+                        <ul class="p-0 m-0">
+                            <li v-for="(keyword, index) in keywords" :key="index">
+                                <a :href="`/Search?keyword=${keyword}`">{{ keyword }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 桌機版產品分類nav -->
+                <nav class="homepage-category-nav-pc">
+                    <ul class="homepage-category-navlist-pc p-0 m-0">
+                        @foreach (var categories in showAllCategories)
+                        {
+                            <li>
+                                <div class="category-title-pc">
+                                    <a href="~/ProductFilter/Category?id=@categories.First().CategoryId" id="main-title-pc">@categories.First().CategoryName</a>
+                                </div>
+
+                                <ul class="category-second-list-pc p-0 m-0">
+                                    @foreach (var subCategories in categories)
+                                    {
+                                        <li><a href="~/ProductFilter?id=@subCategories.SubCategoryId">@subCategories.SubCategoryName</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+                </nav>
+            </header>
+        </div>
+    }
+
+    @RenderBody()
+
+    <!-- footer -->
+    <footer class="homepage-footer">
+        <div class="homepage-footer-container">
+            <div class="homepage-footer-maininfo">
+                <div class="homepage-footer-row row">
+                    <div class="homepage-footer-wrap col-6 col-md-6 col-lg-2">
+                        <div class="homepage-footer-title">
+                            <p>探索好設計</p>
+                        </div>
+                        <ul class="p-0 m-0">
+                            <li><a href="#">所有商品分類</a></li>
+                            <li><a href="#">設計誌</a></li>
+                            <li><a href="#">跨館合併結帳專區</a></li>
+                            <li><a href="#">Hatsukoi 禮物卡</a></li>
+                            <li><a href="#">找靈感</a></li>
+                            <li><a href="#">逛櫥窗</a></li>
+                        </ul>
+                    </div>
+                    <div class="homepage-footer-wrap col-6 col-md-6 col-lg-2">
+                        <div class="homepage-footer-title">
+                            <p>販售</p>
+                        </div>
+                        <ul class="p-0 m-0">
+                            @if (user == null)
+                            {
+                                <li><a href="#" id="openFirst5">我想在 hatsukoi 上販售</a></li>
+                            }
+                            else if (user.StoreStatus != Hatsukoi.Common.HatsukoiEnum.StoreStatus.Pass)
+                            {
+                                <li><a href="@Url.Content("~/User/BeSeller")">我想在 hatsukoi 上販售</a></li>
+                            }
+                            else
+                            {
+                            }
+                            <li><a href="#">設計館問與答</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="homepage-footer-wrap col-6 col-md-6 col-lg-2">
+                        <div class="homepage-footer-title">
+                            <p>幫助與政策</p>
+                        </div>
+                        <ul class="p-0 m-0">
+                            <li><a href="#">問與答</a></li>
+                            <li><a href="#">大宗採購</a></li>
+                            <li><a href="#">訊息公告</a></li>
+                            <li><a href="#">服務條款</a></li>
+                            <li><a href="#">退貨政策</a></li>
+                            <li><a href="#">會員制度回饋計畫</a></li>
+                        </ul>
+                    </div>
+                    <div class="homepage-footer-wrap col-6 col-md-6 col-lg-2">
+                        <div class="homepage-footer-title">
+                            <p>認識 hatsukoi</p>
+                        </div>
+                        <ul class="p-0 m-0">
+                            <li><a href="#">關於我們</a></li>
+                            <li><a href="#">媒體報導</a></li>
+                            <li><a href="#">全新 hatsukoi</a></li>
+                            <li><a href="#">人才招募</a></li>
+                            <li><a href="#">Hatsukoi for Business</a></li>
+                        </ul>
+                    </div>
+                    <div class="homepage-footer-wrap col-12 col-md-12 col-lg-4">
+                        <div class="homepage-social-media">
+                            <div class="homepage-footer-title">
+                                <p>追蹤 Hatsukoi</p>
+                            </div>
+                            <ul class="homepage-social-icon m-0 p-0">
+                                <div class="homepage-icon-box">
+                                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                        </div>
+                        <div class="homepage-icon-box">
+                            <li><a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=064figfy"><i class="fa-brands fa-line"></i></a></li>
+                        </div>
+                        <div class="homepage-icon-box">
+                            <li><a href="#"><i class="fa-brands fa-square-facebook"></i></a></li>
+                        </div>
+                        <div class="homepage-icon-box">
+                            <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+                        </div>
+                        <div class="homepage-icon-box">
+                            <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+                        </div>
+                        <div class="homepage-icon-box">
+                            <li><a href="#"><i class="fa-brands fa-tiktok"></i></a></li>
+                        </div>
+                        </ul>
+                    </div>
+                    <div class="homepage-app">
+                        <div class="homepage-footer-title">
+                            <p>隨時掌握最新好設計</p>
+                        </div>
+                        <div class="homepage-qrcode d-flex align-items-center">
+                            <a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=064figfy" type="button" class="btn btn-outline-secondary m-0">
+                                <div class="homepage-brand-iconbox">
+                                    <img src="~/hatsukoiPics/hatsukoi_icon.svg" alt="icon">
+                                </div>
+                                <p class="m-0">加入Hatsukoi官方Line</p>
+                            </a>
+                            <div class="homepage-qrcode-box">
+                                <img src="~/hatsukoiPics/qrcode.jpg" alt="qrcode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="homepage-footer-line"></div>
+        <div class="homepage-copyright">
+            <div class="homepage-copyright-row row" id="row-copyright">
+                <div class="homepage-copyright-slogan col-12 col-md-12 col-lg-6">
+                    <div class="homepage-copyright-logo">
+                        <a href="~/Home"><img src="~/hatsukoiPics/hatsukoi_logo.svg" alt=""></a>
+                    </div>
+                    <p class="m-0">Love at the first sight.</p>
+                </div>
+                <div class="homepage-copyright-text col-12 col-md-12 col-lg-6">
+                    <span>© 2023 hatsukoi. All Rights Reserved.</span>
+                    <div class="homepage-lang d-flex">
+                        <span><i class="fa-solid fa-globe"></i></span>
+                        <select name="homepage-lang-selector" id="lang-select">
+                            <option value="">中文</option>
+                            <option value="">English</option>
+                            <option value="">日本語</option>
+                            <option value="">한국어</option>
+                            <option value="">Bahasa Melayu</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div id="ViewComponentLogin"></div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/header/header.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    @RenderSection("endCSS",required:false)
+    @RenderSection("endJS",required:false)
+    <script>
+        let countRead = document.getElementById('countRead')
+        let notiCountRead = document.getElementById('notiCountRead')
+        
+
+        let mainLoginModal
+        let applyModal
+        let normalLoginModal
+        let setPasswordModal
+        let resendModal
+        let createNewUserModal
+        let infoModal
+
+        let emailInput
+        let accountInput
+        let passwordInput
+        let sendPasswordInput
+        let resendPasswordInput
+        let account1Input
+        let password1Input
+        let email1Input
+
+        let applyBtn
+        let loginBtn
+        let sendvalidateBtn
+        let normalLoginBtn
+        let seePasswordBtn
+        let setPasswordSendBtn
+        let resetPasswordBtn
+        let setPasswordResendBtn
+        let resetEmailBtn
+        let createNewUserBtn
+        let seepasswordBtn2
+        let myInputArr
+        let infoBtn
+
+        let Year
+        let Month
+        let Day
+        let boy
+        let girl
+        let gender
+
+        let register
+        let registerInfo
+        let resendEmail
+        let showEmail
+        let rePwd
+
+        let normalloginbtn
+        $('#openFirst').click(function () {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        })
+        $('#openFirst1').click(function () {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        })
+        $('#openFirst2').click(function () {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        })
+        $('#openFirst3').click(function () {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        })
+        $('#openFirst4').click(function () {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        })
+        $('#openFirst5').click(function () {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        })
+        $('#openFirst6').click(function () {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        })
+        $('#openFirst7').click(function () {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        })
+        function openLoginModal() {
+            $('#ViewComponentLogin').load("@Url.Action("OpenLoginModal","Login")")
+        }
+        let connection = new signalR.HubConnectionBuilder().withUrl('/Chathub').build()
+        connection.start()
+        connection.on('getUser', function (readNum) {
+            countRead.innerHTML = readNum
+            if (readNum != 0) {
+                countRead.classList.remove('d-none')
+            }
+        })
+        connection.on('getNoti', function (readNum) {
+            notiCountRead.innerHTML = readNum
+            if (readNum != 0) {
+                notiCountRead.classList.remove('d-none')
+            }
+        })
+        connection.on('userLayout', function (user) {
+            countRead.classList.remove('d-none')
+            let num = parseInt(countRead.innerHTML, 10) + 1
+            countRead.innerHTML = num
+        })
+        connection.on('userLayoutNoti', function (user) {
+            notiCountRead.classList.remove('d-none')
+            let num = parseInt(notiCountRead.innerHTML, 10) + 1
+            notiCountRead.innerHTML = num
+        })
+        connection.on('CenterSend', function (user) {
+            notiCountRead.classList.remove('d-none')
+            let num = parseInt(notiCountRead.innerHTML, 10) + 1
+            notiCountRead.innerHTML = num
+        })
+        
+        
+    </script>
+</body>
+</html>

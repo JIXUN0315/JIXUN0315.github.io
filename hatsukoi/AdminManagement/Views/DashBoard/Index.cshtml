@@ -1,0 +1,419 @@
+﻿<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row mb-3">
+        <!-- 營業額(蕭) -->
+        <div class="col-xl-6 col-lg-6" id="revenue" v-cloak>
+            <div class="row">
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-6 col-lg-6">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        今年累積營業額
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ revenueData.yearTotalRevenue }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-6 col-lg-6">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        本月營業額
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ revenueData.monthTotalRevenue }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 會員(yui) -->
+        <div class="col-xl-6 col-lg-6" id="UserCount" v-cloak>
+            <div class="row">
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-6 col-lg-6" >
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                        目前累積會員數
+                                    </div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <!-- 會員數 數字-->
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{userData.memberCount}}</div>
+                                        </div>
+                                        @*<div class="col">
+                                            <div class="progress progress-sm mr-2">
+                                                <!-- 會員數 拉霸-->
+                                                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Requests Card Example -->
+                <div class="col-xl-6 col-lg-6">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        目前累積賣家數
+                                    </div>
+                                    <!-- 賣家數 數字-->
+                                    <div class="d-flex ">
+
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{userData.sellerCount}} </div>
+                                       @* <span class="fs-6 text-gray">人</span>*@
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row d-flex align-items-stretch">
+
+        <!--  Chart -->
+        <div class="col-xl-6 col-lg-6" id="category-app" v-cloak>
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">當月各類別營業額</h6>
+                    <div class="dropdown no-arrow">
+                        
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <canvas id="category-chart" width="920" height="459"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 今年會員及賣家 -Chart -->
+        <div class="col-xl-6 col-lg-6" >
+            <div class="card shadow mb-4" >
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">今年會員及賣家新增數量</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <canvas id="increased-Chart" style="display: block; height: 204px; width: 409px;" width="920" height="459" :busy="isbusy">
+                        <div v-if="isbusy" class="spinner-border text-secondary" role="status" id="spinner" v-cloak>
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </canvas>
+                    <div class="chart ">
+                        
+                        
+                        @*<canvas id="increased-Chart" style="display: block; height: 245px; width: 584px;" width="730" height="306" class="chartjs-render-monitor"></canvas>*@
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <!--  Chart -->
+        <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">每月營業額</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">                    
+                    <div class="revenue-chart-area">
+                        <canvas id="revenue-chart" v-cloak></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section topCSS{
+    <link href="~/css/dashboard.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/js/dashboard.js"></script>
+
+    <script>
+        var revenueApp = new Vue({
+            el: '#revenue',
+            data: {
+                revenue: {
+                    currentYear: new Date().getFullYear(),
+                    currentMonth: new Date().getMonth() + 1
+                },
+                revenueData: {
+                    monthTotalRevenue: 0,
+                    yearTotalRevenue: 0
+                }
+            },
+            created() {
+                this.getRevenue();
+            },
+            methods: {
+                getRevenue() {
+                    axios.get('/api/DashBoard/GetRevenue', {
+                        params: {
+                            year: this.revenue.currentYear,
+                            month: this.revenue.currentMonth
+                        }
+                    }).then((response) => {
+                        this.revenueData = response.data;
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }
+            }
+        });
+
+        var UserCount = new Vue({
+            el: '#UserCount',
+            data:{
+                userData:{
+                    memberCount:0,
+                    sellerCount:0,
+                }
+            },
+            created(){
+                this.getUserCount()
+            },
+            methods:{
+                getUserCount() {
+                    axios.get('/api/DashBoard/GetUserCount')
+                    .then((res) => {
+                            this.userData = res.data.body;
+                            console.log(this.userCount)
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }
+            }
+
+        });
+
+        var revenueChartApp = new Vue({
+            el: '#revenue-chart',
+            data: {
+                revenueData: [],
+                currentYear: new Date().getFullYear(),
+                lastYearRevenueData: []
+            },
+            created() {
+                this.getRevenueData();
+                this.getLastYearRevenueData();
+            },
+            methods: {
+                getRevenueData() {
+                    axios.get('/api/Dashboard/GetRevenueByMonth', {
+                        params: {
+                            year: this.currentYear
+                        }
+                    }).then((response) => {
+                        this.revenueData = response.data;
+                        this.renderChart();
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                },
+                getLastYearRevenueData() {
+                    axios.get('/api/Dashboard/GetRevenueByMonth', {
+                        params: {
+                            year: this.currentYear - 1
+                        }
+                    }).then((response) => {
+                        this.lastYearRevenueData = response.data;
+                        this.renderChart();
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                },
+                renderChart() {
+                    var ctx = document.getElementById('revenue-chart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: this.revenueData.map((data) => {
+                                return `${data.month}月`;
+                            }),
+                            datasets: [{
+                                label: `${this.currentYear}年每月業績`,
+                                data: this.revenueData.map((data) => {
+                                    return data.monthTotalRevenue;
+                                }),
+                                backgroundColor: 'rgba(122, 165, 205, 0.5)',
+                                borderColor: 'rgba(139, 161, 192, 1)',
+                                borderWidth: 2
+                            },{
+                                label: `${this.currentYear - 1}年每月業績`,
+                                data: this.lastYearRevenueData.map((data) => {
+                                    return data.monthTotalRevenue;
+                                }),
+                                backgroundColor: 'rgba(223, 176, 205, 0.5)',
+                                borderColor: 'rgba(183, 130, 162, 1)',
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+
+        var userChartApp = new Vue({
+            el: '#increased-Chart',
+            data: {
+                memberData: [],
+                sellerData:[],
+                currentYear: new Date().getFullYear(),
+                isbusy:false,
+            },
+            created() {
+                this.getData();
+            },
+            methods: {
+                getData() {
+                    this.isbusy = true
+                    axios.get('/api/Dashboard/GetIncreasedUserData', {
+                        params: {
+                            year: new Date().getFullYear()
+                        }
+                    })
+                    .then(res => {
+                            this.memberData = res.data.body.memberData;
+                            this.sellerData = res.data.body.sellerData;
+                            //console.log(this.memberData)
+                            //console.log(this.sellerData)
+                            this.isbusy = false; // 隐藏等待页面
+                            this.renderChart();
+                    })
+                    .catch(error => {
+                            this.isbusy = false; // 隐藏等待页面
+                            console.log(error);
+                    });
+                },
+                renderChart() {
+                    var ctx = document.getElementById('increased-Chart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                            datasets: [
+                                {
+                                    label: '會員成長人數',
+                                    data: this.memberData.map(data => data.monthMemberCount),
+                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '賣家成長人數',
+                                    data: this.sellerData.map(data => data.monthSellerCount),
+                                    backgroundColor: 'rgba(255, 196,142, 0.5)',
+                                    borderColor: 'rgba(255, 196,142, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        //y軸的刻度從0開始顯示
+                                        beginAtZero: true,
+                                        //每個刻度之間的間隔
+                                        stepSize: 10,
+                                        //如果要更改y軸的單位為千，您可以將stepSize設置為1000，並在callback函數中將每個刻度標籤除以1000 :k。
+                                        //目前單位為 一人
+                                        callback: function (value, index, values) {
+                                            return value / 1 + '人';
+                                        }
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+}

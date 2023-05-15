@@ -1,0 +1,358 @@
+﻿@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Service;
+@model Hatsukoi.Models.ViewModels.FavorViewModel;
+
+
+@{
+    //var favProductList = ViewData["favProductList"];
+    var favProduct = Model.FavProducts;
+    
+    var favShop = Model.FavShops;
+    //var favShopList = ViewData["favShopList"] ;
+    //var sellerImg = ViewData["sellerImg"];
+    ViewData["Title"] = "喜好清單";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    
+}
+
+<!-- 沒有商品的畫面------ -->
+<div class="container fav-container">
+    <div class="row ">
+        <h2 class="text-darkgray fw-bolder p-2 fs-4">喜歡清單</h2>
+
+        <!-- 手機搜鈕 -->
+        <div class="pf-side-sm">
+           @* <!-- 篩選商品處 -->
+            <button class="btn btn-pink-outline btn-filter w-25" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                篩選
+            </button>
+
+            <!-- 手機版篩選列收合 -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+                 aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <!-- <h2 class="offcanvas-title" id="offcanvasRightLabel"></h2> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+
+                    <div class="pf-filter">
+                        <h2 class="text-pink fw-bolder fs-6 py-2">篩選</h2>
+                        <!-- 篩選選項 -->
+                        <div class="pf-filter-option">
+                            <div class="pf-filter-selections ">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="flexRadioDefault"
+                                           id="flexRadioDefault1">
+                                    <label class="form-check-label text-darkgray " for="flexRadioDefault1">
+                                        只顯示免運商品
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="flexRadioDefault"
+                                           id="flexRadioDefault2">
+                                    <label class="form-check-label text-darkgray " for="flexRadioDefault2">
+                                        只顯示折扣商品
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="flexRadioDefault"
+                                           id="flexRadioDefault2">
+                                    <label class="form-check-label text-darkgray " for="flexRadioDefault3">
+                                        只顯示可客製化商品
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- 手機搜尋列的商品分類 -->
+                        <div class="pf-category">
+                            <span class="ttext-pink fw-bolder">商品分類</span>
+
+                            <ul class="pf-category-list">
+                                <li class="py-1">
+                                    <a href="#" class="text-darkgray ">
+                                        居家生活<span class="count">(10) </span>
+                                    </a>
+                                </li>
+                                <li class="py-1"><a href="#" class="text-darkgray ">文具卡片</a></li>
+                                <li class="py-1"><a href="#" class="text-darkgray ">配件飾品</a></li>
+                                <li class="py-1"><a href="#" class="text-darkgray ">包包提袋</a></li>
+                                <li class="py-1"><a href="#" class="text-darkgray ">衣著良品</a></li>
+                            </ul>
+                        </div>
+                        <!-- ----------------- -->
+
+                    </div>
+                </div>
+            </div>*@
+        </div>
+
+
+        <!-- ----------------- -->
+        <nav class="fav-navtabs">
+            <ul class="nav nav-tabs " id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="favProduct-tab" data-bs-toggle="tab"
+                            data-bs-target="#favProduct-tab-pane" type="button" role="tab"
+                            aria-controls="favProduct-tab-pane" aria-selected="true">
+                        所有收藏
+                        &ensp;<span class="badge my-auto">@favProduct.Count</span>
+                    </button>
+                </li>
+                <li class="nav-item " role="presentation">
+                    <button class="nav-link d-flex" id="favShop-tab" data-bs-toggle="tab"
+                            data-bs-target="#favShop-tab-pane" type="button" role="tab" aria-controls="favShop-tab-pane"
+                            aria-selected="false">
+                        關注的設計館
+                        &ensp;<span class="badge my-auto">@favShop.Count</span>
+                        
+
+                    </button>
+                </li>
+
+            </ul>
+        </nav>
+
+        <div class="d-flex">
+            
+            <div class="tab-content col-12 col-md-12" id="myTabContent">
+                <div class="tab-pane fade show active" id="favProduct-tab-pane" role="tabpanel"
+                     aria-labelledby="favProduct-tab" tabindex="0">
+                    <div class="">
+
+                        <div class="pf-filter-info d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-darkgray fw-bolder p-2">所有收藏</span>
+                            </div>
+                           
+                        </div>
+
+                       
+                        <!-- 商品卡片清單 -->
+                        <div class="row productlist  flex-wrap m-0">
+                            @if (favProduct.Count() == 0)
+                            {
+                                <div class="no-product w-50 m-auto col-12">
+                                    <img src="~/image/order_v2.png" alt="">
+                                </div>
+                            }
+                            else
+                            {
+                                @foreach (var fproduct in favProduct)
+                                {
+                                    if(fproduct.ProductStatus == 2)
+                                    {
+                                        <!-- 商品卡片 -->
+                                        <div class="pf-products-col col-6 col-md-3  products-col ">
+                                            <div class="pf-products-card products-card">
+                                                <div class="pf-products-pic position-relative products-pic">
+                                                    <!-- Button trigger modal 加入喜歡清單鈕 -->
+                                                        <button type="button" onclick="addFavProduct(@fproduct.ProductId)" class="btn text-gray position-absolute bottom-0 end-0"
+                                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </button>
+                                                    <!-- 優惠券 -->
+                                                    @*<div class="product-badge position-absolute top-0 start-0">9 折</div>*@
+                                                        <a href="~/Product/Id/@fproduct.ProductId"><img src="@fproduct.ProductImg"></a>
+
+                                                
+                                                </div>
+                                                <div class="pf-products-text products-text">
+                                                        <h5><a href="~/Product/Id/@fproduct.ProductId">@fproduct.ProductName</a></h5>
+                                                </div>
+                                                <div class="pf-product-price product-price">
+                                                        <p>NT$ @fproduct.ProductPrice</p>
+                                                </div>
+                                                    <!-- Button  加入購物車鈕 -->
+                                                   @* <button onclick="AddCart(@fproduct.ProductId)" class="btn cart-icon">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </button>*@
+                                            </div>
+                                        </div>
+                                    }
+                                    
+                                }
+                            }
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="favShop-tab-pane" role="tabpanel" aria-labelledby="favShop-tab"
+                     tabindex="0">
+                    <div class="">
+
+
+                        <div class="pf-filter-info d-flex justify-content-between">
+                            <div class="input-group w-50 input-search ms-3">
+                                <input type="text" class="form-control" placeholder=""
+                                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+
+                           
+
+                        </div>
+
+                        @if (favShop.Count() == 0)
+                            {
+                                <div class="no-product w-50 m-auto col-12">
+                                    <img src="~/image/order_v2.png" alt="">
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var fshop in favShop)
+                            {
+                                <!-- 店家卡片 -->
+                                <div class="col-12 store-main d-flex align-items-center justify-content-center flex-wrap my-2 p-2">
+                                    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center order-2 order-md-1 ">
+                                        <div class="store-icon p-2">
+                                            <a href="~/Shop?id=@fshop.SellerId"><img src="@fshop.SellerLogo" alt="logo" /></a>
+
+                                        </div>
+                                        <div class="store-info p-2">
+                                            <div class="store-name p-1">
+                                                <a href="~/Shop?id=@fshop.SellerId">@fshop.ShopName</a>
+
+                                            </div>
+                                            <div class="store-detail p-1">
+                                                <div class="store-country d-flex">
+                                                    <i class="fa-solid fa-location-dot p-1"></i>
+                                                    <p>台灣</p>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 d-flex justify-content-center border-1 border-md-2">
+                                        <div class="product-pic m-1">
+                                            <img src="@fshop.ProductImgs[0]">
+                                        </div>
+                                        <div class="product-pic m-1">
+                                            <img src="@fshop.ProductImgs[1]">
+                                        </div>
+                                        <div class="product-pic m-1">
+                                            <img src="@fshop.ProductImgs[2]">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                            }
+                        }
+                            
+                        
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+
+@section topCSS{
+    
+    <link href="~/css/favlist/_Fav.css" rel="stylesheet" />
+}
+
+
+<script>
+
+  
+        function addFavProduct(productId) {
+            $.ajax({
+                url: '@Url.Action("AddfavProduct","Favlist")',
+                type: 'POST',
+                data: {
+
+                    productId: productId,
+                },
+        success: function (json) {
+            
+            let result = json
+            
+            if (result.isCreate == "已將此商品加入喜歡清單") {
+
+                Toast.fire(result.isCreate);
+            }
+            else {
+
+                Toast.fire(result.isCreate);
+                        window.location.href = "/Favlist/Index"
+            }
+        }
+            })
+        }
+
+   
+        function AddfavShop() {
+            $.ajax({
+                url: '@Url.Action("AddfavShop","Favlist")',
+                type: 'POST',
+                data: {
+    
+                sellerId: 2,
+                },
+        success: function (json) {
+            let result = json
+            if (result.isCreate == "已將此商品加入喜歡清單") {
+
+                Toast.fire(result.isCreate);
+            }
+            else {
+
+                Toast.fire(result.isCreate);
+            }
+
+        }
+            })
+        }
+
+
+    function AddCart(productId) {
+       
+
+        $.ajax({
+            url: '@Url.Action("AddCart","Cart")',
+            type: 'POST',
+            data: {
+                ProductId: productId
+            },
+            success: function (json) {
+                let result = json
+                console.log(123)
+                if (result.isCreate == "save") {
+                    console.log(result.isCreate);
+                    window.location.href = "/Favlist/Index"
+                }
+                else {
+
+                    console.log(result.isCreate);
+                    window.location.href = "/Favlist/Index"
+                }
+            },
+            error: function (err) { 
+                console.log(err) 
+            }
+        })
+    }
+
+
+</script>
+

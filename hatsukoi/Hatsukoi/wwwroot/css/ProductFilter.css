@@ -1,0 +1,188 @@
+﻿.pf-container {
+    list-style: none;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: auto;
+    padding-top: 180px;
+}
+
+
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+
+.pf-container a {
+    color: var(--dark-gray);
+    text-decoration: none;
+}
+
+    .pf-container a:hover {
+        color: var(--peach-pink);
+    }
+
+.pf-container-btn {
+    font-size: 14px;
+    border: 2px solid var(--main-pink);
+    background-color: var(--light-pink);
+    color: var(--main-pink);
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px 5px 5px 5px;
+}
+
+    .pf-container-btn:hover {
+        border: 2px solid var(--light-gray);
+        background-color: var(--light-pink);
+        color: var(--light-gray);
+    }
+
+/* 麵包屑 */
+.pf-breadcrumb .breadcrumb {
+    font-size: 14px;
+}
+
+/* 篩選商品處 */
+
+.pf-product-filter {
+    display: none;
+}
+
+.pf-filter-block {
+    padding-bottom: 20px;
+}
+
+.btn-filter {
+    width: 100px;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.pf-category-list {
+    padding-left: 0;
+}
+
+.pf-product-filter h2, .pf-product-filter h3,
+.offcanvas h2, .offcanvas h3 {
+    font-weight: bold;
+    padding: 10px 0;
+}
+
+.pf-product-filter h2,
+.offcanvas-body h2 {
+    font-size: 20px;
+    color: var(--main-pink);
+}
+
+.pf-product-filter h3,
+.offcanvas-body h3 {
+    font-size: 18px;
+    color: var(--dark-gray);
+}
+
+.pf-product-filter label,
+.offcanvas-body label {
+    color: var(--dark-gray);
+    font-weight: bold;
+}
+
+.pf-product-filter,
+.offcanvas-body a {
+    margin: auto;
+    font-weight: bold;
+}
+
+.pf-category {
+    padding-bottom: 20px;
+}
+
+    .pf-category li {
+        padding: 5px 0;
+    }
+
+.pf-filter .pf-filter-selections {
+    padding-bottom: 10px;
+}
+
+.pf-filter .form-check input {
+    margin-right: 10px;
+}
+
+
+/* 商品顯示處 */
+.pf-display-products .pf-filter-text {
+    color: var(--dark-gray);
+    font-size: 16px;
+}
+
+.pf-filter-info {
+    padding: 20px 0;
+}
+
+.pf-products-qty span {
+    color: var(--peach-pink);
+}
+
+.pf-product-sub-filter span {
+    font-size: 10px;
+    width: 25%;
+}
+
+.pf-filter-tags {
+    padding: 10px 0;
+}
+
+.pf-products .pf-find-similar {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+.pf-products .pf-find-similar .pf-similar-btn {
+    color: var(--main-pink)
+}
+
+.pf-products .pf-find-similar .pf-similar-btn:hover {
+    color: var(--light-gray)
+}
+
+#pf-pagination {
+    margin-top: 40px;
+}
+
+/* 手機以上 */
+/* @media screen and (min-width:768px) {
+        } */
+
+/* 桌機以下 */
+@media screen and (max-width: 1200px) {
+    .btn-filter {
+        display: block;
+    }
+
+    .pf-product-filter {
+        display: none;
+    }
+}
+
+/* 桌機 */
+@media screen and (min-width:1200px) {
+    .btn-filter {
+        display: none;
+    }
+
+    .pf-product-filter {
+        display: block;
+    }
+
+    .offcanvas {
+        display: none;
+    }
+
+    .offcanvas-backdrop.show {
+        display: none;
+    }
+}

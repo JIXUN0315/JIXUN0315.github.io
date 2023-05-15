@@ -1,0 +1,249 @@
+[v-cloak] {
+    display: none;
+}
+
+.build-product-main h2 {
+    font-weight: 500;
+    font-size: 25px;
+    margin: 10px 0 40px 0;
+}
+
+.build-product-introduce span {
+    font-size: 20px;
+}
+
+.build-product-introduce p {
+    margin: 10px 0;
+    line-height: 1.3;
+}
+
+.build-product-item select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 0;
+}
+
+.reminder {
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    padding: 24px;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.2;
+    background-color: var(--light-gray);
+}
+
+    .reminder .title {
+        color: var(--dark-gray);
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .reminder span {
+        display: none;
+    }
+
+.form-check label {
+    margin-bottom: 8px;
+}
+
+.form-check p {
+    margin-bottom: 15px;
+}
+
+.build-product-div-little-table {
+    display: none;
+}
+
+.build-product-item .img {
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+}
+
+.build-product-del {
+    padding-top: 10px;
+    margin-left: 8px;
+}
+
+    .build-product-del i {
+        padding: 0 5px;
+    }
+
+img {
+    width: 100%;
+    vertical-align: middle;
+    
+}
+
+.form-text {
+    font-size: 10px;
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;
+}
+
+.build-product-video {
+    margin: 10px 0 0 23px;
+}
+
+.build-product-div-little {
+    margin-top: 40px;
+}
+
+.build-product-category {
+    display: flex;
+}
+
+.build-product-detail,
+.build-product-total {
+    margin-top: 25px;
+}
+
+    .build-product-total input {
+        margin: 5px 0;
+    }
+
+    .build-product-detail input {
+        margin: 5px 0 30px 0;
+    }
+
+    .build-product-detail select {
+        margin: 5px 0;
+    }
+
+
+.row :nth-child(5).col-12 {
+    display: none;
+}
+
+.row :nth-child(3).col-12 {
+    display: none;
+}
+
+.row :nth-child(2).col-12 .build-product-div .build-product-item .build-product-detail :nth-child(11) span + .form-check {
+    margin-top: 10px;
+}
+
+.row :nth-child(4).col-12 .build-product-item :nth-child(3),
+.row :nth-child(4).col-12 .build-product-item :last-child {
+    margin-top: 10px;
+}
+
+.row :nth-child(4).col-12 .build-product-item :nth-child(4) {
+    margin-top: 10px;
+}
+
+.text-danger {
+    font-size: 9px;
+}
+
+.required::after {
+    content: '*';
+    font-size: 15px;
+    font-weight: bold;
+    color: red;
+}
+
+.box img {
+    width: 150px;
+    padding-right: 10px;
+    height: 150px;
+}
+
+.mixPlus::after {
+    content: '+';
+    font-size: 20px;
+    color: black;
+}
+
+
+.form-group {
+    height: 380px !important;
+}
+
+    .form-group .ck-editor .ck-editor__main .ck-content {
+        height: 300px !important;
+        overflow-y: auto !important;
+    }
+
+@media screen and (min-width:768px) {
+    .three {
+        margin-left: 100px;
+        margin-top: 20px;
+    }
+
+    .xxx {
+        padding-left: 200px;
+        margin-bottom: 75px;
+    }
+
+    .build-product-div {
+        display: flex;
+    }
+
+    .build-product-div-little-table {
+        display: block;
+    }
+
+    .build-product-div-little-table {
+        margin-top: 115px;
+    }
+
+        .build-product-div-little-table p {
+            font-size: 15px;
+        }
+
+    .build-product-div-little-laptop {
+        display: none;
+    }
+
+    .reminder span {
+        display: block;
+    }
+
+    .build-product-div-little {
+        margin-top: 260px;
+    }
+
+    .reminder-video {
+        margin: 15px 25px;
+    }
+
+    .row :nth-child(2).col-12 .build-product-div .build-product-item .build-product-detail :nth-child(10),
+    .row :nth-child(2).col-12 .build-product-div .build-product-item .build-product-detail :nth-child(12) {
+        display: none;
+    }
+
+    /* 商品規格 */
+    .row :nth-child(3).col-12 {
+        margin-top: 369px;
+        display: block;
+    }
+
+        /* 商品標籤 */
+ /*       .row :nth-child(3).col-12 :last-child {
+            margin-top: 95px;
+        }*/
+
+    .row :nth-child(4).col-12 .build-product-item :nth-child(3),
+    .row :nth-child(4).col-12 .build-product-item :last-child {
+        display: none;
+    }
+
+    /* 商品摘要 */
+    .row :nth-child(5).col-12 {
+        display: block;
+        margin-top: 27px;
+    }
+
+
+        .row :nth-child(5).col-12 :nth-child(1) {
+            margin-bottom: 26px;
+        }
+
+    .spe {
+        display: none;
+    }
+}

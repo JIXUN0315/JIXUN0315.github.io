@@ -1,0 +1,108 @@
+﻿<div id="app" class="container">
+
+    <div class="my-5">
+        <input v-model="filterText" class="form-control" type="text">
+    </div>
+
+    <b-table :items="reviewerList" :filter="filterText" :fields="fields" :busy="isbusy" :per-page="perpage" :current-page="currentPage">
+        <template #table-busy>
+            <div class="text-center text-danger my-2">
+                <b-spinner class="align-middle">
+                </b-spinner>
+                <strong>Loading...</strong>
+            </div>
+        </template>
+        <template #cell(action)="row">
+            <button @@click="row.toggleDetails" class="btn btn-secondary">{{ row.detailsShowing ? '隱藏明細' : '顯示明細'}}</button>
+        </template>
+
+        <template #row-details="row">
+            <b-card>
+                <ul>
+                    <li class="py-2">會員Id: {{ row.item.sellerId }}</li>
+                    <li class="py-2">性別: {{ row.item.applyName }}</li>
+                    <li class="py-2">姓名: {{ row.item.applyPhone }}</li>
+                    <li class="py-2">Email: {{ row.item.shopName }}</li>
+                    <li class="py-2">帳號: {{ row.item.email }}</li>
+                    <li class="py-2">總消費: {{ row.item.email }}</li>
+                </ul>
+            </b-card>
+        </template>
+    </b-table>
+    @*分頁*@
+    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perpage" align="fill" size="lg" class="my-0">
+
+    </b-pagination>
+    
+</div>
+@section Scripts {
+    <script>
+        const allApi = {
+            getUser: '/Member/GetReviewer'
+        }
+        const allApiCaller = {
+            getSeller: () => httpGet(allApi.getUser)
+        }
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                reviewerList: [],
+                fields: [
+                    { key: 'id', label: '會員Id' },
+                    { key: 'gender', label: '性別' },
+                    { key: 'name', label: '姓名' },
+                    { key: 'email', label: 'Email' },
+                    { key: 'account', label: '帳號' },
+                    { key: 'price', label:'總消費'}
+                ],
+                isbusy: false,
+                //分頁資料
+                perpage: 15,
+                currentPage: 1,
+                detailModal: {
+                    title: '',
+                    content: ''
+                },
+                filterText: '',
+                failText: ''
+            },
+            mounted() {
+                //請求data
+                this.showAll()
+            },
+            computed: {
+                totalRows() {
+                    return this.reviewerList.length
+                },
+                dis() {
+                    if (this.failText.trim() != '') {
+                        return false
+                    }
+                    else {
+                        return true
+                    }
+                }
+            },
+            methods: {
+                showAll() {
+                    this.isbusy = true
+                    allApiCaller.getSeller()
+                        .then((res) => {
+                            let arr = res.body
+                            arr.forEach(x => {
+                                if (x.status === '正常') {
+                                    x._cellVariants = { status: 'success' }
+                                }
+                                else {
+                                    x._cellVariants = { status: 'danger' }
+                                }
+                                this.reviewerList.push(x)
+                            })
+                            this.isbusy = false
+                        })
+                },
+            }
+        })
+    </script>
+}

@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hatsukoi</title>
+    <link rel="icon" href="~/img/hatsukoi_icon.png" type="image/png" />
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="~/css/bs-hatsukoi.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    @*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Hatsukoi.styles.css" asp-append-version="true" />*@
+    <link href="~/css/Cart/_CartHeader.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-cookies@1.8.3/vue-cookies.js"></script>
+    
+
+    
+    @RenderSection("topCSS", required: false)
+    @RenderSection("topJS", required: false)
+    <style>
+    body {
+        font-family: 'Roboto', 'Noto Sans TC', '微軟正黑體', 'Arial', sans-serif;
+    }
+    </style>
+</head>
+
+<body>
+   
+     <!-- header -->
+    <header>
+        <ul class="cart-nav nav justify-content-end m-2">
+            <li class="cart-nav-item  ">
+                <a class="nav-link cart-nav-link-md text-mainpink p-0 m-1 active " aria-current="page" href="@Url.Content("~/MyFavorite")">喜歡清單</a>
+            </li>
+            <li class="cart-nav-item ">
+                <a class="cart-nav-link-md text-mainpink p-0 m-1" href="@Url.Content("~/User/Coupon")">優惠券</a>
+            </li>
+            <li class="cart-nav-item ">
+                <a class="cart-nav-link-md text-mainpink  p-0 m-1" href="@Url.Content("~/Chatroom/Index")">我的訊息</a>
+            </li>
+            <li class="cart-nav-item ">
+                <a class="text-mainpink p-0 m-2" href="@Url.Content("~/Home")"><i class="fa-solid fa-house-chimney text-mainpink lh-base"></i></a>
+            </li>
+        </ul>
+    </header>
+    <!-- nav -->
+    <nav>
+
+        <div class="container">
+            <!------------ 步驟1.2---------------- -->
+            <div class="row flex-column">
+                <div class="cart-page-title d-flex justify-content-center justify-content-md-start pb-2">
+                    <a class="logo " href="/Home/Index">
+                        
+                        <img src="~/hatsukoipics/hatsukoi_logo.svg" alt="hatsukoi" />
+                    </a>
+                    <span class="title">購物車</span>
+                </div>
+                <div class="col">
+                    <ol class="cart-step step d-flex justify-content-center m-3">
+                        <li data-step="1" class="past">選擇設計館</li>
+                        <li data-step="2" class="active">填寫地址與付款</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!--------------------------------------------------------------->
+
+
+    @RenderBody()
+
+
+    <!-- footer -->
+    <footer class="cart-footer bgc-pink mt-5 ">
+
+        <div class="cart-copyright container py-4">
+            <div class="cart-copyright-row row d-flex justify-content-between align-items-center" id="row-copyright">
+                <div class="cart-copyright-slogan col-12 col-md-6 d-flex align-items-center">
+                    <div class="cart-copyright-logo ">
+                        <a href="/Home/Index"><img src="~/hatsukoipics/hatsukoi_logo.svg" alt="hatsukoi" /></a>
+                    </div>
+                    <p class="m-0 text-darkgray text-sm">Love at the first sight.</p>
+                </div>
+                <div class="cart-copyright-text col-12 col-md-6 d-flex justify-content-end">
+                    <span class="me-0  text-darkgray text-sm ">© 2023 hatsukoi. All Rights Reserved.</span>
+                </div>
+            </div>
+        </div>
+        
+    </footer>
+
+    <script>
+        // 換到結帳頁nav-step2改色
+        if (window.location.href.includes('GetCheckShop')) {
+            document.querySelector(".step>.active").className = 'past'
+        }
+
+    </script>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    @await RenderSectionAsync("Scripts", required: false)
+
+    @RenderSection("endCSS", required: false)
+    @RenderSection("endJS", required: false)
+</body>
+</html>

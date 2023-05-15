@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+<div class="pt-146 container py-4">
+    <h2 class="text-main my-5 fw-bolder fs-4 text-center">你的 Hatsukoi 設計館申請已成功提交！</h2>
+    <div class="max-500 border rounded mx-auto text-small p-4">
+        <p class="my-3">謝謝你申請在 Hatsukoi 開設計館，你的申請已提交成功！</p>
+        <p class="my-3">系統會自動寄出申請副本至你填寫的 Email 信箱，請至信箱確認（記得也檢查垃圾信箱喔）。</p>
+        <p class="my-3">
+            申請結果會於 10 個工作天內（不含國定節假日）寄送至你填寫的 Email 信箱。若超過時間仍未收到 Hatsukoi 的通知（請一併檢查垃圾信箱），請來信至
+            service@Hatsukoi.com 查詢，並附上表單中填寫的「姓名、設計館帳號、Email」（三項缺一不可）。
+        </p>
+        <p class="my-3">再次謝謝你的申請和耐心等待，期待迎接你加入 Hatsukoi！</p>
+        <a href="@Url.Content("~/Home/Index")" class="btn my-4 my-btn d-block mx-auto p-2 px-3">返回首頁</a>
+    </div>
+    <div class="max-500 mx-auto">
+        <img src="~/img/user/submitted-successfully.png" />
+    </div>
+</div>
+@section topCSS{
+    <link href="~/css/user/finishseller.css" rel="stylesheet" />
+}

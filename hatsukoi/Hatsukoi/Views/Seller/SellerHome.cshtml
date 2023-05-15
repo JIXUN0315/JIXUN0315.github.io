@@ -1,0 +1,234 @@
+﻿@{
+    ViewData["Title"] = "Seller Home";
+    Layout = "~/Views/Shared/_Layout_Back.cshtml";
+}
+
+<div class="home-main ">
+    <div class="main-body container">
+        <h2>待辦清單</h2>
+        <div class="todo-list ">
+            <div class="card ">
+                <a href="/Order/Management?status=notPay">
+                    <div class="inner">
+                        <div class="number" id="notPayCount">0</div>
+                        <div class="title">尚未付款訂單</div>
+                    </div>
+                    <div class="more">前往查看<i class="fa-solid fa-chevron-right"></i></div>
+                </a>
+            </div>
+            <div class="card ">
+                <a href="/Order/Management?status=tobeshipped">
+                    <div class="inner">
+                        <div class="number" id="toBeShippedCount">0</div>
+                        <div class="title">待出貨訂單</div>
+                    </div>
+                    <div class="more">前往查看<i class="fa-solid fa-chevron-right"></i></div>
+                </a>
+            </div>
+            <div class="card ">
+                <a href="/Chatroom/SellerIndex">
+                    <div class="inner">
+                        <div class="number" id="countRead">0</div>
+                        <div class="title">等待回復的客人</div>
+                    </div>
+                    <div class="more">前往查看<i class="fa-solid fa-chevron-right"></i></div>
+                </a>
+            </div>
+        </div>
+        <h2>營運總覽</h2>
+        <div class="overview ">
+            <ul class="nav nav-pills " id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-oneweek"
+                            type="button" role="tab" aria-controls="pills-oneweek" aria-selected="true">
+                        近7天
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-twoweek-tab" data-bs-toggle="pill" data-bs-target="#pills-twoweek"
+                            type="button" role="tab" aria-controls="pills-twoweek" aria-selected="false">
+                        近14天
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-last-month-tab" data-bs-toggle="pill" data-bs-target="#pills-last-month"
+                            type="button" role="tab" aria-controls="pills-last-month" aria-selected="false">
+                        上個月 (MoM)
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-last-year-tab" data-bs-toggle="pill" data-bs-target="#pills-last-year"
+                            type="button" role="tab" aria-controls="pills-last-year" aria-selected="false">
+                        去年 (YoY)
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-oneweek" role="tabpanel" aria-labelledby="pills-oneweek-tab"
+                     tabindex="0">
+                    <p class="period" id="seven-day">2023/02/22 - 2023/02/28 vs 2023/02/15 - 2023/02/21</p>
+                    <div class="card-wrap ">
+                        <div class="card">
+                            <div class="title">訂單數</div>
+                            <div class="value"><span id="order-count">0</span> </div>
+                            <div class="data">0%</div>
+                        </div>
+                        <div class="card">
+                            <div class="title">訂單平均金額 (AOV)</div>
+                            <div class="value">NT$<span id="order-avg-totle-price"> 0</span> </div>
+                            <div class="data">0%</div>
+                        </div>
+                        <div class="card">
+                            <div class="title">訂單總金額</div>
+                            <div class="value">NT$<span id="order-total"> 0</span></div>
+                            <div class="data">0%</div>
+                        </div>
+                    </div>
+                    <div class="link"><a href="~/Report/Chart">前往數據中心<i class="fa-solid fa-chevron-right"></i></a></div>
+                </div>
+                <div class="tab-pane fade" id="pills-twoweek" role="tabpanel" aria-labelledby="pills-twoweek-tab"
+                     tabindex="0">
+                    <p class="period" id="double-seven-day">2023/02/22 - 2023/02/28 vs 2023/02/15 - 2023/02/21</p>
+                    <div class="card-wrap">
+                        <div class="card">
+                            <div class="title">訂單數</div>
+                            <div class="value"><span id="double-seven-order-count">0</span> </div>
+                            <div class="data">0%</div>
+                        </div>
+                        <div class="card">
+                            <div class="title">訂單平均金額 (AOV)</div>
+                            <div class="value">NT$<span id="double-seven-order-avg-totle-price"> 0</span> </div>
+                            <div class="data">0%</div>
+                        </div>
+                        <div class="card">
+                            <div class="title">訂單總金額</div>
+                            <div class="value">NT$<span id="double-seven-order-totle-price"> 0</span></div>
+                            <div class="data">0%</div>
+                        </div>
+                    </div>
+                    <div class="link"><a href="~/Report/Chart">前往數據中心<i class="fa-solid fa-chevron-right"></i></a></div>
+                </div>
+                <div class="tab-pane fade" id="pills-last-month" role="tabpanel" aria-labelledby="pills-last-month-tab"
+                     tabindex="0">
+                    <p class="period" id="last-Month">2023/02/22 - 2023/02/28 vs 2023/02/15 - 2023/02/21</p>
+                    <div class="card-wrap">
+                        <div class="card">
+                            <div class="title">訂單數</div>
+                            <div class="value"><span id="last-month-order-count">0</span> </div>
+                            <div class="data">0%</div>
+                        </div>
+                        <div class="card">
+                            <div class="title">訂單平均金額 (AOV)</div>
+                            <div class="value">NT$<span id="last-month-order-avg-totle-price"> 0</span> </div>
+                            <div class="data">0%</div>
+                        </div>
+                        <div class="card">
+                            <div class="title">訂單總金額</div>
+                            <div class="value">NT$<span id="last-month-order-totle-price"> 0</span></div>
+                            <div class="data">0%</div>
+                        </div>
+                    </div>
+                    <div class="link"><a href="~/Report/Chart">前往數據中心<i class="fa-solid fa-chevron-right"></i></a></div>
+                </div>
+                <div class="tab-pane fade" id="pills-last-year" role="tabpanel" aria-labelledby="pills-last-year-tab"
+                     tabindex="0">
+                    <p class="period" id="last-Year">2023/02/22 - 2023/02/28 vs 2023/02/15 - 2023/02/21</p>
+                    <div class="card-wrap">
+                        <div class="card">
+                            <div class="title">訂單數</div>
+                            <div class="value"><span id="last-year-order-count">0</span> </div>
+                            <div class="data">0%</div>
+                        </div>
+                        <div class="card">
+                            <div class="title">訂單平均金額 (AOV)</div>
+                            <div class="value">NT$<span id="last-year-order-avg-totle-price"> 0</span> </div>
+                            <div class="data">0%</div>
+                        </div>
+                        <div class="card">
+                            <div class="title">訂單總金額</div>
+                            <div class="value">NT$<span id="last-year-order-totle-price"> 0</span></div>
+                            <div class="data">0%</div>
+                        </div>
+                    </div>
+                    <div class="link"><a href="~/Report/Chart">前往數據中心<i class="fa-solid fa-chevron-right"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let countRead = document.getElementById('countRead')
+    let notPayCount = document.getElementById('notPayCount')
+    let toBeShippedCount = document.getElementById('toBeShippedCount')
+    let orderCount = document.getElementById('order-count')
+    let orderTotal = document.getElementById('order-total')
+    let sevenDay = document.getElementById('seven-day')
+    let doubleSevenDay = document.getElementById('double-seven-day')
+    let doubleSevenOrderCount = document.getElementById('double-seven-order-count')
+    let doubleSevenOrderTotlePrice = document.getElementById('double-seven-order-totle-price')
+    let doubleSevenOrderAvgTotlePrice = document.getElementById('double-seven-order-avg-totle-price')
+    let orderAvgTotlePrice =document.getElementById('order-avg-totle-price')
+    let lastMonth = document.getElementById('last-Month')
+    let lastMonthOrderCount =document.getElementById('last-month-order-count')
+    let lastMonthOrderAvgTotlePrice = document.getElementById('last-month-order-avg-totle-price')
+    let lastMonthOrderTotlePrice =document.getElementById('last-month-order-totle-price')
+    let lastYear = document.getElementById('last-Year')
+    let lastYearOrderCount = document.getElementById('last-year-order-count')
+    let lastYearOrderAvgTotlePrice = document.getElementById('last-year-order-avg-totle-price')
+    let lastYearOrderTotlePrice = document.getElementById('last-year-order-totle-price')
+    //let connection = new signalR.HubConnectionBuilder().withUrl('/Chathub').build()
+    //connection.start()
+
+    window.onload = function () {
+        $.ajax({
+            url: '/api/Chatroom/SellerGetUnReadCount',
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: (response) => {
+                countRead.innerHTML = response.result
+                connection.on('sellerLayout', function (user) {
+                    let num = parseInt(countRead.innerHTML, 10) + 1
+                    countRead.innerHTML = num
+                })
+            }
+        })
+        $.ajax({
+            url: '/api/Order/GetOrderCount',
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: (response) => {
+                notPayCount.innerHTML = response.result.notPayCount
+                toBeShippedCount.innerHTML = response.result.notShippedCount
+            }
+        })
+        $.ajax({
+            url: '/api/Order/GetSellerHome',
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: (response) => {
+                orderCount.innerHTML = response.result.orderCount
+                orderAvgTotlePrice.innerHTML = response.result.orderAvgTotlePrice
+                orderTotal.innerHTML = response.result.orderTotalPrice
+                sevenDay.innerHTML = response.result.sevenDay
+                doubleSevenOrderCount.innerHTML =response.result.doubleSevenOrderCount
+                doubleSevenOrderAvgTotlePrice.innerHTML = response.result.doubleSevenOrderAvgTotlePrice
+                doubleSevenOrderTotlePrice.innerHTML = response.result.doubleSevenOrderTotlePrice
+                doubleSevenDay.innerHTML = response.result.doubleSevenDay
+                lastMonth.innerHTML = response.result.lastMonth
+                lastMonthOrderCount.innerHTML = response.result.lastMonthOrderCount
+                lastMonthOrderAvgTotlePrice.innerHTML = response.result.lastMonthOrderAvgTotlePrice
+                lastMonthOrderTotlePrice.innerHTML = response.result.lastMonthOrderTotlePrice
+                lastYear.innerHTML = response.result.lastYear
+                lastYearOrderCount.innerHTML =response.result.lastYearOrderCount
+                lastYearOrderAvgTotlePrice.innerHTML = response.result.lastYearOrderAvgTotlePrice
+                lastYearOrderTotlePrice.innerHTML = response.result.lastYearOrderTotlePrice
+            }
+        })
+    }
+</script>
+@section topCSS{
+    <link href="~/css/seller/seller_home.css" rel="stylesheet" />
+}

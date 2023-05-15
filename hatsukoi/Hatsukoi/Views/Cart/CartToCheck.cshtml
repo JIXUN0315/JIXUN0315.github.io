@@ -1,0 +1,383 @@
+﻿@using System.Text.Json;
+@using System.Text.Unicode;
+@using Hatsukoi.Models.ViewModels.Cart;
+@using Hatsukoi.Service.Interface;
+@inject IAccountService _getUserService
+@model ShopCart
+@{
+    
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout_Cart.cshtml";
+    var userId = _getUserService.GetUser().Id;
+    string jsonShop = JsonSerializer.Serialize(Model);
+    var options = new JsonSerializerOptions
+            {
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(UnicodeRanges.All),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+    string jsonShopType = JsonSerializer.Serialize<ShopCart>(Model, options);
+}
+
+<main>
+    
+    <div class="container" id="app" v-cloak>
+        <div class="row m-2">
+            <!-- 店家全選 -->
+            <div class="col-12  ">
+                <a href="@ViewContext.HttpContext.Request.Headers["Referer"].ToString()"><i class="fa-solid fa-angle-left"></i> 返回購物車</a>
+            </div>
+
+            <div class="row m-2">
+                <div class="cart-shop  p-0" >
+                    <div class="col-12 cart-shop-name p-2">
+                        <i class="fa-solid fa-shop"></i>
+                        <span>{{ shop.shopName }}</span>
+                    </div>
+                </div>
+
+                <div class="cart-shop-detail  p-0 ">
+
+                    <!-- md-左側商品資訊 -->
+                    <div class="cart-product col-12 col-md-6 mt-1" >
+                        <div class=" d-flex ps-2" v-for="(product, index) in shop.cartItems" :key="product.id">
+                            <div class="cart-product-pic m-2 col-3">
+                                <img :src="product.itemImg">
+                            </div>
+                            <div class="cart-product-detail d-flex flex-column justify-content-between col-8">
+                                <div class="cart-product-text d-flex mt-2 ">
+                                    <div class="d-flex flex-column" >
+                                        <div class=" mb-2">
+                                            <a class="cart-product-title" href="#">{{ product.itemName }}</a>
+                                        </div>
+                                        <div class="cart-product-describe mb-2">
+                                            <label class="text-darkgray text-sm" :value="product.specId">{{ product.specName }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cart-product-extras d-flex justify-content-between">
+                                    <div class="cart-product-quantity m-2">
+                                        <span>x {{ product.quantity }}</span>
+                                    </div>
+
+                                    <div class="cart-product-subtotal m-2 d-flex flex-column me-0">
+                                        <!-- <del class="cart-product-subtotal-oprice">NT$2000</del> -->
+                                        <div class="cart-product-subtotal-price">{{ product.quantity * product.unitPrice }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 分隔線 -->
+                        <div class="divider"></div>
+                        <div class="m-2 text-end py-2">商品小計 <span class="fw-bold text-mainpink">NT$ {{ selectedShopTotal }}</span></div>
+                    </div>
+                    <!-- md-右側結帳資訊 -->
+                    <div class="col-12 col-md-6 ">
+                        <div class="cart-checkout p-2 m-2">
+                            <div class="pt-2 ps-2 fw-semibold">收件資訊</div>
+                            <div class="recipient-info rounded-1 m-2">
+                                <div class="">
+                                    <!-- Button trigger modal -->
+                                    <a v-html = "Recipient" class="a-recipient p-2 d-flex align-items-center justify-content-between"
+                                       data-bs-toggle="modal" data-bs-target="#recipientLabel">
+                                        {{ Recipient }}
+                                        <i class="fa-solid fa-angle-right p-2"></i>
+                                    </a>
+
+                                    <!-- Modal 填寫收件資訊 -->
+                                    <div class="modal fade" id="recipientLabel" data-bs-backdrop="static"
+                                         data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable">
+                                            <div class="modal-content rounded-1">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">
+                                                        請填寫收件人與購買人資料
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="m-2">
+                                                        <label for="recipient-id-input"
+                                                               class="form-label fw-semibold">
+                                                            收件人姓名<sup class="text-pink">*</sup>
+                                                        </label>
+                                                        <input v-model="RecipientName" v-bind:class="{ 'is-invalid': inputDataCheck.RecipientNameError }" required type="text" class="form-control"
+                                                               id="recipient-id-input" maxlength="20"
+                                                               placeholder="請填寫收件人姓名" >
+                                                        <div class="text-danger small mt-1">
+                                                            {{inputDataCheck.RecipientNameErrorMsg}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="m-2">
+                                                        <label for="recipient-id-input"
+                                                               class="form-label fw-semibold">
+                                                            收件人手機<sup class="text-pink">*</sup>
+                                                        </label>
+                                                        <input v-model="RecipientPhone" v-bind:class="{ 'is-invalid': inputDataCheck.RecipientPhoneError }" type="tel" class="form-control"
+                                                               id="recipient-id-input" maxlength="10"
+                                                               placeholder="請填寫收件人手機">
+                                                        <div class="text-danger small mt-1">
+                                                            {{inputDataCheck.RecipientPhoneErrorMsg}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="m-2">
+                                                        <label for="recipient-id-input"
+                                                               class="form-label fw-semibold">
+                                                            County / city<sup class="text-pink">*</sup>
+                                                        </label>
+
+                                                        <select required v-model="RecipientCity" class="form-select form-select-sm"
+                                                                aria-label="form-select-sm ">
+                                                            <option value="基隆市">基隆市</option>
+                                                            <option value="台北市" selected>台北市</option>
+                                                            <option value="新北市">新北市</option>
+                                                            <option value="桃園市">桃園市</option>
+                                                            <option value="新竹市">新竹市</option>
+                                                            <option value="新竹縣">新竹縣</option>
+                                                            <option value="苗栗縣">苗栗縣</option>
+                                                            <option value="台中市">台中市</option>
+                                                            <option value="南投縣">南投縣</option>
+                                                            <option value="雲林縣">雲林縣</option>
+                                                            <option value="嘉義市">嘉義市</option>
+                                                            <option value="嘉義縣">嘉義縣</option>
+                                                            <option value="台南市">台南市</option>
+                                                            <option value="高雄市">高雄市</option>
+                                                            <option value="屏東縣">屏東縣</option>
+                                                            <option value="宜蘭縣">宜蘭縣</option>
+                                                            <option value="澎湖縣">澎湖縣</option>
+                                                            <option value="金門縣">金門縣</option>
+                                                            <option value="連江縣">連江縣</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="m-2">
+                                                        <label for="recipient-id-input"
+                                                               class="form-label fw-semibold">
+                                                            Address line <sup class="text-pink">*</sup>
+                                                        </label>
+                                                        <input v-model="RecipientAddress" v-bind:class="{ 'is-invalid': inputDataCheck.RecipientAddressError }" type="tel" class="form-control"
+                                                               id="recipient-id-input" maxlength="20"
+                                                               placeholder="詳細收貨地址">
+                                                        <div class="text-danger small mt-1">
+                                                            {{inputDataCheck.RecipientAddressErrorMsg}}<span class="text-sm text-pink">縣市請在上方欄位選擇</span>
+                                                        </div>
+                                                        
+                                                       
+                                                    </div>
+                                                    
+                                                    
+                                                    <div class="m-2">
+                                                        <label for="recipient-id-input"
+                                                               class="form-label fw-semibold">
+                                                            Postal code<sup class="text-pink">*</sup>
+                                                        </label>
+                                                        <input required v-model="RecipientPostCode" v-bind:class="{ 'is-invalid': inputDataCheck.RecipientPostCodeError }" type="tel" class="form-control"
+                                                               id="recipient-id-input" maxlength="5"
+                                                               placeholder="">
+                                                        <div class="text-danger small mt-1">
+                                                            {{inputDataCheck.RecipientPostCodeErrorMsg}}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class=" ms-auto">
+                                                        <button type="button"
+                                                                class="btn btn-pk btn-cancel" data-bs-dismiss="modal" aria-label="Close">
+                                                            取消
+                                                        </button>
+                                                        <button v-bind:click="getRecipient" type="button" class="btn btn-dg btn-usedaddress"
+                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                            使用地址
+                                                        </button>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+
+                            </div>
+                            <div class="extra-note p-2">
+                                <ul class="shipping-method-note list-unstyled">
+                                    <li class="shipping">
+                                        運送方式
+                                    </li>
+                                    <li class="info">
+                                        通知出貨後約 3 - 6 天寄達 
+                                    </li>
+                                    
+                                    
+
+                                </ul>
+                            </div>
+
+                        </div>
+                        <!-- 分隔線 -->
+                        <div class="divider-sm "></div>
+                        <div class="check-product-pricecount m-2 p-2">
+                            <div class="pricecount-item d-flex align-items-center">
+                                <div>商品小計</div>
+                                <div class="dotted-line"></div>
+                                <div>NT$ {{ selectedShopTotal}}</div>
+                            </div>
+                            <div class="pricecount-item d-flex align-items-center">
+                                <div>優惠券折抵</div>
+                                <div class="dotted-line"></div>
+                                <div>NT$  {{ shop.discountAmount }}</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="payment col-12 p-0 mt-4 ">
+                    <div class="payment-title  p-2 ">
+                        付款明細
+                    </div>
+
+                    <div class="creditcard-discount ">
+                    </div>
+                    <div class="creditcard-payment-detail">
+                        <div class="col-12 col-md-6 ">
+
+                            <div class="payment-detail p-2">
+                                <div class="payment-detail-item d-flex align-items-center p-2">
+                                    <div>商品小計</div>
+                                    <div class="dotted-line"></div>
+                                    <div>NT$ {{ selectedShopTotal}}</div>
+                                </div>
+                                
+                                <div class="payment-detail-item d-flex align-items-center p-2">
+                                    <div>優惠券折抵</div>
+                                    <div class="dotted-line"></div>
+                                    <div>NT$ {{ shop.discountAmount}}</div>
+                                </div>
+                                
+                                <div class="payment-detail-item d-flex align-items-center p-2">
+                                    <div>結帳總金額</div>
+                                    <div class="dotted-line"></div>
+                                    <div>NT$  {{ selectedShopTotal - shop.discountAmount}}</div>
+                                </div>
+
+                                <div class="accordion">
+                                    <div class="accordion-header d-flex justify-content-between"
+                                         id="collapsedetail">
+                                        <div class="total-detail-text ">
+                                            <button class="accordion-button btn-detail-display p-2" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#total-detail"
+                                                    aria-expanded="true" aria-controls="total-detail">
+                                                展開折抵細節
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <div id="total-detail" class="accordion-collapse collapse"
+                                         aria-labelledby="collapsedetail" data-bs-parent="#accordion-total-detail">
+                                        <div class="total-detail-display m-2">
+                                            <p>商品小計 {{ selectedShopTotal}}</p>
+                                            <p>折抵 {{ shop.discountAmount}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class=" col-12 col-md-6">
+                            <div class="payment-option-container">
+                                <div class="payment-option-title p-2 fw-semibold">
+                                    付款方式
+                                </div>
+                                <div class="payment-option ">
+                                    
+                                    <div class="payment-option-detail p-2">
+                                        <div class="payment-option-form d-flex align-items-center p-2">
+                                        </div>
+
+                                        <div class="shipselect-option my-2">
+                                            <select v-model="Payment" class="form-select form-select-sm  w-100 ship-select"
+                                                    aria-label="form-select-sm ">
+                                                <option value="" disabled selected>請選擇付款方式</option>
+                                                <option value="1">信用卡付款</option>
+                                               @* <option value="2">轉帳</option>*@
+                                                
+                                            </select>
+                                        </div>
+                                       
+
+
+                                        <!-- 綠界提交資訊 -->
+                                        <form action="/Payment/CheckOut" method="post">
+                                            <input class="d-none" type="text" name="sellerId" v-model="shopId" />
+                                            <input class="d-none" type="text" name="RecipientName" v-model="RecipientName" />
+                                            <input class="d-none" type="text" name="RecipientPhone" v-model="RecipientPhone" />
+                                            <input class="d-none" type="text" name="RecipientAddress" v-model="RecipientAddress" />
+                                            <input class="d-none" type="text" name="RecipientCity" v-model="RecipientCity" />
+                                            <input class="d-none" type="text" name="RecipientPostCode" v-model="RecipientPostCode" />
+                                            <input class="d-none" type="text" name="TotalPrice" v-model="TotalPrice" />
+                                            <input class="d-none" type="text" name="Payment" v-model="Payment" />
+                                            <input class="d-none" type="text" name="Status" v-model="Status" />
+                                            <input class="d-none" type="text" name="userId" value="@userId" />
+                                            <input class="d-none" type="text" name="GreenPayId" value="0" />
+                                            <input class="d-none" type="text" name="orderNumber" value="0" />
+                                            <input class="d-none" type="text" name="CouponId" v-model="couponId" />
+                                            <input class="d-none" type="text" name="DiscountAmount" v-model="discountAmount" />
+                                            
+                                            
+                                            <button type="submit" class="btn btn-pk btn-checked w-100" v-on:submit.prevent="toCheck" v-bind:disabled="!canCheckout">前往結帳</button>
+                                        </form>
+                                        
+                                    </div>
+
+                                    <div class="payment-protected p-2 d-flex">
+                                        <div class="m-1"><i class="fa-solid fa-lock text-pink "></i></div>
+                                        <span class="lh-sm m-1">Hatsukoi 為保護你的付款資訊，我們以 SSL 加密方式保障你的隱私，請安心使用。</span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script src="https://unpkg.com/vue-cookies@1.8.3/vue-cookies.js"></script>
+
+
+
+
+@section topCSS{
+    <link href="~/css/Cart/_cart.css" rel="stylesheet" />
+
+}
+
+
+@section endJS{
+    <script>
+
+        var shop = @Html.Raw(jsonShopType)
+        var couponId = shop.couponId
+        var discountAmount = shop.discountAmount
+        console.log(shop)
+        console.log(couponId)
+    </script>
+
+    <script src="~/js/cart/CartToCheck_vue.js"></script>
+
+}

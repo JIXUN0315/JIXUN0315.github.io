@@ -1,0 +1,198 @@
+﻿<div id="app" class="container" v-cloak>
+
+    <div class="my-5">
+        <input v-model="filterText" class="form-control" type="text">
+    </div>
+
+    <b-table :items="reviewerList" :filter="filterText" :fields="fields" :busy="isbusy" :per-page="perpage" :current-page="currentPage">
+        <template #table-busy>
+            <div class="text-center text-danger my-2">
+                <b-spinner class="align-middle">
+                </b-spinner>
+                <strong>Loading...</strong>
+            </div>
+        </template>
+        <template #cell(action)="row">
+            <button @@click="row.toggleDetails" class="btn btn-secondary">{{ row.detailsShowing ? '隱藏明細' : '顯示明細'}}</button>
+            <button v-if="row.item.reviewstatus == '未審核'" @@click="showDetail(row.item)" v-b-modal.detail-modal class="btn btn-danger">駁回</button>
+            <button v-if="row.item.reviewstatus == '未審核'" @@click="applyReview(row.item)" class="btn btn-success">通過</button>
+        </template>
+
+        <template #row-details="row">
+            <b-card>
+                <ul>
+                    <li class="py-2">申請編號: {{ row.item.id }}</li>
+                    <li class="py-2">申請帳號名稱: {{ row.item.userName }}</li>
+                    <li class="py-2">審核時間: {{ row.item.reviewTime }}</li>
+                    <li class="py-2">申請狀態: {{ row.item.reviewstatus }}</li>
+                    <li class="py-2">駁回原因: {{ row.item.failReason }}</li>
+                    <li class="py-2">申請人姓名: {{ row.item.applyName }}</li>
+                    <li class="py-2">申請人電話: {{ row.item.applyPhone }}</li>
+                    <li class="py-2">商店名稱: {{ row.item.shopName }}</li>
+                    <li class="py-2">申請人email: {{ row.item.email }}</li>
+                    <li class="py-2">產品產地: {{ row.item.productOrigin }}</li>
+                    <li class="py-2">商店所在地: {{ row.item.city }}</li>
+                    <li class="py-2">社群軟體網址: {{ row.item.socialMedia }}</li>
+                    <li class="py-2">商店簡介: {{ row.item.introduction }}</li>
+                    <li class="py-2">申請時間: {{ row.item.createTime }}</li>
+                </ul>
+                <p>預計販賣商品圖片</p>
+                <div class="row">
+                    <div v-for="value in row.item.imgList" class="col-2">
+                        <div><img :src="value" class="w-100" /></div>
+                    </div>
+                </div>
+            </b-card>
+        </template>
+    </b-table>
+    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perpage" align="fill" size="lg" class="my-0">
+
+    </b-pagination>
+    <!-- modal -->
+    <b-modal id="detail-modal" hide-footer>
+        <template #modal-title>
+            申請編號 {{ detailModal.title }} : 駁回原因
+        </template>
+        <div class="d-block text-center">
+            <b-form-textarea id="textarea"
+                             v-model="failText"
+                             placeholder="Enter something..."
+                             rows="3"
+                             max-rows="6"></b-form-textarea>
+        </div>
+        <b-button class="mt-3 btn-info" v-bind:disabled="dis" block @@click="rejectApply(detailModal.title)">確定</b-button>
+        <b-button class="mt-3" block @@click="$bvModal.hide('detail-modal')">取消</b-button>
+    </b-modal>
+</div>
+@section Scripts {
+    <script>
+        const allApi = {
+            getReviewer: '/SellerInfo/GetReviewer'
+        }
+        const allApiCaller = {
+            getReviewer: () => httpGet(allApi.getReviewer)
+        }
+        const applyApi = {
+            getUserName: '/SellerInfo/ApplyReview'
+        }
+
+        const applyApiCaller = {
+            getUserName: (ReviewerId) => httpPost(applyApi.getUserName, ReviewerId)
+        }
+        const rejectApi = {
+            getUserName: '/SellerInfo/RejectReview'
+        }
+
+        const rejectApiCaller = {
+            getUserName: (ReviewerId) => httpPost(rejectApi.getUserName, ReviewerId)
+        }
+        const app = new Vue({
+            el: '#app',
+            data: {
+                reviewerList: [],
+                fields: [
+                    { key: 'id', label: '申請編號' },
+                    { key: 'userName', label: '申請帳號名稱' },
+                    { key: 'reviewTime', label: '審核時間' },
+                    { key: 'createTime', label: '申請時間' },
+                    { key: 'reviewstatus', label: '審核狀態' },
+                    { key: 'action', label: '功能' }
+                ],
+                isbusy: false,
+                //分頁資料
+                perpage: 15,
+                currentPage: 1,
+                detailModal: {
+                    title: '',
+                    content: ''
+                },
+                filterText: '',
+                failText: ''
+            },
+            mounted() {
+                //請求data
+                this.showAll()
+            },
+            computed: {
+                totalRows() {
+                    return this.reviewerList.length
+                },
+                dis() {
+                    if (this.failText.trim() != '') {
+                        return false
+                    }
+                    else {
+                        return true
+                    }
+                }
+            },
+            methods: {
+                showAll() {
+                    this.isbusy = true
+                    allApiCaller.getReviewer()
+                        .then((res) => {
+                            let arr = res.body
+                            arr.forEach(x => {
+                                if (x.reviewstatus === '已通過') {
+                                    x._cellVariants = { reviewstatus: 'success' }
+                                }
+                                else if (x.reviewstatus === '已駁回') {
+                                    x._cellVariants = { reviewstatus: 'danger' }
+                                }
+                                else {
+                                    x._cellVariants = { reviewstatus: 'secondary' }
+                                }
+                                this.reviewerList.push(x)
+                            })
+                            this.isbusy = false
+                        })
+                },
+                showDetail(data) {
+                    this.failText = ''
+                    this.detailModal.title = data.id
+                    this.detailModal.content = JSON.stringify(data, null, 2)
+                },
+                applyReview(data) {
+                    let text = '確定通過' + '申請編號: ' + data.id + ' 的申請?'
+                    let input = { reviewerId: data.id }
+                    this.$bvModal.msgBoxConfirm(text, {
+                        title: '通過申請',
+                        size: 'md',
+                        okVariant: 'success',
+                        okTitle: '確定',
+                        cancelTitle: '取消',
+                        footerClass: 'p-2',
+                        hideHeaderClose: true,
+                        centered: true
+                    }).then(value => {
+                        if (value !== true) {
+                            return
+                        }
+                        applyApiCaller.getUserName(input)
+                            .then((res) => {
+                                this.reviewerList = []
+                                this.showAll()
+                            })
+                    })
+                },
+                rowClass(item, type) {
+                    if (!item || type !== 'row') return
+                    if (item.reviewstatus === '已駁回') return 'table-info'
+                    if (item.reviewstatus === '已通過') return 'table-success'
+                },
+                rejectApply(data) {
+                    let input = { reviewerId: data, reason: this.failText }
+                    rejectApiCaller.getUserName(input)
+                        .then((res) => {
+                            this.reviewerList = []
+                            this.showAll()
+                            this.$bvModal.hide('detail-modal')
+                        })
+                },
+                closeModal(){
+                    $bvModal.hide('detail-modal')
+                }
+            }
+        })
+    </script>
+}

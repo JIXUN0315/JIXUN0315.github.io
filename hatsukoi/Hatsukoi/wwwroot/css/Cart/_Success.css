@@ -1,0 +1,71 @@
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-Gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+[v-cloak] {
+    display: none;
+}
+.container a{
+    color: black !important;
+}
+img{
+    width: 100% !important;
+    vertical-align: middle !important;
+}
+a{
+    text-decoration: none !important;
+}
+.bg-successPay {
+    border: 0.5px solid var(--light-gray);
+    border-radius: 20px;
+}
+
+/* 字設定 */
+
+.pt-146 {
+    padding-top: 146px !important;
+}
+.text-pink {
+    color: var(--peach-pink);
+}
+
+.text-gray {
+    color: var(--light-gray);
+}
+
+.text-dgray {
+    color: var(--dark-gray);
+}
+
+.text-sm {
+    font-size: 12px;
+}
+
+/* ----------------- */
+/* btn設定 */
+.btn-pk {
+    background-color: var(--peach-pink);
+    color: var(--light-pink);
+    box-sizing: border-box;
+    margin-right: 0;
+}
+
+.btn-pk:hover {
+    background-color: var(--light-pink);
+    color: var(--peach-pink);
+    cursor: pointer;
+}
+
+@media screen and (min-width:768px) {
+    
+    .pt-146{
+        padding-top: 146px !important;
+    }
+    .coupon-ticketlist li {
+        box-sizing: border-box;
+        width: 100%;
+    }
+}

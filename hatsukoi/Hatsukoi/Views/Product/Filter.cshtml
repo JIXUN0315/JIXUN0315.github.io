@@ -1,0 +1,452 @@
+﻿@*@{
+    ViewData["Title"] = "ProductFilter";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+
+<div class="pf-container">
+
+    <!-- 麵包屑 -->
+    <div class="pf-breadcrumb container">
+        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+             aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">配件飾品</a></li>
+                <li class="breadcrumb-item active" aria-current="page">飾品</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- 主要篩選畫面 -->
+    <div class="pf-filter-block container">
+        <div class="pf-filter-block row">
+            <!-- 篩選商品處 -->
+            <button class="btn btn-outline-secondary btn-filter pf-container-btn" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight">
+                篩選
+            </button>
+            <!-- 手機版篩選列 -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+                 aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <h2 class="offcanvas-title" id="offcanvasRightLabel">篩選最適合您的商品</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="pf-category">
+                        <h2>商品分類</h2>
+                        <h3 class="pf-category-list-title">配件飾品</h3>
+                        <ul class="pf-category-list p-0 m-0">
+                            <li><a href="#">飾品</a></li>
+                            <li><a href="#">頭飾</a></li>
+                            <li><a href="#">眼鏡 / 太陽眼鏡</a></li>
+                            <li><a href="#">手錶</a></li>
+                            <li><a href="#">卡套 / 吊飾</a></li>
+                            <li><a href="#">其他配件飾品</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="pf-filter">
+                        <h2>篩選</h2>
+                        <!-- 篩選金額 -->
+                        <div class="pf-filter-price">
+                            <h3>金額</h3>
+                            <div class="pf-filter-selections">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        NT$300 以下
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        NT$300 - 500
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                        NT$500 - 1,000
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault4">
+                                        NT$1,000 - 2,000
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault5">
+                                        NT$2,000 - 2,500
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault6">
+                                        NT$2,500 - 5,000
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault7">
+                                        NT$5,000 以上
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 篩選時間 -->
+                        <div class="pf-filter-datetime">
+                            <h3>上架時間</h3>
+                            <div class="pf-filter-selections">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        一週內
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        一個月內
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                        三個月內
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault4">
+                                        一年內
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- 篩選顏色 -->
+                        <div class="pf-filter-color">
+                            <h3>顏色</h3>
+                            <div class="pf-filter-selections">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        黑色系
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        白色系
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                        紅色系
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault4">
+                                        綠色系
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault5">
+                                        藍色系
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault6">
+                                        紫色系
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault7">
+                                        奶茶色系
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 電腦版篩選列 -->
+            <div class="pf-product-filter col-12 col-md-12 col-lg-3">
+                <div class="pf-category">
+                    <h2>商品分類</h2>
+                    <h3 class="pf-category-list-title">配件飾品</h3>
+                    <ul class="pf-category-list">
+                        <li><a href="#">飾品</a></li>
+                        <li><a href="#">頭飾</a></li>
+                        <li><a href="#">眼鏡 / 太陽眼鏡</a></li>
+                        <li><a href="#">手錶</a></li>
+                        <li><a href="#">卡套 / 吊飾</a></li>
+                        <li><a href="#">其他配件飾品</a></li>
+                    </ul>
+                </div>
+
+                <div class="pf-filter">
+                    <h2>篩選</h2>
+                    <!-- 篩選金額 -->
+                    <div class="pf-filter-price">
+                        <h3>金額</h3>
+                        <div class="pf-filter-selections">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    NT$300 以下
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    NT$300 - 500
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault3">
+                                    NT$500 - 1,000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault4">
+                                    NT$1,000 - 2,000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault5">
+                                    NT$2,000 - 2,500
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault6">
+                                    NT$2,500 - 5,000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault7">
+                                    NT$5,000 以上
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 篩選時間 -->
+                    <div class="pf-filter-datetime">
+                        <h3>上架時間</h3>
+                        <div class="pf-filter-selections">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    一週內
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    一個月內
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault3">
+                                    三個月內
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault4">
+                                    一年內
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- 篩選關鍵字 -->
+                    <div class="pf-filter-color">
+                        <h3>關鍵字</h3>
+                        <div class="pf-filter-selections">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    少女系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    男子系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault3">
+                                    日韓系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault4">
+                                    歐美系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault5">
+                                    愛台灣系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault6">
+                                    萌系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault7">
+                                    實用系
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品們顯示處 -->
+            <div class="pf-display-products col-12 col-md-12 col-lg-9">
+                <div class="pf-filter-text">
+                    <div class="pf-filter-info d-flex justify-content-between align-items-center">
+                        <div class="pf-products-qty">
+                            <p class="m-0"><span>303</span> 件 <span>飾品</span> 商品</p>
+                        </div>
+                        <div class="pf-product-sub-filter d-flex align-items-center">
+                            <span>排序</span>
+                            <select class="form-select form-select-sm " aria-label=".form-select-sm example">
+                                <option selected>熱門程度優先</option>
+                                <option value="1">最新上架優先</option>
+                                <option value="2">價格由高至低</option>
+                                <option value="3">價格由低至高</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="pf-filter-tags">
+                        <button class="tag-delete-btn pf-container-btn">
+                            <span>NT$300 - 500</span> <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <button class="tag-delete-btn pf-container-btn">
+                            <span>一個月內</span> <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <button class="tag-delete-btn pf-container-btn">
+                            <span>黑色</span> <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="pf-products container">
+                    <div class="pf-products-row row products-row">
+                        <div class="pf-products-col col-6 col-md-3 col-lg-3 products-col">
+                            <div class="pf-products-card products-card">
+                                <div class="pf-products-pic position-relative products-pic">
+                                    <a href="#"><img src="https://picsum.photos/600/600/?random=10"></a>
+                                    <!-- Button trigger modal 加入喜歡清單鈕 -->
+                                    <button type="button" onclick="Toast.fire('已將此商品加入喜歡清單')"
+                                            class="btn position-absolute bottom-0 end-0">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <div class="product-badge position-absolute top-0 start-0">9 折</div>
+                                </div>
+                                <div class="pf-products-text products-text">
+                                    <h3 class="m-0"><a href="#">黃銅戒指</a></h3>
+                                    <a href="#">Style Shop</a>
+                                </div>
+                                <div class="pf-products-price products-price">
+                                    <span>$888</span>
+                                </div>
+                                <div class="pf-find-similar">
+                                    <button class="pf-similar-btn pf-container-btn">找相似商品</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- pagination -->
+                        <nav aria-label="Page navigation example" id="pf-pagination">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section topCSS{
+    <link href="~/css/productfilter.css" rel="stylesheet" />
+    <link href="~/css/productcards.css" rel="stylesheet" />
+}
+*@

@@ -1,0 +1,735 @@
+﻿@using System.Security.Claims
+@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Service.Interface
+@inject IAccountService _getUserService
+@model Hatsukoi.Models.ViewModels.ProductViewModel.ProductVM
+
+@{
+    ViewData["Title"] = "Product";
+    var product = Model.Product;
+    var similarProdList = Model.SimilarProdList;
+    var sellerInfoList = Model.SellerInfoList;
+    var reviewList = Model.ReviewList;
+    var recommendShopList = Model.RecommendShopList;
+    var user = _getUserService.GetUser();
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+
+<!-- 產品 main-card -->
+<section class="product-main-container container">
+    <div class="row">
+        <!-- 產品投影片 固定4張-->
+        <div class="col-12 col-md-6">
+            <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                <div class="swiper-wrapper">
+                    @foreach (var item in product.ProductImg)
+                    {
+                        <div class="swiper-slide">
+                            <img src="@item" />
+                        </div>
+                    }
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+            <div thumbsSlider="" class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in product.ProductImg)
+                    {
+                        <div class="swiper-slide">
+                            <img src="@item" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="product-body">
+                <!-- 價格 -->
+                <h1 class="card-title my-2">@product.ProductName</h1>
+                <p class="product-sales-amount my-1">設計品牌共售出 @product.SalesQtyByShop 件商品</p>
+                <p class="product-price my-1">NT$ @product.Price</p>
+
+                <div class="product-config">
+                    <select id="spec-select" class="form-select my-2" aria-label="Default select example">
+                        <option ha-price="@product.Price" selected>請選擇商品規格</option>
+                        @foreach (var spec in product.SpecList)
+                        {
+                            <option value="1" ha-price="@spec.UnitPrice" spec-id="@spec.SpecId">
+                                @string.Format("{0} {1}, NT${2}",
+                            spec.FirstSpecItem, spec.SecondSpecItem, spec.UnitPrice)
+                            </option>
+                        }
+                    </select>
+                </div>
+                <!-- 數量 render -->
+                <div class="product-quntity">
+                    <label>數量</label>
+                    <select class="form-select my-2" aria-label="Default select example" id="qty-select">
+                        @for (int i = 1; i < 11; i++)
+                        {
+                            <option value="@i" qty="@i">@i</option>
+                        }
+                    </select>
+                </div>
+
+                @if (user != null)
+                {
+                    <!-- 購物車 -->
+                    <div class="product-cart my-1">
+                        <!-- Button  加入購物車鈕(yui) -->
+                        <button onclick="AddCart(@product.Id, $('#spec-select').find(':selected').attr('spec-id'), $('#qty-select').find(':selected').attr('qty'))" type="button" class="btn btn-sm btn-gray py-2">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            放入購物車
+                        </button>
+
+                    </div>
+                    <!-- 收藏商品 JS-->
+                    <div class="product-collect my-1">
+                        <!-- Button 加入喜歡清單鈕(yui) -->
+                        <button onclick="addFavProduct(@product.Id)" type="button" class="btn btn-sm btn-pink py-2">
+                            <i class="fa-regular fa-heart"></i>
+                            收藏商品
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <!-- 購物車 -->
+                    <div class="product-cart my-1">
+                        <!-- Button  加入購物車鈕(yui) -->
+                        <button id="openFirst6" type="button" class="btn btn-sm btn-gray py-2">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            放入購物車
+                        </button>
+                        <!-- <button type="button" class="btn btn-gray btn-checked"><i class="fa-solid fa-check"></i> 已放入購物車</button> -->
+                    </div>
+                    <!-- 收藏商品 JS-->
+                    <div class="product-collect my-1">
+                        <!-- Button 加入喜歡清單鈕(yui) -->
+                        <button id="openFirst7" type="button" class="btn btn-sm btn-pink py-2">
+                            <i class="fa-regular fa-heart"></i>
+                            收藏商品
+                        </button>
+                        <!-- <button type="button" class="btn btn-pink btn-checked"><i class="fa-solid fa-heart"></i> 已收藏商品</button> -->
+                    </div>
+                }
+                <p class="card-text my-3">
+                    付款後，從備貨到寄出商品為 3 個工作天。（不包含假日）<br>
+                    設計館提供統一發票或免用統一發票收據
+                </p>
+                <div class="product-info-list">
+                    <div class="box-title">
+                        <h2>商品資訊</h2>
+                    </div>
+                    <div class="title-line"></div>
+                    <div class="box-body">
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>商品熱門度</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <p>被欣賞 @product.ViewTimes 次</p>
+                                <p>已賣出 @product.SalesQtyByProduct 件商品</p>
+                                <p>共 @product.FavPeople 人收藏</p>
+                            </div>
+                        </div>
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>商品產地</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <p>@product.MadeCountry</p>
+                            </div>
+                        </div>
+                        @if (product.Description is not null) 
+                        { 
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>商品摘要</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <p>@product.Description</p>
+                            </div>
+                        </div>
+                        }
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>授權經銷品牌</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <p>@product.BrandName</p>
+                            </div>
+                        </div>
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-title col-3">
+                                <p>商品分類</p>
+                            </div>
+                            <div class="product-info-content col-9">
+                                <a href="/Home/ProductFilter?id=@product.CategoryId&page=1">@product.CategoryName</a>
+                                >
+                                <a href="/Home/ProductFilter?id=@product.SubCategoryId&page=1">@product.SubCategoryName</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 產品 detail -->
+<section class="container">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="product-intro-list">
+                <div class="box-title">
+                    <h2>商品介紹</h2>
+                </div>
+                <div class="title-line"></div>
+                <div class="box-body">
+                    <div class="product-intro-item">
+                        <!-- 富文本 -->
+                        <div id="Introduction" class="d-none">@product.Editor</div>
+                        <div class="story-text justify-content-center">
+                            <div class="form-group col-md-12 d-none" id="SellerEditer">
+                                <div id="editor" class="d-none">
+                                    @Html.Raw(product.Editor)
+                                </div>
+                            </div>
+                            <div id="content">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <!-- 關於品牌 -->
+            <div class="product-store">
+                <div class="box-title d-flex justify-content-between align-items-center">
+                    <h2>關於品牌</h2>
+                    <a href="~/Shop?id=@product.SellerId">前往品牌</a>
+                </div>
+                <div class="title-line"></div>
+                @foreach (var seller in sellerInfoList)
+                {
+                    <div class="box-body">
+                        <div class="store-card">
+                            <div class="store-banner">
+                                <img src="@seller.ShopBannerRect" />
+                            </div>
+                            <div class="store-main d-flex align-items-center">
+                                <div class="store-icon col-3">
+                                    <img src="@seller.Icon" />
+                                </div>
+                                <div class="store-info col-9">
+                                    <div class="store-name">
+                                        <a href="~/Shop?id=@product.SellerId">@seller.BrandName</a>
+                                    </div>
+                                    <div class="store-detail">
+                                        <div class="store-country d-flex">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p>@seller.ProductOrigin</p>
+                                        </div>
+                                        <!-- 品牌評論 render -->
+                                        <div class="store-review d-flex">
+                                            <div class="review-star d-flex">
+                                                @{
+                                                    double evaluateAvg = (double)product.EvaluateAvg;
+                                                    int starCount = (int)Math.Round(evaluateAvg);
+                                                    int starMinusCount = 5 - starCount;
+                                                    if (starCount > 5)
+                                                    {
+                                                        starCount = 5;
+                                                    }
+                                                    else if (starCount == 0)
+                                                    {
+                                                        starCount = 0;
+                                                    }
+                                                }
+                                                @for (int i = 0; i < starCount; i++)
+                                                {
+                                                    <i class="fa-solid fa-star"></i>
+                                                }
+                                                @for (int i = 0; i < starMinusCount; i++)
+                                                {
+                                                    <i class="fa-regular fa-star"></i>
+                                                }
+
+                                                @if (starCount == 0)
+                                                {
+                                                    <p class="review-score">0</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="review-score">@product.EvaluateAvg</p>
+                                                }
+                                                @if (product.EvaluateSum == 0)
+                                                {
+                                                    <p class="review-amount">(0)</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="review-amount">(@product.EvaluateSum)</p>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="store-actions d-flex">
+                        <!-- JS 加到收藏店家的頁面 -->
+                        @if (user != null)
+                        {
+
+                            <div class="store-follow col-6 px-1">
+
+                                <!----- Button加入喜歡商家按鈕(yui)------>
+                                <button type="button" onclick="AddfavShop(@product.SellerId)" class="btn btn-sm btn-pink py-1">
+                                    <i class="fa-solid fa-plus"></i>
+                                    加入關注
+                                </button>
+                                <!-- <button type="button" class="btn btn-sm btn-pink btn-checked py-1"><i class="fa-solid fa-check"></i> 已關注</button> -->
+                            </div>
+                            <!-- JS 跳轉聊天室 -->
+                            <div class="store-contact col-6 px-1">
+                                <a class="btn btn-sm btn-gray py-1" href='/Chatroom/UserStarChat?sendTo=@product.SellerId&msg='>
+                                    <i class="fa-regular fa-message"></i>
+                                    聯絡設計師
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="store-follow col-6 px-1">
+
+                                <!----- Button加入喜歡商家按鈕------>
+                                <button type="button" onclick="openLoginModal()" class="btn btn-sm btn-pink py-1">
+                                    <i class="fa-solid fa-plus"></i>
+                                    加入關注
+                                </button>
+                                <!-- <button type="button" class="btn btn-sm btn-pink btn-checked py-1"><i class="fa-solid fa-check"></i> 已關注</button> -->
+                            </div>
+                            <!-- JS 跳轉聊天室 -->
+                            <div class="store-contact col-6 px-1">
+                                <a class="btn btn-sm btn-gray py-1" onclick="openLoginModal()">
+                                    <i class="fa-regular fa-message"></i>
+                                    聯絡設計師
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <!-- 品牌資訊 -->
+                    <div class="store-list">
+                        <div class="store-list-item">
+                            <div class="store-list-title col-3">關注人數</div>
+                            @if (product.FavShop is null)
+                            {
+                                <div class="store-list-content col-9">0 人</div>
+                            }
+                            else
+                            {
+                                <div class="store-list-content col-9">@product.FavShop 人</div>
+                            }
+                        </div>
+                        <div class="store-list-item">
+                            <div class="store-list-title col-3">營業人名稱</div>
+                            <div class="store-list-content col-9">@seller.ShopName</div>
+                        </div>
+                        @if (seller.TaxIdNumber is not null)
+                        {
+                            <div class="store-list-item">
+                                <div class="store-list-title col-3">統一編號</div>
+                                <div class="store-list-content col-9">@seller.TaxIdNumber</div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- 商品標籤 -->
+            @if (product.TagNames.Count() > 0)
+            {
+
+                <div class="product-info-others">
+                    <div class="box-title tag-title">
+                        <h2>商品標籤</h2>
+                    </div>
+                    <div class="title-line"></div>
+                    <div class="box-body">
+                        <div class="product-info-item d-flex">
+                            <div class="product-info-content tag-names flex-wrap fw-folder">
+                                @foreach (var tag in product.TagNames)
+                                {
+                                    <span class="badge rounded-pill text-bg-light">@tag</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- 購買評價 -->
+            <div class="product-review-list">
+                @if (reviewList.Count == 0)
+                {
+                    <div class="box-title">
+                        <h2>商店評價</h2>
+                    </div>
+                    <div class="title-line"></div>
+                    <div class="product-review-item">
+                        <p>(本商店暫無評價)</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="box-title">
+                        <h2>商店評價</h2>
+                    </div>
+                    <div class="title-line"></div>
+                    <div class="product-review-item">
+                        @foreach (var review in reviewList)
+                        {
+                            <ul class="other">
+                                <li class="user-name d-flex">
+                                    <img src="~/img/hatsukoi_icon.png" alt="">
+                                    <p>@review.Account</p>
+                                </li>
+                                <li class="review-star d-flex">
+                                        @{
+                                            int starCount = review.Evaluate;
+                                            int starMinusCount = 5 - starCount;
+                                            if (starCount > 5)
+                                            {
+                                                starCount = 5;
+                                            }
+                                            else if (starCount == 0)
+                                            {
+                                                starCount = 0;
+                                            }
+                                        }
+                                        @for (int i = 0; i < starCount; i++)
+                                        {
+                                        <i class="fa-solid fa-star"></i>
+                                        }
+                                        @for (int i = 0; i < starMinusCount; i++)
+                                        {
+                                        <i class="fa-regular fa-star"></i>
+                                        }
+                                    <p class="review-time"> @review.EvaluateDateCalculate</p>
+                                    <p class="product-name m-2">|&ensp;商品 : @review.ProductName</p>
+                                </li>
+                                <li class="text">@review.EvaluateText</li>
+                            </ul>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 與此商品相似 -->
+@if (similarProdList.Count > 0)
+{
+    <section class="products-container container">
+        <div class="container">
+            <div class="pf-products-row row products-row">
+                <div class="products-text-title">
+                    <h2>與此商品相似</h2>
+                </div>
+                @foreach (var simi in similarProdList)
+                {
+                    <div class="pf-products-col col-6 col-md-2 col-lg-2 products-col">
+                        <div class="pf-products-card products-card">
+                            <div class="pf-products-pic position-relative products-pic">
+
+                                <!-- Button 加入喜歡清單鈕(yui) -->
+                                @if (user != null)
+                                {
+                                    <button onclick="addFavProduct(@product.Id)" type="button" class="btn position-absolute bottom-0 end-0" data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop2">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button onclick="openLoginModal()" type="button" class="btn position-absolute bottom-0 end-0" data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop2">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                }
+                                <a href="~/Product/Id/@simi.ProductId" class="products-pic-a"><img src="@simi.ProductFirstImg"></a>
+                            </div>
+                            <div class="pf-products-text products-text">
+                                <h3><a href="~/Product/Id/@simi.ProductId">@simi.ProductName</a></h3>
+                                <a href="~/Shop?id=@simi.SellerId">@simi.BrandName</a>
+                            </div>
+                            <div class="pf-product-price product-price fw-folder">
+                                <p>NT$ @simi.Price</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- 推薦給你的設計館 -->
+@if (recommendShopList.Count > 0)
+{
+    <section class="homepage-section-shops container">
+        <div class="homepage-shops-container">
+            <div class="homepage-text-title">
+                <h2>推薦給你的設計館</h2>
+            </div>
+            <div id="carouselExampleIndicators-shops" class="carousel slide" data-bs-ride="true">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="homepage-shops-row row" id="row-service-cards">
+                            @foreach (var recommend in recommendShopList)
+                            {
+                                <div class="homepage-shops-col col-12 col-md-4 col-lg-4">
+                                    <div class="homepage-shops-card">
+                                        <div class="homepage-shops-pic">
+                                            <a href="~/Shop?id=@recommend.SellerId" class="shop-pic-a"><img src="@recommend.ShopBannerSquare"></a>
+                                        </div>
+                                        <div class="homepage-shop-info-row row">
+                                            <div class="homepage-shops-info-col col-3 col-md-4 col-lg-4">
+                                                <div class="homepage-shops-logo">
+                                                    <a href="~/Shop?id=@recommend.SellerId" class="shop-logo-a"><img src="@recommend.Icon"></a>
+                                                </div>
+                                            </div>
+                                            <div class="homepage-shops-info-col col-8 col-md-7 col-lg-8">
+                                                <div class="homepage-shops-name">
+                                                    <h2><a href="~/Shop?id=@recommend.SellerId">@recommend.BrandName</a></h2>
+                                                </div>
+                                                <div class="homepage-shops-performance">
+                                                    <span><i class="fa-solid fa-star"></i> 評價  @recommend.EvaluateAvg</span>
+                                                    <span><i class="fa-solid fa-user"></i> 關注人數 @recommend.FavShop</span>
+                                                </div>
+                                            </div>
+                                            <div class="homepage-shops-info-col col-12 col-md-12 col-lg-12">
+                                                <div class="homepage-shops-btns">
+                                                    <button type="button" class="btn-explore btn btn-outline-secondary">
+                                                        <a href="~/Shop?id=@recommend.SellerId">即刻探索</a>
+                                                    </button>
+                                                    @if (user != null)
+                                                    {
+                                                        <button type="button" onclick="AddfavShop(@recommend.SellerId)" class="btn-like btn btn-outline-secondary">
+                                                            <i class="fa-regular fa-heart"></i>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" onclick="openLoginModal()" class="btn-like btn btn-outline-secondary">
+                                                            <i class="fa-regular fa-heart"></i>
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+@section topCSS{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <link href="~/css/product/product.css" rel="stylesheet" />
+    <link href="~/css/homepage.css" rel="stylesheet" />
+    <link href="~/css/productfilter.css" rel="stylesheet" />
+    <link href="~/css/productcards.css" rel="stylesheet" />
+}
+
+@section endJS{
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="~/js/product/product.js"></script>
+
+    <script>
+        //瀏覽數
+        const productId = window.location.pathname.match(/\/Product\/Id\/(\d+)/)[1];
+        const viewCountDto = {
+            productId: productId,
+            pageUrl: window.location.href
+        };
+        axios.post('/api/product/RecordViewCount', viewCountDto)
+            .then(response => {
+                console.log('資料傳送成功', response);
+            })
+            .catch(error => {
+                console.error('資料傳送失敗:' + error);
+            });
+
+
+        //購物車
+        let cartCountRead = document.getElementById('cartCountRead')
+        const editorElement = document.querySelector('#editor');
+        const contentElement = document.querySelector('#content');
+
+        function AddCart(productId, specId, quantity) {
+            if ($("#spec-select").val() == "請選擇商品規格") {
+                Toast.fire({
+                    title: '請選擇商品規格',
+                    timer: 1000 // 設定顯示時間為 1秒
+                });
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("AddCart","Cart")',
+                type: 'POST',
+                data: {
+                    ProductId: productId,
+                    SpecId: specId,
+                    Quantity: quantity
+                },
+                success: function (json) {
+                    let result = json
+                    console.log(quantity)
+                    if (result.isCreate == "save") {
+                        Toast.fire({
+                            title: "已加入購物車",
+                            timer: 1000 // 設定顯示時間為 1秒
+                        });
+                        let num = parseInt(cartCountRead.innerHTML)
+                        if (num == 0) {
+                            cartCountRead.innerHTML = 1
+                            cartCountRead.classList.remove('d-none')
+                        }
+                        else { cartCountRead.innerHTML = num + 1 }
+                    }
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        }
+
+        function addFavProduct(productId) {
+
+            $.ajax({
+                url: '@Url.Action("AddfavProduct","Favlist")',
+                type: 'POST',
+                data: {
+
+                    productId: productId,
+                },
+                success: function (json) {
+
+                    let result = json
+
+                    if (result.isCreate == "已將此商品加入喜歡清單") {
+
+                        Toast.fire(result.isCreate);
+                    }
+                    else {
+
+                        Toast.fire(result.isCreate);
+                        //window.location.href = "~/Product/Id"
+                    }
+
+                }
+
+            })
+        }
+
+        function AddfavShop(sellerId) {
+            //debugger
+            //var url = window.location.href;
+            $.ajax({
+                url: '@Url.Action("AddfavShop","Favlist")',
+                type: 'POST',
+                data: {
+
+                    sellerId: sellerId,
+                },
+                success: function (json) {
+
+                    let result = json
+
+                    if (result.isCreate == "已關注此品牌") {
+
+                        Toast.fire(result.isCreate);
+                    }
+                    else {
+
+                        Toast.fire(result.isCreate);
+                    }
+
+
+                }
+
+            })
+        }
+
+        //富文本
+        ClassicEditor
+            .create(editorElement, {
+                toolbar: {
+                    items: [
+                        'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                        '|', 'alignment', 'outdent', 'indent', '|', 'fontSize', 'fontColor',
+                        '|', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed',
+                        'undo', 'redo'
+                    ]
+                },
+                image: {
+                    toolbar: [
+                        'imageTextAlternative', 'imageStyle:inline',
+                        'imageStyle:block', 'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn', 'tableRow', 'mergeTableCells'
+                    ]
+                },
+                licenseKey: '',
+                heading: {
+                    // 設定 Heading 內的樣式，可新增多個
+                    options: [
+                        {
+                            model: 'paragraph',
+                            title: 'Paragraph',
+                            class: 'ck-heading_paragraph'
+                        },
+                        {
+                            model: 'heading1',
+                            view: 'h2',
+                            title: 'Heading 1',
+                            class: 'ck-heading_heading1'
+                        },
+                        {
+                            model: 'heading2',
+                            view: 'h3',
+                            title: 'Heading 2',
+                            class: 'ck-heading_heading2'
+                        }
+                    ]
+                },
+            })
+            .then(editor => {
+                const editorData = editor.getData();
+                contentElement.innerHTML = editorData;
+                let ck = document.querySelector('.ck-editor');
+                ck.classList.add('d-none');
+            })
+            .catch(error => {
+            });
+        window.onload = function () {
+            textEditor = document.querySelector('.ck-content')
+            textEditor.innerHTML = Introduction.innerText;
+        }
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@using System.Security.Claims
+@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Service.Interface
+@inject IAccountService _getUserService
+@{
+    var user = _getUserService.GetUser();
+}
+@model Hatsukoi.Models.ViewModels.HomepageProductCard
+
+<div class="homepage-new-col col-6 col-md-4 col-lg-2 products-col">
+    <div class="homepage-new-card products-card">
+        <div class="homepage-new-pic position-relative products-pic">
+            <a href="~/Product/Id/@Model.Id" class="products-pic-a"><img class="lazyload" data-src="@Model.ProductFirstImg" src="~/hatsukoipics/hatsukoi_icon.png"></a>
+            <!-- Button 加入喜歡清單鈕 -->
+            @if (user != null)
+            {
+                <button onclick="addFavProduct(@Model.Id)" class="btn position-absolute bottom-0 end-0">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            }
+            else
+            {
+                <button onclick="openLoginModal()" class="btn position-absolute bottom-0 end-0">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            }
+            @if (Model.ViewTimes > 500)
+            {
+                <div class="product-badge position-absolute top-0 start-0">HOT</div>
+            }
+        </div>
+        <div class="homepage-new-text products-text">
+            <h3><a href="~/Product/Id/@Model.Id">@Model.ProductName</a></h3>
+            <a href="~/Shop?id=@Model.SellerId">@Model.BrandName</a>
+        </div>
+        <div class="homepage-new-price products-price">
+            <span>$@Model.Price</span>
+        </div>
+    </div>
+</div>

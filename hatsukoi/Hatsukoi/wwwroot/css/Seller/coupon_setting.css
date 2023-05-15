@@ -1,0 +1,249 @@
+﻿:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+
+ul {
+    padding: 0 !important;
+}
+
+i {
+    cursor: pointer;
+}
+
+.hp-none {
+    display: none;
+}
+
+.form-check-input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+.required::after {
+    content: '*';
+    color: red;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: #F7F7F8;
+}
+
+
+@media screen and (min-width:768px) {
+    .coupon-setting-main .main-body {
+        padding: 40px;
+    }
+
+    .coupon-setting-main {
+        padding-left: 240px;
+    }
+}
+
+@media screen and (min-width:1200px) {
+    .table .thead {
+        background-color: var(--light-gray);
+        font-weight: bold;
+        display: flex;
+        font-size: 14px;
+        line-height: 1.6;
+        width: 100%;
+        align-items: center;
+        padding: 24px;
+        margin: 0;
+    }
+
+    .table .cell {
+        font-size: 16px;
+        padding: 0;
+    }
+
+        .table .cell .title {
+            display: none;
+        }
+
+    .table .single-coupon {
+        display: flex !important;
+    }
+
+    .table .cell .edit {
+        margin-right: 15px !important;
+    }
+
+    .table .cell .content {
+        padding: 0;
+    }
+}
+
+
+/* 內容 */
+.main-body {
+    padding: 40px 20px;
+    margin: 0 auto;
+}
+
+    .main-body h1 {
+        font-size: 30px;
+        line-height: 1.4;
+        margin-bottom: 36px;
+    }
+
+/* 小提醒區塊 */
+.reminder {
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 24px;
+    background-color: var(--light-gray);
+}
+
+    .reminder .title {
+        color: var(--dark-gray);
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .reminder ul {
+        margin-top: 6px;
+    }
+
+        .reminder ul li {
+            margin-top: 10px;
+            line-height: 1.5;
+            text-indent: -8px;
+            padding-left: 15px;
+            text-align: justify;
+        }
+
+
+            .reminder ul li:before {
+                width: 5px;
+                content: '•';
+                display: inline-block;
+            }
+
+    .reminder a {
+        color: var(--main-pink);
+    }
+
+.text {
+    margin-bottom: 15px;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.p-btn {
+    display: block;
+    background-color: var(--peach-pink);
+    border: none;
+    color: #fff;
+    width: fit-content;
+}
+
+    .p-btn:hover {
+        background-color: var(--main-pink);
+        color: #fff;
+    }
+
+.list-state {
+    padding: 0;
+}
+
+.list-empty {
+    background-color: #fff;
+    margin: 25px 0;
+    padding: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+.coupon-edit-form > div {
+    margin-bottom: 30px;
+}
+
+.input-content {
+    margin-left: 28px;
+    padding: 6px 0;
+}
+
+.coupon-edit-form .text {
+    font-size: 15px;
+}
+
+.coupon-edit-form .form-label {
+    font-weight: bold;
+    color: var(--dark-gray);
+}
+
+.coupon-edit-form .form-check label {
+    line-height: 1.5;
+}
+
+
+.form-input-wrapper {
+    margin-top: 10px;
+}
+
+/* ------------- */
+
+.table {
+    padding: 0;
+    margin: 25px 0;
+}
+
+.thead {
+    display: none;
+}
+
+.table > .single-coupon {
+    background-color: #fff;
+    padding: 24px;
+}
+
+.table .single-coupon:not(:last-child) {
+    border-bottom: 1px solid #d3d3d5;
+}
+
+.table .single-coupon {
+    margin: 0;
+    display: block;
+    background-color: #fff;
+    line-height: 1.6;
+    width: 100%;
+    font-size: 13px;
+}
+
+.table .cell {
+    display: flex;
+    padding: 0;
+}
+
+.cell .title {
+    font-weight: bold;
+    display: block;
+    width: 30%;
+}
+
+.table .cell .edit {
+    color: #6975c2;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.table .cell .delete {
+    color: #e23451;
+    padding: 0;
+}
+
+.modal h1 {
+    margin-bottom: 0;
+}

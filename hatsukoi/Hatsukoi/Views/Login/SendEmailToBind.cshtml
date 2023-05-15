@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+    var email = ViewData["email"];
+}
+<div class="pt-146 container py-4">
+    <h2 class="text-main my-5 fw-bolder fs-4 text-center">您的 Email 已註冊過！</h2>
+    <div class="max-500 mx-auto">
+        <img src="~/img/user/submitted-successfully.png" />
+    </div>
+    <div class="max-500 border rounded mx-auto text-small p-4">
+        <p><span id="bindEmail">@email</span> 已被使用 第三方登入 註冊過</p>
+        <p class="my-3">按下確認按鈕將寄信件到您的Email中來創建您的 Hatsukoi 帳號</p>
+        <button id="open" class="btn my-4 my-btn d-block mx-auto p-2 px-3" onclick="ExternalLogin()">確認</button>
+        <a class="btn my-4 my-btn d-block mx-auto p-2 px-3" href="@Url.Content("~/Home")">稍後再說</a>
+    </div>
+</div>
+<script>
+    let bindEmail = document.querySelector('#bindEmail')
+    function ExternalLogin() {
+        $.ajax({
+            url: '/api/Login/SendEmailBind',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+                InputEmail: bindEmail.innerText
+            }),
+            success: function () {
+                window.location.href = "/Home/Index"
+            }
+        })
+    }
+</script>
+@section topCSS{
+    <link href="~/css/user/finishseller.css" rel="stylesheet" />
+}

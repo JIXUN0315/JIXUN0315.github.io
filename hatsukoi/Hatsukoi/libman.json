@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "bootstrap@5.2.3",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "library": "sweetalert2@11.7.3",
+      "destination": "wwwroot/sweetalert2/"
+    },
+    {
+      "library": "vue2@1.0.0",
+      "destination": "wwwroot/vue2/"
+    },
+    {
+      "library": "@microsoft/signalr@latest",
+      "destination": "wwwroot/lib/microsoft/signalr/"
+    },
+    {
+      "library": "jquery-lazyload@1.9.7",
+      "destination": "wwwroot/lib/jquery-lazyload/"
+    }
+  ]
+}

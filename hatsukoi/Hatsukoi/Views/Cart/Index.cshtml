@@ -1,0 +1,297 @@
+﻿@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Models.ViewModels.Cart;
+@using Hatsukoi.Service;
+@model IEnumerable<Hatsukoi.Models.ViewModels.Cart.CartViewModel>
+
+@{
+    ViewData["Title"] = "購物車";
+    Layout = "~/Views/Shared/_Layout_Cart.cshtml";
+    
+}
+<!--------------------------------------------------------------->
+<main>
+    <div class="container" id="app" v-cloak>
+        <div class="row justify-content-center w-75 m-auto" v-show="cartlistCount == 0">
+            <img src="~/img/user/order_v2.png" class="emptyimg m-auto" />
+        </div>
+        <div class="row justify-content-between" v-if="cartlistCount > 0">
+
+            <!----------- 店家清單 ---------------->
+            <div class="cart-shop-list col-12 col-md-8 mb-3">
+                <!----------- 店家 ---------------->
+                <div class="cart-shop mb-2" v-for="(shop, index) in shops" :key="shop.id">
+                    <div class="cart-shop-header d-flex justify-content-between  p-2">
+                        <div class="form-check"> 
+                            <!-------商家勾選紐--------->
+                            <input v-model="shop.checked"  class="form-check-input " type="checkbox" >
+                            <label class="form-check-label lh-base" for="shopselect">
+                                {{ shop.shopName }}
+                            </label>
+
+                        </div>
+                        <!-------商家刪除紐--------->
+                        <button v-on:click="removeShop(shop.id)" type="button" class="btn-close btn-delete-shop " aria-label="Close"></button>
+                    </div>
+                    <div class="cart-shop-body">
+                        <div class="cart-shop-p me-0 ">
+                            
+                            @*<div class="cart-product-note p-2">
+                                <span>已套用優惠數量 : 1</span>
+                            </div>*@
+                            <!-- 商品 -->
+                            <div class="cart-product d-flex position-relative" v-for="(product, index) in shop.cartItems" :key="product.id">
+                                <div class="cart-product-pic m-2 col-md-2">
+                                    <a :href="`/Product/Id/${product.productId}`"><img :src="product.itemImg"></a>
+                                    
+                                </div>
+                                <div class="cart-product-detail d-flex flex-column  flex-md-row justify-content-md-between  col-9 col-md-9">
+                                    <div class="cart-product-text d-flex mt-2 ">
+                                        <div class="d-flex flex-column">
+                                            <div class=" mb-2">
+                                                <a class="cart-product-title d-inline-block text-truncate" style="max-width: 150px;" :href="`/Product/Id/${product.productId}`">{{ product.itemName }}</a>
+                                            </div>
+                                            <!------- 規格渲染 要改規格回商品頁 --------->
+                                            <div class="cart-product-describe mb-2">
+                                                <label class="text-darkgray text-sm "  :value="product.specId">{{ product.specName }}</label>
+                                            </div>
+                                            
+                                        </div>
+
+
+                                    </div>
+                                    <div class="cart-product-extras d-flex justify-content-between">
+                                        <div class="cart-product-quantity m-2 px-2 ">
+                                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                <!-------產品數量刪減紐--------->
+                                                <button type="button" class="btn btn-outline-primary" v-on:click="changeQuantity('decrement', shop, product)">-</button>
+                                                <label class="btn btn-outline-primary">{{ product.quantity }}</label>
+                                                <input v-model="product.quantity" v-on:change="updateQuantity" class="btn btn-outline-primary d-none" min="1" disable/>
+
+                                                <button type="button" class="btn btn-outline-primary" v-on:click="changeQuantity('increment', shop, product)">+</button>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="cart-product-subtotal p-2 d-flex flex-column pe-md-5 pe-lg-1 pe-1">
+                                            
+                                            {{ product.quantity * product.unitPrice }}
+                                        </div>
+                                    </div>                                    
+                                </div>
+
+                                <!-------產品刪除紐--------->
+                                <button v-on:click="removeProduct(product.cartId)" type="button" class="btn-close btn-delete-product ms-2" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <!-- 分隔線 -->
+                        <div class="divider"></div>
+
+                        <!-- 運送方式 -->
+                        <div class="cart-shipping-select  m-2">
+                            <div class="mb-2">選擇收件地與運送方式</div>
+                            
+                            <div class="shipselect-option my-2">
+                                <select class="form-select form-select-sm  w-100 ship-select"
+                                        aria-label="form-select-sm ">
+                                    <option disabled>請選擇運送方式</option>
+                                    <option value="TW">郵寄</option>
+                                    
+                                </select>
+
+                            </div>
+                            <div class="extra-note">
+                                <ul class="shipping-method-note list-unstyled">
+                                    <li class="info lh-base">
+                                        通知出貨後約 3 - 6 天寄達 @*| 提供追蹤 | 外島地區目前台灣順豐不支援配送，請選擇其他配送物流，設計師有權取消誤選順豐之外島訂單。*@
+                                    </li>
+                                    @*<li class="notice lh-base">
+                                        如所在地為台灣離島區域，將會產生轉運附加費用
+                                    </li>*@
+                                    
+                                </ul>
+                            </div>
+
+
+                        </div>
+                        <!-- coupon優惠券 -->
+                        <div class="cart-coupon p-2 d-flex align-items-center">
+                            <i class="fa-solid fa-ticket px-2"></i>
+                            <label class="form-check-label" for="checkedrecipientid">
+
+                                <!-- Button trigger modal 優惠券 -->
+                                <div v-on:click="getCoupon(shop.id)">
+                                    <a  class="a-cart-coupon px-2" data-bs-toggle="modal"
+                                       data-bs-target="#staticBackdrop">使用優惠券
+                                       <span v-if="discountAmount !== 0" class="text-pink">已折抵{{ discountAmount }}元</span>
+                                   </a>
+                                </div>
+                                
+                            </label>
+                            <!-- Modal 優惠券 -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content rounded-1">
+                                        <div class="modal-header p-2">
+                                            <div class="modal-title" id="staticBackdropLabel">設計館優惠券</div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <ul class="modal-body p-2">
+                                            <li v-if="coupon.length < 1">
+                                                <p class="text-center text-mainpink fw-semibold p-4 fs-2 m-0">沒有可使用的優惠券喔</p>
+                                            </li>
+                                            
+                                            <li v-for="(item, index) in coupon" >
+                                                <div class="coupon-ticket d-flex align-items-center p-2 m-2">
+                                                    <!-------coupon勾選紐--------->
+                                                    <input v-model="selectedCoupon" :checked="selectedCoupon === item" class="form-check-input m-2 " type="radio" :value="item" name="couponChecked"
+                                                           id="couponChecked" >
+
+                                                    <label class="form-check-label lh-base m-2" for="couponChecked">
+                                                        <div class="coupon-ticket-text d-flex flex-column">
+                                                            <div>{{item.sellerName}}</div>
+                                                            <span>
+                                                                消費滿{{item.condition}}，享
+                                                                <span class="text-pink">{{item.discountStr}} 折</span>
+                                                            </span>
+                                                            <span></span>
+                                                            <span class="text-gray text-sm">
+                                                                使用期限：{{item.startTimeStr}} ~ {{item.endTimeStr}} 前，專屬優惠限用 1 次
+                                                            </span>
+                                                        </div>
+                                                    </label>
+                                                    <div class="coupon-pic-shop m-auto">
+                                                        <img :src="item.img">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            
+                                        </ul>
+                                        <div class="modal-footer p-2">
+                                            <button type="button" class="btn btn-dg btn-Understood"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                確定
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!----------- 店家 ---------------->
+
+
+
+
+            </div>
+
+            <!----------- 結帳資訊 ---------------->
+            <div class="col-12 col-md-4 me-0 cart-shop-total ">
+                <div class="cart-fixed-panel-container-md">
+                    <div class="cart-fixed-panel-md ">
+                        <div class="accordion accordion-flush " id="accordion-total-detail">
+                            <div class="accordion-item">
+                               
+                                <div id="total-detail" class="accordion-collapse collapse"
+                                     aria-labelledby="collapsedetail" data-bs-parent="#accordion-total-detail">
+                                    <div class="total-detail-display m-2">
+                                        <div class="total-detail-price d-flex justify-content-between">
+                                            <span>總計 </span>
+                                            <span>NT$ {{ selectedShopTotal}} </span>
+                                        </div>
+                                        <div class="total-detail-discount d-flex justify-content-between">
+                                            <span>折抵</span>
+                                            <span>NT$ {{ priceDiscount }}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="accordion-header d-flex justify-content-between" id="collapsedetail">
+                                    <div class="total-detail-text ">
+                                        <button class="accordion-button btn-detail-display p-2" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#total-detail"
+                                                aria-expanded="true" aria-controls="total-detail">
+                                            隱藏明細
+                                        </button>
+                                        <div class="m-2">結帳總金額 NT$ {{ selectedShopTotal - discountAmount }}</div>
+                                    </div>
+                                    <form action="/Cart/GetCheckShop" method="post">
+                                        <input class="d-none" type="text" name="ShopId" v-model="selectedShopId" />
+                                        <input class="d-none" type="text" name="CouponId" v-model="selectedCouponId" />
+                                        <input class="d-none" type="text" name="DiscountAmount" v-model="discountAmount" />
+                                        <button type="submit" v-on:submit.prevent="toCheck" class="btn btn-pk btn-checked m-2" v-bind:disabled="!canCheckout">前往結帳</button>
+                                    </form>
+                                   
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-fixed-panel-container sticky-top">
+                    <div class="cart-order-detail ">
+                        <p class="cart-order-detail-title p-2">訂單摘要</p>
+                        <div class="cart-fixed-panel p-2 ">
+                            <div class="total-detail-display m-2">
+                                <div class="total-detail-dprice d-flex justify-content-between py-1">
+                                    <span>商品總計</span>
+                                    <span>NT$ {{  selectedShopTotal  }}</span>
+                                </div>
+                                <div class="total-detail-ddiscount d-flex justify-content-between py-1">
+                                    <span>折抵</span>
+                                    <span>NT$ {{ priceDiscount }}</span>
+                                </div>
+
+                                
+
+                                <p class="text-sm text-gray ">實際運費金額以購物車結算或是到貨時收取的金額為準。</p>
+                            </div>
+                            
+                            <div class="m-2 d-flex justify-content-between py-2">
+                                <span class="fw-semibold">結帳總金額</span>
+                                <span class="fw-semibold">{{ selectedShopTotal - discountAmount }}</span>
+
+                            </div>
+                            <form action="/Cart/GetCheckShop" method="post">
+                                <input class="d-none" type="text" name="ShopId" v-model="selectedShopId" />
+                                <input class="d-none" type="text" name="CouponId" v-model="selectedCouponId" />
+                                <input class="d-none" type="text" name="DiscountAmount" v-model="discountAmount" />
+
+                                <button type="submit" v-on:submit.prevent="toCheck" class="btn btn-pk btn-checked" v-bind:disabled="!canCheckout">前往結帳</button>
+                            </form>
+                            
+                            
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+@section topCSS{
+    <link href="~/css/Cart/_Cart.css" rel="stylesheet" />
+
+}
+@section topJS{
+
+}
+
+@section endJS{
+    <script src="~/js/cart/cart_vue2.js"></script>
+
+}
+

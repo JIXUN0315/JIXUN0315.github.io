@@ -1,0 +1,136 @@
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-Gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+img{
+    width: 110% !important;
+    vertical-align: middle !important;
+}
+a{
+    color: black !important;
+    text-decoration: none !important;
+}
+li{
+    list-style: none !important;
+}
+.text-gray{
+    color: rgb(153, 153, 153) !important;
+}
+.text-small {
+    font-size: 14px;
+}
+.text-middle-small{
+    font-size: 13px;
+}
+.text-very-small {
+    font-size: 10px;
+}
+.text-big{
+    font-size: 17px;
+}
+.text-very-big{
+    font-size: 22px;
+}
+.message-pic{
+    width: 30px;
+}
+.message-center-header {
+    height: 9vh !important;
+    border-bottom: 1px solid var(--light-Gray) !important;
+}
+.modal-button-pic {
+    overflow:hidden !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+}
+
+
+.all-chat-room {
+        width: 100%;
+        height: 91vh;
+        display: block;
+        overflow-y: auto;
+        white-space: nowrap;
+}
+.every-message-pic {
+    width: 60px;
+    height: 60px;
+}
+.every-message-pic img {
+    width:90% !important;
+    border-radius: 50% !important;
+}
+.no-message-pic{
+    width: 400px;
+}
+.send-pic{
+    width: 200px !important;
+}
+.has-message-header {
+    height: 9vh !important;
+    box-shadow: 0px 0px 5px 5px rgb(0 0 0 / 5%) inset;
+}
+.message-input {
+    height: 22vh !important;
+    background-color: var(--light-pink);
+}
+.message-input-text-area{
+    width: 100%;
+    height: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none !important;
+    border-radius: 0 !important;
+    background-color: #f8f8f8;
+    resize: none;
+}
+.message-input-area {
+    height: 70% !important;
+}
+.form-control:focus{
+    box-shadow:none !important;
+}
+.my-btn{
+    background-color: var(--main-pink) !important;
+    color: white !important;
+}
+.my-btn:hover{
+    background-color: var(--dark-gray) !important;
+}
+.message-text{
+    height: 60vh !important;
+    display: block;
+    overflow-y: auto;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--peach-pink);
+}
+.middle-line{
+    height: 1px;
+    background-color: var(--light-Gray) !important;
+}
+.message-text-main-text{
+    max-width: 300px;
+    background-color: rgb(247, 247, 248);
+    border-radius: 5px;
+}
+.my-message-text{
+    background-color: var(--main-pink);
+    color: white;
+}
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.w185{
+    width:185px !important;
+}
+@media screen and (min-width:768px) {
+    .all-chat-room{
+        width: 400px;
+    }
+}

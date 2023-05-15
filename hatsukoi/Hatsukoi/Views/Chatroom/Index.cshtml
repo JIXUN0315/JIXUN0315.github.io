@@ -1,0 +1,534 @@
+﻿@model Hatsukoi.Models.ViewModels.ChatRoom.Receivers
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>hatsukoi</title>
+    <link href="~/css/reset.css" rel="stylesheet" />
+    <link rel="icon" href="~/img/hatsukoi_icon.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/11cd7ec45e.js" crossorigin="anonymous"></script>
+    <link href="~/css/Message/Message.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <style>
+        [v-cloak]{
+            display:none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="message-center-header d-flex justify-content-between p-2 px-3">
+        <div class="message-center-pic-box d-flex align-items-center">
+            <div class="message-pic overflow-hidden">
+                <img src="~/img/hatsukoi_icon.png" />
+            </div>
+            <a href="@Url.Content("~/Home/Index")" class="d-block m-0 fw-bolder ms-1">Hatsukoi 訊息中心</a>
+        </div>
+        <div class="message-user d-flex align-items-center">
+            <!-- Button trigger modal -->
+            <button type="button" class="modal-button-pic p-0 border-0" data-bs-toggle="modal"
+                    data-bs-target="#message-user-modal">
+                <img src="@Model.Img" />
+            </button>
+        </div>
+    </div>
+    <div id="chatApp" class="main-message d-flex" v-cloak>
+        <div class="all-chat-room border-end d-md-block" v-bind:class="allMsg">
+            <div class="every-message p-3 d-flex my-3" v-for="msg in msgsArr" :key="msg.receiverId" v-on:click="selectMsg(msg.receiverId)">
+                <div class="every-message-pic me-3 overflow-hidden">
+                    <img v-bind:src="msg.receiverImg" />
+                </div>
+                <div class="every-message-text d-flex flex-column justify-content-around flex-grow-1">
+                    <div class="every-message-title d-flex justify-content-between">
+                        <p class="m-0 fw-bolder text-small w185 ellipsis">
+                            {{ msg.receiverName }} <i class="fa-solid fa-clipboard-check mx-1"></i>
+                        </p>
+                        <p class="m-0 text-small text-gray">{{ msg.lastMessageTime }}</p>
+                    </div>
+                    <div class="m-0 p-0" v-if="!msg.lastMessage.startsWith('<div class=')">
+                        <div class="d-flex justify-content-between" v-if="msg.unRead != 0">
+                            <p class="m-0 fw-bolder text-small text-gray w185 ellipsis">{{ msg.lastMessage }}</p>
+                            <div class="bg-danger text-small text-light fw-bolder rounded-pill px-2">{{ msg.unRead }}</div>
+                        </div>
+                        <p v-if="msg.unRead == 0" class="m-0 fw-bolder text-small text-gray w185 ellipsis">{{ msg.lastMessage }}</p>
+                    </div>
+                    <div class="m-0 p-0" v-if="msg.lastMessage.startsWith('<div class=')">
+                        <div class="d-flex justify-content-between" v-if="msg.unRead != 0">
+                            <p class="m-0 fw-bolder text-small text-gray w185 ellipsis">已傳送圖片</p>
+                            <div class="bg-danger text-small text-light fw-bolder rounded-pill px-2">{{ msg.unRead }}</div>
+                        </div>
+                        <p v-if="msg.unRead == 0" class="m-0 fw-bolder text-small text-gray w185 ellipsis">已傳送圖片</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="single-chat-room d-md-block flex-grow-1 text-center" v-bind:class="oneMsg">
+            <!-- 無訊息時 -->
+            <div class="no-message" v-show="isVisible">
+                <div class="no-message-pic mx-auto mt-5 pt-5">
+                    <img src="~/img/user/nomessage.png" />
+                </div>
+                <h2>歡迎來到訊息中心</h2>
+                <p class="text-gray">請從左邊的列表選擇想談話的對象</p>
+            </div>
+            <div v-show="!isVisible" v-bind:class="oneMsg" class="has-message d-flex flex-column justify-content-between">
+                <!-- 訊息開頭 -->
+                <div class="has-message-header d-flex px-3 py-2 align-items-center justify-content-between">
+                    <div class="d-md-none message-return-all-message" v-on:click="closeMsg">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="every-message-pic me-3 overflow-hidden">
+                            <img v-bind:src="shopImg" />
+                        </div>
+                        <p class="m-0 fw-bolder fw-bolder text-big">{{ shopName }}</p>
+                    </div>
+                    <div class="d-md-none"></div>
+                </div>
+                @*<div ref="chatroom" class="message-text px-3" id="msg-text" v-on:scroll="load5Message($event)">*@
+                <div ref="chatroom" class="message-text px-3" id="msg-text" v-on:scroll="load5Message($event)">
+                    <!-- 訊息內容顯示 -->
+                    <div v-for="msg in msgDetail" :key="msg.msgId">
+                        <!-- 訊息時間顯示 -->
+                        <div class="message-time d-flex align-items-center" v-if="msg.changeTime != ''">
+                            <div class="middle-line flex-grow-1"></div>
+                            <p class="message-date m-3 text-very-small fw-bolder text-gray">{{ msg.changeTime }}</p>
+                            <div class="middle-line flex-grow-1"></div>
+                        </div>
+                        <div class="message-text-main d-flex my-3" v-if="msg.msgType == 2">
+                            <div class="every-message-pic me-3 overflow-hidden">
+                                <a v-bind:href="sellerId"><img v-bind:src="shopImg" /></a>
+                            </div>
+                            <div class="message-text-area text-start">
+                                <div class="message-text-main-text p-2 text-wrap" v-if="!msg.message.startsWith('<div class=')">
+                                    {{ msg.message }}
+                                </div>
+                                <div class="message-text-main-text p-2 text-wrap" v-if="msg.message.startsWith('<div class=')" v-html="msg.message">
+                                </div>
+                                <div class="time-message text-middle-small fw-bolder my-1 text-gray">
+                                    {{ msg.sendTime }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-text-main d-flex my-3 flex-row-reverse" v-if="msg.msgType == 1">
+                            <div class="message-text-area text-start">
+                                <div class="message-text-main-text p-2 text-wrap" v-if="!msg.message.startsWith('<div class=')">
+                                    {{ msg.message }}
+                                </div>
+                                <div class="message-text-main-text p-2 text-wrap" v-if="msg.message.startsWith('<div class=')" v-html="msg.message">
+                                </div>
+                                <div class="time-message text-middle-small fw-bolder my-1 text-gray text-end">
+                                    {{ msg.sendTime }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-input p-3">
+                    <div class="message-input-area">
+                        <textarea class="form-control message-input-text-area px-3 py-2" rows="3" v-model="inputMsg"></textarea>
+                        <div class="message-input-button-area d-flex justify-content-between bg-white">
+                            <div class="update-pic-area d-flex align-items-center">
+                                <div>
+                                    <label for="formFile-file" class="form-label m-2 ms-3 text-gray text-very-big">
+                                        <i class="fa-solid fa-paperclip"></i>
+                                    </label>
+                                    <input class="d-none" type="file" id="formFile-file">
+                                </div>
+                                <div>
+                                    <label for="formFile-pic" class="form-label m-2 text-gray text-very-big">
+                                        <i class="fa-regular fa-image"></i>
+                                    </label>
+                                    <input class="d-none" type="file" accept="image/*" v-on:change="sendPicture" id="formFile-pic">
+                                </div>
+                            </div>
+                            <div class="send-message-button p-2">
+                                <button class="btn my-btn" v-on:click="sendMsg()">
+                                    <i class="fa-solid fa-paper-plane me-2"></i>傳送
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="message-user-modal" tabindex="-1" aria-labelledby="message-user-modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="message-center-header p-2">
+                    <div class="message-center-pic-box d-flex align-items-center">
+                        <div class="message-pic overflow-hidden m-3">
+                            <img src="@Model.Img" />
+                        </div>
+                        <p class="m-0 fw-bolder ms-1">Hatsukoi 訊息中心</p>
+                    </div>
+                </div>
+                <div class="modal-body text-small">
+                    <ul>
+                        <li class="my-4 fw-bolder">@Model.Name</li>
+                        <li class="my-4"><a href="@Url.Content("~/Home/Index")">前往 Hatsukoi首頁</a></li>
+                        <li class="my-4"><a href="">登出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script>
+        let connection = new signalR.HubConnectionBuilder().withUrl('/Chathub').build()
+        connection.start()
+
+        const chatApp = new Vue({
+            el: '#chatApp',
+            data: {
+                isVisible: true,
+                msgsArr: [],
+                msgDetail: [],
+                shopName: '',
+                shopImg: '',
+                sellerId: '',
+                oneMsg: 'd-none',
+                allMsg: '',
+                chatSeller: '',
+                inputMsg: '',
+                isLoading: true,
+                img: ''
+            },
+            mounted() {
+                //請求data
+                this.getMsgs();
+                let t = this
+                let a = setInterval(function () {
+                    t.starMsg();
+                    clearTimeout(a);
+                }
+                    , 1000);
+            },
+            computed: {
+                shelveProducts() {
+                    return this.products.filter(p => p.productStatus === 2);
+                },
+                offShelveProducts() {
+                    return this.products.filter(p => p.productStatus === 1);
+                }
+            },
+            methods: {
+                //獲取後端傳來的json資料
+                getMsgs() {
+                    let th = this
+                    $.ajax({
+                        url: '/api/Chatroom/GetMessages',
+                        type: 'GET',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: (response) => {
+                            if (response.status === 0) {
+                                this.msgsArr = response.result;
+                            }
+                        }
+                    })
+                },
+                //打開訊息對話框
+                selectMsg(receiverId) {
+                    //開啟一對一聊天畫面
+                    this.oneMsg = '';
+                    this.allMsg = 'd-none';
+                    this.sellerId = "/Product/Shop/" + receiverId
+                    this.chatSeller = receiverId
+                    console.log(this.$refs)
+                    let th = this
+                    $.ajax({
+                        url: '/api/Chatroom/SelectMessage',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            ReceiverId: receiverId
+                        }),
+                        success: function (response) {
+                            th.isVisible = false;
+                            th.shopName = response.result.name;
+                            th.shopImg = response.result.img;
+                            th.msgDetail = response.result.messages
+                            //讓未讀的訊息數字變為已讀
+                            th.msgsArr.find(x => x.receiverId == th.chatSeller).unRead = 0
+                            //讓畫面從底下開始
+                            if (th.$refs.chatroom != undefined) {
+                                //th.$refs.chatroom.scrollIntoView()
+                                th.$nextTick(() => {
+                                    th.$refs.chatroom.scrollTop = th.$refs.chatroom.scrollHeight
+                                })
+                            }
+                        }
+                    })
+                    this.updateMsgBox()
+                },
+                closeMsg() {
+                    this.oneMsg = 'd-none';
+                    this.allMsg = '';
+                },
+                //祭出訊息
+                sendMsg() {
+                    if (this.inputMsg.trim() != '') {
+                        connection.invoke('UserSendMessage', this.chatSeller, this.inputMsg)
+                        this.inputMsg = ''
+                    }
+                },
+                //開始訊息聊天
+                starMsg() {
+                    let th = this
+                    $.ajax({
+                        url: '/api/Chatroom/UserStar',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: function (response) {
+                            //檢查有沒有與這個賣家聊過天
+                            if (response.result != '') {
+                                let hasMsg = th.msgsArr.some((x) => x.receiverId == response.result.reciverId);
+                                if (hasMsg) {
+                                    th.selectMsg(response.result.reciverId);
+                                }
+                                else {
+                                    th.isVisible = false;
+                                    th.shopName = response.result.name;
+                                    th.shopImg = response.result.img;
+                                    th.chatSeller = response.result.reciverId;
+                                }
+                                th.inputMsg = response.result.messages;
+                                th.oneMsg = '';
+                                th.allMsg = 'd-none';
+                            }
+                            //依樣訊息要從底下開始長
+                            if (th.$refs.chatroom != undefined) {
+                                //th.$refs.chatroom.scrollIntoView()
+                                th.$nextTick(() => {
+                                    th.$refs.chatroom.scrollTop = th.$refs.chatroom.scrollHeight
+                                })
+                            }
+                        }
+                    })
+                },
+                updateMsgBox() {
+                    let msgText = document.getElementById('msg-text');
+                    if (msgText != null && msgText != undefined) {
+                        msgText.scrollTop = msgText.scrollHeight
+                    }
+                },
+                load5Message(event) {
+                    //滾輪往上時要加載更舊的五筆訊息
+                    if (event.target.scrollTop < 300 && this.isLoading) {
+                        this.isLoading = false
+                        let th = this
+                        $.ajax({
+                            url: '/api/Chatroom/UserGet5Message',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                ReceiverId: th.chatSeller,
+                                MsgCount: th.msgDetail.length
+                            }),
+                            success: function (response) {
+                                if (response.result.messages.length > 0) {
+                                    let msgTime = ''
+                                    //let arr = th.msgDetail
+                                    //th.msgDetail = response.result.messages
+                                    // th.msgDetail.push(...arr)
+                                    let arr = response.result.messages
+                                    arr.push(...th.msgDetail)
+                                    arr.forEach((x) => {
+                                        if (x.changeTime == msgTime) {
+                                            x.changeTime = ''
+                                        }
+                                        if (x.changeTime != '') {
+                                            msgTime = x.changeTime
+                                        }
+                                    })
+                                    th.msgDetail = arr
+                                }
+                                //防止一直觸發敲api
+                                let a = setInterval(function () {
+                                    th.isLoading = true
+                                    clearTimeout(a);
+                                }
+                                    , 500);
+                            }
+                        })
+                    }
+                },
+                sendPicture(event) {
+                    let th = this
+                    let input = event.target;
+                    if (input.files) {
+                        let inputimg = ''
+                        let reader = new FileReader();
+                        reader.onload = (e) => {
+                            inputimg = e.target.result;
+                        }
+                        reader.readAsDataURL(input.files[0]);
+                        let a = setInterval(function () {
+                            $.ajax({
+                                url: '/api/Chatroom/SendImg',
+                                type: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify({
+                                    img: inputimg
+                                }),
+                                success: function (response) {
+                                    th.inputMsg = response.result
+                                    th.sendMsg()
+                                }
+                            })
+                            clearTimeout(a);
+                        }
+                            , 100);
+                    }
+                }
+            }
+        });
+        //祭出訊息時的畫面
+        connection.on('userSendMsgBox', function (msg) {
+            ///左側訊息列顯示
+            let hasMsg = false
+            //檢查有沒有與這個人聊過天
+            chatApp.$data.msgsArr.forEach(x => {
+                if (x.receiverId == msg.receiverId) {
+                    hasMsg = true
+                }
+            })
+            let arr = chatApp.$data.msgsArr
+            //更新左側聊天訊息
+            if (hasMsg) {
+                let index = arr.findIndex(x => x.receiverId == msg.receiverId)
+                arr.splice(index, 1);
+            }
+            chatApp.$data.msgsArr = []
+            chatApp.$data.msgsArr.push(msg)
+            chatApp.$data.msgsArr.push(...arr)
+            ///右側聊天訊息顯示
+            let time = new Date();
+            let mm = time.getMonth() + 1;
+            let dd = time.getDate();
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            let yy = time.getFullYear()
+            let timeStr = yy + '-' + mm + '-' + dd
+            //時間顯示處理，如果舊的訊息有就讓後面不要顯示一樣的時間
+            if (chatApp.$data.msgDetail.some(x => x.changeTime == timeStr)) {
+                timeStr = '';
+            }
+            //塞入新的訊息進入陣列內讓畫面渲染
+            let newMsg = {
+                msgType: 1,
+                message: msg.lastMessage,
+                sendTime: msg.lastMessageTime,
+                changeTime: timeStr
+            }
+            chatApp.$data.msgDetail.push(newMsg)
+            let msgText = document.getElementById('msg-text');
+            setTimeout(function () {
+                if (msgText != null && msgText != undefined) {
+                    msgText.scrollTop = msgText.scrollHeight
+                }
+            }, 100)
+            if (msgText != null && msgText != undefined) {
+                msgText.scrollTop = msgText.scrollHeight
+            }
+        })
+
+        connection.on('userUpdateMsgBox', function (msg) {
+            //左側訊息列顯示
+            let hasMsg = false
+            chatApp.$data.msgsArr.forEach(x => {
+                if (x.receiverId == msg.receiverId) {
+                    hasMsg = true
+                }
+            })
+            let arr = chatApp.$data.msgsArr
+            //更新未讀訊息數量
+            let unReadCount = 0
+            if (hasMsg) {
+                let index = arr.findIndex(x => x.receiverId == msg.receiverId)
+                unReadCount = arr.find(x => x.receiverId == msg.receiverId).unRead
+                arr.splice(index, 1);
+            }
+            if (msg.receiverId != chatApp.$data.chatSeller) {
+                unReadCount++
+            }
+            msg.unRead = unReadCount
+            chatApp.$data.msgsArr = []
+            chatApp.$data.msgsArr.push(msg)
+            chatApp.$data.msgsArr.push(...arr)
+            //右側聊天訊息顯示
+            if (chatApp.$data.chatSeller == msg.receiverId) {
+                let time = new Date();
+                let mm = time.getMonth() + 1;
+                let dd = time.getDate();
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                let yy = time.getFullYear()
+                let timeStr = yy + '-' + mm + '-' + dd
+                if (chatApp.$data.msgDetail.some(x => x.changeTime == timeStr)) {
+                    timeStr = '';
+                }
+                let newMsg = {
+                    msgType: 2,
+                    message: msg.lastMessage,
+                    sendTime: msg.lastMessageTime,
+                    changeTime: timeStr
+                }
+                chatApp.$data.msgDetail.push(newMsg)
+                $.ajax({
+                    url: '/api/Chatroom/UserReadMessage',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        ReceiverId: chatApp.$data.chatSeller
+                    }),
+                    success: function (response) {
+                    }
+                })
+            }
+            let msgText = document.getElementById('msg-text');
+            setTimeout(function () {
+                if (msgText != null && msgText != undefined) {
+                    msgText.scrollTop = msgText.scrollHeight
+                }
+            }, 100)
+            if (msgText != null && msgText != undefined) {
+                msgText.scrollTop = msgText.scrollHeight
+            }
+        })
+    </script>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>

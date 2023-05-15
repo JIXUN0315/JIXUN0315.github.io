@@ -1,0 +1,1194 @@
+﻿@using System.Security.Claims;
+@using Hatsukoi.Helpers;
+@using Hatsukoi.Models.ViewModels;
+@using Hatsukoi.Service.Interface;
+@inject IAccountService _getUserService;
+@model Hatsukoi.Models.ViewModels.ShopViewModel;
+@{
+    ViewData["Title"] = "Shop";
+    var shop = Model.Shop;
+    var hotProductList = Model.HotProductList;
+    var shopProductList = Model.HomeProductCards;
+    var user = _getUserService.GetUser();
+    Layout = "~/Views/Shared/_Layout_FrontEnd.cshtml";
+}
+
+<!-- store-main-container------------------------- -->
+<section class="store-main-container container">
+    <div class="row">
+        <div class="store-banner">
+            <img src="@shop.ShopBannerRect">
+        </div>
+        <div class="col-12 col-md-9 col-lg-9">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6 store-logo">
+                    <img src="@shop.Logo">
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 store-info-list">
+                    <p class="brandname">@shop.BrandName</p>
+                    <div class="store-info d-flex">
+                        <p><i class="fa-solid fa-location-dot"></i>@shop.ProductOrigin</p>
+                        <p><i class="fa-regular fa-calendar"></i>@shop.Year 開館</p>
+                    </div>
+                    <div class="review-star d-flex">
+                        @{
+                            int starCount = shop.EvaluateAvg;
+                            int starMinusCount = 5 - starCount;
+                            if (starCount > 5)
+                            {
+                                starCount = 5;
+                            }
+                            else if (starCount == 0)
+                            {
+                                starCount = 0;
+                            }
+                        }
+                        @for (int i = 0; i < starCount; i++)
+                        {
+                            <i class="fa-solid fa-star"></i>
+                        }
+                        @for (int i = 0; i < starMinusCount; i++)
+                        {
+                            <i class="fa-regular fa-star"></i>
+                        }
+                        @if (starCount == 0)
+                        {
+                            <p class="review-score">0</p>
+                        }
+                        else
+                        {
+                            <p class="review-score">@shop.EvaluateAvg</p>
+                        }
+                        @if (shop.EvaluateSum == 0)
+                        {
+                            <p class="review-amount">(0)</p>
+                        }
+                        else
+                        {
+                            <p class="review-amount">(@shop.EvaluateSum)</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- 商店資訊 ------------------------------------------------------->
+            <div class="store-table d-flex">
+                <div class="store-list-item">
+                    <div class="store-list-title">公司名稱</div>
+                    <div class="store-list-number">@shop.ShopName</div>
+                </div>
+                <div class="store-list-item">
+                    <div class="store-list-title">商品數量</div>
+                    <div class="store-list-number">@shop.ProductQty</div>
+                </div>
+                <div class="store-list-item">
+                    <div class="store-list-title">賣出件數</div>
+                    <div class="store-list-number">@shop.SalesQtyByShop</div>
+                </div>
+                <div class="store-list-item">
+                    <div class="store-list-title">關注人數</div>
+                    <div class="store-list-number">@shop.FavShop</div>
+                </div>
+                <div class="store-list-item">
+                    <div class="store-list-title">出貨速度</div>
+                    <div class="store-list-number">1 ~ 3 日</div>
+                </div>
+            </div>
+        </div>
+        <!-- 右側按鈕區 --------------------------------------------------------->
+        <div class="col-12 col-md-3 col-lg-3 store-actions-list">
+            <div class="row">
+                <div class="store-actions-item align-items-center">
+                    @if (user != null)
+                    {
+                        <!-- JS 加到收藏店家的頁面 -->
+                        <div class="store-follow">
+
+                            <!----- Button加入喜歡商家按鈕(yui)------>
+                            <button type="button" onclick="AddfavShop(@shop.Id)" class="btn btn-secondary btn-sm">
+                                <i class="fa-solid fa-plus"></i>
+                                加入關注
+                            </button>
+                            <!-- <button type="button" class="btn btn-secondary btn-sm"><i class="fa-solid fa-check"></i> 已關注</button> -->
+                        </div>
+                        <div class="store-contact">
+                            <a class="btn btn-sm btn-gray py-1" href='/Chatroom/UserStarChat?sendTo=@shop.Id&msg='>
+                                <i class="fa-regular fa-message"></i>
+                                聯絡設計師
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- JS 加到收藏店家的頁面 -->
+                        <div class="store-follow">
+                            <button type="button" id="openFirst6" class="btn btn-secondary btn-sm">
+                                <i class="fa-solid fa-plus"></i>
+                                加入關注
+                            </button>
+                            <!-- <button type="button" class="btn btn-secondary btn-sm"><i class="fa-solid fa-check"></i> 已關注</button> -->
+                        </div>
+                        <div class="store-contact">
+                            <a class="btn btn-sm btn-gray py-1" id="openFirst7">
+                                <i class="fa-regular fa-message"></i>
+                                聯絡設計師
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div class="store-share d-flex align-items-center">
+                    <ul class="store-social-icon d-flex">
+                        @*<li class="store-icon-box"><a href="#"><i class="fa-brands fa-youtube"></i></a></li>*@
+                        <li class="store-icon-box"><a href="#"><i class="fa-brands fa-square-facebook"></i></a></li>
+                        @*<li class="store-icon-box"><a href="#"><i class="fa-brands fa-instagram"></i></a></li>*@
+                        @*<li class="store-icon-box"><a href="#"><i class="fa-brands fa-twitter"></i></a></li>*@
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 商品館 tab ------------------------------------------------------------->
+    <div class="row store-tab">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+                    商店&ensp;@*<span class="badge text-bg-secondary">2</span>*@
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                        type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+                    設計館故事
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
+                        type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
+                    退換貨政策
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                 tabindex="0">
+                @*<div class="promo-list d-flex">
+                <div class="promo-title">新品上架</div>
+                <div class="promo-text">購買指定商品 享優惠券</div>
+                </div>
+                *@
+            </div>
+            <!-- ------------------------------------------------------------------------------------------- -->
+            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                 tabindex="0">
+                <div id="Introduction" class="d-none">@shop.Introduction</div>
+                <div class="story-text justify-content-center">
+                    <!-- 富文本 -->
+                    <div class="form-group col-md-12 d-none" id="SellerEditer">
+                        <div id="editor" class="d-none">
+                            @Html.Raw(shop.Introduction)
+                        </div>
+                    </div>
+                    <div id="content">
+                    </div>
+                </div>
+            </div>
+            <!-- ------------------------------------------------------------------------------------------- -->
+            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                 tabindex="0">
+                <div class="return-policy justify-content-center">
+                    <ul class="list-inline">
+                        退款換貨須知
+
+                        <li>若對商品有疑問，請在購買前向設計師提出。購買前詳盡地溝通，可省下退款/換貨所耗費的心力、金錢與時間。</li>
+                        <li>退款申請須於收到商品後隔日起算 7 日內提出</li>
+                        <li>若申請逾時或不符合 Pinkoi 退貨政策條件範圍，設計師有權拒絕退貨，請在提交申請前與設計師溝通。</li>
+                    </ul>
+                    <ul>
+                        以下商品類型設計師不接受客人因個人因素申請退款
+
+                        <li>客製化商品</li>
+                        <li>已拆封個人衛生商品</li>
+                        <li>保存期限短的商品</li>
+                        <li>已拆封的影音商品</li>
+                    </ul>
+                    <ul>
+                        退款流程
+
+                        <li>設計師會在收到申請後的 3 個工作天內聯繫客人</li>
+                        <li>
+                            設計師同意寄回後，請在 3 個工作天內，將完整的商品寄出，
+                            並以站內訊息告知設計師（請將使用物流單位及寄件編號一併附上，避免增加來回溝通的時間）
+                        </li>
+                        <li>設計師在收到商品後的 3 個工作天內會確認商品狀態並完成退款程序</li>
+                    </ul>
+                    <ul>
+                        設計館提供換貨服務
+
+                        <li>如欲換貨請在收到商品後隔日起算 7 日內以站內訊息聯繫設計師</li>
+                        <li>設計師會依據商品種類或庫存評估是否有換貨服務，請務必先以站內訊息詢問設計師</li>
+                        <li>當設計師同意換貨，請在 3 個工作天內，將完整的商品寄出</li>
+                        <li>設計師在收到商品、確認商品狀態後，將於 3 個工作天將指定更換商品寄出</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 熱門商品 ---------------------------------------------------------->
+    @if (hotProductList != null)
+    {
+        <div class="pf-products-row row products-row">
+            <div class="product-title">
+                <h2>熱門商品</h2>
+            </div>
+
+            @foreach (var hp in hotProductList)
+            {
+                <div class="pf-products-col col-6 col-md-3 col-lg-3 products-col">
+                    <div class="pf-products-card products-card">
+                        <div class="pf-products-pic position-relative products-pic">
+                            <a href="/Product/Id/@hp.ProductId" class="products-pic-a"><img src="@hp.ProductFirstImg"></a>
+                            <!-- Button trigger modal 加入喜歡清單鈕 -->
+                            @if (user != null)
+                            {
+                                <button onclick="addFavProduct(@hp.ProductId)"
+                                        class="btn position-absolute bottom-0 end-0">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" onclick="openLoginModal()"
+                                        class="btn position-absolute bottom-0 end-0">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                            }
+                            @if (hp.ViewTimes > 500)
+                            {
+                                <div class="product-badge position-absolute top-0 start-0">HOT</div>
+                            }
+                        </div>
+                        <div class="pf-products-text products-text">
+                            <h3 class="m-0"><a href="/Product/Id/@hp.ProductId">@hp.ProductName</a></h3>
+                        </div>
+                        <div class="pf-products-price products-price">
+                            <span>$@hp.Price</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</section>
+
+<!-- pf-container------------------------- -->
+<div class="pf-container">
+
+    <!-- 主要篩選畫面 -->
+    <div class="pf-filter-block container">
+        <div class="pf-filter-block row">
+            <!-- 篩選商品處 -->
+            <button class="btn btn-outline-secondary btn-filter pf-container-btn" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight">
+                篩選
+            </button>
+            <!-- 手機版篩選列 -->
+            @if (Model.SelectedPriceOrder != null || Model.SelectedDateOrder != null || Model.SelectedTagOrder > 0)
+            {
+                <div class="offcanvas offcanvas-end show" data-bs-scroll="true" tabindex="-1" id="offcanvasRight"
+                     aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <h2 class="offcanvas-title" id="offcanvasRightLabel">篩選最適合您的商品</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+
+
+                        <div class="pf-filter">
+                            <h2>篩選</h2>
+                            <!-- 篩選金額 -->
+                            <div class="pf-filter-price">
+                                <h3>金額</h3>
+                                <div class="pf-filter-selections">
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone1" value="price300" @(Model.SelectedPriceOrder == "price300" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone1">
+                                            NT$300 以下
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone2" value="price300_500" @(Model.SelectedPriceOrder == "price300_500" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone2">
+                                            NT$300 - 500
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone3" value="price500_1000" @(Model.SelectedPriceOrder == "price500_1000" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone3">
+                                            NT$500 - 1,000
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone4" value="price1000_2000" @(Model.SelectedPriceOrder == "price1000_2000" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone4">
+                                            NT$1,000 - 2,000
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone5" value="price2000_2500" @(Model.SelectedPriceOrder == "price2000_2500" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone5">
+                                            NT$2,000 - 2,500
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone6" value="price2500_5000" @(Model.SelectedPriceOrder == "price2500_5000" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone6">
+                                            NT$2,500 - 5,000
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone7" value="price5000" @(Model.SelectedPriceOrder == "price5000" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone7">
+                                            NT$5,000 以上
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 篩選時間 -->
+                            <div class="pf-filter-datetime">
+                                <h3>上架時間</h3>
+                                <div class="pf-filter-selections">
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-date" type="radio" name="flexRadioDefaultPhone2"
+                                               id="flexRadioDefaultDatePhone1" value="one_week" @(Model.SelectedDateOrder == "one_week" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultDatePhone1">
+                                            一週內
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-date" type="radio" name="flexRadioDefaultPhone2"
+                                               id="flexRadioDefaultDatePhone2" value="one_month" @(Model.SelectedDateOrder == "one_month" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultDatePhone2">
+                                            一個月內
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-date" type="radio" name="flexRadioDefaultPhone2"
+                                               id="flexRadioDefaultDatePhone3" value="three_months" @(Model.SelectedDateOrder == "three_months" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultDatePhone3">
+                                            三個月內
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-date" type="radio" name="flexRadioDefaultPhone2"
+                                               id="flexRadioDefaultDatePhone4" value="one_year" @(Model.SelectedDateOrder == "one_year" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultDatePhone4">
+                                            一年內
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- 篩選顏色 -->
+                            <div class="pf-filter-color">
+                                <h3>關鍵字</h3>
+                                <div class="pf-filter-selections">
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone1" value="2" @(Model.SelectedTagOrder == 2 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone1">
+                                            夏日補水
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone2" value="4" @(Model.SelectedTagOrder == 4 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone2">
+                                            送禮推薦
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone3" value="6" @(Model.SelectedTagOrder == 6 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone3">
+                                            節慶
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="fflexRadioDefaultTagPhone4" value="7" @(Model.SelectedTagOrder == 7 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone4">
+                                            少女系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone5" value="8" @(Model.SelectedTagOrder == 8 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone5">
+                                            男子系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone6" value="9" @(Model.SelectedTagOrder == 9 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone6">
+                                            日韓系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone7" value="10" @(Model.SelectedTagOrder == 10 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone7">
+                                            歐美系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone8" value="11" @(Model.SelectedTagOrder == 11 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone8">
+                                            愛台灣系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone9" value="12" @(Model.SelectedTagOrder == 12 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone9">
+                                            萌系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone10" value="13" @(Model.SelectedTagOrder == 13 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone10">
+                                            實用系
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight"
+                     aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <h2 class="offcanvas-title" id="offcanvasRightLabel">篩選最適合您的商品</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="pf-filter">
+                            <h2>篩選</h2>
+                            <!-- 篩選金額 -->
+                            <div class="pf-filter-price">
+                                <h3>金額</h3>
+                                <div class="pf-filter-selections">
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone1" value="price300" @(Model.SelectedPriceOrder == "price300" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone1">
+                                            NT$300 以下
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone2" value="price300_500" @(Model.SelectedPriceOrder == "price300_500" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone2">
+                                            NT$300 - 500
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone3" value="price500_1000" @(Model.SelectedPriceOrder == "price500_1000" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone3">
+                                            NT$500 - 1,000
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone4" value="price1000_2000" @(Model.SelectedPriceOrder == "price1000_2000" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone4">
+                                            NT$1,000 - 2,000
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone5" value="price2000_2500" @(Model.SelectedPriceOrder == "price2000_2500" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone5">
+                                            NT$2,000 - 2,500
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone6" value="price2500_5000" @(Model.SelectedPriceOrder == "price2500_5000" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone6">
+                                            NT$2,500 - 5,000
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-price" type="radio" name="flexRadioDefaultPhone1"
+                                               id="flexRadioDefaultPricePhone7" value="price5000" @(Model.SelectedPriceOrder == "price5000" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultPricePhone7">
+                                            NT$5,000 以上
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 篩選時間 -->
+                            <div class="pf-filter-datetime">
+                                <h3>上架時間</h3>
+                                <div class="pf-filter-selections">
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-date" type="radio" name="flexRadioDefaultPhone2"
+                                               id="flexRadioDefaultDatePhone1" value="one_week" @(Model.SelectedDateOrder == "one_week" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultDatePhone1">
+                                            一週內
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-date" type="radio" name="flexRadioDefaultPhone2"
+                                               id="flexRadioDefaultDatePhone2" value="one_month" @(Model.SelectedDateOrder == "one_month" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultDatePhone2">
+                                            一個月內
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-date" type="radio" name="flexRadioDefaultPhone2"
+                                               id="flexRadioDefaultDatePhone3" value="three_months" @(Model.SelectedDateOrder == "three_months" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultDatePhone3">
+                                            三個月內
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-date" type="radio" name="flexRadioDefaultPhone2"
+                                               id="flexRadioDefaultDatePhone4" value="one_year" @(Model.SelectedDateOrder == "one_year" ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultDatePhone4">
+                                            一年內
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- 篩選顏色 -->
+                            <div class="pf-filter-color">
+                                <h3>關鍵字</h3>
+                                <div class="pf-filter-selections">
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone1" value="2" @(Model.SelectedTagOrder == 2 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone1">
+                                            夏日補水
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone2" value="4" @(Model.SelectedTagOrder == 4 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone2">
+                                            送禮推薦
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone3" value="6" @(Model.SelectedTagOrder == 6 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone3">
+                                            節慶
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="fflexRadioDefaultTagPhone4" value="7" @(Model.SelectedTagOrder == 7 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone4">
+                                            少女系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone5" value="8" @(Model.SelectedTagOrder == 8 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone5">
+                                            男子系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone6" value="9" @(Model.SelectedTagOrder == 9 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone6">
+                                            日韓系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone7" value="10" @(Model.SelectedTagOrder == 10 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone7">
+                                            歐美系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone8" value="11" @(Model.SelectedTagOrder == 11 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone8">
+                                            愛台灣系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone9" value="12" @(Model.SelectedTagOrder == 12 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone9">
+                                            萌系
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input form-check-input-tag" type="radio" name="flexRadioDefaultPhone3"
+                                               id="flexRadioDefaultTagPhone10" value="13" @(Model.SelectedTagOrder == 13 ? "checked" : string.Empty)>
+                                        <label class="form-check-label" for="flexRadioDefaultTagPhone10">
+                                            實用系
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- 電腦版篩選列 -->
+            <div class="pf-product-filter m-0 col-12 col-md-12 col-lg-3">
+
+                <div class="pf-filter">
+                    <h2>篩選</h2>
+                    <!-- 篩選金額 -->
+                    <div class="pf-filter-price">
+                        <h3>金額</h3>
+                        <div class="pf-filter-selections">
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-price-pc" type="radio" name="flexRadioDefault1"
+                                       id="flexRadioDefaultPrice1" value="price300" @(Model.SelectedPriceOrder == "price300" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultPrice1">
+                                    NT$300 以下
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-price-pc" type="radio" name="flexRadioDefault1"
+                                       id="flexRadioDefaultPrice2" value="price300_500" @(Model.SelectedPriceOrder == "price300_500" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultPrice2">
+                                    NT$300 - 500
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-price-pc" type="radio" name="flexRadioDefault1"
+                                       id="flexRadioDefaultPrice3" value="price500_1000" @(Model.SelectedPriceOrder == "price500_1000" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultPrice3">
+                                    NT$500 - 1,000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-price-pc" type="radio" name="flexRadioDefault1"
+                                       id="flexRadioDefaultPrice4" value="price1000_2000" @(Model.SelectedPriceOrder == "price1000_2000" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultPrice4">
+                                    NT$1,000 - 2,000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-price-pc" type="radio" name="flexRadioDefault1"
+                                       id="flexRadioDefaultPrice5" value="price2000_2500" @(Model.SelectedPriceOrder == "price2000_2500" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultPrice5">
+                                    NT$2,000 - 2,500
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-price-pc" type="radio" name="flexRadioDefault1"
+                                       id="flexRadioDefaultPrice6" value="price2500_5000" @(Model.SelectedPriceOrder == "price2500_5000" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultPrice6">
+                                    NT$2,500 - 5,000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-price-pc" type="radio" name="flexRadioDefault1"
+                                       id="flexRadioDefaultPrice7" value="price5000" @(Model.SelectedPriceOrder == "price5000" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultPrice7">
+                                    NT$5,000 以上
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 篩選時間 -->
+                    <div class="pf-filter-datetime">
+                        <h3>上架時間</h3>
+                        <div class="pf-filter-selections" id="@Model.SelectedDateOrder">
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-date-pc" type="radio" name="flexRadioDefault2"
+                                       id="flexRadioDefaultDate1" value="one_week" @(Model.SelectedDateOrder == "one_week" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultDate1">
+                                    一週內
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-date-pc" type="radio" name="flexRadioDefault2"
+                                       id="flexRadioDefaultDate2" value="one_month" @(Model.SelectedDateOrder == "one_month" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultDate2">
+                                    一個月內
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-date-pc" type="radio" name="flexRadioDefault2"
+                                       id="flexRadioDefaultDate3" value="three_months" @(Model.SelectedDateOrder == "three_months" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultDate3">
+                                    三個月內
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-date-pc" type="radio" name="flexRadioDefault2"
+                                       id="flexRadioDefaultDate4" value="one_year" @(Model.SelectedDateOrder == "one_year" ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultDate4">
+                                    一年內
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- 篩選關鍵字 -->
+                    <div class="pf-filter-color">
+                        <h3>關鍵字</h3>
+                        <div class="pf-filter-selections" id="@Model.SelectedTagOrder">
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag1" value="2" @(Model.SelectedTagOrder == 2 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag1">
+                                    夏日補水
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag2" value="4" @(Model.SelectedTagOrder == 4 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag2">
+                                    送禮推薦
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag3" value="6" @(Model.SelectedTagOrder == 6 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag3">
+                                    節慶
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag4" value="7" @(Model.SelectedTagOrder == 7 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag4">
+                                    少女系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag5" value="8" @(Model.SelectedTagOrder == 8 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag5">
+                                    男子系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag6" value="9" @(Model.SelectedTagOrder == 9 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag6">
+                                    日韓系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag7" value="10" @(Model.SelectedTagOrder == 10 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag7">
+                                    歐美系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag8" value="11" @(Model.SelectedTagOrder == 11 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag8">
+                                    愛台灣系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag9" value="12" @(Model.SelectedTagOrder == 12 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag9">
+                                    萌系
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-tag-pc" type="radio" name="flexRadioDefault3"
+                                       id="flexRadioDefaultTag10" value="13" @(Model.SelectedTagOrder == 13 ? "checked" : string.Empty)>
+                                <label class="form-check-label" for="flexRadioDefaultTag10">
+                                    實用系
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品們顯示處 -->
+            <div class="pf-display-products col-12 col-md-12 col-lg-9">
+                <div class="pf-filter-text">
+                    <div class="pf-filter-info d-flex justify-content-between align-items-center">
+                        <div class="pf-products-qty">
+                            @if (Model.TotalCount > Model.PageSize)
+                            {
+                                <p class="m-0"><span id="card-qty">@Model.TotalCount</span> 件 <span>@Model.SubCategoryName</span> 商品，共 @Model.TotalPages 頁，您在第 @Model.CurrentPage 頁</p>
+                            }
+                            else
+                            {
+                                <p class="m-0"><span id="card-qty">@Model.TotalCount</span> 件 <span>@Model.SubCategoryName</span> 商品</p>
+                            }
+                        </div>
+                        <div class="pf-product-sub-filter d-flex align-items-center" id="@Model.SelectedSortOrder">
+                            <span>排序</span>
+                            <select id="sort-order-select" class="form-select form-select-sm " aria-label=".form-select-sm example">
+                                <option class="" value="viewtimes_desc" selected="@(Model.SelectedSortOrder == "viewtimes_desc")">熱門程度優先</option>
+                                <option class="" value="date_desc" selected="@(Model.SelectedSortOrder == "date_desc")">最新上架優先</option>
+                                <option class="" value="price_desc" selected="@(Model.SelectedSortOrder == "price_desc")">價格由高至低</option>
+                                <option class="" value="price_asc" selected="@(Model.SelectedSortOrder == "price_asc")">價格由低至高</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="pf-filter-tags">
+                        @if (!string.IsNullOrEmpty(Model.SelectedPriceOrder))
+                        {
+                            <button class="tag-delete-btn pf-container-btn" id="price-filter-tag">
+                                <span id="price-filter-tag-span">@FilterTagHelpers.GetPriceFilterTagText(Model.SelectedPriceOrder)</span> <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.SelectedDateOrder))
+                        {
+                            <button class="tag-delete-btn pf-container-btn" id="date-filter-tag">
+                                <span id="date-filter-tag-span">@FilterTagHelpers.GetDateFilterTagText(Model.SelectedDateOrder)</span> <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        }
+                        @if (Model.SelectedTagOrder > 0)
+                        {
+                            <button class="tag-delete-btn pf-container-btn" id="tag-filter-tag">
+                                <span id="tag-filter-tag-span">@FilterTagHelpers.GetTagFilterTagText(Model.SelectedTagOrder)</span> <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        }
+                    </div>
+                </div>
+
+                <div class="pf-products container">
+                    <div class="pf-products-row row products-row" id="product-cards-area">
+                        @foreach (var product in shopProductList)
+                        {
+                            <div class="pf-products-col col-6 col-md-3 col-lg-3 products-col">
+                                <div class="pf-products-card products-card">
+                                    <div class="pf-products-pic position-relative products-pic">
+                                        <a href="/Product/Id/@product.ProductId" class="products-pic-a"><img src="@product.ProductFirstImg"></a>
+                                        <!-- Button trigger modal 加入喜歡清單鈕 -->
+                                        @if (user != null)
+                                        {
+                                            <button onclick="addFavProduct(@product.ProductId)"
+                                                    class="btn position-absolute bottom-0 end-0">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" onclick="openLoginModal()"
+                                                    class="btn position-absolute bottom-0 end-0">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </button>
+                                        }
+                                        @if (product.ViewTimes > 500)
+                                        {
+                                            <div class="product-badge position-absolute top-0 start-0">HOT</div>
+                                        }
+                                    </div>
+                                    <div class="pf-products-text products-text">
+                                        <h3 class="m-0"><a href="/Product/Id/@product.ProductId">@product.ProductName</a></h3>
+                                    </div>
+                                    <div class="pf-products-price products-price">
+                                        <span>$@product.Price</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+
+                    <!-- pagination -->
+                    @if (Model.TotalCount > Model.PageSize)
+                    {
+                        <nav aria-label="Page navigation example" id="pf-pagination">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                                    <a class="page-link" href="javascript:void(0)" onclick="goToPage(@(Model.CurrentPage - 1))" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+
+                                    </a>
+                                </li>
+                                @for (int i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")"><a class="page-link" href="javascript:void(0)" onclick="goToPage(@i)">@i</a></li>
+                                }
+                                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                                    <a class="page-link" href="javascript:void(0)" onclick="goToPage(@(Model.CurrentPage + 1))" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section topCSS{
+    <link href="~/css/product/shop.css" rel="stylesheet" />
+    <link href="~/css/productfilter.css" rel="stylesheet" />
+    <link href="~/css/productcards.css" rel="stylesheet" />
+}
+
+@section endJS{
+    <script src="~/js/product/shop.js"></script>
+
+    <script>
+        //富文本
+        const editorElement = document.querySelector('#editor');
+        const contentElement = document.querySelector('#content');
+        ClassicEditor
+            .create(editorElement, {
+                toolbar: {
+                    items: [
+                        'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                        '|', 'alignment', 'outdent', 'indent', '|', 'fontSize', 'fontColor',
+                        '|', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed',
+                        'undo', 'redo'
+                    ]
+                },
+                image: {
+                    toolbar: [
+                        'imageTextAlternative', 'imageStyle:inline',
+                        'imageStyle:block', 'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn', 'tableRow', 'mergeTableCells'
+                    ]
+                },
+                licenseKey: '',
+                heading: {
+                    // 設定 Heading 內的樣式，可新增多個
+                    options: [
+                        {
+                            model: 'paragraph',
+                            title: 'Paragraph',
+                            class: 'ck-heading_paragraph'
+                        },
+                        {
+                            model: 'heading1',
+                            view: 'h2',
+                            title: 'Heading 1',
+                            class: 'ck-heading_heading1'
+                        },
+                        {
+                            model: 'heading2',
+                            view: 'h3',
+                            title: 'Heading 2',
+                            class: 'ck-heading_heading2'
+                        }
+                    ]
+                },
+            })
+            .then(editor => {
+                const editorData = editor.getData();
+                contentElement.innerHTML = editorData;
+                let ck = document.querySelector('.ck-editor');
+                ck.classList.add('d-none');
+            })
+            .catch(error => {
+            });
+        window.onload = function () {
+            textEditor = document.querySelector('.ck-content')
+            textEditor.innerHTML = Introduction.innerText;
+        }
+
+        //篩選---------------------------------------------------------------------------------------
+
+        let selectedSortOrder, selectedPriceOrder, selectedDateOrder, selectedTagOrder, selectedIdSort;
+        let url = new URL(window.location.href);
+        let params = new URLSearchParams(url.search);
+
+        //進入頁面就預設帶到第一頁
+        if (!params.has("page")) {
+            params.set("page", 1);
+            url.search = params.toString();
+            window.location.href = url.toString();
+        }
+
+
+
+        //每次都再重新更新值
+        function updateSelectedValues() {
+            let mql = window.matchMedia('(min-width:1024px)').matches;
+            selectedSortOrder = $("#sort-order-select").val();
+
+
+            if (mql) {
+                selectedPriceOrder = $('.form-check-input-price-pc:checked').val();
+                selectedDateOrder = $('.form-check-input-date-pc:checked').val();
+                selectedTagOrder = $('.form-check-input-tag-pc:checked').val();
+            }
+            else {
+                selectedPriceOrder = $('.form-check-input-price:checked').val();
+                selectedDateOrder = $('.form-check-input-date:checked').val();
+                selectedTagOrder = $('.form-check-input-tag:checked').val();
+            }
+
+
+            selectedIdSort = $('option:selected').attr('class');
+        }
+
+
+        function getSortedProductCards(pageNumber) {
+
+            if (selectedSortOrder) {
+                params.delete("sortOrder");
+                params.append("sortOrder", selectedSortOrder);
+            }
+            if (selectedPriceOrder) {
+                params.delete("priceOrder");
+                params.append("priceOrder", selectedPriceOrder);
+            }
+            if (selectedDateOrder) {
+                params.delete("dateOrder");
+                params.append("dateOrder", selectedDateOrder);
+            }
+            if (selectedTagOrder) {
+                params.delete("tagOrder");
+                params.append("tagOrder", selectedTagOrder);
+            }
+
+            params.delete("page");
+            params.append("page", pageNumber);
+
+            if (pageNumber == null) {
+                params.set("page", 1);
+            }
+
+            window.location.href = `/Shop?${params}`;
+
+        }
+
+        function goToPage(pageNumber) {
+
+            params.delete("page");
+            params.append("page", pageNumber);
+
+            window.location.href = `/Shop?${params}`;
+        }
+
+
+        $(function () {
+            $("#sort-order-select, .form-check-input-price, .form-check-input-price-pc, .form-check-input-date, .form-check-input-date-pc, .form-check-input-tag, .form-check-input-tag-pc").change(function () {
+                updateSelectedValues();
+                getSortedProductCards();
+            });
+
+
+            //點下標籤x按鈕時，會刪除該篩選條件
+            $('#price-filter-tag').on('click', function () {
+                $(this).addClass("d-none");
+
+                params.delete("priceOrder");
+
+                window.location.href = `/Shop?${params}`;
+            });
+
+            $('#date-filter-tag').on('click', function () {
+                $(this).addClass("d-none");
+
+                params.delete("dateOrder");
+
+                window.location.href = `/Shop?${params}`;
+            });
+
+            $('#tag-filter-tag').on('click', function () {
+                $(this).addClass("d-none");
+
+                params.delete("tagOrder");
+
+                window.location.href = `/Shop?${params}`;
+            });
+
+        });
+
+        function addFavProduct(productId) {
+            $.ajax({
+                url: '@Url.Action("AddfavProduct","Favlist")',
+                type: 'POST',
+                data: {
+
+                    productId: productId,
+                },
+                success: function (json) {
+                    console.log(productId)
+                    let result = json
+
+                    if (result.isCreate == "已將此商品加入喜歡清單") {
+
+                        Toast.fire(result.isCreate);
+                    }
+                    else {
+
+                        Toast.fire(result.isCreate);
+                      
+                    }
+
+                }
+
+            })
+        }
+        function AddfavShop(sellerId) {
+            //debugger
+            //var url = window.location.href;
+            $.ajax({
+                url: '@Url.Action("AddfavShop","Favlist")',
+                type: 'POST',
+                data: {
+
+                    sellerId: sellerId,
+                },
+                success: function (json) {
+
+                    let result = json
+
+                    if (result.isCreate == "已關注此品牌") {
+
+                        Toast.fire(result.isCreate);
+                    }
+                    else {
+
+                        Toast.fire(result.isCreate);
+                    }
+
+
+                }
+
+            })
+        }
+
+    </script>
+}

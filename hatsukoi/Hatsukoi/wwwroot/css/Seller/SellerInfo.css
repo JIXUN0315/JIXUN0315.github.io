@@ -1,0 +1,104 @@
+:root {
+    --main-pink: #A27F82;
+    --dark-gray: #56565E;
+    --light-gray: #D3C9C9;
+    --peach-pink: #E3A4A4;
+    --light-pink: #FEF4F6;
+}
+
+body{
+    background-color: rgb(247, 247, 248);
+}
+img{
+    width: 100%;
+    vertical-align: middle;
+}
+.container a {
+    color: black !important;
+}
+a{
+    text-decoration: none !important;
+}
+.bg-gray{
+    background-color: var(--light-pink) !important;
+}
+.text-gray{
+    color: rgb(153, 153, 153) !important;
+}
+.text-pink{
+    color: var(--main-pink) !important;
+}
+.text-small {
+    font-size: 14px !important;
+}
+.text-middle-small{
+    font-size: 13px !important;
+}
+.text-very-small {
+    font-size: 10px !important;
+}
+.text-big{
+    font-size: 17px !important;
+}
+.text-very-big{
+    font-size: 22px !important;
+}
+li{
+    list-style: none;
+}
+.my-white-text-space{
+    max-width: 600px;
+    background-color: white;
+    word-wrap:break-word;
+}
+.warn-area-english{
+    width: 100% !important;
+    background-color: var(--light-gray);
+    line-height: 3;
+}
+.my-btn{
+    background-color: var(--main-pink) !important;
+    color: white !important;
+}
+.my-btn:hover{
+    background-color: var(--dark-gray) !important;
+}
+p{
+    line-height: 1.5 !important;
+}
+.update-pic{
+    width: 200px;
+    height: 200px;
+    overflow:hidden;
+}
+.update-banner {
+    width: 500px;
+    height: 150px;
+    overflow: hidden;
+}
+.my-btn-mark{
+    border-radius: 5px;
+    background-color: var(--main-pink) !important;
+    color: white !important;
+}
+.my-btn-mark a{
+    color: white !important;
+}
+.my-btn-mark:hover{
+    background-color: var(--dark-gray) !important;
+}
+#SellerEditer {
+    height: 700px !important;
+}
+#SellerEditer .ck-editor .ck-editor__main .ck-content {
+    height: 600px !important;
+    overflow-y: auto !important;
+}
+@media screen and (min-width:768px) {
+    .all-space-seller{
+        padding-left: 300px;
+    }
+    .warn-area-english{
+        width: 75% !important;
+    }
+}
